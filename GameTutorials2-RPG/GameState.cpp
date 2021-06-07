@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GameState.h"
+#include "TileMap.h"
 #include "PauseMenu.h"
 #include "Player.h"
 
@@ -42,7 +43,7 @@ void GameState::initPauseMenu()
 void GameState::initTileMap()
 {
 	//CHANGE LATER TO GET LOADFROMFILE
-	this->map = std::make_unique<TileMap>(this->stateData->gridSize, 10, 10);
+	this->map = std::make_unique<TileMap>(this->stateData->gridSize, 10, 10, "Resources/Images/Tiles/tilesheet1.png");
 }
 
 void GameState::initPlayers()

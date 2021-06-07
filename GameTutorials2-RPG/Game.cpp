@@ -8,7 +8,7 @@ void Game::initVariables()
 {
 	this->window = NULL;
 	this->dt = 0;
-	gridSize = 50.f;
+	gridSize = 100.f;
 }
 
 

@@ -1,11 +1,5 @@
 #pragma once
 
-
-#include "SFML/Graphics.hpp"
-#include "SFML/System.hpp"
-#include "SFML/Window.hpp"
-#include "SFML/Audio.hpp"
-
 enum button_states{BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE};
 
 namespace gui {
@@ -83,5 +77,39 @@ namespace gui {
 		bool showList;
 		std::shared_ptr<gui::Button> activeElement;
 		std::vector<std::shared_ptr<gui::Button>> list;
+	};
+
+	class TextureSelector
+	{
+	private:
+		sf::RectangleShape bounds;
+		sf::Sprite sheet;
+		sf::RectangleShape selector;
+		sf::Vector2u mousePosGrid;
+		sf::IntRect textureRect;
+		float gridSize;
+		bool active;
+		bool hidden;
+		float keyTime;
+		float keyTimeMax;
+		std::unique_ptr<Button> hideButton;
+		sf::Font& font;
+
+
+
+	public:
+		TextureSelector(float x, float y, float width, float height, float gridSize, const sf::Texture& texture_sheet, sf::Font& font);
+		~TextureSelector();
+
+		//Accessors
+		const bool& getActive() const;
+		const sf::IntRect& getTextureRect() const;
+
+		//Functions
+		void move(const bool rightorleft);
+		const bool getKeyTime();
+		void updateKeyTime(const float& dt);
+		void update(const sf::Vector2f& mousePosWindow, const float& dt);
+		void render(sf::RenderTarget& target);
 	};
 }

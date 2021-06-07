@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Gui.h"
+namespace gui {
+	class Button;
+}
 
 class PauseMenu
 {

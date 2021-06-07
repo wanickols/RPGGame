@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Gui.h"
+namespace gui {
+	class Button;
+}
 
-class Player;
 class GraphicsSettings;
-class State;
 
+class State;
 class StateData
 {
 public:
@@ -14,7 +15,7 @@ public:
 	std::shared_ptr<GraphicsSettings> GraphicsSettings;
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<std::map<std::string, int>> supportedKeys;
-	std::stack<std::shared_ptr<State>>*  states;
+	std::stack<std::shared_ptr<State>>* states;
 	//variables
 };
 

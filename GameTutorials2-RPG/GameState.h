@@ -1,8 +1,8 @@
 #pragma once
-#include "TileMap.h"
+
 #include "State.h"
 
-class State;
+class Player;
 class PauseMenu;
 class TileMap;
 

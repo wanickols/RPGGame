@@ -2,7 +2,6 @@
 #include "TileMap.h"
 #include "State.h"
 
-class Gui;
 class PauseMenu;
 class TileMap;
 
@@ -14,6 +13,7 @@ private:
 	void initVariables();
 	void initBackround();
 	void initPauseMenu();
+	void initTexts();
 	void initFonts();
 	void initKeybinds();
 	void initButtons();
@@ -27,8 +27,9 @@ public:
 	//functions
 	void updateInput(const float& dt);
 	void updatePauseMenuButtons();
+	void updateEditorInput();
 	void updateButtons();
-	void updateGui();
+	void updateGui(const float& dt);
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);
 	void renderGui(sf::RenderTarget& target);
@@ -37,9 +38,13 @@ private:
 
 	//variables 
 	sf::Font font;
+	sf::Text cursorText;
 
 	std::map<std::string, std::unique_ptr<gui::Button>> buttons;
 	std::unique_ptr<TileMap> map;
+	sf::RectangleShape sideBar;
+	std::unique_ptr<gui::TextureSelector> textureSelector;
+	sf::IntRect textureRect;
 	
 	sf::RectangleShape selectorRect;
 
@@ -49,7 +54,5 @@ private:
 	
 
 	//functions
-	void addTile();
-	void removeTile();
 };
 
