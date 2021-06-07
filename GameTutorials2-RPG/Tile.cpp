@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Tile.h"
 
-Tile::Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect)
+Tile::Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect, bool collision, short type)
+	: collision(collision), type(type)
 {
 	this->shape.setSize(sf::Vector2f(gridSizeF, gridSizeF));
 	//this->shape.setFillColor(sf::Color::Green);
@@ -11,7 +12,6 @@ Tile::Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const 
 	this->shape.setTexture(&texture);
 	this->shape.setTextureRect(texture_rect);
 }
-
 void Tile::update()
 {
 }
@@ -23,7 +23,8 @@ void Tile::render(sf::RenderTarget& target)
 
 std::ofstream& operator<<(std::ofstream& os, Tile& tile)
 {
-		os << tile.shape.getSize().x << tile.shape.getSize().y;
-		os << tile.shape.getPosition().x << tile.shape.getPosition().y << " ";
+	//Texture rect x y, type, collision
+		os << tile.shape.getTextureRect().left << " " << tile.shape.getTextureRect().top
+		   << " " << tile.collision << " " << tile.type;
 	return os;
 }

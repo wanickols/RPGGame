@@ -10,7 +10,8 @@ public:
 	virtual ~TileMap();
 	
 	//Functions
-	void addTile(const unsigned x, const unsigned y, const unsigned z, const sf::IntRect& texture_rect);
+	void clear();
+	void addTile(const unsigned x, const unsigned y, const unsigned z, const sf::IntRect& texture_rect, const bool collision, const short type);
 	void removeTile(const unsigned x, const unsigned y, const unsigned z);
 	void saveToFile(const std::string file_name);
 	void loadFromFile(const std::string file_name);

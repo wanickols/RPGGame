@@ -1,12 +1,15 @@
 #include "stdafx.h"
 #include "EditorState.h"
 #include "TileMap.h"
+#include "Tile.h"
 #include "PauseMenu.h"
 
 //Initializer functions
 void EditorState::initVariables()
 {
 	textureRect = sf::IntRect(0, 0, static_cast<int>(this->stateData->gridSize), static_cast<int>(this->stateData->gridSize));
+	this->collision = false;
+	this->Type = TileType::DEFAULT;
 }
 
 void EditorState::initBackround()
@@ -47,7 +50,9 @@ void EditorState::initPauseMenu()
 	this->pmenu = std::make_unique<PauseMenu>(*window, font);
 
 	this->pmenu->addButton("SAVE", 400.f, "Save"); //Key, Y, text
-	this->pmenu->addButton("QUIT", 900.f, "Quit"); //Key, Y, text
+	this->pmenu->addButton("LOAD", 500.f, "Load"); //Key, Y, text
+	this->pmenu->addButton("CLEAR", 600.f, "Clear"); //Key, Y, text
+	this->pmenu->addButton("QUIT", 700.f, "Quit"); //Key, Y, text
 }
 
 void EditorState::initTexts()
@@ -64,6 +69,7 @@ void EditorState::initButtons()
 void EditorState::initTileMap()
 {
 	this->map = std::make_unique<TileMap>(this->stateData->gridSize, 10, 10, "Resources/Images/Tiles/tilesheet1.png");
+	this->map->loadFromFile("Save/mapfile");
 }
 
 void EditorState::initGui()
@@ -103,10 +109,18 @@ EditorState::~EditorState()
 
 void EditorState::updatePauseMenuButtons()
 {
-	if (this->pmenu->isButtonPressed("QUIT"))
-		this->endState();
 	if (this->pmenu->isButtonPressed("SAVE"))
 		this->map->saveToFile("Save/mapfile");
+
+	if (this->pmenu->isButtonPressed("LOAD"))
+		this->map->loadFromFile("Save/mapfile");
+	
+	if (this->pmenu->isButtonPressed("CLEAR"))
+		this->map->clear();
+	
+	if (this->pmenu->isButtonPressed("QUIT"))
+		this->endState();
+	
 }
 
 void EditorState::updateEditorInput()
@@ -115,17 +129,37 @@ void EditorState::updateEditorInput()
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->getKeyTime())
 	{
 		if (!this->textureSelector->getActive()) {
-			map->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect);
+			map->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->collision, this->Type);
 		}
 		else {
 			this->textureRect = this->textureSelector->getTextureRect();
 		}
 	}
-	//Remove a tile
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && this->getKeyTime())
-	{
-		if (!this->textureSelector->getActive())
+	if (!this->textureSelector->getActive()) {
+		//Remove a tile
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && this->getKeyTime())
+		{
+
 			map->removeTile(this->mousePosGrid.x, this->mousePosGrid.y, 0);
+		}
+		//Toggle Collisions with C button
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_COLLISION"))) && this->getKeyTime())
+		{
+			if (this->collision)
+				this->collision = false;
+			else
+				this->collision = true;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("INC_TYPE"))) && this->getKeyTime()) 
+		{
+			//needs limit of maxed type
+			this->Type++;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("DEC_TYPE"))) && this->getKeyTime()) 
+		{
+			if (this->Type > 0);
+				this->Type--;
+		}
 	}
 
 	/*if (this->textureSelector->getActive()) {
@@ -172,7 +206,9 @@ void EditorState::updateGui(const float& dt)
 	}
 	std::stringstream ss;
 	ss << mousePosView.x << " " << this->mousePosView.y << "\n" 
-	   << mousePosGrid.x << " " << this->mousePosGrid.y << "\n";
+	   << mousePosGrid.x << " " << this->mousePosGrid.y << "\n"
+	   << "Collision: " << this->collision << "\n"
+	   << "Type: " << this->Type;
 	cursorText.setString(ss.str());
 	this->cursorText.setPosition(this->mousePosView.x + 100.f, this->mousePosView.y - 50.f);
 
@@ -202,6 +238,26 @@ void EditorState::update(const float& dt)
 
 }
 
+void EditorState::renderButtons(sf::RenderTarget& target)
+{
+
+	this->map->render(target);
+	for (auto& it : this->buttons)
+	{
+		it.second->render(target);
+	}
+
+}
+
+void EditorState::renderGui(sf::RenderTarget& target)
+{
+	this->textureSelector->render(target);
+	if (!this->textureSelector->getActive())
+		target.draw(this->selectorRect);
+	target.draw(this->cursorText);
+	target.draw(sideBar);
+}
+
 void EditorState::render(std::shared_ptr<sf::RenderTarget> target)
 {
 	if (!target)
@@ -217,23 +273,7 @@ void EditorState::render(std::shared_ptr<sf::RenderTarget> target)
 	}
 }
 
-void EditorState::renderGui(sf::RenderTarget& target)
-{
-	this->textureSelector->render(target);
-	if(!this->textureSelector->getActive())
-		target.draw(this->selectorRect);
-	target.draw(this->cursorText);
-	target.draw(sideBar);
-}
 
-void EditorState::renderButtons(sf::RenderTarget& target)
-{
 
-	this->map->render(target);
-	for (auto& it : this->buttons)
-	{
-		it.second->render(target);
-	}
-	
-}
+
 

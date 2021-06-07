@@ -37,7 +37,24 @@ TileMap::~TileMap()
 }
 
 //Functions
-void TileMap::addTile(const unsigned x, const unsigned y, const unsigned z, const sf::IntRect& texture_rect)
+void TileMap::clear()
+{
+	for (unsigned short x = 0; x < this->maxSize.x; x++)
+	{
+		for (unsigned short y = 0; y < this->maxSize.y; y++)
+		{
+			for (unsigned short z = 0; z < this->layers; z++)
+			{
+				if (!this->map[x][y][z] == NULL) //sees if tile there to remove
+				{
+					this->map[x][y][z].reset();
+				}
+			}
+		}
+	}
+}
+
+void TileMap::addTile(const unsigned x, const unsigned y, const unsigned z, const sf::IntRect& texture_rect, const bool collision, const short type)
 {
 	//Take two indicies and checks to see if in array size.
 	if (x >= 0 && x < this->maxSize.x && //x
@@ -46,7 +63,7 @@ void TileMap::addTile(const unsigned x, const unsigned y, const unsigned z, cons
 	{
 		if (this->map[x][y][z] == NULL) //sees if tile is empty
 		{
-			this->map[x][y][z] = std::make_unique<Tile>(x * gridSizeF, y * gridSizeF, gridSizeF, this->tileSheet, texture_rect);
+			this->map[x][y][z] = std::make_unique<Tile>(x * gridSizeF, y * gridSizeF, gridSizeF, this->tileSheet, texture_rect, collision, type);
 		}
 	}
 }
@@ -77,7 +94,7 @@ void TileMap::saveToFile(const std::string file_name)
 	texture file
 
 	All tiles
-	gridPos x y, Texture rect x y
+	gridPos x y layer, Texture rect x y, type, collision
 	*/
 
 	std::ofstream of;
@@ -87,6 +104,7 @@ void TileMap::saveToFile(const std::string file_name)
 	{
 		of << this->maxSize.x << " " << this->maxSize.y << "\n"
 		   << this->gridSizeU << "\n"
+		   << this->layers << "\n"
 		   << this->textureFile << "\n";
 		for (unsigned short x = 0; x < this->maxSize.x; x++)
 		{
@@ -94,8 +112,10 @@ void TileMap::saveToFile(const std::string file_name)
 			{
 				for (unsigned short z = 0; z < this->layers; z++)
 				{
-					if(this->map[x][y][z] != NULL)
-					of << *this->map[x][y][z];
+					if (this->map[x][y][z] != NULL) {
+						of << x << " " << y << " " << z << " ";
+						of << *this->map[x][y][z] << " ";
+					}
 				}
 
 			}
@@ -105,7 +125,7 @@ void TileMap::saveToFile(const std::string file_name)
 	}
 	else
 	{
-		std::cout << "TILEMAP COULD OPEN TILEMAP FILE: " << file_name << "\n";
+		std::cout << "TILEMAP SAVE COULD OPEN TILEMAP FILE: " << file_name << "\n";
 	}
 	of.close();
 
@@ -114,7 +134,48 @@ void TileMap::saveToFile(const std::string file_name)
 
 void TileMap::loadFromFile(const std::string file_name)
 {
+	this->clear();
+	std::ifstream is;
+	is.open(file_name);
+
+	//Map
+	is >> this->maxSize.x >> this->maxSize.y 
+	   >> this->gridSizeU 
+	   >> this->layers
+	   >>  this->textureFile;
+
+	//Tile
+	unsigned x;
+	unsigned y;
+	unsigned z;
+	unsigned int trX;
+	unsigned int trY;
+	bool collision;
+	short type;
+	
+	if (is.is_open())
+	{
+		while (is >> x >> y >> z >> trX >> trY >> collision >> type) 
+		{
+			if (map[x][y][z] != NULL)
+				map[x][y][z] = NULL;
+
+			sf::IntRect texture_rect;
+			texture_rect.left = trX; texture_rect.top = trY;
+			texture_rect.width = (int)gridSizeF; texture_rect.height = (int)gridSizeF;
+			this->map[x][y][z] = std::make_unique<Tile>(x * gridSizeF, y * gridSizeF, gridSizeF, this->tileSheet, texture_rect, collision, type);
+
+		}
+		
+
+	}
+	else
+	{
+		std::cout << "TILEMAP LOAD COULD OPEN TILEMAP FILE: " << file_name << "\n";
+	}
+	is.close();
 }
+
 
 void TileMap::update()
 {

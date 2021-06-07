@@ -6,9 +6,11 @@ class ofstream;
 class Tile
 {
 public:
-	Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect);
+	Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect, bool collison = false, short type = TileType::DEFAULT);
 	bool collision;
-	short type;
+	short type = 0;
+
+
 
 	//Functions
 	friend std::ofstream& operator<<(std::ofstream& os, Tile& tile);

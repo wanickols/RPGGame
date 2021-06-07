@@ -47,6 +47,8 @@ private:
 	sf::IntRect textureRect;
 	
 	sf::RectangleShape selectorRect;
+	bool collision;
+	short Type;
 
 	sf::Texture bgTexture; //background texture;
 	sf::RectangleShape background;

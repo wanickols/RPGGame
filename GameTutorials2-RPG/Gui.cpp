@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "Gui.h"
 
 //==================================== BUTTON ============================================
 gui::Button::Button(float x, float y, float width, float height,
