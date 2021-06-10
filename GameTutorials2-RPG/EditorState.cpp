@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EditorState.h"
+#include "GraphicsSettings.h"
 #include "TileMap.h"
 #include "Tile.h"
 #include "PauseMenu.h"
@@ -10,6 +11,13 @@ void EditorState::initVariables()
 	textureRect = sf::IntRect(0, 0, static_cast<int>(this->stateData->gridSize), static_cast<int>(this->stateData->gridSize));
 	this->collision = false;
 	this->Type = TileType::DEFAULT;
+	this->cameraSpeed = 100.f;
+}
+
+void EditorState::initView()
+{
+	this->view.setSize(sf::Vector2f((float)this->gfxSettings->resolution.width, (float)this->gfxSettings->resolution.height));
+	this->view.setCenter(this->gfxSettings->resolution.width / 2.f, this->gfxSettings->resolution.height / 2.f);
 }
 
 void EditorState::initBackround()
@@ -93,6 +101,7 @@ EditorState::EditorState(std::shared_ptr<StateData> state_data)
 	: State(state_data)
 {
 	this->initVariables();
+	this->initView();
 	this->initBackround();
 	this->initFonts();
 	this->initTexts();
@@ -123,7 +132,7 @@ void EditorState::updatePauseMenuButtons()
 	
 }
 
-void EditorState::updateEditorInput()
+void EditorState::updateEditorInput(const float& dt)
 {
 	//Add a tile
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->getKeyTime())
@@ -157,8 +166,24 @@ void EditorState::updateEditorInput()
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("DEC_TYPE"))) && this->getKeyTime()) 
 		{
-			if (this->Type > 0);
+			if (this->Type > 0)
 				this->Type--;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))))
+		{
+			this->view.move(0.f, -cameraSpeed * dt);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))))
+		{
+			this->view.move(0.f, cameraSpeed * dt);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))))
+		{
+			this->view.move(-cameraSpeed * dt, 0.f);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))))
+		{
+			this->view.move(cameraSpeed * dt, 0.f);
 		}
 	}
 
@@ -210,20 +235,20 @@ void EditorState::updateGui(const float& dt)
 	   << "Collision: " << this->collision << "\n"
 	   << "Type: " << this->Type;
 	cursorText.setString(ss.str());
-	this->cursorText.setPosition(this->mousePosView.x + 100.f, this->mousePosView.y - 50.f);
+	this->cursorText.setPosition(this->mousePosWindow.x + 100.f, this->mousePosWindow.y - 50.f);
 
 	
 }
 
 void EditorState::update(const float& dt)
 {
-	this->updateMousePositions();
+	this->updateMousePositions(std::make_unique<sf::View>(this->view));
 	this->updateKeyTime(dt);
 	this->updateInput(dt);
 	
 	if (!this->paused) {
 		this->updateGui(dt);
-		this->updateEditorInput();
+		this->updateEditorInput(dt);
 		
 			this->updateButtons();
 			
@@ -240,8 +265,6 @@ void EditorState::update(const float& dt)
 
 void EditorState::renderButtons(sf::RenderTarget& target)
 {
-
-	this->map->render(target);
 	for (auto& it : this->buttons)
 	{
 		it.second->render(target);
@@ -251,9 +274,14 @@ void EditorState::renderButtons(sf::RenderTarget& target)
 
 void EditorState::renderGui(sf::RenderTarget& target)
 {
+	
 	this->textureSelector->render(target);
+	
+	target.setView(this->view);
 	if (!this->textureSelector->getActive())
 		target.draw(this->selectorRect);
+
+	target.setView(this->window->getDefaultView());
 	target.draw(this->cursorText);
 	target.draw(sideBar);
 }
@@ -262,13 +290,18 @@ void EditorState::render(std::shared_ptr<sf::RenderTarget> target)
 {
 	if (!target)
 		target = this->window;
-	
+	target->setView(this->view);
 	//PauseMenu
 	if (!this->paused) {
+		
+		this->map->render(*target);
+
+		target->setView(this->window->getDefaultView());
 		this->renderButtons(*target);
 		this->renderGui(*target);
 	}
 	else {
+		target->setView(this->window->getDefaultView());
 		this->pmenu->render(*target);
 	}
 }

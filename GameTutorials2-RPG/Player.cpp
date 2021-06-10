@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 
+//Init Functions
 void Player::initVariables()
 {
 	attacking = false;
@@ -12,6 +13,7 @@ void Player::initComponents()
 	this->createHitBoxComponent(this->sprite, 12.f, 4.f, 41, 60);
 }
 
+//Constructors
 Player::Player(float x, float y, sf::Texture& texture_sheet)
 {
 	this->initVariables();
@@ -33,23 +35,9 @@ Player::~Player()
 
 }
 
-void Player::update(const float& dt)
-{
-
-	this->movementComponent->update(dt);
-	this->updateAnimation(dt);
-	this->hitBoxComponent->update();
-		
-}
-
+//Functions
 void Player::updateAnimation(const float& dt)
 {
-	/*
-	}*/
-
-	/*
-	}*/
-
 	if (this->movementComponent->getState(ATTACK)) {
 		attacking = true;
 		if (attacking) {
@@ -80,6 +68,23 @@ void Player::updateAnimation(const float& dt)
 			this->animationComponent->play("WALK_DOWN", dt, this->movementComponent->getVelocity().y, this->movementComponent->getMaxVelocity(), false);
 		}
 	}
-	
-	}
+}
+
+void Player::update(const float& dt)
+{
+
+	this->movementComponent->update(dt);
+	this->updateAnimation(dt);
+	this->hitBoxComponent->update();
+
+}
+
+void Player::render(sf::RenderTarget& target)
+{
+	target.draw(this->sprite);
+	this->hitBoxComponent->render(target);
+
+}
+
+
 

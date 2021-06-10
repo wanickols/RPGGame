@@ -10,13 +10,13 @@ void Entity::initVariables()
 
 Entity::Entity()
 {
-	
+
 	this->initVariables();
 }
 
 Entity::~Entity()
 {
-	
+
 }
 
 //Component functions
@@ -41,10 +41,21 @@ void Entity::createHitBoxComponent(sf::Sprite& sprite, const float offset_x, con
 	this->hitBoxComponent = std::make_unique<HitboxComponent>(sprite, offset_x, offset_y, width, height);
 }
 
+//Accessors
+const sf::Vector2f Entity::getPosition() const
+{
+	if (this->hitBoxComponent)
+		return this->hitBoxComponent->getPosition();
+
+	return this->sprite.getPosition();
+}
+
 //functions
 void Entity::setPosition(float x, float y)
 {
-	
+	if (this->hitBoxComponent)
+		this->hitBoxComponent->setPosition(sf::Vector2f(x, y));
+	else
 		this->sprite.setPosition(x, y);
 
 }
@@ -56,16 +67,30 @@ void Entity::move(const float dir_x, const float dir_y, const float& dt)
 	}
 }
 
-void Entity::update(const float& dt)
+const sf::FloatRect Entity::getGlobalBounds() const
 {
-	//if (this->movementComponent)
-		//movementComponent->update(dt);
+	if (this->hitBoxComponent)
+		return this->hitBoxComponent->getGlobalBounds();
+
+	return this->sprite.getGlobalBounds();
 }
 
-void Entity::render(sf::RenderTarget& target)
+void Entity::stopVelocity()
 {
-	target.draw(this->sprite);
-	if (this->hitBoxComponent) {
-		this->hitBoxComponent->render(target);
-	}
+	if (this->movementComponent)
+		this->movementComponent->stopVelocity();
 }
+
+void Entity::stopVelocityX()
+{
+	if (this->movementComponent)
+		this->movementComponent->stopVelocityX();
+}
+
+void Entity::stopVelocityY()
+{
+	if (this->movementComponent)
+		this->movementComponent->stopVelocityY();
+}
+
+

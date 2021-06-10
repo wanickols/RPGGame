@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "MainMenuState.h"
+#include "GraphicsSettings.h"
 
 //Static functions
 
@@ -71,7 +73,7 @@ void Game::initStateData()
 	this->stateData.window = this->window;
 	this->stateData.GraphicsSettings = std::make_shared<GraphicsSettings>(this->gfxSettings);
 	this->stateData.states = &this->states;
-	this->stateData.supportedKeys = std::make_shared< std::map < std::string, int >> (this->supportedKeys);
+	this->stateData.supportedKeys = std::make_shared< std::map < std::string, int >>(this->supportedKeys);
 	this->stateData.gridSize = gridSize;
 }
 
@@ -129,7 +131,7 @@ void Game::update()
 {
 
 
-	if (!this->states.empty()) {
+	if (!this->states.empty() && this->window->hasFocus()) {
 		this->updateSFMLEvents();
 		this->states.top()->update(this->dt);
 

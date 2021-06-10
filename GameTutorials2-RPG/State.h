@@ -1,12 +1,20 @@
 #pragma once
 
-namespace gui {
-	class Button;
+namespace sf {
+	class Texture;
+	class Sprite;
+	class RenderTarget;
+	class Font;
+	class Text;
+	class Color;
+	class RectangleShape;
+	class RenderWindow;
 }
 
+class gui::Button;
 class GraphicsSettings;
-
 class State;
+
 class StateData
 {
 public:
@@ -37,7 +45,7 @@ public:
 
 	//Functions
 	virtual void update(const float& dt) = 0;
-	virtual void updateMousePositions();
+	virtual void updateMousePositions(std::unique_ptr<sf::View> view = NULL);
 	virtual void updateKeyTime(const float& dt);
 	virtual void updateInput(const float& dt) = 0;
 	virtual void render(std::shared_ptr<sf::RenderTarget> target =  NULL) = 0;

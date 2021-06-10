@@ -1,6 +1,15 @@
 #pragma once
 
-enum button_states{BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE};
+namespace sf {
+	class Texture;
+	class Sprite;
+	class RenderTarget;
+	class Font;
+	class Color;
+	class RectangleShape;
+}
+
+enum button_states { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE };
 
 namespace gui {
 
@@ -10,7 +19,7 @@ namespace gui {
 		Button(float x, float t, float width, float height,
 			sf::Font& font, std::string text, unsigned character_size,
 			sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color,
-			sf::Color idle_color, sf::Color hover_color, sf::Color active_color, 
+			sf::Color idle_color, sf::Color hover_color, sf::Color active_color,
 			sf::Color outline_idle_color = sf::Color::Transparent, sf::Color outline_hover_color = sf::Color::Transparent, sf::Color outline_active_color = sf::Color::Transparent,
 			short unsigned id = 0);
 		virtual ~Button();

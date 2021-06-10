@@ -9,13 +9,13 @@ PauseMenu::PauseMenu(sf::RenderWindow& window, sf::Font& font)
 		sf::Vector2f(
 			static_cast<float>(window.getSize().x),
 			static_cast<float>(window.getSize().y)
-	));
+		));
 	this->background.setFillColor(sf::Color(20, 20, 20, 100));
-	
+
 	//Init container
 	this->container.setSize(
 		sf::Vector2f(
-			static_cast<float>(window.getSize().x)/4.f,
+			static_cast<float>(window.getSize().x) / 4.f,
 			static_cast<float>(window.getSize().y) - 90.f)
 	);
 	this->container.setFillColor(sf::Color(50, 50, 50, 200));
@@ -30,7 +30,7 @@ PauseMenu::PauseMenu(sf::RenderWindow& window, sf::Font& font)
 	this->menuText.setCharacterSize(80);
 	this->menuText.setString("PAUSE MENU");
 	this->menuText.setPosition(
-		window.getView().getCenter().x - this->menuText.getGlobalBounds().width/ 2,
+		window.getView().getCenter().x - this->menuText.getGlobalBounds().width / 2,
 		this->container.getPosition().y + 20
 	);
 }
@@ -53,9 +53,9 @@ void PauseMenu::addButton(const std::string key, float y, const std::string text
 {
 	float width = 250.f;
 	float height = 75.f;
-	float x = this->container.getPosition().x + this->container.getSize().x / 2 - width/2.f;
+	float x = this->container.getPosition().x + this->container.getSize().x / 2 - width / 2.f;
 	this->buttons[key] = std::make_unique<gui::Button>(x, y, width, height,
-		this->font,text, 50,
+		this->font, text, 50,
 		sf::Color(245, 212, 0, 250), sf::Color(255, 222, 0, 255), sf::Color(0, 0, 250, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
 		);

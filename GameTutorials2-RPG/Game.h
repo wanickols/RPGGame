@@ -1,9 +1,14 @@
 #pragma once
-#include "GraphicsSettings.h"
 #include "MainMenuState.h"
+#include "GraphicsSettings.h"
 
 class MainMenuState;
 class GraphicsSettings;
+namespace sf
+{
+	class Event;
+	class RenderWindow;
+}
 
 class Game
 {

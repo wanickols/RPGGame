@@ -12,15 +12,15 @@ AnimationComponent::~AnimationComponent()
 //Functions
 
 void AnimationComponent::addAnimation(
-	const std::string key, 
-	float animationTimer, 
+	const std::string key,
+	float animationTimer,
 	int start_x, int start_y, int end_x, int end_y, int width, int height)
 {
 	this->animations[key] = std::make_shared<Animation>(
-		this->sprite, this->textureSheet, 
+		this->sprite, this->textureSheet,
 		animationTimer,
 		start_x, start_y, end_x, end_y, width, height
-	);
+		);
 }
 
 const bool& AnimationComponent::play(const std::string key, const float& dt, const bool priority = false)

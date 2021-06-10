@@ -10,6 +10,8 @@ class GameState : public State
 {
 private:
 	//init functions
+	void initDefferredRender();
+	void initView();
 	void initKeybinds();
 	void initTextures();
 	void initPauseMenu();
@@ -22,17 +24,22 @@ public:
 	virtual ~GameState();
 
 	//functions
+	void updateView();
 	void updatePlayerInput(const float& dt);
 	void updateInput(const float& dt);
 	void updatePauseMenuButtons();
+	void updateTileMap();
 
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);
 
 private:
-	
+	sf::View view;
+	sf::RenderTexture renderTexture;
+	sf::Sprite renderSprite;
+
 	std::unique_ptr<TileMap> map;
-	std::unique_ptr<Player> player;
+	std::shared_ptr<Player> player;
 	std::unique_ptr<PauseMenu> pmenu;
 
 	//functions

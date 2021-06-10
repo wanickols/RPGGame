@@ -1,4 +1,10 @@
 #pragma once
+
+namespace sf {
+	class Texture;
+	class Sprite;
+}
+
 class AnimationComponent
 {
 public:
@@ -32,7 +38,7 @@ private:
 		Animation(sf::Sprite& sprite, sf::Texture& texture_sheet, float animation_timer, int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height)
 			: sprite(sprite), textureSheet(texture_sheet), animationTimer(animation_timer), width(width), height(height), done(false)
 		{
-			this->timer =  0.f;
+			this->timer = 0.f;
 			this->startRect = sf::IntRect(start_frame_x * width, start_frame_y * height, width, height);
 			this->currRect = this->startRect;
 			this->endRect = sf::IntRect(frames_x * width, frames_y * height, width, height);
@@ -45,7 +51,7 @@ private:
 		const bool& isDone() const;
 
 		//functions
-		
+
 		const bool& play(const float& dt) {
 			this->timer += 100.f * dt;
 			if (this->timer >= this->animationTimer)
@@ -66,7 +72,7 @@ private:
 			return this->done;
 		}//Normal play
 		const bool& play(const float& dt, float mod_percent) {
-			
+
 			if (mod_percent < 0.25f)
 				mod_percent = 0.25f;
 
@@ -103,6 +109,6 @@ private:
 	std::shared_ptr<Animation> lastAnimation;
 	std::shared_ptr<Animation> priorityAnimation;
 	//functions
-	
+
 };
 

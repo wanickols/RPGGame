@@ -1,5 +1,13 @@
 #pragma once
 
+namespace sf
+{
+	class Font;
+	class Text;
+	class RectangleShape;
+	class RenderTarget;
+}
+
 namespace gui {
 	class Button;
 }
@@ -9,7 +17,7 @@ class PauseMenu
 public:
 	sf::Font& font;
 	sf::Text menuText;
-	
+
 	PauseMenu(sf::RenderWindow& window, sf::Font& font);
 	virtual ~PauseMenu();
 

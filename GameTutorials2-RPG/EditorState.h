@@ -11,6 +11,7 @@ class EditorState :
 private:
 	//init functions
 	void initVariables();
+	void initView();
 	void initBackround();
 	void initPauseMenu();
 	void initTexts();
@@ -20,6 +21,7 @@ private:
 	void initGui();
 	void initTileMap();
 
+
 public:
 	EditorState(std::shared_ptr<StateData> state_data);
 	virtual ~EditorState();
@@ -27,7 +29,7 @@ public:
 	//functions
 	void updateInput(const float& dt);
 	void updatePauseMenuButtons();
-	void updateEditorInput();
+	void updateEditorInput(const float& dt);
 	void updateButtons();
 	void updateGui(const float& dt);
 	void update(const float& dt);
@@ -39,6 +41,7 @@ private:
 	//variables 
 	sf::Font font;
 	sf::Text cursorText;
+	sf::View view;
 
 	std::map<std::string, std::unique_ptr<gui::Button>> buttons;
 	std::unique_ptr<TileMap> map;
@@ -49,6 +52,7 @@ private:
 	sf::RectangleShape selectorRect;
 	bool collision;
 	short Type;
+	float cameraSpeed;
 
 	sf::Texture bgTexture; //background texture;
 	sf::RectangleShape background;

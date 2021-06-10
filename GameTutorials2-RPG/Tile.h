@@ -1,6 +1,6 @@
 #pragma once
 
-enum TileType {DEFAULT = 0, DAMAGING};
+enum TileType { DEFAULT = 0, DAMAGING };
 
 class ofstream;
 class Tile
@@ -11,6 +11,8 @@ public:
 	short type = 0;
 
 
+	//Accessors
+	const sf::Vector2f& getPosition() const;
 
 	//Functions
 	friend std::ofstream& operator<<(std::ofstream& os, Tile& tile);

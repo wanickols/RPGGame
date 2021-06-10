@@ -1,4 +1,8 @@
 #pragma once
+
+class sf::VideoMode;
+struct sf::ContextSettings;
+
 class GraphicsSettings {
 public:
 	GraphicsSettings();

@@ -12,6 +12,14 @@ Tile::Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const 
 	this->shape.setTexture(&texture);
 	this->shape.setTextureRect(texture_rect);
 }
+
+//Accessors
+const sf::Vector2f& Tile::getPosition() const
+{
+	return this->shape.getPosition();
+}
+
+//Functions
 void Tile::update()
 {
 }
@@ -24,7 +32,7 @@ void Tile::render(sf::RenderTarget& target)
 std::ofstream& operator<<(std::ofstream& os, Tile& tile)
 {
 	//Texture rect x y, type, collision
-		os << tile.shape.getTextureRect().left << " " << tile.shape.getTextureRect().top
-		   << " " << tile.collision << " " << tile.type;
+	os << tile.shape.getTextureRect().left << " " << tile.shape.getTextureRect().top
+		<< " " << tile.collision << " " << tile.type;
 	return os;
 }

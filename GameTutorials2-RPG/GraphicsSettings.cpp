@@ -4,14 +4,14 @@
 
 GraphicsSettings::GraphicsSettings()
 {
-	
-		this->resolution = sf::VideoMode::getDesktopMode();
-		this->fullscreen = false;
-		currMode = 0;
-		this->verticalSync = false;
-		this->frameRateLimit = 120;
-		this->contextSettings.antialiasingLevel = 0;
-		this->videModes = sf::VideoMode::getFullscreenModes();
+
+	this->resolution = sf::VideoMode::getDesktopMode();
+	this->fullscreen = false;
+	currMode = 0;
+	this->verticalSync = false;
+	this->frameRateLimit = 120;
+	this->contextSettings.antialiasingLevel = 0;
+	this->videModes = sf::VideoMode::getFullscreenModes();
 }
 
 //Functions

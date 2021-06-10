@@ -3,9 +3,9 @@
 
 int main()
 {
-   //game instance
-    Game game;
-    game.run();
+	//game instance
+	Game game;
+	game.run();
 
-    return 0;
+	return 0;
 }
