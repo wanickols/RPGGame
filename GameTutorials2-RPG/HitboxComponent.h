@@ -1,5 +1,7 @@
 #pragma once
 
+class sf::RenderTarget;
+class sf::Sprite;
 
 class HitboxComponent
 {
@@ -9,7 +11,8 @@ public:
 
 	//Accessors
 	const sf::FloatRect getGlobalBounds() const;
-	const sf::Vector2f& getPosition() const;
+	const sf::Vector2f& getPosition() const; 
+	const sf::FloatRect getNextPosition(const sf::Vector2f& velocity);
 
 	//Modifiers
 	void setPosition(const sf::Vector2f& position);
@@ -22,6 +25,7 @@ public:
 private:
 	sf::Sprite& sprite;
 	sf::RectangleShape hitbox;
+	sf::FloatRect nextPosition;
 	float offSetX;
 	float offSetY;
 };

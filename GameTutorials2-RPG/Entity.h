@@ -25,6 +25,10 @@ public:
 	void createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height);
 
 	const virtual sf::Vector2f getPosition() const;
+	const virtual sf::Vector2i getGridPosition(const int& gridSizeI);
+	const sf::FloatRect& getNextPositionBounds(const float& dt) const;
+	
+
 	const sf::FloatRect getGlobalBounds() const;
 
 	virtual void setPosition(float x, float y);
@@ -43,5 +47,7 @@ protected:
 	std::unique_ptr<MovementComponent> movementComponent;
 	std::unique_ptr<AnimationComponent> animationComponent;
 	sf::Sprite sprite;
+private:
+	sf::Vector2i gridPosition;
 };
 

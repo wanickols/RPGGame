@@ -20,6 +20,7 @@ class StateData
 public:
 	StateData() {};
 	float gridSize = 0.f;
+	unsigned mapSize;
 	std::shared_ptr<GraphicsSettings> GraphicsSettings;
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<std::map<std::string, int>> supportedKeys;
@@ -64,13 +65,14 @@ protected:
 	bool quit;
 	bool paused;
 	float gridSize;
+	unsigned mapSize;
 	float keyTime;
 	float keyTimeMax;
 
 	sf::Vector2i mousePosScreen; 
 	sf::Vector2i mousePosWindow; 
 	sf::Vector2f mousePosView;
-	sf::Vector2u mousePosGrid;
+	sf::Vector2i mousePosGrid;
 
 	//Resources
 	std::map <std::string, sf::Texture> textures;

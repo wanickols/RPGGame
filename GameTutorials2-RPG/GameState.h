@@ -28,7 +28,7 @@ public:
 	void updatePlayerInput(const float& dt);
 	void updateInput(const float& dt);
 	void updatePauseMenuButtons();
-	void updateTileMap();
+	void updateTileMap(const float& dt);
 
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);

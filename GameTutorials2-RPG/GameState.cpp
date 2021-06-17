@@ -68,7 +68,7 @@ void GameState::initPauseMenu()
 void GameState::initTileMap()
 {
 	//CHANGE LATER TO GET LOADFROMFILE
-	this->map = std::make_unique<TileMap>(this->stateData->gridSize, 10, 10, "Resources/Images/Tiles/tilesheet1.png");
+	this->map = std::make_unique<TileMap>(this->stateData->gridSize, this->mapSize, this->mapSize, "Resources/Images/Tiles/tilesheet1.png");
 	this->map->loadFromFile("Save/mapfile");
 }
 
@@ -136,11 +136,11 @@ void GameState::updatePauseMenuButtons()
 		this->endState();
 }
 
-void GameState::updateTileMap()
+void GameState::updateTileMap(const float& dt)
 {
 	//std::shared_ptr<Entity> player1 = std::make_shared<Entity>(this->player);
 	this->map->update();
-	this->map->updateCollision(this->player);
+	this->map->updateCollision(this->player, dt);
 }
 
 void GameState::update(const float& dt)
@@ -152,7 +152,7 @@ void GameState::update(const float& dt)
 	if (!this->paused) {
 
 		this->updateView();
-		this->updateTileMap();
+		this->updateTileMap(dt);
 		this->updatePlayerInput(dt);
 
 		this->player->update(dt);
@@ -171,9 +171,9 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 	this->renderTexture.clear();
 
 	this->renderTexture.setView(this->view);
-	this->map->render(this->renderTexture);
+	this->map->render(this->renderTexture, this->player->getGridPosition((int)this->stateData->gridSize));
 	this->player->render(this->renderTexture);
-
+	this->map->renderDeferred(this->renderTexture);
 	if (this->paused) {
 		this->renderTexture.setView(this->renderTexture.getDefaultView());
 		this->pmenu->render(this->renderTexture);

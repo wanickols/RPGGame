@@ -27,6 +27,7 @@ State::State(std::shared_ptr<StateData> state_data)
 	keyTime = 0.f;
 	keyTimeMax = 15.f;
 	this->gridSize = state_data->gridSize;
+	this->mapSize = state_data->mapSize;
 }
 
 State::~State()
@@ -75,9 +76,9 @@ void State::updateMousePositions(std::unique_ptr<sf::View> view)
 
 	this->mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	this->mousePosGrid = 
-		sf::Vector2u(
-		static_cast<unsigned>(this->mousePosView.x) / static_cast<unsigned>(this->gridSize),
-			static_cast<unsigned>(this->mousePosView.y) / static_cast<unsigned>(this->gridSize)
+		sf::Vector2i(
+		static_cast<int>(this->mousePosView.x) / static_cast<int>(this->gridSize),
+			static_cast<int>(this->mousePosView.y) / static_cast<int>(this->gridSize)
 		);
 
 	this->window->setView(this->window->getDefaultView());

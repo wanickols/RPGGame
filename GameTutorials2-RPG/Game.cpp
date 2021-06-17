@@ -10,7 +10,8 @@ void Game::initVariables()
 {
 	this->window = NULL;
 	this->dt = 0;
-	gridSize = 100.f;
+	gridSize = 100.f; 
+	mapSize = 100;
 }
 
 
@@ -21,6 +22,7 @@ void Game::initGraphicsSettings()
 {
 	this->gfxSettings.loadFromFile("Config/graphics.ini");
 }
+
 void Game::initWindow()
 {
 
@@ -75,6 +77,7 @@ void Game::initStateData()
 	this->stateData.states = &this->states;
 	this->stateData.supportedKeys = std::make_shared< std::map < std::string, int >>(this->supportedKeys);
 	this->stateData.gridSize = gridSize;
+	this->stateData.mapSize = mapSize;
 }
 
 void Game::initStates()

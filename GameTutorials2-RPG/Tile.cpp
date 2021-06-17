@@ -14,9 +14,29 @@ Tile::Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const 
 }
 
 //Accessors
+const short& Tile::getType() const
+{
+	return this->type;
+}
+
+const bool Tile::getCollision() const
+{
+	return this->collision;
+}
+
 const sf::Vector2f& Tile::getPosition() const
 {
 	return this->shape.getPosition();
+}
+
+const sf::FloatRect Tile::getGlobalBounds() const
+{
+	return this->shape.getGlobalBounds();
+}
+
+const bool Tile::intersects(const sf::FloatRect bounds) const
+{
+	return this->shape.getGlobalBounds().intersects(bounds);
 }
 
 //Functions

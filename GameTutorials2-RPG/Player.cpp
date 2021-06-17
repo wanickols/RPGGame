@@ -9,7 +9,7 @@ void Player::initVariables()
 
 void Player::initComponents()
 {
-	this->createMovementComponent(350.f, 13.f, 4.f); //speed for player set here
+	this->createMovementComponent(350.f, 1300.f, 400.f); //speed for player set here
 	this->createHitBoxComponent(this->sprite, 12.f, 4.f, 41, 60);
 }
 

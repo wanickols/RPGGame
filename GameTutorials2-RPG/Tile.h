@@ -1,6 +1,6 @@
 #pragma once
 
-enum TileType { DEFAULT = 0, DAMAGING };
+enum TileType { DEFAULT = 0, DAMAGING, DEFERRED };
 
 class ofstream;
 class Tile
@@ -12,11 +12,15 @@ public:
 
 
 	//Accessors
+	const short& getType() const;
+	const bool getCollision() const;
 	const sf::Vector2f& getPosition() const;
+	const sf::FloatRect getGlobalBounds() const;
 
 	//Functions
 	friend std::ofstream& operator<<(std::ofstream& os, Tile& tile);
 
+	const bool intersects(const sf::FloatRect bounds) const;
 	void update();
 	void render(sf::RenderTarget& target);
 protected:

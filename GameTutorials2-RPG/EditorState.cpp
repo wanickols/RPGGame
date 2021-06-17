@@ -10,8 +10,9 @@ void EditorState::initVariables()
 {
 	textureRect = sf::IntRect(0, 0, static_cast<int>(this->stateData->gridSize), static_cast<int>(this->stateData->gridSize));
 	this->collision = false;
+	this->layer = 0;
 	this->Type = TileType::DEFAULT;
-	this->cameraSpeed = 100.f;
+	this->cameraSpeed = 400.f;
 }
 
 void EditorState::initView()
@@ -76,7 +77,7 @@ void EditorState::initButtons()
 
 void EditorState::initTileMap()
 {
-	this->map = std::make_unique<TileMap>(this->stateData->gridSize, 10, 10, "Resources/Images/Tiles/tilesheet1.png");
+	this->map = std::make_unique<TileMap>(this->stateData->gridSize, this->mapSize, this->mapSize, "Resources/Images/Tiles/tilesheet1.png");
 	this->map->loadFromFile("Save/mapfile");
 }
 
@@ -94,7 +95,7 @@ void EditorState::initGui()
 	this->selectorRect.setTexture(this->map->getTileSheet());
 	this->selectorRect.setTextureRect(this->textureRect);
 
-	this->textureSelector = std::make_unique<gui::TextureSelector>(20.f, 20.f, 500.f, 500.f, this->stateData->gridSize, *this->map->getTileSheet(), this->font);
+	this->textureSelector = std::make_unique<gui::TextureSelector>(20.f, 20.f, 1000.f, 500.f, this->stateData->gridSize, *this->map->getTileSheet(), this->font);
 }
 
 EditorState::EditorState(std::shared_ptr<StateData> state_data)
@@ -152,7 +153,7 @@ void EditorState::updateEditorInput(const float& dt)
 			map->removeTile(this->mousePosGrid.x, this->mousePosGrid.y, 0);
 		}
 		//Toggle Collisions with C button
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_COLLISION"))) && this->getKeyTime())
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_COLLISION"))) && this->getKeyTime()) //C key
 		{
 			if (this->collision)
 				this->collision = false;
@@ -233,6 +234,7 @@ void EditorState::updateGui(const float& dt)
 	ss << mousePosView.x << " " << this->mousePosView.y << "\n" 
 	   << mousePosGrid.x << " " << this->mousePosGrid.y << "\n"
 	   << "Collision: " << this->collision << "\n"
+	   << "Tiles: " << this->map->getLayerSize(mousePosGrid.x, mousePosGrid.y, this->layer) << "\n"
 	   << "Type: " << this->Type;
 	cursorText.setString(ss.str());
 	this->cursorText.setPosition(this->mousePosWindow.x + 100.f, this->mousePosWindow.y - 50.f);
@@ -294,7 +296,8 @@ void EditorState::render(std::shared_ptr<sf::RenderTarget> target)
 	//PauseMenu
 	if (!this->paused) {
 		
-		this->map->render(*target);
+		this->map->render(*target, this->mousePosGrid);
+		this->map->renderDeferred(*target);
 
 		target->setView(this->window->getDefaultView());
 		this->renderButtons(*target);

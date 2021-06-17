@@ -6,6 +6,7 @@ void Entity::initVariables()
 	this->hitBoxComponent = NULL;
 	this->movementComponent = NULL;
 	this->animationComponent = NULL;
+	
 }
 
 Entity::Entity()
@@ -48,6 +49,35 @@ const sf::Vector2f Entity::getPosition() const
 		return this->hitBoxComponent->getPosition();
 
 	return this->sprite.getPosition();
+}
+
+const sf::Vector2i Entity::getGridPosition(const int& gridSizeI)
+{
+	if (this->hitBoxComponent) {
+		gridPosition.x = (int)this->hitBoxComponent->getPosition().x;
+		gridPosition.y = (int)this->hitBoxComponent->getPosition().y;
+
+		this->gridPosition.x = this->gridPosition.x / gridSizeI;
+		this->gridPosition.y = this->gridPosition.y / gridSizeI;
+
+		return this->gridPosition;
+	}
+
+
+	return sf::Vector2i(
+		(int)this->sprite.getPosition().x / gridSizeI,
+		(int)this->sprite.getPosition().y / gridSizeI
+	);
+}
+
+const sf::FloatRect& Entity::getNextPositionBounds(const float& dt) const
+{
+	if (this->hitBoxComponent && this->movementComponent)
+		return this->hitBoxComponent->getNextPosition(this->movementComponent->getVelocity() * dt);
+
+	std::cout << "ENTITY::ERROR IN GETTING NEXTPOSITION";
+	return sf::FloatRect(-1.f, -1.f, -1.f, -1.f);
+	
 }
 
 //functions

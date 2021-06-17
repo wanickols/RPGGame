@@ -50,6 +50,7 @@ private:
 	sf::IntRect textureRect;
 	
 	sf::RectangleShape selectorRect;
+	int layer;
 	bool collision;
 	short Type;
 	float cameraSpeed;

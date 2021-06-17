@@ -11,38 +11,60 @@ class Tile;
 
 class TileMap
 {
+
+private:
+
+	//Init Function
+	void initTileMap();
 public:
 	
-	TileMap(float grid_size, unsigned width, unsigned height, std::string texture_file);
+	TileMap(float grid_size, int width, int height, std::string texture_file);
 	virtual ~TileMap();
 	
+	//Accessors
+	const int getLayerSize(const int x, const int y, const int layer) const;
+
 	//Functions
 	void clear();
-	void addTile(const unsigned x, const unsigned y, const unsigned z, const sf::IntRect& texture_rect, const bool collision, const short type);
-	void removeTile(const unsigned x, const unsigned y, const unsigned z);
+	void addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool collision, const short type);
+	void removeTile(const int x, const int y, const int z);
 	void saveToFile(const std::string file_name);
 	void loadFromFile(const std::string file_name);
 
-	void updateCollision(std::shared_ptr<Entity> entity);
+	void updateCollision(std::shared_ptr<Entity> entity, const float& dt);
 	
 	void update();
-	void render(sf::RenderTarget& Target, std::unique_ptr<Entity> entity = NULL);
+	void render(sf::RenderTarget& Target, const sf::Vector2i& gridPosition);
+	void renderDeferred(sf::RenderTarget& Target);
 
 	//Accessors 
 	const sf::Texture* getTileSheet() const;
 
 
+	//Culling
+	int fromX;
+	int toX;
+	int fromY;
+	int toY;
+	int layer;
+
 private:
-	sf::Vector2u maxSize;
+
+	//Init Function
+
+
+	sf::Vector2i maxSize;
+	sf::Vector2i maxSizeWorldI;
 	sf::Vector2f maxSizeWorldF;
 	std::string textureFile;
-	unsigned layers;
+	int layers;
 	float gridSizeF;
-	unsigned gridSizeU;
+	int gridSizeI;
 	sf::Texture tileSheet;
 	sf::RectangleShape collisionBox;
 	//   x            y				z(depth)
-	std::vector< std::vector< std::vector<std::unique_ptr<Tile>> > > map;
+	std::vector < std::vector < std::vector < std::vector <std::shared_ptr<Tile>> > > > map;
+	std::stack<std::shared_ptr<Tile>> deferredRenderStack;
 	
 };
 
