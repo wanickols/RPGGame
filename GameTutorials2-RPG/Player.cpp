@@ -22,12 +22,15 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 	this->setPosition(x, y);
 
 	this->createAnimationComponent(texture_sheet);
+	this->creatAttributeComponent(1);
 	this->animationComponent->addAnimation("IDLE", 15.f, 0, 0, 8, 0, 64, 64);
 	this->animationComponent->addAnimation("WALK_DOWN", 8.f, 0, 1, 3, 1, 64, 64);
 	this->animationComponent->addAnimation("WALK_LEFT", 8.f, 4, 1, 7, 1, 64, 64);
 	this->animationComponent->addAnimation("WALK_RIGHT", 8.f, 8, 1, 11, 1, 64, 64);
 	this->animationComponent->addAnimation("WALK_UP", 8.f, 12, 1, 15, 1, 64, 64);
 	this->animationComponent->addAnimation("ATTACK", 6.f, 0, 1, 8, 1, 64, 128);
+
+	
 }
 
 Player::~Player()
@@ -72,10 +75,15 @@ void Player::updateAnimation(const float& dt)
 
 void Player::update(const float& dt)
 {
+	this->attributeComponent->update();
 
 	this->movementComponent->update(dt);
+	
 	this->updateAnimation(dt);
+	
 	this->hitBoxComponent->update();
+	system("cls");
+	std::cout << this->attributeComponent->debugPrint();
 
 }
 

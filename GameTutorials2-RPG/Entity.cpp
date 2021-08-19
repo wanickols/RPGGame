@@ -6,6 +6,7 @@ void Entity::initVariables()
 	this->hitBoxComponent = NULL;
 	this->movementComponent = NULL;
 	this->animationComponent = NULL;
+	this->attributeComponent = NULL;
 	
 }
 
@@ -35,6 +36,11 @@ void Entity::createMovementComponent(const float maxVelocity, const float accele
 void Entity::createAnimationComponent(sf::Texture& texture_sheet)
 {
 	this->animationComponent = std::make_unique<AnimationComponent>(this->sprite, texture_sheet);
+}
+
+void Entity::creatAttributeComponent(int level)
+{
+	this->attributeComponent = std::make_unique<AttributeComponent>(level);
 }
 
 void Entity::createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height)

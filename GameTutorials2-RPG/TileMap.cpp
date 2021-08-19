@@ -91,9 +91,9 @@ void TileMap::clear()
 			for (unsigned short z = 0; z < this->layers; z++)
 			{
 				for (size_t k = 0; k < this->map[x][y][z].size(); k++) {
-					if (!this->map[x][y][z][k] == NULL) //sees if tile there to remove
+					if (!this->map[x][y][z].empty()) //sees if tile there to remove
 					{
-						this->map[x][y][z][k].reset();
+						this->map[x][y][z].pop_back();
 					}
 				}
 			}
@@ -374,20 +374,21 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition)
 			for (int y = this->fromY; y < this->toY; y++)
 			{
 				for (size_t k = 0; k < this->map[x][y][this->layer].size(); k++) {
-					if(this->map[x][y][this->layer][k]->getType() == TileType::DEFERRED)
-					{
-						this->deferredRenderStack.push(this->map[x][y][this->layer][k]);
-					}
-					else {
-						if (map[x][y][this->layer][k] != NULL) {
+					if (map[x][y][this->layer][k] != NULL) {
+						if (this->map[x][y][this->layer][k]->getType() == TileType::DEFERRED)
+						{
+							this->deferredRenderStack.push(this->map[x][y][this->layer][k]);
+						}
+						else {
 							this->map[x][y][this->layer][k]->render(target);
+						}
+
+						if (this->map[x][y][this->layer][k]->getCollision()) {
+							this->collisionBox.setPosition(map[x][y][this->layer][k]->getPosition());
+							target.draw(this->collisionBox);
 						}
 					}
 
-					if (this->map[x][y][this->layer][k]->getCollision()) {
-						this->collisionBox.setPosition(map[x][y][this->layer][k]->getPosition());
-						target.draw(this->collisionBox);
-					}
 				}
 			}
 

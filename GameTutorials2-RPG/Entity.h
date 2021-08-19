@@ -2,6 +2,7 @@
 #include "HitboxComponent.h"
 #include "MovementComponent.h"
 #include "AnimationComponent.h"
+#include "AttributeComponent.h"
 
 namespace sf {
 	class Texture;
@@ -22,6 +23,7 @@ public:
 	void setTexture(sf::Texture& texture);
 	void createMovementComponent(const float maxVelocity, const float acceleration, const float deceleration);
 	void createAnimationComponent(sf::Texture& texture_sheet);
+	void creatAttributeComponent(int level);
 	void createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height);
 
 	const virtual sf::Vector2f getPosition() const;
@@ -46,6 +48,7 @@ protected:
 	std::unique_ptr<HitboxComponent> hitBoxComponent;
 	std::unique_ptr<MovementComponent> movementComponent;
 	std::unique_ptr<AnimationComponent> animationComponent;
+	std::unique_ptr<AttributeComponent> attributeComponent;
 	sf::Sprite sprite;
 private:
 	sf::Vector2i gridPosition;
