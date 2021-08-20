@@ -5,7 +5,7 @@
 AttributeComponent::AttributeComponent(int level) :
 	level(level), exp(0), attributePoints(3), levelBoostRate(1)
 {
-	this->expnext = this->calculateExpNext(level);
+	this->expnext = 50;
 	this->vitality = 1;
 	this->strength = 1;
 	this->dexterity = 1;
@@ -14,14 +14,27 @@ AttributeComponent::AttributeComponent(int level) :
 	updateStats(true);
 }
 
-//Functions
+//Utility Functions
 
-int AttributeComponent::calculateExpNext(int level)
+int AttributeComponent::calculateExpNext(int level) const
 {
 	return (50  + (50/3) * (pow(this->level, 3) - 6 * pow(this->level, 2) + (this->level*17) - 12));
 }
 
-
+//Main Functions
+void AttributeComponent::levelUp()
+{
+	int attributeCap = 50;
+	if (level <= attributeCap)
+		this->attributePoints += 2 + (level / 5);
+	else
+		this->attributePoints += 2 + (attributeCap / 5);
+	this->vitality += 1;
+	this->strength += 1;
+	this->dexterity += 1;
+	this->agility += 1;
+	this->intelligence += 1;
+}
 
 void AttributeComponent::updateStats(const bool reset)
 {
@@ -64,15 +77,6 @@ void AttributeComponent::updateStats(const bool reset)
 		}
 }
 
-void AttributeComponent::levelUp()
-{
-	this->vitality += 1;
-	this->strength += 1;
-	this->dexterity += 1;
-	this->agility += 1;
-	this->intelligence += 1;
-}
-
 void AttributeComponent::updateLevel()
 {
 	while (this->exp >= this->expnext) {
@@ -84,6 +88,24 @@ void AttributeComponent::updateLevel()
 	}
 }
 
+
+void AttributeComponent::update()
+{
+}
+
+void AttributeComponent::addExp(int xp)
+{
+	this->exp += xp;
+
+	this->updateLevel();
+}
+
+const int AttributeComponent::getAttributePoints() const
+{
+	return this->attributePoints;
+}
+
+//Temp
 std::string AttributeComponent::debugPrint()
 {
 	std::stringstream ss;
@@ -111,9 +133,3 @@ std::string AttributeComponent::debugPrint()
 
 	return ss.str();
 }
-
-void AttributeComponent::update()
-{
-	this->updateLevel();
-}
-

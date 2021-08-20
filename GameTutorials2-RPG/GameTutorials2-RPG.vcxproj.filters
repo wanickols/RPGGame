@@ -90,6 +90,9 @@
     <ClCompile Include="AttributeComponent.cpp">
       <Filter>Entities\Components</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="AttributeComponent.h">
       <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGui.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -75,13 +75,13 @@ void Player::updateAnimation(const float& dt)
 
 void Player::update(const float& dt)
 {
-	this->attributeComponent->update();
-
 	this->movementComponent->update(dt);
 	
 	this->updateAnimation(dt);
 	
 	this->hitBoxComponent->update();
+	this->attributeComponent->addExp(20);
+
 	system("cls");
 	std::cout << this->attributeComponent->debugPrint();
 
