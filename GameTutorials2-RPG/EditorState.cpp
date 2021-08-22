@@ -26,14 +26,6 @@ void EditorState::initBackround()
 
 }
 
-void EditorState::initFonts()
-{
-	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf")) {
-
-		throw("ERROR::EDITORSTATE::COULD NOT LOAD FONT");
-	}
-}
-
 void EditorState::initKeybinds()
 {
 	std::ifstream ifs("Config/editorstate_keybinds.ini");
@@ -104,7 +96,6 @@ EditorState::EditorState(std::shared_ptr<StateData> state_data)
 	this->initVariables();
 	this->initView();
 	this->initBackround();
-	this->initFonts();
 	this->initTexts();
 	this->initKeybinds();
 	this->initPauseMenu();

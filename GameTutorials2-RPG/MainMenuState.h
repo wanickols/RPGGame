@@ -28,8 +28,8 @@ public:
 private:
 
 	//variables 
-	std::map<std::string, std::unique_ptr<gui::Button>> buttons;
-	sf::Texture bgTexture; //background texture;
+	std::map<std::string, std::unique_ptr<gui::Button>> buttons; //main menu buttons
+	sf::Texture bgTexture; //background texture
 	sf::RectangleShape background;
 	
 	//functions

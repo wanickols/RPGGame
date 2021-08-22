@@ -48,7 +48,7 @@ protected:
 	std::unique_ptr<HitboxComponent> hitBoxComponent;
 	std::unique_ptr<MovementComponent> movementComponent;
 	std::unique_ptr<AnimationComponent> animationComponent;
-	std::unique_ptr<AttributeComponent> attributeComponent;
+	std::shared_ptr<AttributeComponent> attributeComponent;
 	sf::Sprite sprite;
 private:
 	sf::Vector2i gridPosition;

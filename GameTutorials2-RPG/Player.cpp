@@ -38,6 +38,37 @@ Player::~Player()
 
 }
 
+std::shared_ptr<AttributeComponent> Player::getAttributeComponent()
+{
+	return this->attributeComponent;
+}
+
+void Player::loseHealth(const int health)
+{
+	this->attributeComponent->hp -= health;
+	if (this->attributeComponent->hp < 0)
+		this->attributeComponent->hp = 0;
+}
+
+void Player::addHealth(const int health)
+{
+	this->attributeComponent->hp += health;
+	if (this->attributeComponent->hp > this->attributeComponent->hpMax)
+		this->attributeComponent->hp = this->attributeComponent->hpMax;
+}
+
+void Player::loseExp(const int exp)
+{
+	this->attributeComponent->exp -= exp;
+	if (this->attributeComponent->exp < 0)
+		this->attributeComponent->exp = 0;
+}
+
+void Player::addExp(const int exp)
+{
+	this->attributeComponent->addExp(exp);
+}
+
 //Functions
 void Player::updateAnimation(const float& dt)
 {
@@ -80,11 +111,12 @@ void Player::update(const float& dt)
 	this->updateAnimation(dt);
 	
 	this->hitBoxComponent->update();
-	this->attributeComponent->addExp(20);
-
+	
+	
+	this->addExp(20);
 	system("cls");
 	std::cout << this->attributeComponent->debugPrint();
-
+	
 }
 
 void Player::render(sf::RenderTarget& target)

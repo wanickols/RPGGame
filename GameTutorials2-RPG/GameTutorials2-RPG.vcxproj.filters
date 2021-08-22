@@ -91,7 +91,7 @@
       <Filter>Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="PlayerGui.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +150,7 @@
       <Filter>Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="PlayerGui.h">
-      <Filter>Header Files</Filter>
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

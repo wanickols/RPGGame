@@ -4,6 +4,7 @@
 #include "GraphicsSettings.h"
 #include "PauseMenu.h"
 #include "Player.h"
+#include "PlayerGui.h"
 
 void GameState::initDefferredRender()
 {
@@ -77,6 +78,11 @@ void GameState::initPlayers()
 	this->player = std::make_unique<Player>(220.f, 220.f, this->textures["PLAYER_SHEET"]);
 }
 
+void GameState::initPlayerGui()
+{
+	this->playerGui = std::make_shared<PlayerGui>(this->player, this->font);
+}
+
 
 //constructors
 GameState::GameState(std::shared_ptr<StateData> state_data)
@@ -89,6 +95,7 @@ GameState::GameState(std::shared_ptr<StateData> state_data)
 	this->initPauseMenu();
 	this->initTileMap();
 	this->initPlayers();
+	this->initPlayerGui();
 }
 
 
@@ -114,9 +121,19 @@ void GameState::updatePlayerInput(const float& dt)
 		this->player->move(0.f, 1.f, dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("Move_Right"))))
 		this->player->move(1.f, 0.f, dt);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && this->getKeyTime())
+		this->player->loseHealth(10);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G) && this->getKeyTime())
+		this->player->addExp(10);
 
 
 
+
+}
+
+void GameState::updatePlayerGui(const float& dt)
+{
+	this->playerGui->update(dt);
 }
 
 void GameState::updateInput(const float& dt)
@@ -156,6 +173,7 @@ void GameState::update(const float& dt)
 		this->updatePlayerInput(dt);
 
 		this->player->update(dt);
+		this->playerGui->update(dt);
 	}
 	else {
 		this->pmenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
@@ -170,12 +188,20 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 		target = this->window;
 	this->renderTexture.clear();
 
+	//Player and Map
 	this->renderTexture.setView(this->view);
 	this->map->render(this->renderTexture, this->player->getGridPosition((int)this->stateData->gridSize));
 	this->player->render(this->renderTexture);
 	this->map->renderDeferred(this->renderTexture);
+	
+	//Player Gui
+	this->renderTexture.setView(this->renderTexture.getDefaultView());
+	if(!this->paused)
+		this->playerGui->render(this->renderTexture);
+
+	//Pause Menu
 	if (this->paused) {
-		this->renderTexture.setView(this->renderTexture.getDefaultView());
+		
 		this->pmenu->render(this->renderTexture);
 	}
 	

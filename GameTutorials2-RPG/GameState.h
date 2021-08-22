@@ -3,6 +3,7 @@
 #include "State.h"
 
 class Player;
+class PlayerGui;
 class PauseMenu;
 class TileMap;
 
@@ -17,6 +18,7 @@ private:
 	void initPauseMenu();
 	void initTileMap();
 	void initPlayers();
+	void initPlayerGui();
 
 
 public:
@@ -26,6 +28,7 @@ public:
 	//functions
 	void updateView();
 	void updatePlayerInput(const float& dt);
+	void updatePlayerGui(const float& dt);
 	void updateInput(const float& dt);
 	void updatePauseMenuButtons();
 	void updateTileMap(const float& dt);
@@ -40,6 +43,7 @@ private:
 
 	std::unique_ptr<TileMap> map;
 	std::shared_ptr<Player> player;
+	std::shared_ptr<PlayerGui> playerGui;
 	std::unique_ptr<PauseMenu> pmenu;
 
 	//functions

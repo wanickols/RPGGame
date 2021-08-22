@@ -39,7 +39,6 @@ public:
 private:
 
 	//variables 
-	sf::Font font;
 	sf::Text cursorText;
 	sf::View view;
 
