@@ -25,7 +25,7 @@ const sf::Vector2f& HitboxComponent::getPosition() const
 	return this->hitbox.getPosition();
 }
 
-const sf::FloatRect HitboxComponent::getNextPosition(const sf::Vector2f& velocity)
+const sf::FloatRect& HitboxComponent::getNextPosition(const sf::Vector2f& velocity)
 {
 	nextPosition.left = this->hitbox.getPosition().x + velocity.x;
 	nextPosition.top = this->hitbox.getPosition().y + velocity.y;

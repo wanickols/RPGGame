@@ -85,7 +85,7 @@ protected:
 	virtual void initKeybinds() = 0;
 	virtual std::unique_ptr<gui::Button> addButton(float x, float y, const std::string text, float width = 250.f, float height = 75.f, int characterSize = 50); //Basic Button
 	virtual std::unique_ptr<gui::Button> addButton(float x, float y, const std::string text, float width, float height, int characterSize,
-		sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color,
+		sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color, gui::button_types type,
 		sf::Color idle_color, sf::Color hover_color, sf::Color active_color
 	); //Fully Modifiable button
 

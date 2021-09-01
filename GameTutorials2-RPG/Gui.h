@@ -11,15 +11,20 @@ namespace sf {
 
 enum button_states { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE };
 
+
 namespace gui {
+
+	enum class button_types { RECTANGLE = 0, CIRCLE, CONVEX };
 
 	class Button
 	{
 	public:
-		Button(float x, float t, float width, float height,
+
+		Button(float x, float t, float width, float height, 
 			sf::Font& font, std::string text, unsigned character_size,
 			sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color,
 			sf::Color idle_color, sf::Color hover_color, sf::Color active_color,
+			gui::button_types type = gui::button_types::RECTANGLE,
 			sf::Color outline_idle_color = sf::Color::Transparent, sf::Color outline_hover_color = sf::Color::Transparent, sf::Color outline_active_color = sf::Color::Transparent,
 			short unsigned id = 0);
 		virtual ~Button();
@@ -42,13 +47,14 @@ namespace gui {
 
 
 
-	private:
+	protected:
 		short unsigned buttonState;
 		short unsigned id;
 
-		sf::RectangleShape shape; //basic shape of button
 		sf::Font& font;
 		sf::Text text;
+
+		std::vector<std::unique_ptr<sf::Shape>> shapes;
 
 		//colors
 		sf::Color TextIdleColor;
@@ -63,6 +69,8 @@ namespace gui {
 		sf::Color outlineHoverColor;
 		sf::Color outlineActiveColor;
 	};
+
+
 
 	class DropDownList
 	{

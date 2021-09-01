@@ -1,6 +1,7 @@
 #pragma once
 
 class Player;
+class gui::Button;
 
 class progressBar 
 {
@@ -11,7 +12,8 @@ public:
 	sf::RectangleShape ProgBarBack; //background
 	sf::RectangleShape ProgBarIn; //content
 
-	void update(const float& dt,float percentWidth, std::string textString = "N");
+	void update(const float& dt,float& percentWidth);
+	void update(const float& dt, float& percentWidth, std::string textString);
 	void render(sf::RenderTarget& target);
 
 private:
@@ -29,7 +31,11 @@ class PlayerGui
 private:
 	std::shared_ptr<Player> player;
 
-	float tempPercent;
+	
+	//variables
+	float tempPercent;	
+	std::map < std::string, std::unique_ptr<gui::Button>> buttons; //buttons
+	sf::Font& font;
 
 	//HPBar
 	std::unique_ptr<progressBar> HPBar; //Health Bar Object
@@ -40,14 +46,17 @@ private:
 	std::string ExpBarText; //words that go into exp
 
 	//Functions
-	void initBars(sf::Font& font);
+	void initLevel();
+	void initBars();
+
 
 public:
 	PlayerGui(std::shared_ptr<Player> player, sf::Font& font);
 
 	//Functions
+	void addButton(const std::string& key, const float& x, const float& y, const std::string& text);
 	void updateBars(const float& dt);
-	void update(const float& dt);
+	void update(const float& dt, const sf::Vector2f& mousePos);
 	void render(sf::RenderTarget& target);
 };
 

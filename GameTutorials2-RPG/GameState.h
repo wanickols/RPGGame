@@ -46,6 +46,7 @@ private:
 	std::shared_ptr<PlayerGui> playerGui;
 	std::unique_ptr<PauseMenu> pmenu;
 
+	bool playerGuiMenuOpen;
 	//functions
 };
 

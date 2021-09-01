@@ -62,7 +62,8 @@ void GameState::initPauseMenu()
 {
 	this->pmenu = std::make_unique<PauseMenu>(*window, font);
 
-	this->pmenu->addButton("SAVE", 400.f, "Save"); //Key, Y, text
+	this->pmenu->addButton("SAVE", 400.f, "Save"); //Key, Y, 
+	this->pmenu->addButton("STATS", 550.f, "Stats");
 	this->pmenu->addButton("QUIT", 900.f, "Quit"); //Key, Y, text
 }
 
@@ -81,6 +82,7 @@ void GameState::initPlayers()
 void GameState::initPlayerGui()
 {
 	this->playerGui = std::make_shared<PlayerGui>(this->player, this->font);
+	this->playerGuiMenuOpen = false;
 }
 
 
@@ -133,7 +135,7 @@ void GameState::updatePlayerInput(const float& dt)
 
 void GameState::updatePlayerGui(const float& dt)
 {
-	this->playerGui->update(dt);
+	this->playerGui->update(dt, sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
 }
 
 void GameState::updateInput(const float& dt)
@@ -166,18 +168,21 @@ void GameState::update(const float& dt)
 	this->updateMousePositions(std::make_unique<sf::View>(this->view));
 	this->updateKeyTime(dt);
 	this->updateInput(dt);
-	if (!this->paused) {
+	if (!this->paused && !this->playerGuiMenuOpen) {
 
 		this->updateView();
 		this->updateTileMap(dt);
 		this->updatePlayerInput(dt);
+		this->updatePlayerGui(dt);
 
 		this->player->update(dt);
-		this->playerGui->update(dt);
+		
 	}
-	else {
+	else if (paused) {
 		this->pmenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
 		this->updatePauseMenuButtons();
+	}else	{
+		
 	}
 }
 
@@ -196,8 +201,7 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 	
 	//Player Gui
 	this->renderTexture.setView(this->renderTexture.getDefaultView());
-	if(!this->paused)
-		this->playerGui->render(this->renderTexture);
+	this->playerGui->render(this->renderTexture);
 
 	//Pause Menu
 	if (this->paused) {

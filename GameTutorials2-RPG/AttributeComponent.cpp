@@ -3,7 +3,7 @@
 
 //Con //Des
 AttributeComponent::AttributeComponent(int level) :
-	level(level), exp(0), attributePoints(3), levelBoostRate(1)
+	level(level), exp(0), attributePoints(3), levelBoostRate(1.f)
 {
 	this->expnext = 50;
 	this->vitality = 1;
@@ -18,7 +18,7 @@ AttributeComponent::AttributeComponent(int level) :
 
 int AttributeComponent::calculateExpNext(int level) const
 {
-	return (50  + (50/3) * (pow(this->level, 3) - 6 * pow(this->level, 2) + (this->level*17) - 12));
+	return (50  + (50/3) * (int)(pow(this->level, 3) - 6 * pow(this->level, 2) + (this->level*17) - 12));
 }
 
 //Main Functions
@@ -64,7 +64,7 @@ void AttributeComponent::updateStats(const bool reset)
 			break;
 		}
 	}
-	this->hpMax     = 70 + (level * levelBoostRate * 10) + (vitality * 10) + (strength * 5) + (intelligence * 5); //base 100
+	this->hpMax     = 70 + (int)(level * levelBoostRate * 10) + (vitality * 10) + (strength * 5) + (intelligence * 5); //base 100
 	this->damageMax = ((5 + this->strength * 4 + dexterity) + this->strength/2); //base 10
 	this->damageMin = ((5 + this->strength * 4 + dexterity) + this->strength / 4); //base 10
 	this->accuracy  = this->dexterity * 4 + intelligence * 2; //base 10

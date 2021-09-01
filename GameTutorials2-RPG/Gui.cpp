@@ -5,23 +5,50 @@ gui::Button::Button(float x, float y, float width, float height,
 	sf::Font& font, std::string text, unsigned character_size,
 	sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color,
 	sf::Color idle_color, sf::Color hover_color, sf::Color active_color,
+	gui::button_types type,
 	sf::Color outline_idle_color, sf::Color outline_hover_color, sf::Color outline_active_color,
 	short unsigned id) : font(font), id(id)
 {
+
+	this->shapes.reserve(1);
+
 	this->buttonState = 0;
-	this->shape.setPosition(sf::Vector2f(x, y));
-	this->shape.setSize(sf::Vector2f(width, height)); \
-		this->shape.setFillColor(this->idleColor);
-	this->shape.setOutlineThickness(1.f);
-	this->shape.setOutlineColor(outline_idle_color);
+	std::unique_ptr<sf::RectangleShape> rect;
+	
+	if (type == button_types::RECTANGLE) {
+		rect = std::make_unique<sf::RectangleShape>(); // had to do because shape has no setSize. Found no way around it
+		rect->setSize(sf::Vector2f(width, height));
+	}
+	switch (type) 
+	{
+	case(gui::button_types::RECTANGLE):
+		this->shapes.emplace_back(std::move(rect));
+		break;
+	case(gui::button_types::CIRCLE):
+		this->shapes.emplace_back(std::make_unique<sf::CircleShape>());
+		this->shapes.back()->setOrigin(x+height,y+width);
+		
+		break;
+	case(gui::button_types::CONVEX):
+		this->shapes.emplace_back(std::make_unique<sf::ConvexShape>());
+		break;
+	default:
+		std::cout << "ERROR::GUI : BUTTON TYPE NOT FOUND" << std::endl;
+		break;
+	}
+
+	this->shapes.back().get()->setPosition((sf::Vector2f(x, y)));
+	this->shapes.back()->setFillColor(this->idleColor);
+	this->shapes.back()->setOutlineThickness(1.f);
+	this->shapes.back()->setOutlineColor(outline_idle_color);
 
 	this->text.setFont(this->font);
 	this->text.setString(text);
 	this->text.setFillColor(text_idle_color);
 	this->text.setCharacterSize(character_size);
 	this->text.setPosition(
-		this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
-		this->shape.getPosition().y + (this->shape.getGlobalBounds().height / 2.f) - this->text.getGlobalBounds().height / 2.f
+		this->shapes.back()->getPosition().x + (this->shapes.back()->getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
+		this->shapes.back()->getPosition().y + (this->shapes.back()->getGlobalBounds().height / 2.f) - this->text.getGlobalBounds().height / 2.f
 	);
 
 	this->TextIdleColor = text_idle_color;
@@ -36,6 +63,7 @@ gui::Button::Button(float x, float y, float width, float height,
 	this->outlineHoverColor = outline_hover_color;
 	this->outlineActiveColor = outline_active_color;
 }
+
 
 gui::Button::~Button()
 {}
@@ -100,7 +128,7 @@ void gui::Button::update(const sf::Vector2f& mousePos)
 	//Idle
 	this->buttonState = BTN_IDLE;
 	//hover
-	if (this->shape.getGlobalBounds().contains(mousePos))
+	if (this->shapes.back()->getGlobalBounds().contains(mousePos))
 	{
 		this->buttonState = BTN_HOVER;
 		//
@@ -112,24 +140,24 @@ void gui::Button::update(const sf::Vector2f& mousePos)
 	switch (this->buttonState)
 	{
 	case BTN_IDLE:
-		this->shape.setFillColor(this->idleColor);
+		this->shapes.back()->setFillColor(this->idleColor);
 		this->text.setFillColor(this->TextIdleColor);
-		this->shape.setOutlineColor(this->outlineIdleColor);
+		this->shapes.back()->setOutlineColor(this->outlineIdleColor);
 		break;
 	case BTN_HOVER:
-		this->shape.setFillColor(this->hoverColor);
+		this->shapes.back()->setFillColor(this->hoverColor);
 		this->text.setFillColor(this->TextHoverColor);
-		this->shape.setOutlineColor(this->outlineHoverColor);
+		this->shapes.back()->setOutlineColor(this->outlineHoverColor);
 		break;
 	case BTN_ACTIVE:
-		this->shape.setFillColor(this->activeColor);
+		this->shapes.back()->setFillColor(this->activeColor);
 		this->text.setFillColor(this->TextActiveColor);
-		this->shape.setOutlineColor(this->outlineHoverColor);
+		this->shapes.back()->setOutlineColor(this->outlineHoverColor);
 		break;
 	default:
-		this->shape.setFillColor(sf::Color::Red);
+		this->shapes.back()->setFillColor(sf::Color::Red);
 		this->text.setFillColor(sf::Color::Blue);
-		this->shape.setOutlineColor(sf::Color::Green);
+		this->shapes.back()->setOutlineColor(sf::Color::Green);
 		break;
 	}
 
@@ -137,7 +165,7 @@ void gui::Button::update(const sf::Vector2f& mousePos)
 
 void gui::Button::render(sf::RenderTarget& target)
 {
-	target.draw(this->shape);
+	target.draw(*this->shapes.back());
 	target.draw(this->text);
 }
 
@@ -151,7 +179,7 @@ gui::DropDownList::DropDownList(float x, float y, float width, float height,
 		x, y, width, height,
 		this->font, list[default_index], 20,
 		sf::Color(245, 255, 255, 150), sf::Color(255, 255, 255, 200), sf::Color(255, 255, 250, 50),
-		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 200), sf::Color(20, 20, 20, 200),
+		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 200), sf::Color(20, 20, 20, 200), gui::button_types::RECTANGLE,
 		sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 50)
 		);
 
@@ -163,7 +191,7 @@ gui::DropDownList::DropDownList(float x, float y, float width, float height,
 			x, y + (height * (i + 1)), width, height,
 			this->font, list[i], 20,
 			sf::Color(245, 255, 255, 250), sf::Color(255, 255, 255, 255), sf::Color(255, 255, 250, 50),
-			sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 200), sf::Color(20, 20, 20, 200),
+			sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 200), sf::Color(20, 20, 20, 200), gui::button_types::RECTANGLE,
 			sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 255),
 			i
 			));
@@ -275,7 +303,7 @@ gui::TextureSelector::TextureSelector(float x, float y, float width, float heigh
 		x, y, 20.f, 20.f,
 		this->font, "", 1,
 		sf::Color(255, 255, 255, 150), sf::Color(255, 255, 255, 150), sf::Color(255, 255, 250, 150),
-		sf::Color(150, 150, 150, 200), sf::Color(100, 100, 100, 200), sf::Color(60, 60, 60, 200),
+		sf::Color(150, 150, 150, 200), sf::Color(100, 100, 100, 200), sf::Color(60, 60, 60, 200), gui::button_types::RECTANGLE,
 		sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 255)
 		);
 }
