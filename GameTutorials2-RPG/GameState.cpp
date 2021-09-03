@@ -83,6 +83,7 @@ void GameState::initPlayerGui()
 {
 	this->playerGui = std::make_shared<PlayerGui>(this->player, this->font);
 	this->playerGuiMenuOpen = false;
+	
 }
 
 

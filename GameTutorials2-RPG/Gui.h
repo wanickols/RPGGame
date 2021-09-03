@@ -20,11 +20,11 @@ namespace gui {
 	{
 	public:
 
-		Button(float x, float t, float width, float height, 
-			sf::Font& font, std::string text, unsigned character_size,
+		Button(float x, float y, float width, float height,
+			sf::Font& font, std::string text, short character_size,
 			sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color,
 			sf::Color idle_color, sf::Color hover_color, sf::Color active_color,
-			gui::button_types type = gui::button_types::RECTANGLE,
+			gui::button_types type = gui::button_types::RECTANGLE, float outline_thickness = 1.f,
 			sf::Color outline_idle_color = sf::Color::Transparent, sf::Color outline_hover_color = sf::Color::Transparent, sf::Color outline_active_color = sf::Color::Transparent,
 			short unsigned id = 0);
 		virtual ~Button();
@@ -50,6 +50,7 @@ namespace gui {
 	protected:
 		short unsigned buttonState;
 		short unsigned id;
+		float width;
 
 		sf::Font& font;
 		sf::Text text;

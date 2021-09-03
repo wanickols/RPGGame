@@ -46,6 +46,7 @@ std::shared_ptr<AttributeComponent> Player::getAttributeComponent()
 void Player::loseHealth(const int health)
 {
 	this->attributeComponent->hp -= health;
+	this->attributeComponent->healthUpdate = true;
 	if (this->attributeComponent->hp < 0)
 		this->attributeComponent->hp = 0;
 }
@@ -113,7 +114,7 @@ void Player::update(const float& dt)
 	this->hitBoxComponent->update();
 	
 	
-	this->addExp(20);
+	//this->addExp(20);
 	system("cls");
 	std::cout << this->attributeComponent->debugPrint();
 	

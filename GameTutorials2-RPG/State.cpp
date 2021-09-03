@@ -91,7 +91,7 @@ void State::updateKeyTime(const float& dt)
 	}
 }
 
-std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::string text, float width, float height, int characterSize)
+std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::string text, float width, float height, short characterSize)
 {
 	return std::make_unique<gui::Button>(x, y, width, height,
 		this->font, text, characterSize,
@@ -100,7 +100,7 @@ std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::strin
 		);
 }
 
-std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::string text, float width, float height, int characterSize,
+std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::string text, float width, float height, short characterSize,
 	sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color, gui::button_types type,
 	sf::Color idle_color, sf::Color hover_color, sf::Color active_color)
 {

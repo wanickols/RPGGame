@@ -3,7 +3,7 @@
 
 //Con //Des
 AttributeComponent::AttributeComponent(int level) :
-	level(level), exp(0), attributePoints(3), levelBoostRate(1.f)
+	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true)
 {
 	this->expnext = 50;
 	this->vitality = 1;
@@ -80,10 +80,12 @@ void AttributeComponent::updateStats(const bool reset)
 void AttributeComponent::updateLevel()
 {
 	while (this->exp >= this->expnext) {
+		levelUpdate = true;
+		healthUpdate = true;
 		this->exp -= this->expnext;
 		this->levelUp();
 		++this->level;
-		this->updateStats(true);	
+		this->updateStats(true);
 		this->expnext = calculateExpNext(this->level);
 	}
 }
@@ -96,7 +98,7 @@ void AttributeComponent::update()
 void AttributeComponent::addExp(int xp)
 {
 	this->exp += xp;
-
+	this->expUpdate = true;
 	this->updateLevel();
 }
 

@@ -7,7 +7,7 @@ class progressBar
 {
 
 public:
-	progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor,sf::Color fillColor, std::shared_ptr<Player>& player, sf::Font& font, int fontSize = 12);
+	progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor,sf::Color fillColor, std::shared_ptr<Player>& player, sf::Font& font, int offset = 0, int fontSize = 12);
 
 	sf::RectangleShape ProgBarBack; //background
 	sf::RectangleShape ProgBarIn; //content
@@ -31,9 +31,9 @@ class PlayerGui
 private:
 	std::shared_ptr<Player> player;
 
-	
+
 	//variables
-	float tempPercent;	
+	float tempPercent;
 	std::map < std::string, std::unique_ptr<gui::Button>> buttons; //buttons
 	sf::Font& font;
 
@@ -54,7 +54,8 @@ public:
 	PlayerGui(std::shared_ptr<Player> player, sf::Font& font);
 
 	//Functions
-	void addButton(const std::string& key, const float& x, const float& y, const std::string& text);
+	void addButton(const std::string& key, const float& x, const float& y, const float& width, const float& height, const std::string& text, const short& textSize = 12);
+	void addButton(const std::string& key, const float& x, const float& y, const float& radius, const std::string& text, const short& textSize = 12);
 	void updateBars(const float& dt);
 	void update(const float& dt, const sf::Vector2f& mousePos);
 	void render(sf::RenderTarget& target);

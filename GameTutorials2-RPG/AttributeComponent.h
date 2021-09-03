@@ -33,7 +33,11 @@ public:
 
 	 int energy;
 	//
- //Variables
+	 //Update Booleans (for listner functions so they don't don't constant update)
+	 bool levelUpdate;
+	 bool healthUpdate;
+	 bool expUpdate;
+
 	
 	//Con 
 	AttributeComponent(int level);
