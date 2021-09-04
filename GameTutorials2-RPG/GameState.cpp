@@ -60,11 +60,11 @@ void GameState::initTextures()
 
 void GameState::initPauseMenu()
 {
-	this->pmenu = std::make_unique<PauseMenu>(*window, font);
+	this->pmenu = std::make_unique<PauseMenu>(*window, font, p2pX(13.f), p2pY(6.9f), this->characterSize);
 
-	this->pmenu->addButton("SAVE", 400.f, "Save"); //Key, Y, 
-	this->pmenu->addButton("STATS", 550.f, "Stats");
-	this->pmenu->addButton("QUIT", 900.f, "Quit"); //Key, Y, text
+	this->pmenu->addButton("SAVE", p2pY(34.f), "Save"); //Key, Y, 
+	this->pmenu->addButton("STATS", p2pY(50.f), "Stats");
+	this->pmenu->addButton("QUIT", p2pY(83.f), "Quit"); //Key, Y, text
 }
 
 void GameState::initTileMap()
@@ -76,7 +76,7 @@ void GameState::initTileMap()
 
 void GameState::initPlayers()
 {
-	this->player = std::make_unique<Player>(220.f, 220.f, this->textures["PLAYER_SHEET"]);
+	this->player = std::make_unique<Player>(p2pX(11.4f), p2pY(20.3f), this->textures["PLAYER_SHEET"]);
 }
 
 void GameState::initPlayerGui()

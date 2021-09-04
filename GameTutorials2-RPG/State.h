@@ -68,7 +68,8 @@ protected:
 	unsigned mapSize;
 	float keyTime;
 	float keyTimeMax;
-
+	int characterSize;
+	
 	sf::Vector2i mousePosScreen; 
 	sf::Vector2i mousePosWindow; 
 	sf::Vector2f mousePosView;
@@ -81,7 +82,10 @@ protected:
 	std::map<std::string, int> keybinds;
 
 	//Functions
+	const float p2pX(const float perc);
+	const float p2pY(const float perc);
 	virtual void initFont();
+
 	virtual void initKeybinds() = 0;
 	virtual std::unique_ptr<gui::Button> addButton(float x, float y, const std::string text, float width = 250.f, float height = 75.f, short characterSize = 50); //Basic Button
 	virtual std::unique_ptr<gui::Button> addButton(float x, float y, const std::string text, float width, float height, short characterSize,

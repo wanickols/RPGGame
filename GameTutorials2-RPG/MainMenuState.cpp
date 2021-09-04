@@ -10,8 +10,9 @@ void MainMenuState::initVariables()
 {
 }
 
-void MainMenuState::initBackround()
+void MainMenuState::initGui()
 {
+	//Background
 	this->background.setSize(
 		(sf::Vector2f
 		(
@@ -23,8 +24,17 @@ void MainMenuState::initBackround()
 	if (!this->bgTexture.loadFromFile("Resources/Images/Backgrounds/MainMenuBackground.png")) {
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
-
+	
 	this->background.setTexture(&this->bgTexture);
+
+	//Buttons
+	float Button_X_allignment = (this->window->getDefaultView().getCenter().x / 2) - this->p2pX(5.2f);
+	float Button_Y_allignment = (this->window->getDefaultView().getCenter().y - p2pY(6.94f));
+
+	this->buttons["GAME_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment, "New Game");
+	this->buttons["SETTINGS"] = this->addButton(Button_X_allignment, Button_Y_allignment + 100, "Settings");
+	this->buttons["EDITOR_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment + 200, "Editor");
+	this->buttons["EXIT_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment + 300, "Exit");
 }
 
 void MainMenuState::initKeybinds()
@@ -47,30 +57,27 @@ void MainMenuState::initKeybinds()
 
 }
 
-void MainMenuState::initButtons()
-{
-	float Button_X_allignment = (this->window->getDefaultView().getCenter().x / 2) - 75;
-	float Button_Y_allignment = (this->window->getDefaultView().getCenter().y - 75);
-
-	this->buttons["GAME_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment, "New Game");
-	this->buttons["SETTINGS"] = this->addButton(Button_X_allignment, Button_Y_allignment + 100, "Settings");
-	this->buttons["EDITOR_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment + 200, "Editor");
-	this->buttons["EXIT_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment + 300, "Exit");
-}
 
 MainMenuState::MainMenuState(std::shared_ptr<StateData> state_data)
 	: State(state_data)
 {
-	this->initVariables();
-	this->initBackround();
+	//this->initVariables();
+	this->initGui();
 	this->initKeybinds();
-	this->initButtons();
 
 }
 
 MainMenuState::~MainMenuState()
 {
 }
+
+void MainMenuState::resetGui()
+{
+	
+	this->buttons.clear();
+	this->initGui();
+}
+
 
 void MainMenuState::updateInput(const float& dt)
 {}
@@ -108,11 +115,15 @@ void MainMenuState::updateButtons()
 
 void MainMenuState::update(const float& dt)
 {
+	if (this->background.getSize().y != this->window->getSize().y || this->background.getSize().x != this->window->getSize().x)
+		this->resetGui();
+
 	this->updateMousePositions();
 	this->updateInput(dt);
 
 	this->updateButtons();
 	//this->player.update(dt);
+
 
 
 }
@@ -133,3 +144,4 @@ void MainMenuState::renderButtons(sf::RenderTarget& target)
 		it.second->render(target);
 	}
 }
+

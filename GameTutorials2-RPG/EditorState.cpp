@@ -48,19 +48,19 @@ void EditorState::initKeybinds()
 
 void EditorState::initPauseMenu()
 {
-	this->pmenu = std::make_unique<PauseMenu>(*window, font);
+	this->pmenu = std::make_unique<PauseMenu>(*window, font, p2pX(13.f), p2pY(6.9f),this->characterSize);
 
-	this->pmenu->addButton("SAVE", 400.f, "Save"); //Key, Y, text
-	this->pmenu->addButton("LOAD", 500.f, "Load"); //Key, Y, text
-	this->pmenu->addButton("CLEAR", 600.f, "Clear"); //Key, Y, text
-	this->pmenu->addButton("QUIT", 700.f, "Quit"); //Key, Y, text
+	this->pmenu->addButton("SAVE", p2pY(34.f), "Save"); //Key, Y, text
+	this->pmenu->addButton("LOAD", p2pY(48.f), "Load"); //Key, Y, text
+	this->pmenu->addButton("CLEAR",p2pY(62.f), "Clear"); //Key, Y, text
+	this->pmenu->addButton("QUIT", p2pY(76.f), "Quit"); //Key, Y, text
 }
 
 void EditorState::initTexts()
 {
 	this->cursorText.setFont(this->font);
 	this->cursorText.setFillColor(sf::Color::White);
-	this->cursorText.setCharacterSize(12);
+	this->cursorText.setCharacterSize(this->characterSize/4);
 }
 
 void EditorState::initButtons()

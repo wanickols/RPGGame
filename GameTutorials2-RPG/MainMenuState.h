@@ -11,10 +11,8 @@ class MainMenuState :
 private:
 	//init functions
 	void initVariables();
-	void initBackround();
+	void initGui();
 	void initKeybinds();
-	void initButtons();
-
 public:
 	MainMenuState(std::shared_ptr<StateData> state_data);
 	virtual ~MainMenuState();
@@ -25,6 +23,7 @@ public:
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);
 	void renderButtons(sf::RenderTarget& target);
+	void resetGui();
 private:
 
 	//variables 

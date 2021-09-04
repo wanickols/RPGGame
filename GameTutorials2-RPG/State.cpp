@@ -4,6 +4,16 @@
 #include "StateData.h"
 
 
+const float State::p2pX(const float perc)
+{
+	return std::floor(static_cast<float>(stateData->GraphicsSettings->resolution.width) * (perc / 100.f));
+}
+
+const float State::p2pY(const float perc)
+{
+	return std::floor(static_cast<float>(this->stateData->GraphicsSettings->resolution.height) * (perc / 100.f));
+}
+
 //Initializations
 void State::initFont()
 {
@@ -28,6 +38,7 @@ State::State(std::shared_ptr<StateData> state_data)
 	keyTimeMax = 15.f;
 	this->gridSize = state_data->gridSize;
 	this->mapSize = state_data->mapSize;
+	characterSize = p2pX(2.6f);
 }
 
 State::~State()
@@ -93,6 +104,10 @@ void State::updateKeyTime(const float& dt)
 
 std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::string text, float width, float height, short characterSize)
 {
+	width = p2pX(width / 19.20f);
+	height = p2pY(height / 10.80f);
+	characterSize = (short)p2pX((float)characterSize / 19.20f);
+
 	return std::make_unique<gui::Button>(x, y, width, height,
 		this->font, text, characterSize,
 		sf::Color(245, 212, 0, 250), sf::Color(255, 222, 0, 255), sf::Color(0, 0, 250, 50),

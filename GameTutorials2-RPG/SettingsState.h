@@ -1,6 +1,8 @@
 #pragma once
 #include "State.h"
 
+
+
 class SettingsState :
 	public State
 {
@@ -15,6 +17,8 @@ private:
 	sf::Text optionsText;
 
 	std::vector<sf::VideoMode> modes;
+
+
 
 	//Functions
 	void initVariables();

@@ -18,7 +18,8 @@ public:
 	sf::Font& font;
 	sf::Text menuText;
 
-	PauseMenu(sf::RenderWindow& window, sf::Font& font);
+
+	PauseMenu(sf::RenderWindow& window, sf::Font& font, float button_width, float button_height, int character_size);
 	virtual ~PauseMenu();
 
 	//Accessors
@@ -34,6 +35,9 @@ private:
 	sf::RectangleShape container;
 
 	std::map < std::string, std::unique_ptr<gui::Button>> buttons;
+	float buttonWidth;
+	float buttonHeight;
+	int characterSize;
 
 	//Functions
 

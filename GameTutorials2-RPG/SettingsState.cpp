@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SettingsState.h"
+#include "MainMenuState.h"
 #include "GraphicsSettings.h"
 
 
@@ -30,8 +31,8 @@ void SettingsState::initGui()
 {
 	//Button Init
 
-	this->buttons["EXIT"] = this->addButton(1500.f, 900.f, "Back", 250.f, 75.f);
-	this->buttons["APPLY"] = this->addButton(this->window->getView().getCenter().x - 250.f, 900.f, "Apply", 500.f, 75.f);
+	this->buttons["EXIT"] = this->addButton(p2pX(78.1f), p2pY(83.f), "Back", p2pX(13.f), p2pY(7.f));
+	this->buttons["APPLY"] = this->addButton(p2pX(46.f), p2pY(83.f), "Apply", p2pX(26.f), p2pY(7.f));
 	this->buttons["APPLY"]->setBackgroundColor(sf::Color(100, 100, 100, 50), sf::Color(150, 150, 150, 100), sf::Color(20, 20, 20, 20));
 	std::vector<std::string> modes_str;
 	for (auto& i : this->modes)
@@ -41,15 +42,22 @@ void SettingsState::initGui()
 
 
 	//DropDownList init
-	this->dropDownLists["RESOLUTION"] = std::make_unique<gui::DropDownList>(450.f, 450.f, 200.f, 50.f, font, modes_str.data(), modes_str.size(), gfxSettings->currMode);
+	this->dropDownLists["RESOLUTION"] = std::make_unique<gui::DropDownList>(p2pX(23.f), p2pY(41.6f), p2pX(10.4f), p2pY(4.6f), font, modes_str.data(), modes_str.size(), gfxSettings->currMode);
+}
+
+void SettingsState::resetGui()
+{
+	this->dropDownLists.clear();
+	this->buttons.clear();
+	this->initGui();
 }
 
 void SettingsState::initText()
 {
 	this->optionsText.setFont(this->font);
 
-	this->optionsText.setPosition(250.f, 450.f);
-	this->optionsText.setCharacterSize(50);
+	this->optionsText.setPosition(p2pX(12.f), p2pY(41.f));
+	this->optionsText.setCharacterSize(p2pX(2.6f));
 	this->optionsText.setFillColor(sf::Color(255, 255, 255, 200));
 
 
@@ -98,7 +106,7 @@ void SettingsState::updateGui(const float& dt)
 		gfxSettings->currMode = this->dropDownLists["RESOLUTION"]->getActiveID();
 		this->gfxSettings->resolution = this->modes[gfxSettings->currMode];
 		this->window->create(this->gfxSettings->resolution, this->gfxSettings->title, sf::Style::Default);
-
+		this->resetGui();
 		gfxSettings->saveToFile("Config/graphics.ini");
 	}
 

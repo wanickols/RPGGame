@@ -287,25 +287,25 @@ void TileMap::updateCollision(std::shared_ptr<Entity> entity, const float& dt)
 					{
 						//Bottom colision
 						if (nextPositionBounds.top <= wallBounds.top
-							&& nextPositionBounds.top + playerBounds.height <= wallBounds.top + wallBounds.height - 1
-							&& nextPositionBounds.left <= wallBounds.left + wallBounds.width - 1
-							&& nextPositionBounds.left + playerBounds.width >= wallBounds.left + 1
+							&& nextPositionBounds.top + playerBounds.height <= wallBounds.top + wallBounds.height - 1.f
+							&& nextPositionBounds.left <= wallBounds.left + wallBounds.width - 1.f
+							&& nextPositionBounds.left + playerBounds.width >= wallBounds.left + 1.f
 							)
 						{
 							entity->stopVelocityY();
-							entity->setPosition(playerBounds.left, wallBounds.top - playerBounds.height -1);
+							entity->setPosition(playerBounds.left, wallBounds.top - playerBounds.height - 1.f);
 							
 						}
 
 						//Top collision
 						else if (playerBounds.top > wallBounds.top
 							&& playerBounds.top + playerBounds.height > wallBounds.top + wallBounds.height
-							&& playerBounds.left < wallBounds.left + wallBounds.width - 1
-							&& playerBounds.left + playerBounds.width > wallBounds.left + 1
+							&& playerBounds.left < wallBounds.left + wallBounds.width - 1.f
+							&& playerBounds.left + playerBounds.width > wallBounds.left + 1.f
 							)
 						{
 							entity->stopVelocity();
-							entity->setPosition(playerBounds.left, wallBounds.top + wallBounds.height + 1);
+							entity->setPosition(playerBounds.left, wallBounds.top + wallBounds.height + 1.f);
 						}
 
 						//Right collision
