@@ -34,6 +34,7 @@ public:
 	const sf::FloatRect getGlobalBounds() const;
 
 	virtual void setPosition(float x, float y);
+	virtual void setNextPosition(float x, float y);
 
 	//functions
 	virtual void move(const float x, const float y, const float& dt);

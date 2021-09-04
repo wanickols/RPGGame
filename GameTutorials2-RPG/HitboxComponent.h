@@ -16,6 +16,7 @@ public:
 
 	//Modifiers
 	void setPosition(const sf::Vector2f& position);
+	void setNextPosition(const sf::Vector2f& position);
 
 	//functions
 	bool intersect(const sf::FloatRect& frect);

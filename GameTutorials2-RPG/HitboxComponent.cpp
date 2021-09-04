@@ -38,6 +38,12 @@ void HitboxComponent::setPosition(const sf::Vector2f& position)
 	this->sprite.setPosition(position.x - this->offSetX, position.y - this->offSetY);
 }
 
+void HitboxComponent::setNextPosition(const sf::Vector2f& position)
+{
+	nextPosition.left = position.x;
+	nextPosition.top = position.y;
+}
+
 bool HitboxComponent::intersect(const sf::FloatRect& frect)
 {
 	return this->hitbox.getGlobalBounds().intersects(frect);

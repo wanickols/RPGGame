@@ -96,6 +96,14 @@ void Entity::setPosition(float x, float y)
 
 }
 
+void Entity::setNextPosition(float x, float y)
+{
+	if (this->hitBoxComponent)
+		this->hitBoxComponent->setNextPosition(sf::Vector2f(x, y));
+	else
+		this->sprite.setPosition(x, y);
+}
+
 void Entity::move(const float dir_x, const float dir_y, const float& dt)
 {
 	if (this->movementComponent) {
