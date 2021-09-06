@@ -30,7 +30,7 @@ State::State(std::shared_ptr<StateData> state_data)
 	keyTimeMax = 15.f;
 	this->gridSize = state_data->gridSize;
 	this->mapSize = state_data->mapSize;
-	characterSize = gui::p2pX(2.6f, this->GraphicsSettings->resolution);
+	characterSize = static_cast<int>(gui::p2pX(2.6f, this->GraphicsSettings->resolution));
 }
 
 State::~State()
@@ -99,7 +99,7 @@ std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::strin
 	//Takes pixel values from addbutton in 1920/1080 and converts them to percentages so they stay that way on every screen size. 
 	width = gui::p2pX(width / 19.20f, this->GraphicsSettings->resolution);
 	height = gui::p2pY(height / 10.80f, this->GraphicsSettings->resolution);
-	characterSize = (short)gui::p2pX((float)characterSize / 19.20f, this->GraphicsSettings->resolution);
+	characterSize = static_cast<short>(gui::p2pX(static_cast<float>(characterSize) / 19.20f, this->GraphicsSettings->resolution));
 
 	return std::make_unique<gui::Button>(x, y, width, height,
 		this->font, text, characterSize,

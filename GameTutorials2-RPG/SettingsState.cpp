@@ -51,7 +51,7 @@ void SettingsState::initGui()
 	this->optionsText.setFont(this->font);
 
 	this->optionsText.setPosition(gui::p2pX(12.f, vm), gui::p2pY(41.f, vm));
-	this->optionsText.setCharacterSize(gui::p2pX(2.6f, vm));
+	this->optionsText.setCharacterSize((unsigned int)gui::p2pX(2.6f, vm));
 	this->optionsText.setFillColor(sf::Color(255, 255, 255, 200));
 
 

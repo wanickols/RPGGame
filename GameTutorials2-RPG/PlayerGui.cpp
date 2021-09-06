@@ -44,15 +44,16 @@ void progressBar::render(sf::RenderTarget& target)
 
 void PlayerGui::initLevel()
 {
-	addButton("LEVEL", gui::p2pX(2.6f, vm), gui::p2pY(4.6f, vm), gui::p2pS(1.3f, vm), std::to_string(this->player->getAttributeComponent()->level), gui::p2pS(1.3f, vm));
+	addButton("LEVEL", gui::p2pX(2.6f, vm), gui::p2pY(4.6f, vm), gui::p2pS(1.3f, vm), std::to_string(this->player->getAttributeComponent()->level), (short)gui::p2pS(1.3f, vm));
 }
 
 void PlayerGui::initBars()
 {
+
 												//Front width, bckwdth, height, xpos, ypos, backcolor, fillcolor, player, font, vm (optional)fontsize
-	this->HPBar = std::make_unique<progressBar>(gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(1.1f, vm), sf::Color(50, 50, 50, 200), sf::Color(250,20,20,210), this->player, this->font, vm, gui::p2pX(1.f, vm));
-	this->ExpBar = std::make_unique<progressBar>(gui::p2pX(13.85f, vm), gui::p2pX(14.85f, vm), gui::p2pY(1.f, vm), gui::p2pX(.7f, vm), gui::p2pY(8.4f, vm), sf::Color(50, 50, 50, 200), sf::Color(140, 140, 140, 250), this->player, this->font, vm, 0, gui::p2pS(.4f, vm));
-	this->EnergyBar = std::make_unique<progressBar>(gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(4.8f, vm), sf::Color(50, 50, 50, 200), sf::Color(20, 20, 250, 210), this->player, this->font, vm, gui::p2pX(1.f, vm));
+	this->HPBar = std::make_unique<progressBar>(gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(1.1f, vm), sf::Color(50, 50, 50, 200), sf::Color(250,20,20,210), this->player, this->font, vm, static_cast<int>(gui::p2pX(1.f, vm)));
+	this->ExpBar = std::make_unique<progressBar>(gui::p2pX(13.85f, vm), gui::p2pX(14.85f, vm), gui::p2pY(1.f, vm), gui::p2pX(.7f, vm), gui::p2pY(8.4f, vm), sf::Color(50, 50, 50, 200), sf::Color(140, 140, 140, 250), this->player, this->font, vm, 0, static_cast<int>(gui::p2pS(.4f, vm)));
+	this->EnergyBar = std::make_unique<progressBar>(gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(4.8f, vm), sf::Color(50, 50, 50, 200), sf::Color(20, 20, 250, 210), this->player, this->font, vm, static_cast<int>(gui::p2pX(1.f, vm)));
 }
 
 PlayerGui::PlayerGui(std::shared_ptr<Player> player, sf::Font& font, sf::VideoMode& vm)
@@ -83,21 +84,22 @@ void PlayerGui::addButton(const std::string& key, const float& x, const float& y
 
 void PlayerGui::updateBars(const float& dt)
 {
+
 	if (this->player->getAttributeComponent()->healthUpdate) {
 		HPBarText = "HP: " + std::to_string(this->player->getAttributeComponent()->hp) + " / " + std::to_string(this->player->getAttributeComponent()->hpMax);
-		tempPercent = (float)player->getAttributeComponent()->hp / (float)player->getAttributeComponent()->hpMax;
+		tempPercent = (float)player->getAttributeComponent()->hp / static_cast<float>(player->getAttributeComponent()->hpMax);
 		HPBar->update(dt, tempPercent, HPBarText);
 	this->player->getAttributeComponent()->healthUpdate = false;
 	}
 	if (this->player->getAttributeComponent()->expUpdate) {
 		ExpBarText = "EXP: " + std::to_string(this->player->getAttributeComponent()->exp) + " / " + std::to_string(this->player->getAttributeComponent()->expnext);
-		tempPercent = (float)player->getAttributeComponent()->exp / (float)player->getAttributeComponent()->expnext;;
+		tempPercent = (float)player->getAttributeComponent()->exp / static_cast<float>(player->getAttributeComponent()->expnext);
 		ExpBar->update(dt, tempPercent, ExpBarText);
 		this->player->getAttributeComponent()->expUpdate = false;
 	}
 	if (this->player->getAttributeComponent()->energyUpdate) {
 		EnergyBarText = "Energy: " + std::to_string(this->player->getAttributeComponent()->energy) + " / " + std::to_string(this->player->getAttributeComponent()->energyMax);
-		tempPercent = (float)player->getAttributeComponent()->energy / (float)player->getAttributeComponent()->energyMax;
+		tempPercent = (float)player->getAttributeComponent()->energy / static_cast<float>(player->getAttributeComponent()->energyMax);
 		EnergyBar->update(dt, tempPercent, EnergyBarText);
 		this->player->getAttributeComponent()->energyUpdate = false;
 	}

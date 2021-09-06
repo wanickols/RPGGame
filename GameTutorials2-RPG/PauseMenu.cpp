@@ -13,7 +13,7 @@ PauseMenu::PauseMenu(sf::RenderWindow& window, sf::Font& font, float button_widt
 	this->background.setFillColor(sf::Color(20, 20, 20, 100));
 
 	//Init container
-	this->container.setSize(sf::Vector2f(buttonWidth*1.92f, buttonHeight*13.6));
+	this->container.setSize(sf::Vector2f(buttonWidth*1.92f, buttonHeight*13.6f));
 	this->container.setFillColor(sf::Color(50, 50, 50, 200));
 	this->container.setPosition(
 		static_cast<float>((window.getView().getCenter().x - this->container.getSize().x / 2)), //centers it on x
