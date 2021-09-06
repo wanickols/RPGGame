@@ -110,7 +110,9 @@ GameState::~GameState()
 
 void GameState::updateView()
 {
-	this->view.setCenter(std::floor(this->player->getPosition().x), std::floor(this->player->getPosition().y));
+	this->view.setCenter(
+		std::floor(this->player->getPosition().x + (static_cast<float>(this->mousePosWindow.x) - static_cast<float>(this->stateData->GraphicsSettings->resolution.width/2))/6),
+		std::floor(this->player->getPosition().y + (static_cast<float>(this->mousePosWindow.y) - static_cast<float>(this->stateData->GraphicsSettings->resolution.height/2))/6));
 }
 
 void GameState::updatePlayerInput(const float& dt)
