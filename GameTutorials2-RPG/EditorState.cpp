@@ -17,8 +17,8 @@ void EditorState::initVariables()
 
 void EditorState::initView()
 {
-	this->view.setSize(sf::Vector2f((float)this->gfxSettings->resolution.width, (float)this->gfxSettings->resolution.height));
-	this->view.setCenter(this->gfxSettings->resolution.width / 2.f, this->gfxSettings->resolution.height / 2.f);
+	this->view.setSize(sf::Vector2f((float)this->GraphicsSettings->resolution.width, (float)this->GraphicsSettings->resolution.height));
+	this->view.setCenter(this->GraphicsSettings->resolution.width / 2.f, this->GraphicsSettings->resolution.height / 2.f);
 }
 
 void EditorState::initBackround()
@@ -48,12 +48,12 @@ void EditorState::initKeybinds()
 
 void EditorState::initPauseMenu()
 {
-	this->pmenu = std::make_unique<PauseMenu>(*window, font, p2pX(13.f), p2pY(6.9f),this->characterSize);
-
-	this->pmenu->addButton("SAVE", p2pY(34.f), "Save"); //Key, Y, text
-	this->pmenu->addButton("LOAD", p2pY(48.f), "Load"); //Key, Y, text
-	this->pmenu->addButton("CLEAR",p2pY(62.f), "Clear"); //Key, Y, text
-	this->pmenu->addButton("QUIT", p2pY(76.f), "Quit"); //Key, Y, text
+	sf::VideoMode& vm = this->GraphicsSettings->resolution;
+	this->pmenu = std::make_unique<PauseMenu>(*window, font, gui::p2pX(13.f, vm), gui::p2pY(6.9f, vm),this->characterSize);
+	this->pmenu->addButton("SAVE", gui::p2pY(34.f, vm), "Save"); //Key, Y, text
+	this->pmenu->addButton("LOAD", gui::p2pY(48.f, vm), "Load"); //Key, Y, text
+	this->pmenu->addButton("CLEAR",gui::p2pY(62.f, vm), "Clear"); //Key, Y, text
+	this->pmenu->addButton("QUIT", gui::p2pY(76.f, vm), "Quit"); //Key, Y, text
 }
 
 void EditorState::initTexts()

@@ -12,6 +12,9 @@ void MainMenuState::initVariables()
 
 void MainMenuState::initGui()
 {
+
+	sf::VideoMode& vm = this->stateData->GraphicsSettings->resolution;
+
 	//Background
 	this->background.setSize(
 		(sf::Vector2f
@@ -28,8 +31,8 @@ void MainMenuState::initGui()
 	this->background.setTexture(&this->bgTexture);
 
 	//Buttons
-	float Button_X_allignment = (this->window->getDefaultView().getCenter().x / 2) - this->p2pX(5.2f);
-	float Button_Y_allignment = (this->window->getDefaultView().getCenter().y - p2pY(6.94f));
+	float Button_X_allignment = (this->window->getDefaultView().getCenter().x / 2) - gui::p2pX(5.2f, vm);
+	float Button_Y_allignment = (this->window->getDefaultView().getCenter().y - gui::p2pY(6.94f, vm));
 
 	this->buttons["GAME_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment, "New Game");
 	this->buttons["SETTINGS"] = this->addButton(Button_X_allignment, Button_Y_allignment + 100, "Settings");

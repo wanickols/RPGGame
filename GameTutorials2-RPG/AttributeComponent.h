@@ -32,11 +32,13 @@ public:
 	 int speed;
 
 	 int energy;
+	 int energyMax;
 	//
 	 //Update Booleans (for listner functions so they don't don't constant update)
 	 bool levelUpdate;
 	 bool healthUpdate;
 	 bool expUpdate;
+	 bool energyUpdate;
 
 	
 	//Con 

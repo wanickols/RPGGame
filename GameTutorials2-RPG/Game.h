@@ -36,7 +36,7 @@ private:
 	StateData stateData;
 	float gridSize; //Size of one tile
 	unsigned mapSize; //Size of map in tiles
-	GraphicsSettings gfxSettings;
+	GraphicsSettings GraphicSettings;
 	std::shared_ptr<sf::RenderWindow> window;
 	sf::Event sfEvent;
 

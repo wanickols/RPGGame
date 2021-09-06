@@ -4,15 +4,7 @@
 #include "StateData.h"
 
 
-const float State::p2pX(const float perc)
-{
-	return std::floor(static_cast<float>(stateData->GraphicsSettings->resolution.width) * (perc / 100.f));
-}
 
-const float State::p2pY(const float perc)
-{
-	return std::floor(static_cast<float>(this->stateData->GraphicsSettings->resolution.height) * (perc / 100.f));
-}
 
 //Initializations
 void State::initFont()
@@ -30,7 +22,7 @@ State::State(std::shared_ptr<StateData> state_data)
 	this->stateData = state_data;
 	this->window = state_data->window;
 	this->states = state_data->states;
-	this->gfxSettings = state_data->GraphicsSettings;
+	this->GraphicsSettings = state_data->GraphicsSettings;
 	this->supportedKeys = state_data->supportedKeys;
 	this->quit = false;
 	this->paused = false;
@@ -38,7 +30,7 @@ State::State(std::shared_ptr<StateData> state_data)
 	keyTimeMax = 15.f;
 	this->gridSize = state_data->gridSize;
 	this->mapSize = state_data->mapSize;
-	characterSize = p2pX(2.6f);
+	characterSize = gui::p2pX(2.6f, this->GraphicsSettings->resolution);
 }
 
 State::~State()
@@ -104,9 +96,10 @@ void State::updateKeyTime(const float& dt)
 
 std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::string text, float width, float height, short characterSize)
 {
-	width = p2pX(width / 19.20f);
-	height = p2pY(height / 10.80f);
-	characterSize = (short)p2pX((float)characterSize / 19.20f);
+	//Takes pixel values from addbutton in 1920/1080 and converts them to percentages so they stay that way on every screen size. 
+	width = gui::p2pX(width / 19.20f, this->GraphicsSettings->resolution);
+	height = gui::p2pY(height / 10.80f, this->GraphicsSettings->resolution);
+	characterSize = (short)gui::p2pX((float)characterSize / 19.20f, this->GraphicsSettings->resolution);
 
 	return std::make_unique<gui::Button>(x, y, width, height,
 		this->font, text, characterSize,

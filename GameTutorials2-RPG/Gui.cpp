@@ -1,5 +1,23 @@
 #include "stdafx.h"
 
+//==================================== Gui ============================================
+const float gui::p2pX(const float& perc, sf::VideoMode& vm)
+{
+	return std::floor(static_cast<float>(vm.width) * (perc / 100.f));
+}
+
+const float gui::p2pY(const float& perc, sf::VideoMode& vm)
+{
+	return std::floor(static_cast<float>(vm.height) * (perc / 100.f));
+}
+
+const float gui::p2pS(const float& perc, sf::VideoMode& vm)
+{
+	return std::floor(static_cast<float>(vm.height+ vm.width) * (perc / 100.f));;
+}
+
+
+
 //==================================== BUTTON ============================================
 gui::Button::Button(float x, float y, float width, float height,
 	sf::Font& font, std::string text, short character_size,
@@ -427,3 +445,4 @@ const bool& gui::TextureSelector::getActive() const
 {
 	return this->active;
 }
+

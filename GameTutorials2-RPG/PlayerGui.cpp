@@ -2,24 +2,24 @@
 #include "Player.h"
 #include "PlayerGui.h"
 
-progressBar::progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Player>& player, sf::Font& font,int offset, int fontSize)
+progressBar::progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Player>& player, sf::Font& font, sf::VideoMode& vm, int offset, int fontSize)
 	: fullWidth(frontWidth), percentWidth(100), height(height), player(player)
 {
 	this->text.setFont(font);
 	this->text.setCharacterSize(fontSize);
 	this->text.setFillColor(sf::Color(250,250,250,230));
-	this->text.setPosition(xPos + (float)fontSize/3 + (float)offset*2, yPos + (height/2) - ((float)fontSize/3));
+	this->text.setPosition(xPos + (float)fontSize/2 + (float)offset*2, yPos + (height/2) - ((float)fontSize/2));
 	this->text.setString("HP:" + 100);
 	
 	this->ProgBarBack.setSize(sf::Vector2f(backWidth, height));
 	this->ProgBarBack.setFillColor(backgroundColor);
 	this->ProgBarBack.setPosition(xPos, yPos);
 	this->ProgBarBack.setOutlineColor(sf::Color(255,255,255,250));
-	this->ProgBarBack.setOutlineThickness(3.f);
+	this->ProgBarBack.setOutlineThickness(gui::p2pS(0.1f, vm));
 
 	this->ProgBarIn.setSize(sf::Vector2f(frontWidth, height));
 	this->ProgBarIn.setFillColor(fillColor);
-	this->ProgBarIn.setPosition(xPos + offset, yPos);
+	this->ProgBarIn.setPosition(xPos, yPos);
 }
 
 void progressBar::update(const float& dt, float& percentWidth)
@@ -44,18 +44,19 @@ void progressBar::render(sf::RenderTarget& target)
 
 void PlayerGui::initLevel()
 {
-	addButton("LEVEL", 50.f, 50.f, 40.f, std::to_string(this->player->getAttributeComponent()->level), 40);
+	addButton("LEVEL", gui::p2pX(2.6f, vm), gui::p2pY(4.6f, vm), gui::p2pS(1.3f, vm), std::to_string(this->player->getAttributeComponent()->level), gui::p2pS(1.3f, vm));
 }
 
 void PlayerGui::initBars()
 {
-												//Front width, bckwdth, height, xpos, ypos, backcolor, fillcolor, player, font, (optional)fontsize
-	this->HPBar = std::make_unique<progressBar>(230.f, 250.f, 45.f, 50.f, 10.f, sf::Color(50, 50, 50, 200), sf::Color(250,20,20,210), this->player, this->font, 20);
-	this->ExpBar = std::make_unique<progressBar>(210.f, 210.f, 12.f, 90.f, 60.f, sf::Color(50, 50, 50, 200), sf::Color(140, 140, 140, 250), this->player, this->font, 0, 10);
+												//Front width, bckwdth, height, xpos, ypos, backcolor, fillcolor, player, font, vm (optional)fontsize
+	this->HPBar = std::make_unique<progressBar>(gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(1.1f, vm), sf::Color(50, 50, 50, 200), sf::Color(250,20,20,210), this->player, this->font, vm, gui::p2pX(1.f, vm));
+	this->ExpBar = std::make_unique<progressBar>(gui::p2pX(13.85f, vm), gui::p2pX(14.85f, vm), gui::p2pY(1.f, vm), gui::p2pX(.7f, vm), gui::p2pY(8.4f, vm), sf::Color(50, 50, 50, 200), sf::Color(140, 140, 140, 250), this->player, this->font, vm, 0, gui::p2pS(.4f, vm));
+	this->EnergyBar = std::make_unique<progressBar>(gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(4.8f, vm), sf::Color(50, 50, 50, 200), sf::Color(20, 20, 250, 210), this->player, this->font, vm, gui::p2pX(1.f, vm));
 }
 
-PlayerGui::PlayerGui(std::shared_ptr<Player> player, sf::Font& font)
-	: player(player), font(font)
+PlayerGui::PlayerGui(std::shared_ptr<Player> player, sf::Font& font, sf::VideoMode& vm)
+	: player(player), font(font), vm(vm)
 {
 	this->initLevel();
 	this->initBars();
@@ -94,6 +95,12 @@ void PlayerGui::updateBars(const float& dt)
 		ExpBar->update(dt, tempPercent, ExpBarText);
 		this->player->getAttributeComponent()->expUpdate = false;
 	}
+	if (this->player->getAttributeComponent()->energyUpdate) {
+		EnergyBarText = "Energy: " + std::to_string(this->player->getAttributeComponent()->energy) + " / " + std::to_string(this->player->getAttributeComponent()->energyMax);
+		tempPercent = (float)player->getAttributeComponent()->energy / (float)player->getAttributeComponent()->energyMax;
+		EnergyBar->update(dt, tempPercent, EnergyBarText);
+		this->player->getAttributeComponent()->energyUpdate = false;
+	}
 }
 
 //Functions
@@ -119,6 +126,7 @@ void PlayerGui::render(sf::RenderTarget& target)
 {
 	HPBar->render(target);
 	ExpBar->render(target);
+	EnergyBar->render(target);
 	for (auto& i : this->buttons)
 	{
 		i.second->render(target);

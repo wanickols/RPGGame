@@ -59,7 +59,7 @@ protected:
 	//Variables
 	std::shared_ptr<StateData> stateData;
 	std::stack< std::shared_ptr<State>>* states; // this is a pointer to a stack of pointers from the game class
-	std::shared_ptr<GraphicsSettings> gfxSettings;
+	std::shared_ptr<GraphicsSettings> GraphicsSettings;
 	sf::Font font; //States font.
 	
 	bool quit;
@@ -82,8 +82,7 @@ protected:
 	std::map<std::string, int> keybinds;
 
 	//Functions
-	const float p2pX(const float perc);
-	const float p2pY(const float perc);
+	
 	virtual void initFont();
 
 	virtual void initKeybinds() = 0;

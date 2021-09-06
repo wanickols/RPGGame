@@ -29,20 +29,34 @@ void SettingsState::initKeybinds()
 
 void SettingsState::initGui()
 {
-	//Button Init
 
-	this->buttons["EXIT"] = this->addButton(p2pX(78.1f), p2pY(83.f), "Back", p2pX(13.f), p2pY(7.f));
-	this->buttons["APPLY"] = this->addButton(p2pX(46.f), p2pY(83.f), "Apply", p2pX(26.f), p2pY(7.f));
+	sf::VideoMode& vm = this->stateData->GraphicsSettings->resolution;
+
+
+	//Button Init
+	this->buttons["EXIT"] = this->addButton(gui::p2pX(78.1f, vm), gui::p2pY(83.f, vm), "Back", gui::p2pX(13.f, vm), gui::p2pY(7.f, vm));
+	this->buttons["APPLY"] = this->addButton(gui::p2pX(46.f, vm), gui::p2pY(83.f, vm), "Apply", gui::p2pX(26.f, vm), gui::p2pY(7.f, vm));
 	this->buttons["APPLY"]->setBackgroundColor(sf::Color(100, 100, 100, 50), sf::Color(150, 150, 150, 100), sf::Color(20, 20, 20, 20));
 	std::vector<std::string> modes_str;
 	for (auto& i : this->modes)
 	{
 		modes_str.push_back(std::to_string(i.width) + 'x' + std::to_string(i.height));
 	}
-
+	
 
 	//DropDownList init
-	this->dropDownLists["RESOLUTION"] = std::make_unique<gui::DropDownList>(p2pX(23.f), p2pY(41.6f), p2pX(10.4f), p2pY(4.6f), font, modes_str.data(), modes_str.size(), gfxSettings->currMode);
+	this->dropDownLists["RESOLUTION"] = std::make_unique<gui::DropDownList>(gui::p2pX(23.f, vm), gui::p2pY(41.6f, vm), gui::p2pX(10.4f, vm), gui::p2pY(4.6f, vm), font, modes_str.data(), modes_str.size(), GraphicsSettings->currMode);
+
+	//Text Init
+	this->optionsText.setFont(this->font);
+
+	this->optionsText.setPosition(gui::p2pX(12.f, vm), gui::p2pY(41.f, vm));
+	this->optionsText.setCharacterSize(gui::p2pX(2.6f, vm));
+	this->optionsText.setFillColor(sf::Color(255, 255, 255, 200));
+
+
+	this->optionsText.setString(
+		"Resolution \n\nFullscreen \n\nVsync \n\nAntialiasing");
 }
 
 void SettingsState::resetGui()
@@ -52,18 +66,6 @@ void SettingsState::resetGui()
 	this->initGui();
 }
 
-void SettingsState::initText()
-{
-	this->optionsText.setFont(this->font);
-
-	this->optionsText.setPosition(p2pX(12.f), p2pY(41.f));
-	this->optionsText.setCharacterSize(p2pX(2.6f));
-	this->optionsText.setFillColor(sf::Color(255, 255, 255, 200));
-
-
-	this->optionsText.setString(
-		"Resolution \n\nFullscreen \n\nVsync \n\nAntialiasing");
-}
 
 SettingsState::SettingsState(std::shared_ptr<StateData>  state_data)
 	: State(state_data)
@@ -71,14 +73,12 @@ SettingsState::SettingsState(std::shared_ptr<StateData>  state_data)
 	this->initVariables();
 	this->initKeybinds();
 	this->initGui();
-	this->initText();
 }
 
 SettingsState::~SettingsState()
 {
 
 }
-
 
 void SettingsState::updateInput(const float& dt)
 {
@@ -103,11 +103,11 @@ void SettingsState::updateGui(const float& dt)
 	{
 		//TEST REMOVE LATER <==================
 
-		gfxSettings->currMode = this->dropDownLists["RESOLUTION"]->getActiveID();
-		this->gfxSettings->resolution = this->modes[gfxSettings->currMode];
-		this->window->create(this->gfxSettings->resolution, this->gfxSettings->title, sf::Style::Default);
+		GraphicsSettings->currMode = this->dropDownLists["RESOLUTION"]->getActiveID();
+		this->GraphicsSettings->resolution = this->modes[GraphicsSettings->currMode];
+		this->window->create(this->GraphicsSettings->resolution, this->GraphicsSettings->title, sf::Style::Default);
 		this->resetGui();
-		gfxSettings->saveToFile("Config/graphics.ini");
+		GraphicsSettings->saveToFile("Config/graphics.ini");
 	}
 
 	//DropDownList

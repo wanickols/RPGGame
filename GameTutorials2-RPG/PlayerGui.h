@@ -7,7 +7,7 @@ class progressBar
 {
 
 public:
-	progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor,sf::Color fillColor, std::shared_ptr<Player>& player, sf::Font& font, int offset = 0, int fontSize = 12);
+	progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor,sf::Color fillColor, std::shared_ptr<Player>& player, sf::Font& font, sf::VideoMode& vm, int offset = 0, int fontSize = 12);
 
 	sf::RectangleShape ProgBarBack; //background
 	sf::RectangleShape ProgBarIn; //content
@@ -36,6 +36,11 @@ private:
 	float tempPercent;
 	std::map < std::string, std::unique_ptr<gui::Button>> buttons; //buttons
 	sf::Font& font;
+	sf::VideoMode& vm;
+
+	//EnergyBar
+	std::unique_ptr<progressBar> EnergyBar; //Energy Bar Object
+	std::string EnergyBarText; //words that go into energy 
 
 	//HPBar
 	std::unique_ptr<progressBar> HPBar; //Health Bar Object
@@ -51,7 +56,7 @@ private:
 
 
 public:
-	PlayerGui(std::shared_ptr<Player> player, sf::Font& font);
+	PlayerGui(std::shared_ptr<Player> player, sf::Font& font, sf::VideoMode& vm);
 
 	//Functions
 	void addButton(const std::string& key, const float& x, const float& y, const float& width, const float& height, const std::string& text, const short& textSize = 12);

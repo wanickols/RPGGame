@@ -25,7 +25,6 @@ private:
 	void initKeybinds();
 	void initGui();
 	void resetGui();
-	void initText();
 
 public:
 	SettingsState(std::shared_ptr<StateData> state_data);

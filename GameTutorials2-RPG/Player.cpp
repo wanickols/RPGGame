@@ -54,8 +54,25 @@ void Player::loseHealth(const int health)
 void Player::addHealth(const int health)
 {
 	this->attributeComponent->hp += health;
+	this->attributeComponent->healthUpdate = true;
 	if (this->attributeComponent->hp > this->attributeComponent->hpMax)
 		this->attributeComponent->hp = this->attributeComponent->hpMax;
+}
+
+void Player::loseEnergy(const int energy)
+{
+	this->attributeComponent->energy -= energy;
+	this->attributeComponent->energyUpdate = true;
+	if (this->attributeComponent->energy < 0)
+		this->attributeComponent->energy = 0;
+}
+
+void Player::addEnergy(const int energy)
+{
+	this->attributeComponent->energy += energy;
+	this->attributeComponent->energyUpdate = true;
+	if (this->attributeComponent->energy > this->attributeComponent->energyMax)
+		this->attributeComponent->energy = this->attributeComponent->energyMax;
 }
 
 void Player::loseExp(const int exp)

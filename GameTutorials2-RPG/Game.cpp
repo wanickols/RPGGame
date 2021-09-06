@@ -10,7 +10,7 @@ void Game::initVariables()
 {
 	this->window = NULL;
 	this->dt = 0;
-	gridSize = std::floor(static_cast<float>(this->gfxSettings.resolution.height + this->gfxSettings.resolution.width) * (3.33f / 100.f));;
+	gridSize = std::floor(static_cast<float>(this->GraphicSettings.resolution.height + this->GraphicSettings.resolution.width) * (3.33f / 100.f));;
 	mapSize = 100;
 }
 
@@ -20,29 +20,29 @@ void Game::initVariables()
 
 void Game::initGraphicsSettings()
 {
-	this->gfxSettings.loadFromFile("Config/graphics.ini");
+	this->GraphicSettings.loadFromFile("Config/graphics.ini");
 }
 
 void Game::initWindow()
 {
 
-	if (this->gfxSettings.fullscreen) {
+	if (this->GraphicSettings.fullscreen) {
 		this->window = std::make_shared<sf::RenderWindow>(
-			this->gfxSettings.resolution,
-			this->gfxSettings.title,
+			this->GraphicSettings.resolution,
+			this->GraphicSettings.title,
 			sf::Style::Fullscreen,
-			this->gfxSettings.contextSettings);
+			this->GraphicSettings.contextSettings);
 	}
 	else {
 		this->window = std::make_shared<sf::RenderWindow>(
-			this->gfxSettings.resolution,
-			this->gfxSettings.title,
+			this->GraphicSettings.resolution,
+			this->GraphicSettings.title,
 			sf::Style::Titlebar | sf::Style::Close,
-			this->gfxSettings.contextSettings
+			this->GraphicSettings.contextSettings
 			);
 	}
-	this->window->setFramerateLimit(this->gfxSettings.frameRateLimit);
-	this->window->setVerticalSyncEnabled(this->gfxSettings.verticalSync);
+	this->window->setFramerateLimit(this->GraphicSettings.frameRateLimit);
+	this->window->setVerticalSyncEnabled(this->GraphicSettings.verticalSync);
 
 }
 
@@ -73,7 +73,7 @@ void Game::initKeys()
 void Game::initStateData()
 {
 	this->stateData.window = this->window;
-	this->stateData.GraphicsSettings = std::make_shared<GraphicsSettings>(this->gfxSettings);
+	this->stateData.GraphicsSettings = std::make_shared<GraphicsSettings>(GraphicSettings);
 	this->stateData.states = &this->states;
 	this->stateData.supportedKeys = std::make_shared< std::map < std::string, int >>(this->supportedKeys);
 	this->stateData.gridSize = gridSize;

@@ -3,7 +3,7 @@
 
 //Con //Des
 AttributeComponent::AttributeComponent(int level) :
-	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true)
+	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true), energyUpdate(true)
 {
 	this->expnext = 50;
 	this->vitality = 1;
@@ -38,6 +38,11 @@ void AttributeComponent::levelUp()
 
 void AttributeComponent::updateStats(const bool reset)
 {
+	levelUpdate = true;
+	healthUpdate = true;
+	energyUpdate = true;
+
+
 	if (level % 10 == 0) {
 		switch (level)
 		{
@@ -69,19 +74,18 @@ void AttributeComponent::updateStats(const bool reset)
 	this->damageMin = ((5 + this->strength * 4 + dexterity) + this->strength / 4); //base 10
 	this->accuracy  = this->dexterity * 4 + intelligence * 2; //base 10
 	this->defense   = this->agility * 2 + this->agility / 3; // base 2
-	this->energy    = 90 + this->intelligence * 10; //base 100 
+	this->energyMax    = 90 + this->intelligence * 10; //base 100 
 	
 		if (reset)
 		{
 			this->hp = this->hpMax;
+			this->energy = this->energyMax;
 		}
 }
 
 void AttributeComponent::updateLevel()
 {
 	while (this->exp >= this->expnext) {
-		levelUpdate = true;
-		healthUpdate = true;
 		this->exp -= this->expnext;
 		this->levelUp();
 		++this->level;

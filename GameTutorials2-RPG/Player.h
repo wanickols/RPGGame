@@ -20,6 +20,8 @@ public:
 	//Functions
 	void loseHealth(const int health);
 	void addHealth(const int health);
+	void loseEnergy(const int energy);
+	void addEnergy(const int energy);
 	void loseExp(const int exp);
 	void addExp(const int exp);
 

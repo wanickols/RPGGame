@@ -14,6 +14,10 @@ enum button_states { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE };
 
 namespace gui {
 
+	const float p2pX(const float& perc, sf::VideoMode& vm);
+	const float p2pY(const float& perc, sf::VideoMode& vm);
+	const float p2pS(const float& perc, sf::VideoMode& vm);
+
 	enum class button_types { RECTANGLE = 0, CIRCLE, CONVEX };
 
 	class Button
@@ -70,8 +74,6 @@ namespace gui {
 		sf::Color outlineHoverColor;
 		sf::Color outlineActiveColor;
 	};
-
-
 
 	class DropDownList
 	{
@@ -130,4 +132,5 @@ namespace gui {
 		void update(const sf::Vector2f& mousePosWindow, const float& dt);
 		void render(sf::RenderTarget& target);
 	};
+
 }

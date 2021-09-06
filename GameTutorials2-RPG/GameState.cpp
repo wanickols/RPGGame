@@ -8,9 +8,9 @@
 
 void GameState::initDefferredRender()
 {
-	this->renderTexture.create(this->gfxSettings->resolution.width,
-		this->gfxSettings->resolution.height,
-		this->gfxSettings->contextSettings
+	this->renderTexture.create(this->GraphicsSettings->resolution.width,
+		this->GraphicsSettings->resolution.height,
+		this->GraphicsSettings->contextSettings
 	);
 
 	this->renderSprite.setTexture(this->renderTexture.getTexture());
@@ -18,16 +18,16 @@ void GameState::initDefferredRender()
 		sf::IntRect(
 			0,
 			0,
-			this->gfxSettings->resolution.width, 
-			this->gfxSettings->resolution.height
+			this->GraphicsSettings->resolution.width, 
+			this->GraphicsSettings->resolution.height
 		));
 }
 
 //initializer functions
 void GameState::initView()
 {
-	this->view.setSize(sf::Vector2f((float)this->gfxSettings->resolution.width, (float)this->gfxSettings->resolution.height));
-	//this->view.setCenter(this->gfxSettings->resolution.width / 2.f, this->gfxSettings->resolution.height / 2.f);
+	this->view.setSize(sf::Vector2f((float)this->GraphicsSettings->resolution.width, (float)this->GraphicsSettings->resolution.height));
+	//this->view.setCenter(this->GraphicsSettings->resolution.width / 2.f, this->GraphicsSettings->resolution.height / 2.f);
 
 }
 
@@ -60,11 +60,12 @@ void GameState::initTextures()
 
 void GameState::initPauseMenu()
 {
-	this->pmenu = std::make_unique<PauseMenu>(*window, font, p2pX(13.f), p2pY(6.9f), this->characterSize);
+	sf::VideoMode& vm = this->GraphicsSettings->resolution;
+	this->pmenu = std::make_unique<PauseMenu>(*window, font, gui::p2pX(13.f, vm), gui::p2pY(6.9f, vm), this->characterSize);
 
-	this->pmenu->addButton("SAVE", p2pY(34.f), "Save"); //Key, Y, 
-	this->pmenu->addButton("STATS", p2pY(50.f), "Stats");
-	this->pmenu->addButton("QUIT", p2pY(83.f), "Quit"); //Key, Y, text
+	this->pmenu->addButton("SAVE", gui::p2pY(34.f, vm), "Save"); //Key, Y, 
+	this->pmenu->addButton("STATS", gui::p2pY(50.f, vm), "Stats");
+	this->pmenu->addButton("QUIT", gui::p2pY(83.f, vm), "Quit"); //Key, Y, text
 }
 
 void GameState::initTileMap()
@@ -76,14 +77,13 @@ void GameState::initTileMap()
 
 void GameState::initPlayers()
 {
-	this->player = std::make_unique<Player>(p2pX(11.4f), p2pY(20.3f), this->textures["PLAYER_SHEET"]);
+	this->player = std::make_unique<Player>(gui::p2pX(11.4f, this->GraphicsSettings->resolution), gui::p2pY(20.3f, this->GraphicsSettings->resolution), this->textures["PLAYER_SHEET"]);
 }
 
 void GameState::initPlayerGui()
 {
-	this->playerGui = std::make_shared<PlayerGui>(this->player, this->font);
+	this->playerGui = std::make_shared<PlayerGui>(this->player, this->font, this->GraphicsSettings->resolution);
 	this->playerGuiMenuOpen = false;
-	
 }
 
 
@@ -124,10 +124,17 @@ void GameState::updatePlayerInput(const float& dt)
 		this->player->move(0.f, 1.f, dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("Move_Right"))))
 		this->player->move(1.f, 0.f, dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && this->getKeyTime())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && this->getKeyTime()) {
 		this->player->loseHealth(10);
+		this->player->loseEnergy(10);
+		this->player->loseExp(10);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O) && this->getKeyTime()) {
+		this->player->addHealth(20);
+		this->player->addEnergy(20);
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G) && this->getKeyTime())
-		this->player->addExp(10);
+		this->player->addExp(50);
 
 
 
