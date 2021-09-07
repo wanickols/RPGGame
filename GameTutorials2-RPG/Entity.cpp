@@ -3,138 +3,152 @@
 
 void Entity::initVariables()
 {
-	this->hitBoxComponent = NULL;
-	this->movementComponent = NULL;
-	this->animationComponent = NULL;
-	this->attributeComponent = NULL;
+	hitBoxComponent = NULL;
+	movementComponent = NULL;
+	animationComponent = NULL;
+	attributeComponent = NULL;
 	
 }
 
 Entity::Entity()
 {
 
-	this->initVariables();
+	initVariables();
 }
 
 Entity::~Entity()
 {
-
 }
 
 //Component functions
 void Entity::setTexture(sf::Texture& texture)
 {
-	//this->texture = std::make_unique<sf::Texture>(&texture);
-	this->sprite.setTexture(texture);
+	//texture = std::make_unique<sf::Texture>(&texture);
+	sprite.setTexture(texture);
 }
 
 void Entity::createMovementComponent(const float maxVelocity, const float acceleration, const float deceleration)
 {
-	this->movementComponent = std::make_unique<MovementComponent>(this->sprite, maxVelocity, acceleration, deceleration);
+	movementComponent = std::make_unique<MovementComponent>(sprite, maxVelocity, acceleration, deceleration);
 }
 
 void Entity::createAnimationComponent(sf::Texture& texture_sheet)
 {
-	this->animationComponent = std::make_unique<AnimationComponent>(this->sprite, texture_sheet);
+	animationComponent = std::make_unique<AnimationComponent>(sprite, texture_sheet);
 }
 
 void Entity::creatAttributeComponent(int level)
 {
-	this->attributeComponent = std::make_shared<AttributeComponent>(level);
+	attributeComponent = std::make_shared<AttributeComponent>(level);
 }
 
 void Entity::createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height)
 {
-	this->hitBoxComponent = std::make_unique<HitboxComponent>(sprite, offset_x, offset_y, width, height);
+	hitBoxComponent = std::make_unique<HitboxComponent>(sprite, offset_x, offset_y, width, height);
 }
 
 //Accessors
-const sf::Vector2f Entity::getPosition() const
+const sf::Vector2f& Entity::getPosition() const
 {
-	if (this->hitBoxComponent)
-		return this->hitBoxComponent->getPosition();
+	if (hitBoxComponent)
+		return hitBoxComponent->getPosition();
 
-	return this->sprite.getPosition();
+	return sprite.getPosition();
+}
+
+const sf::Vector2f Entity::getCenterPosition() const
+{
+	if (hitBoxComponent)
+		return hitBoxComponent->getPosition() +
+		sf::Vector2f
+		(
+			hitBoxComponent->getGlobalBounds().width/2.f,
+			hitBoxComponent->getGlobalBounds().height/2.f
+		);
+
+	return sprite.getPosition() + 
+		sf::Vector2f
+	(
+		sprite.getGlobalBounds().width / 2.f,
+		sprite.getGlobalBounds().height / 2.f
+	);;
 }
 
 const sf::Vector2i Entity::getGridPosition(const int& gridSizeI)
 {
-	if (this->hitBoxComponent) {
-		gridPosition.x = (int)this->hitBoxComponent->getPosition().x;
-		gridPosition.y = (int)this->hitBoxComponent->getPosition().y;
+	if (hitBoxComponent) {
+		gridPosition.x = (int)hitBoxComponent->getPosition().x;
+		gridPosition.y = (int)hitBoxComponent->getPosition().y;
 
-		this->gridPosition.x = this->gridPosition.x / gridSizeI;
-		this->gridPosition.y = this->gridPosition.y / gridSizeI;
+		gridPosition.x = gridPosition.x / gridSizeI;
+		gridPosition.y = gridPosition.y / gridSizeI;
 
-		return this->gridPosition;
+		return gridPosition;
 	}
 
 
 	return sf::Vector2i(
-		(int)this->sprite.getPosition().x / gridSizeI,
-		(int)this->sprite.getPosition().y / gridSizeI
+		(int)sprite.getPosition().x / gridSizeI,
+		(int)sprite.getPosition().y / gridSizeI
 	);
 }
 
 const sf::FloatRect& Entity::getNextPositionBounds(const float& dt) const
 {
-	if (this->hitBoxComponent && this->movementComponent)
-		return this->hitBoxComponent->getNextPosition(this->movementComponent->getVelocity() * dt);
-
-	std::cout << "ENTITY::ERROR IN GETTING NEXTPOSITION";
-	return sf::FloatRect(-1.f, -1.f, -1.f, -1.f);
+	
+	return hitBoxComponent->getNextPosition(movementComponent->getVelocity() * dt);
 	
 }
 
 //functions
 void Entity::setPosition(float x, float y)
 {
-	if (this->hitBoxComponent)
-		this->hitBoxComponent->setPosition(sf::Vector2f(x, y));
+	if (hitBoxComponent)
+		hitBoxComponent->setPosition(sf::Vector2f(x, y));
 	else
-		this->sprite.setPosition(x, y);
+		sprite.setPosition(x, y);
 
 }
 
 void Entity::setNextPosition(float x, float y)
 {
-	if (this->hitBoxComponent)
-		this->hitBoxComponent->setNextPosition(sf::Vector2f(x, y));
+	if (hitBoxComponent)
+		hitBoxComponent->setNextPosition(sf::Vector2f(x, y));
 	else
-		this->sprite.setPosition(x, y);
+		sprite.setPosition(x, y);
 }
 
 void Entity::move(const float dir_x, const float dir_y, const float& dt)
 {
-	if (this->movementComponent) {
-		this->movementComponent->move(dir_x, dir_y, dt); //setsVelocity
+	if (movementComponent) {
+		movementComponent->move(dir_x, dir_y, dt); //setsVelocity
 	}
 }
 
 const sf::FloatRect Entity::getGlobalBounds() const
 {
-	if (this->hitBoxComponent)
-		return this->hitBoxComponent->getGlobalBounds();
+	if (hitBoxComponent)
+		return hitBoxComponent->getGlobalBounds();
 
-	return this->sprite.getGlobalBounds();
+	return sprite.getGlobalBounds();
 }
 
 void Entity::stopVelocity()
 {
-	if (this->movementComponent)
-		this->movementComponent->stopVelocity();
+	if (movementComponent)
+		movementComponent->stopVelocity();
 }
 
 void Entity::stopVelocityX()
 {
-	if (this->movementComponent)
-		this->movementComponent->stopVelocityX();
+	if (movementComponent)
+		movementComponent->stopVelocityX();
 }
 
 void Entity::stopVelocityY()
 {
-	if (this->movementComponent)
-		this->movementComponent->stopVelocityY();
+	if (movementComponent)
+		movementComponent->stopVelocityY();
 }
 
 

@@ -26,7 +26,8 @@ public:
 	void creatAttributeComponent(int level);
 	void createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height);
 
-	const virtual sf::Vector2f getPosition() const;
+	const virtual sf::Vector2f& getPosition() const;
+	const virtual sf::Vector2f getCenterPosition() const;
 	const virtual sf::Vector2i getGridPosition(const int& gridSizeI);
 	const sf::FloatRect& getNextPositionBounds(const float& dt) const;
 	
@@ -43,7 +44,7 @@ public:
 	virtual void stopVelocityY();
 
 	virtual void update(const float& dt) = 0;
-	virtual void render(sf::RenderTarget& target) = 0;
+	virtual void render(sf::RenderTarget& target, sf::Shader* shader, const bool show_hitbox) = 0;
 protected:
 
 	std::unique_ptr<HitboxComponent> hitBoxComponent;

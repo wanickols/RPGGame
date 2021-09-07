@@ -34,8 +34,8 @@ public:
 	void updateCollision(std::shared_ptr<Entity> entity, const float& dt);
 	
 	void update();
-	void render(sf::RenderTarget& Target, const sf::Vector2i& gridPosition);
-	void renderDeferred(sf::RenderTarget& Target);
+	void render(sf::RenderTarget& Target, const sf::Vector2i& gridPosition, const sf::Vector2f playerPos = sf::Vector2f(0.f, 0.f), sf::Shader* shader = NULL, const bool show_collision = false);
+	void renderDeferred(sf::RenderTarget& Target, const sf::Vector2f playerPos = sf::Vector2f(0.f,0.f), sf::Shader* shader = NULL);
 
 	//Accessors 
 	const sf::Texture* getTileSheet() const;

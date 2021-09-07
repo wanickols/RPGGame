@@ -22,8 +22,8 @@ public:
 
 	const bool intersects(const sf::FloatRect bounds) const;
 	void update();
-	void render(sf::RenderTarget& target);
+	void render(sf::RenderTarget& target, const sf::Vector2f playerPosition = sf::Vector2f(), sf::Shader* shader = NULL);
 protected:
-	sf::RectangleShape shape;
+	sf::Sprite shape;
 };
 

@@ -27,7 +27,7 @@ public:
 
 	void updateAnimation(const float& dt);
 	virtual void update(const float& dt);
-	virtual void render(sf::RenderTarget& target);
+	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, const bool show_hitbox = false);
 private:
 
 	//variables

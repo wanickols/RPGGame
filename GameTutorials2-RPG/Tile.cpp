@@ -4,39 +4,39 @@
 Tile::Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect, bool collision, short type)
 	: collision(collision), type(type)
 {
-	this->shape.setSize(sf::Vector2f(gridSizeF, gridSizeF));
-	//this->shape.setFillColor(sf::Color::Green);
-	this->shape.setPosition(x, y);
-	//this->shape.setOutlineThickness(1.f);
-	//this->shape.setOutlineColor(sf::Color::White);
-	this->shape.setTexture(&texture);
-	this->shape.setTextureRect(texture_rect);
+	
+	//shape.setFillColor(sf::Color::Green);
+	shape.setPosition(x, y);
+	//shape.setOutlineThickness(1.f);
+	//shape.setOutlineColor(sf::Color::White);
+	shape.setTexture(texture);
+	shape.setTextureRect(texture_rect);
 }
 
 //Accessors
 const short& Tile::getType() const
 {
-	return this->type;
+	return type;
 }
 
 const bool Tile::getCollision() const
 {
-	return this->collision;
+	return collision;
 }
 
 const sf::Vector2f& Tile::getPosition() const
 {
-	return this->shape.getPosition();
+	return shape.getPosition();
 }
 
 const sf::FloatRect Tile::getGlobalBounds() const
 {
-	return this->shape.getGlobalBounds();
+	return shape.getGlobalBounds();
 }
 
 const bool Tile::intersects(const sf::FloatRect bounds) const
 {
-	return this->shape.getGlobalBounds().intersects(bounds);
+	return shape.getGlobalBounds().intersects(bounds);
 }
 
 //Functions
@@ -44,9 +44,16 @@ void Tile::update()
 {
 }
 
-void Tile::render(sf::RenderTarget& target)
+void Tile::render(sf::RenderTarget& target, const sf::Vector2f playerPosition, sf::Shader* shader)
 {
-	target.draw(shape);
+	if (shader) {
+		shader->setUniform("hasTexture", true);
+		shader->setUniform("lightPos", playerPosition);
+
+		target.draw(shape, shader);
+	}
+	else
+		target.draw(shape);
 }
 
 std::ofstream& operator<<(std::ofstream& os, Tile& tile)
