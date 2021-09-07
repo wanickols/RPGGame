@@ -10,7 +10,7 @@ void Game::initVariables()
 {
 	this->window = NULL;
 	this->dt = 0;
-	gridSize = std::floor(static_cast<float>(this->GraphicSettings.resolution.height + this->GraphicSettings.resolution.width) * (3.33f / 100.f));;
+	gridSize = 64;
 	mapSize = 100;
 }
 
