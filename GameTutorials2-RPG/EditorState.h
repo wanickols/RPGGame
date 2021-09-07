@@ -15,7 +15,6 @@ private:
 	void initBackround();
 	void initPauseMenu();
 	void initTexts();
-	void initFonts();
 	void initKeybinds();
 	void initButtons();
 	void initGui();
@@ -51,6 +50,7 @@ private:
 	sf::RectangleShape selectorRect;
 	int layer;
 	bool collision;
+	bool showCollision;
 	short Type;
 	float cameraSpeed;
 

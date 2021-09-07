@@ -5,13 +5,13 @@
 GraphicsSettings::GraphicsSettings()
 {
 
-	this->resolution = sf::VideoMode::getDesktopMode();
-	this->fullscreen = false;
+	resolution = sf::VideoMode::getDesktopMode();
+	fullscreen = false;
 	currMode = 0;
-	this->verticalSync = false;
-	this->frameRateLimit = 120;
-	this->contextSettings.antialiasingLevel = 0;
-	this->videModes = sf::VideoMode::getFullscreenModes();
+	verticalSync = false;
+	frameRateLimit = 120;
+	contextSettings.antialiasingLevel = 0;
+	videModes = sf::VideoMode::getFullscreenModes();
 }
 
 //Functions
@@ -24,13 +24,13 @@ void GraphicsSettings::saveToFile(const std::string path)
 	//pulls info from a file for window initialization
 	if (ofs.is_open()) {
 
-		ofs << this->title << '\n';
-		ofs << this->resolution.width << " " << this->resolution.height << '\n';
-		ofs << this->currMode << '\n';
-		ofs << this->fullscreen << '\n';
-		ofs << this->frameRateLimit << '\n';
-		ofs << this->verticalSync << '\n';
-		ofs << this->contextSettings.antialiasingLevel << '\n';
+		ofs << title << '\n';
+		ofs << resolution.width << " " << resolution.height << '\n';
+		ofs << currMode << '\n';
+		ofs << fullscreen << '\n';
+		ofs << frameRateLimit << '\n';
+		ofs << verticalSync << '\n';
+		ofs << contextSettings.antialiasingLevel << '\n';
 	}
 
 	ofs.close();
@@ -47,13 +47,13 @@ void GraphicsSettings::loadFromFile(const std::string path)
 	//pulls info from a file for window initialization
 	if (ifs.is_open()) {
 
-		std::getline(ifs, this->title);
-		ifs >> this->resolution.width >> this->resolution.height;
-		ifs >> this->currMode;
-		ifs >> this->fullscreen;
-		ifs >> this->frameRateLimit;
-		ifs >> this->verticalSync;
-		ifs >> this->contextSettings.antialiasingLevel;
+		std::getline(ifs, title);
+		ifs >> resolution.width >> resolution.height;
+		ifs >> currMode;
+		ifs >> fullscreen;
+		ifs >> frameRateLimit;
+		ifs >> verticalSync;
+		ifs >> contextSettings.antialiasingLevel;
 	}
 
 	ifs.close();

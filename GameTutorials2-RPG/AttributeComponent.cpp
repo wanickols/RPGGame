@@ -5,12 +5,12 @@
 AttributeComponent::AttributeComponent(int level) :
 	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true), energyUpdate(true)
 {
-	this->expnext = 50;
-	this->vitality = 1;
-	this->strength = 1;
-	this->dexterity = 1;
-	this->agility = 1;
-	this->intelligence = 1;
+	expnext = 50;
+	vitality = 1;
+	strength = 1;
+	dexterity = 1;
+	agility = 1;
+	intelligence = 1;
 	updateStats(true);
 }
 
@@ -18,7 +18,7 @@ AttributeComponent::AttributeComponent(int level) :
 
 int AttributeComponent::calculateExpNext(int level) const
 {
-	return (50  + (50/3) * (int)(pow(this->level, 3) - 6 * pow(this->level, 2) + (this->level*17) - 12));
+	return (50  + (50/3) * static_cast<int>(static_cast<int>(pow(level, 3)) - 6 * static_cast<int>(pow(level, 2)) + (level * 17) - 12));
 }
 
 //Main Functions
@@ -26,14 +26,14 @@ void AttributeComponent::levelUp()
 {
 	int attributeCap = 50;
 	if (level <= attributeCap)
-		this->attributePoints += 2 + (level / 5);
+		attributePoints += 2 + (level / 5);
 	else
-		this->attributePoints += 2 + (attributeCap / 5);
-	this->vitality += 1;
-	this->strength += 1;
-	this->dexterity += 1;
-	this->agility += 1;
-	this->intelligence += 1;
+		attributePoints += 2 + (attributeCap / 5);
+	vitality += 1;
+	strength += 1;
+	dexterity += 1;
+	agility += 1;
+	intelligence += 1;
 }
 
 void AttributeComponent::updateStats(const bool reset)
@@ -69,28 +69,28 @@ void AttributeComponent::updateStats(const bool reset)
 			break;
 		}
 	}
-	this->hpMax     = 70 + (int)(level * levelBoostRate * 10) + (vitality * 10) + (strength * 5) + (intelligence * 5); //base 100
-	this->damageMax = ((5 + this->strength * 4 + dexterity) + this->strength/2); //base 10
-	this->damageMin = ((5 + this->strength * 4 + dexterity) + this->strength / 4); //base 10
-	this->accuracy  = this->dexterity * 4 + intelligence * 2; //base 10
-	this->defense   = this->agility * 2 + this->agility / 3; // base 2
-	this->energyMax    = 90 + this->intelligence * 10; //base 100 
+	hpMax     = 70 + (int)(level * levelBoostRate * 10) + (vitality * 10) + (strength * 5) + (intelligence * 5); //base 100
+	damageMax = ((5 + strength * 4 + dexterity) + strength/2); //base 10
+	damageMin = ((5 + strength * 4 + dexterity) + strength / 4); //base 10
+	accuracy  = dexterity * 4 + intelligence * 2; //base 10
+	defense   = agility * 2 + agility / 3; // base 2
+	energyMax    = 90 + intelligence * 10; //base 100 
 	
 		if (reset)
 		{
-			this->hp = this->hpMax;
-			this->energy = this->energyMax;
+			hp = hpMax;
+			energy = energyMax;
 		}
 }
 
 void AttributeComponent::updateLevel()
 {
-	while (this->exp >= this->expnext) {
-		this->exp -= this->expnext;
-		this->levelUp();
-		++this->level;
-		this->updateStats(true);
-		this->expnext = calculateExpNext(this->level);
+	while (exp >= expnext) {
+		exp -= expnext;
+		levelUp();
+		++level;
+		updateStats(true);
+		expnext = calculateExpNext(level);
 	}
 }
 
@@ -101,14 +101,14 @@ void AttributeComponent::update()
 
 void AttributeComponent::addExp(int xp)
 {
-	this->exp += xp;
-	this->expUpdate = true;
-	this->updateLevel();
+	exp += xp;
+	expUpdate = true;
+	updateLevel();
 }
 
 const int AttributeComponent::getAttributePoints() const
 {
-	return this->attributePoints;
+	return attributePoints;
 }
 
 //Temp
@@ -117,25 +117,25 @@ std::string AttributeComponent::debugPrint()
 	std::stringstream ss;
 
 
-	ss << "Level: " << this->level << "\n"
-		<< "Exp: " << this->exp << "\n"
-		<< "Exp Next: " << this->expnext << "\n"
-		<< "Attriubutes Points: " << this->attributePoints << "\n"
+	ss << "Level: " << level << "\n"
+		<< "Exp: " << exp << "\n"
+		<< "Exp Next: " << expnext << "\n"
+		<< "Attriubutes Points: " << attributePoints << "\n"
 
 		<< "Attributes" << "\n"
-		<< "Vitality: " << this->vitality << "\n"
-		<< "Strength: " << this->strength << "\n"
-		<< "Dexterity: " << this->dexterity << "\n"
-		<< "Agility: " << this->agility << "\n"
-		<< "Intelligence: " << this->intelligence << "\n"
+		<< "Vitality: " << vitality << "\n"
+		<< "Strength: " << strength << "\n"
+		<< "Dexterity: " << dexterity << "\n"
+		<< "Agility: " << agility << "\n"
+		<< "Intelligence: " << intelligence << "\n"
 
 		<< "Stats" << "\n"
-		<< "Max Health: " << this->hpMax << "\n"
-		<< "Health: " << this->hp << "\n"
-		<< "Max damage: " << this->damageMax << "\n"
-		<< "Min damage: " << this->damageMin << "\n"
-		<< "Defense: " << this->defense << "\n"
-		<< "Energy: " << this->energy << "\n";
+		<< "Max Health: " << hpMax << "\n"
+		<< "Health: " << hp << "\n"
+		<< "Max damage: " << damageMax << "\n"
+		<< "Min damage: " << damageMin << "\n"
+		<< "Defense: " << defense << "\n"
+		<< "Energy: " << energy << "\n";
 
 	return ss.str();
 }

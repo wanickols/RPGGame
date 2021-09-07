@@ -4,16 +4,16 @@
 HitboxComponent::HitboxComponent(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height)
 	: sprite(sprite), offSetX(offset_x), offSetY(offset_y)
 {
-	this->nextPosition.left = 0.f;
-	this->nextPosition.top = 0.f;
-	this->nextPosition.width = width;
-	this->nextPosition.height = height;
+	nextPosition.left = 0.f;
+	nextPosition.top = 0.f;
+	nextPosition.width = width;
+	nextPosition.height = height;
 
-	this->hitbox.setPosition(this->sprite.getPosition().x + offSetX, this->sprite.getPosition().y + offSetY);
-	this->hitbox.setSize(sf::Vector2f(width, height));
-	this->hitbox.setFillColor(sf::Color::Transparent);
-	this->hitbox.setOutlineThickness(-1.f);
-	this->hitbox.setOutlineColor(sf::Color::Red);
+	hitbox.setPosition(sprite.getPosition().x + offSetX, sprite.getPosition().y + offSetY);
+	hitbox.setSize(sf::Vector2f(width, height));
+	hitbox.setFillColor(sf::Color::Transparent);
+	hitbox.setOutlineThickness(-1.f);
+	hitbox.setOutlineColor(sf::Color::Red);
 }
 
 HitboxComponent::~HitboxComponent()
@@ -22,20 +22,20 @@ HitboxComponent::~HitboxComponent()
 
 const sf::Vector2f& HitboxComponent::getPosition() const
 {
-	return this->hitbox.getPosition();
+	return hitbox.getPosition();
 }
 
 const sf::FloatRect& HitboxComponent::getNextPosition(const sf::Vector2f& velocity)
 {
-	nextPosition.left = this->hitbox.getPosition().x + velocity.x;
-	nextPosition.top = this->hitbox.getPosition().y + velocity.y;
-	return this->nextPosition;
+	nextPosition.left = hitbox.getPosition().x + velocity.x;
+	nextPosition.top = hitbox.getPosition().y + velocity.y;
+	return nextPosition;
 }
 
 void HitboxComponent::setPosition(const sf::Vector2f& position)
 {
-	this->hitbox.setPosition(position);
-	this->sprite.setPosition(position.x - this->offSetX, position.y - this->offSetY);
+	hitbox.setPosition(position);
+	sprite.setPosition(position.x - offSetX, position.y - offSetY);
 }
 
 void HitboxComponent::setNextPosition(const sf::Vector2f& position)
@@ -46,20 +46,20 @@ void HitboxComponent::setNextPosition(const sf::Vector2f& position)
 
 bool HitboxComponent::intersect(const sf::FloatRect& frect)
 {
-	return this->hitbox.getGlobalBounds().intersects(frect);
+	return hitbox.getGlobalBounds().intersects(frect);
 }
 
 const sf::FloatRect HitboxComponent::getGlobalBounds() const
 {
-	return this->hitbox.getGlobalBounds();
+	return hitbox.getGlobalBounds();
 }
 
 void HitboxComponent::update()
 {
-	this->hitbox.setPosition(this->sprite.getPosition().x + offSetX, this->sprite.getPosition().y + offSetY);
+	hitbox.setPosition(sprite.getPosition().x + offSetX, sprite.getPosition().y + offSetY);
 }
 
 void HitboxComponent::render(sf::RenderTarget& target)
 {
-	target.draw(this->hitbox);
+	target.draw(hitbox);
 }

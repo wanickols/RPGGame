@@ -31,6 +31,9 @@
     <Filter Include="Map\Tiles">
       <UniqueIdentifier>{b1fe21b3-3a80-4e71-9394-bfe624326b42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{82686df0-4691-4af4-b85c-1f7b8d0bddc5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -158,5 +161,13 @@
     <ClInclude Include="PlayerStatMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vertex_shader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="fragment_shader.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

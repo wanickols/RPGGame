@@ -8,26 +8,26 @@
 
 void GameState::initDefferredRender()
 {
-	this->renderTexture.create(this->GraphicsSettings->resolution.width,
-		this->GraphicsSettings->resolution.height,
-		this->GraphicsSettings->contextSettings
+	renderTexture.create(GraphicsSettings->resolution.width,
+		GraphicsSettings->resolution.height,
+		GraphicsSettings->contextSettings
 	);
 
-	this->renderSprite.setTexture(this->renderTexture.getTexture());
-	this->renderSprite.setTextureRect(
+	renderSprite.setTexture(renderTexture.getTexture());
+	renderSprite.setTextureRect(
 		sf::IntRect(
 			0,
 			0,
-			this->GraphicsSettings->resolution.width, 
-			this->GraphicsSettings->resolution.height
+			GraphicsSettings->resolution.width, 
+			GraphicsSettings->resolution.height
 		));
 }
 
 //initializer functions
 void GameState::initView()
 {
-	this->view.setSize(sf::Vector2f((float)this->GraphicsSettings->resolution.width, (float)this->GraphicsSettings->resolution.height));
-	//this->view.setCenter(this->GraphicsSettings->resolution.width / 2.f, this->GraphicsSettings->resolution.height / 2.f);
+	view.setSize(sf::Vector2f((float)GraphicsSettings->resolution.width, (float)GraphicsSettings->resolution.height));
+	//view.setCenter(GraphicsSettings->resolution.width / 2.f, GraphicsSettings->resolution.height / 2.f);
 
 }
 
@@ -41,7 +41,7 @@ void GameState::initKeybinds()
 		std::string key2 = "";
 
 		while (ifs >> key >> key2) {
-			this->keybinds[key] = this->supportedKeys->at(key2);
+			keybinds[key] = supportedKeys->at(key2);
 		}
 
 	}
@@ -53,37 +53,48 @@ void GameState::initKeybinds()
 
 void GameState::initTextures()
 {
-	if (!this->textures["PLAYER_SHEET"].loadFromFile("Resources/Images/Sprites/Player/PLAYER_SHEET.png")) {
-		throw "ERROR::GAME_STATE::COULD_NOT_LOAD_PLAYER_SHEET_TEXTURE";
+	if (!textures["PLAYER_SHEET"].loadFromFile("Resources/Images/Sprites/Player/PLAYER_SHEET.png")) {
+		throw "ERROR::GAME_STATE::COULD_NOT_LOAD_PLAYER_SHEET_TEXTURE \n";
 	}
 }
 
 void GameState::initPauseMenu()
 {
-	sf::VideoMode& vm = this->GraphicsSettings->resolution;
-	this->pmenu = std::make_unique<PauseMenu>(*window, font, gui::p2pX(13.f, vm), gui::p2pY(6.9f, vm), this->characterSize);
+	sf::VideoMode& vm = GraphicsSettings->resolution;
+	pmenu = std::make_unique<PauseMenu>(*window, font, gui::p2pX(13.f, vm), gui::p2pY(6.9f, vm), characterSize);
 
-	this->pmenu->addButton("SAVE", gui::p2pY(34.f, vm), "Save"); //Key, Y, 
-	this->pmenu->addButton("STATS", gui::p2pY(50.f, vm), "Stats");
-	this->pmenu->addButton("QUIT", gui::p2pY(83.f, vm), "Quit"); //Key, Y, text
+	pmenu->addButton("SAVE", gui::p2pY(34.f, vm), "Save"); //Key, Y, 
+	pmenu->addButton("STATS", gui::p2pY(50.f, vm), "Stats");
+	pmenu->addButton("QUIT", gui::p2pY(83.f, vm), "Quit"); //Key, Y, text
+}
+
+void GameState::initShaders()
+{
+	
+	if(!main_shader.loadFromFile("vertex_shader.vert", "fragment_shader.frag"))
+	{
+		std::cout << "ERROR::GAMESTATE::COULD_NOT_LOAD_SHADERS" << "\n";
+	}
+
+
 }
 
 void GameState::initTileMap()
 {
 	//CHANGE LATER TO GET LOADFROMFILE
-	this->map = std::make_unique<TileMap>(this->stateData->gridSize, this->mapSize, this->mapSize, "Resources/Images/Tiles/tilesheet3.png");
-	this->map->loadFromFile("Save/mapfile");
+	map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
+	map->loadFromFile("Save/mapfile");
 }
 
 void GameState::initPlayers()
 {
-	this->player = std::make_unique<Player>(gui::p2pX(11.4f, this->GraphicsSettings->resolution), gui::p2pY(20.3f, this->GraphicsSettings->resolution), this->textures["PLAYER_SHEET"]);
+	player = std::make_unique<Player>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 }
 
 void GameState::initPlayerGui()
 {
-	this->playerGui = std::make_shared<PlayerGui>(this->player, this->font, this->GraphicsSettings->resolution);
-	this->playerGuiMenuOpen = false;
+	playerGui = std::make_shared<PlayerGui>(player, font, GraphicsSettings->resolution);
+	playerGuiMenuOpen = false;
 }
 
 
@@ -91,14 +102,15 @@ void GameState::initPlayerGui()
 GameState::GameState(std::shared_ptr<StateData> state_data)
 	: State(state_data)
 {
-	this->initDefferredRender();
-	this->initView();
-	this->initKeybinds();
-	this->initTextures();
-	this->initPauseMenu();
-	this->initTileMap();
-	this->initPlayers();
-	this->initPlayerGui();
+	initDefferredRender();
+	initView();
+	initKeybinds();
+	initTextures();
+	initPauseMenu();
+	initShaders();
+	initTileMap();
+	initPlayers();
+	initPlayerGui();
 }
 
 
@@ -110,33 +122,33 @@ GameState::~GameState()
 
 void GameState::updateView()
 {
-	this->view.setCenter(
-		std::floor(this->player->getPosition().x + (static_cast<float>(this->mousePosWindow.x) - static_cast<float>(this->stateData->GraphicsSettings->resolution.width/2))/6),
-		std::floor(this->player->getPosition().y + (static_cast<float>(this->mousePosWindow.y) - static_cast<float>(this->stateData->GraphicsSettings->resolution.height/2))/6));
+	view.setCenter(
+		std::floor(player->getPosition().x + (static_cast<float>(mousePosWindow.x) - static_cast<float>(stateData->GraphicsSettings->resolution.width/2))/6),
+		std::floor(player->getPosition().y + (static_cast<float>(mousePosWindow.y) - static_cast<float>(stateData->GraphicsSettings->resolution.height/2))/6));
 }
 
 void GameState::updatePlayerInput(const float& dt)
 {
 	//Player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("Move_Up"))))
-		this->player->move(0.f, -1.f, dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("Move_Left"))))
-		this->player->move(-1.f, 0.f, dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("Move_Down"))))
-		this->player->move(0.f, 1.f, dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("Move_Right"))))
-		this->player->move(1.f, 0.f, dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && this->getKeyTime()) {
-		this->player->loseHealth(10);
-		this->player->loseEnergy(10);
-		this->player->loseExp(10);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Up"))))
+		player->move(0.f, -1.f, dt);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Left"))))
+		player->move(-1.f, 0.f, dt);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Down"))))
+		player->move(0.f, 1.f, dt);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Right"))))
+		player->move(1.f, 0.f, dt);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && getKeyTime()) {
+		player->loseHealth(10);
+		player->loseEnergy(10);
+		player->loseExp(10);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O) && this->getKeyTime()) {
-		this->player->addHealth(20);
-		this->player->addEnergy(20);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O) && getKeyTime()) {
+		player->addHealth(20);
+		player->addEnergy(20);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G) && this->getKeyTime())
-		this->player->addExp(50);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G) && getKeyTime())
+		player->addExp(50);
 
 
 
@@ -145,52 +157,52 @@ void GameState::updatePlayerInput(const float& dt)
 
 void GameState::updatePlayerGui(const float& dt)
 {
-	this->playerGui->update(dt, sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
+	playerGui->update(dt, sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
 }
 
 void GameState::updateInput(const float& dt)
 {
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))) && this->getKeyTime()) {
-		if (!this->paused)
-			this->pauseState();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("CLOSE"))) && getKeyTime()) {
+		if (!paused)
+			pauseState();
 		else
-			this->unpauseState();
+			unpauseState();
 	}
 }
 
 void GameState::updatePauseMenuButtons()
 {
-	if (this->pmenu->isButtonPressed("QUIT"))
-		this->endState();
+	if (pmenu->isButtonPressed("QUIT"))
+		endState();
 }
 
 void GameState::updateTileMap(const float& dt)
 {
-	//std::shared_ptr<Entity> player1 = std::make_shared<Entity>(this->player);
-	this->map->update();
-	this->map->updateCollision(this->player, dt);
+	//std::shared_ptr<Entity> player1 = std::make_shared<Entity>(player);
+	map->update();
+	map->updateCollision(player, dt);
 }
 
 void GameState::update(const float& dt)
 {
 
-	this->updateMousePositions(std::make_unique<sf::View>(this->view));
-	this->updateKeyTime(dt);
-	this->updateInput(dt);
-	if (!this->paused && !this->playerGuiMenuOpen) {
+	updateMousePositions(std::make_unique<sf::View>(view));
+	updateKeyTime(dt);
+	updateInput(dt);
+	if (!paused && !playerGuiMenuOpen) {
 
-		this->updateView();
-		this->updateTileMap(dt);
-		this->updatePlayerInput(dt);
-		this->updatePlayerGui(dt);
+		updateView();
+		updateTileMap(dt);
+		updatePlayerInput(dt);
+		updatePlayerGui(dt);
 
-		this->player->update(dt);
+		player->update(dt);
 		
 	}
 	else if (paused) {
-		this->pmenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
-		this->updatePauseMenuButtons();
+		pmenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
+		updatePauseMenuButtons();
 	}else	{
 		
 	}
@@ -200,29 +212,29 @@ void GameState::update(const float& dt)
 void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 {
 	if (!target)
-		target = this->window;
-	this->renderTexture.clear();
+		target = window;
+	renderTexture.clear();
 
 	//Player and Map
-	this->renderTexture.setView(this->view);
-	this->map->render(this->renderTexture, this->player->getGridPosition((int)this->stateData->gridSize));
-	this->player->render(this->renderTexture);
-	this->map->renderDeferred(this->renderTexture);
+	renderTexture.setView(view);
+	map->render(renderTexture, player->getGridPosition((int)stateData->gridSize), player->getCenterPosition(), &main_shader);
+	player->render(renderTexture, &main_shader);
+	map->renderDeferred(renderTexture);
 	
 	//Player Gui
-	this->renderTexture.setView(this->renderTexture.getDefaultView());
-	this->playerGui->render(this->renderTexture);
+	renderTexture.setView(renderTexture.getDefaultView());
+	playerGui->render(renderTexture);
 
 	//Pause Menu
-	if (this->paused) {
+	if (paused) {
 		
-		this->pmenu->render(this->renderTexture);
+		pmenu->render(renderTexture);
 	}
 	
 	//Final Render
-	this->renderTexture.display();
-	this->renderSprite.setTexture(this->renderTexture.getTexture());
-	target->draw(this->renderSprite);
+	renderTexture.display();
+	renderSprite.setTexture(renderTexture.getTexture());
+	target->draw(renderSprite);
 }
 
 

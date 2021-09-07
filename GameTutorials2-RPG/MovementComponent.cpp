@@ -13,12 +13,12 @@ MovementComponent::~MovementComponent()
 //Accesors
 const sf::Vector2f& MovementComponent::getVelocity()
 {
-	return this->velocity;
+	return velocity;
 }
 
 const float& MovementComponent::getMaxVelocity() const
 {
-	return this->maxVelocity;
+	return maxVelocity;
 }
 
 const bool MovementComponent::getState(const short unsigned state) const
@@ -27,7 +27,7 @@ const bool MovementComponent::getState(const short unsigned state) const
 	{
 	case IDLE:
 
-		if (this->velocity.x == 0.f && this->velocity.y == 0.f)
+		if (velocity.x == 0.f && velocity.y == 0.f)
 			return true;
 
 		break;
@@ -40,28 +40,28 @@ const bool MovementComponent::getState(const short unsigned state) const
 
 	case MOVING_LEFT:
 
-		if (this->velocity.x < 0.f)
+		if (velocity.x < 0.f)
 			return true;
 
 		break;
 
 	case MOVING_RIGHT:
 
-		if (this->velocity.x > 0.f)
+		if (velocity.x > 0.f)
 			return true;
 
 		break;
 
 	case MOVING_UP:
 
-		if (this->velocity.y < 0.f)
+		if (velocity.y < 0.f)
 			return true;
 
 		break;
 
 	case MOVING_DOWN:
 
-		if (this->velocity.y > 0.f)
+		if (velocity.y > 0.f)
 			return true;
 
 		break;
@@ -74,22 +74,22 @@ void MovementComponent::stopVelocity()
 {
 	/* Resets the velocity to 0.*/
 
-	this->velocity.x = 0.f;
-	this->velocity.y = 0.f;
+	velocity.x = 0.f;
+	velocity.y = 0.f;
 }
 
 void MovementComponent::stopVelocityX()
 {
 	/* Resets the velocity x to 0.*/
 
-	this->velocity.x = 0.f;
+	velocity.x = 0.f;
 }
 
 void MovementComponent::stopVelocityY()
 {
 	/* Resets the velocity y to 0.*/
 
-	this->velocity.y = 0.f;
+	velocity.y = 0.f;
 }
 
 
@@ -97,58 +97,58 @@ void MovementComponent::stopVelocityY()
 void MovementComponent::move(const float dir_x, const float dir_y, const float& dt)
 {
 	//Acceleration
-	this->velocity.x += this->acceleration * dir_x * dt;
-	this->velocity.y += this->acceleration * dir_y * dt;
+	velocity.x += acceleration * dir_x * dt;
+	velocity.y += acceleration * dir_y * dt;
 
 }
 
 void MovementComponent::update(const float& dt)
 {
 	/*X MOVEMENT*/
-	if (this->velocity.x > 0.f) { //positive x movement
+	if (velocity.x > 0.f) { //positive x movement
 		//maxVelocity check x
-		if (this->velocity.x > this->maxVelocity)
-			this->velocity.x = maxVelocity;
+		if (velocity.x > maxVelocity)
+			velocity.x = maxVelocity;
 
 		//DECELERATION X
-		this->velocity.x -= deceleration * dt;
-		if (this->velocity.x < 0.f)
+		velocity.x -= deceleration * dt;
+		if (velocity.x < 0.f)
 			velocity.x = 0;
 	}
-	else if (this->velocity.x < 0.f) { //negative x movement
+	else if (velocity.x < 0.f) { //negative x movement
 
 		//Max velocity check x
-		if (this->velocity.x < -this->maxVelocity)
-			this->velocity.x = -maxVelocity;
+		if (velocity.x < -maxVelocity)
+			velocity.x = -maxVelocity;
 
 		//DECELERATION X
-		this->velocity.x += deceleration * dt;
-		if (this->velocity.x > 0.f)
+		velocity.x += deceleration * dt;
+		if (velocity.x > 0.f)
 			velocity.x = 0;
 	}
 	/*Y MOVEMENT*/
-	if (this->velocity.y > 0.f) { //positive y movement
+	if (velocity.y > 0.f) { //positive y movement
 		//maxVelocity check y
-		if (this->velocity.y > this->maxVelocity)
-			this->velocity.y = maxVelocity;
+		if (velocity.y > maxVelocity)
+			velocity.y = maxVelocity;
 
 		//DECELERATION Y
-		this->velocity.y -= deceleration * dt;
-		if (this->velocity.y < 0.f)
+		velocity.y -= deceleration * dt;
+		if (velocity.y < 0.f)
 			velocity.y = 0;
 	}
-	else if (this->velocity.y < 0.f) { //negative y movement
+	else if (velocity.y < 0.f) { //negative y movement
 
 	   //Max velocity check y
-		if (this->velocity.y < -this->maxVelocity)
-			this->velocity.y = -maxVelocity;
+		if (velocity.y < -maxVelocity)
+			velocity.y = -maxVelocity;
 
 		//DECELERATION Y
-		this->velocity.y += deceleration * dt;
-		if (this->velocity.y > 0.f)
+		velocity.y += deceleration * dt;
+		if (velocity.y > 0.f)
 			velocity.y = 0;
 	}
 
 	//Final move
-	this->sprite.move(this->velocity * dt); //uses velocity	
+	sprite.move(velocity * dt); //uses velocity	
 }

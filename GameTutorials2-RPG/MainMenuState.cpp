@@ -13,31 +13,31 @@ void MainMenuState::initVariables()
 void MainMenuState::initGui()
 {
 
-	sf::VideoMode& vm = this->stateData->GraphicsSettings->resolution;
+	sf::VideoMode& vm = stateData->GraphicsSettings->resolution;
 
 	//Background
-	this->background.setSize(
+	background.setSize(
 		(sf::Vector2f
 		(
-			(float)this->window->getSize().x,
-			(float)this->window->getSize().y)
+			(float)window->getSize().x,
+			(float)window->getSize().y)
 			)
 	);
 
-	if (!this->bgTexture.loadFromFile("Resources/Images/Backgrounds/MainMenuBackground.png")) {
+	if (!bgTexture.loadFromFile("Resources/Images/Backgrounds/MainMenuBackground.png")) {
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
 	
-	this->background.setTexture(&this->bgTexture);
+	background.setTexture(&bgTexture);
 
 	//Buttons
-	float Button_X_allignment = (this->window->getDefaultView().getCenter().x / 2) - gui::p2pX(5.2f, vm);
-	float Button_Y_allignment = (this->window->getDefaultView().getCenter().y - gui::p2pY(6.94f, vm));
+	float Button_X_allignment = (window->getDefaultView().getCenter().x / 2) - gui::p2pX(5.2f, vm);
+	float Button_Y_allignment = (window->getDefaultView().getCenter().y - gui::p2pY(6.94f, vm));
 
-	this->buttons["GAME_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment, "New Game");
-	this->buttons["SETTINGS"] = this->addButton(Button_X_allignment, Button_Y_allignment + 100, "Settings");
-	this->buttons["EDITOR_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment + 200, "Editor");
-	this->buttons["EXIT_STATE"] = this->addButton(Button_X_allignment, Button_Y_allignment + 300, "Exit");
+	buttons["GAME_STATE"] = addButton(Button_X_allignment, Button_Y_allignment, "New Game");
+	buttons["SETTINGS"] = addButton(Button_X_allignment, Button_Y_allignment + 100, "Settings");
+	buttons["EDITOR_STATE"] = addButton(Button_X_allignment, Button_Y_allignment + 200, "Editor");
+	buttons["EXIT_STATE"] = addButton(Button_X_allignment, Button_Y_allignment + 300, "Exit");
 }
 
 void MainMenuState::initKeybinds()
@@ -50,7 +50,7 @@ void MainMenuState::initKeybinds()
 		std::string key2 = "";
 
 		while (ifs >> key >> key2) {
-			this->keybinds[key] = this->supportedKeys->at(key2);
+			keybinds[key] = supportedKeys->at(key2);
 		}
 
 	}
@@ -64,9 +64,9 @@ void MainMenuState::initKeybinds()
 MainMenuState::MainMenuState(std::shared_ptr<StateData> state_data)
 	: State(state_data)
 {
-	//this->initVariables();
-	this->initGui();
-	this->initKeybinds();
+	//initVariables();
+	initGui();
+	initKeybinds();
 
 }
 
@@ -77,8 +77,8 @@ MainMenuState::~MainMenuState()
 void MainMenuState::resetGui()
 {
 	
-	this->buttons.clear();
-	this->initGui();
+	buttons.clear();
+	initGui();
 }
 
 
@@ -88,44 +88,44 @@ void MainMenuState::updateInput(const float& dt)
 void MainMenuState::updateButtons()
 {
 	/*Updates all the buttons and their states and handles their functionality*/
-	for (auto& it : this->buttons)
+	for (auto& it : buttons)
 	{
-		it.second->update(this->mousePosView);
+		it.second->update(mousePosView);
 	}
 
 	//new game
-	if (this->buttons["GAME_STATE"]->isPressed())
+	if (buttons["GAME_STATE"]->isPressed())
 	{
-		this->states->push(std::make_unique<GameState>(this->stateData));
+		states->push(std::make_unique<GameState>(stateData));
 	}
 	//Settings
-	if (this->buttons["SETTINGS"]->isPressed())
+	if (buttons["SETTINGS"]->isPressed())
 	{
-		this->states->push(std::make_unique<SettingsState>(this->stateData));
+		states->push(std::make_unique<SettingsState>(stateData));
 	}
 	//Editor
-	if (this->buttons["EDITOR_STATE"]->isPressed())
+	if (buttons["EDITOR_STATE"]->isPressed())
 	{
-		this->states->push(std::make_unique<EditorState>(this->stateData));
+		states->push(std::make_unique<EditorState>(stateData));
 	}
 
 	//Quit the game
-	if (this->buttons["EXIT_STATE"]->isPressed())
+	if (buttons["EXIT_STATE"]->isPressed())
 	{
-		this->endState();
+		endState();
 	}
 }
 
 void MainMenuState::update(const float& dt)
 {
-	if (this->background.getSize().y != this->window->getSize().y || this->background.getSize().x != this->window->getSize().x)
-		this->resetGui();
+	if (background.getSize().y != window->getSize().y || background.getSize().x != window->getSize().x)
+		resetGui();
 
-	this->updateMousePositions();
-	this->updateInput(dt);
+	updateMousePositions();
+	updateInput(dt);
 
-	this->updateButtons();
-	//this->player.update(dt);
+	updateButtons();
+	//player.update(dt);
 
 
 
@@ -134,15 +134,15 @@ void MainMenuState::update(const float& dt)
 void MainMenuState::render(std::shared_ptr<sf::RenderTarget> target)
 {
 	if (!target)
-		target = this->window;
-	//this->player.render(target);
-	target->draw(this->background);
-	this->renderButtons(*target);
+		target = window;
+	//player.render(target);
+	target->draw(background);
+	renderButtons(*target);
 }
 
 void MainMenuState::renderButtons(sf::RenderTarget& target)
 {
-	for (auto& it : this->buttons)
+	for (auto& it : buttons)
 	{
 		it.second->render(target);
 	}

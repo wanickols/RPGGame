@@ -20,11 +20,11 @@ class StateData
 public:
 	StateData() {};
 	float gridSize = 0.f;
-	unsigned mapSize;
+	unsigned mapSize = 0;
 	std::shared_ptr<GraphicsSettings> GraphicsSettings;
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<std::map<std::string, int>> supportedKeys;
-	std::stack<std::shared_ptr<State>>* states;
+	std::stack<std::shared_ptr<State>>* states = NULL;
 	//variables
 };
 

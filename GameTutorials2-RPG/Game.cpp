@@ -8,8 +8,8 @@
 
 void Game::initVariables()
 {
-	this->window = NULL;
-	this->dt = 0;
+	window = NULL;
+	dt = 0;
 	gridSize = 64;
 	mapSize = 100;
 }
@@ -20,29 +20,29 @@ void Game::initVariables()
 
 void Game::initGraphicsSettings()
 {
-	this->GraphicSettings.loadFromFile("Config/graphics.ini");
+	GraphicSettings.loadFromFile("Config/graphics.ini");
 }
 
 void Game::initWindow()
 {
 
-	if (this->GraphicSettings.fullscreen) {
-		this->window = std::make_shared<sf::RenderWindow>(
-			this->GraphicSettings.resolution,
-			this->GraphicSettings.title,
+	if (GraphicSettings.fullscreen) {
+		window = std::make_shared<sf::RenderWindow>(
+			GraphicSettings.resolution,
+			GraphicSettings.title,
 			sf::Style::Fullscreen,
-			this->GraphicSettings.contextSettings);
+			GraphicSettings.contextSettings);
 	}
 	else {
-		this->window = std::make_shared<sf::RenderWindow>(
-			this->GraphicSettings.resolution,
-			this->GraphicSettings.title,
+		window = std::make_shared<sf::RenderWindow>(
+			GraphicSettings.resolution,
+			GraphicSettings.title,
 			sf::Style::Titlebar | sf::Style::Close,
-			this->GraphicSettings.contextSettings
+			GraphicSettings.contextSettings
 			);
 	}
-	this->window->setFramerateLimit(this->GraphicSettings.frameRateLimit);
-	this->window->setVerticalSyncEnabled(this->GraphicSettings.verticalSync);
+	window->setFramerateLimit(GraphicSettings.frameRateLimit);
+	window->setVerticalSyncEnabled(GraphicSettings.verticalSync);
 
 }
 
@@ -56,7 +56,7 @@ void Game::initKeys()
 		int key_value = 0;
 
 		while (ifs >> key >> key_value) {
-			this->supportedKeys[key] = key_value;
+			supportedKeys[key] = key_value;
 		}
 
 	}
@@ -64,65 +64,65 @@ void Game::initKeys()
 	ifs.close();
 
 
-	for (auto i : supportedKeys) {
+	/*for (auto i : supportedKeys) {
 		std::cout << i.first << " " << i.second << "\n";
-	}
+	}*/
 
 }
 
 void Game::initStateData()
 {
-	this->stateData.window = this->window;
-	this->stateData.GraphicsSettings = std::make_shared<GraphicsSettings>(GraphicSettings);
-	this->stateData.states = &this->states;
-	this->stateData.supportedKeys = std::make_shared< std::map < std::string, int >>(this->supportedKeys);
-	this->stateData.gridSize = gridSize;
-	this->stateData.mapSize = mapSize;
+	stateData.window = window;
+	stateData.GraphicsSettings = std::make_shared<GraphicsSettings>(GraphicSettings);
+	stateData.states = &states;
+	stateData.supportedKeys = std::make_shared< std::map < std::string, int >>(supportedKeys);
+	stateData.gridSize = gridSize;
+	stateData.mapSize = mapSize;
 }
 
 void Game::initStates()
 {
-	this->states.push(std::make_shared<MainMenuState>(std::make_shared<StateData>(this->stateData)));
+	states.push(std::make_shared<MainMenuState>(std::make_shared<StateData>(stateData)));
 }
 
 //constructor functions
 Game::Game()
 {
-	this->initVariables();
-	this->initGraphicsSettings();
-	this->initWindow();
-	this->initKeys();
-	this->initStateData();
-	this->initStates();
+	initVariables();
+	initGraphicsSettings();
+	initWindow();
+	initKeys();
+	initStateData();
+	initStates();
 
 }
 
 Game::~Game()
 {
 
-	while (!this->states.empty())
+	while (!states.empty())
 	{
-		this->states.pop();
+		states.pop();
 	}
 
 }
 
 void Game::endApplication()
 {
-	//this->window.reset();
+	//window.reset();
 }
 
 void Game::updateDt()
 {
 	/*Updates the dt variale with the time it takes to update and render one frame*/
 
-	this->dt = this->dtClock.restart().asSeconds();
+	dt = dtClock.restart().asSeconds();
 }
 
 //Functions
 void Game::updateSFMLEvents()
 {
-	while (window->pollEvent(this->sfEvent))
+	while (window->pollEvent(sfEvent))
 	{
 		if (sfEvent.type == sf::Event::Closed)
 			window->close();
@@ -134,21 +134,21 @@ void Game::update()
 {
 
 
-	if (!this->states.empty()) {
-		if (this->window->hasFocus()) {
-			this->updateSFMLEvents();
-			this->states.top()->update(this->dt);
+	if (!states.empty()) {
+		if (window->hasFocus()) {
+			updateSFMLEvents();
+			states.top()->update(dt);
 
-			if (this->states.top()->getQuit()) {
-				this->states.top()->endState();
-				this->states.pop();
+			if (states.top()->getQuit()) {
+				states.top()->endState();
+				states.pop();
 			}
 		}
 	}
 	//Application end
 	else {
-		this->endApplication();
-		this->window->close();
+		endApplication();
+		window->close();
 
 	}
 }
@@ -158,8 +158,8 @@ void Game::render()
 	window->clear();
 
 	//render items
-	if (!this->states.empty())
-		this->states.top()->render();
+	if (!states.empty())
+		states.top()->render();
 	window->display();
 }
 
@@ -167,9 +167,9 @@ void Game::run()
 {
 	while (window->isOpen())
 	{
-		this->updateDt();
-		this->update();
-		this->render();
+		updateDt();
+		update();
+		render();
 	}
 
 }

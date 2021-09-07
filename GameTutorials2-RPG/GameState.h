@@ -16,6 +16,7 @@ private:
 	void initKeybinds();
 	void initTextures();
 	void initPauseMenu();
+	void initShaders();
 	void initTileMap();
 	void initPlayers();
 	void initPlayerGui();
@@ -40,6 +41,8 @@ private:
 	sf::View view;
 	sf::RenderTexture renderTexture;
 	sf::Sprite renderSprite;
+	sf::Shader main_shader;
+
 
 	std::unique_ptr<TileMap> map;
 	std::shared_ptr<Player> player;
