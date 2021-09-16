@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Bullet.h"
 
 //Init Functions
 void Player::initVariables()
 {
 	attacking = false;
+	if (!bulletTexture.loadFromFile("Resources/Images/Sprites/Bullets/FIRE_BULLET.png")) {
+		throw "ERROR::GAME_STATE::COULD_NOT_LOAD_FIRE_BULLET_TEXTURE \n";
+	}
 }
 
 void Player::initComponents()
@@ -21,14 +25,14 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 
 	setPosition(x, y);
 
-	createAnimationComponent(texture_sheet);
+	createAnimationComponent(texture_sheet); 
 	creatAttributeComponent(1);
-	animationComponent->addAnimation("IDLE", 15.f, 0, 0, 8, 0, 64, 64);
+	animationComponent->addAnimation("IDLE", 15.f, 0, 0, 4, 0, 64, 64);
 	animationComponent->addAnimation("WALK_DOWN", 8.f, 0, 1, 3, 1, 64, 64);
 	animationComponent->addAnimation("WALK_LEFT", 8.f, 4, 1, 7, 1, 64, 64);
 	animationComponent->addAnimation("WALK_RIGHT", 8.f, 8, 1, 11, 1, 64, 64);
 	animationComponent->addAnimation("WALK_UP", 8.f, 12, 1, 15, 1, 64, 64);
-	animationComponent->addAnimation("ATTACK", 6.f, 0, 1, 8, 1, 64, 128);
+	animationComponent->addAnimation("ATTACK", 6.f, 0, 1, 4, 1, 64, 128);
 
 	
 }
@@ -93,8 +97,18 @@ void Player::updateAnimation(const float& dt)
 	if (movementComponent->getState(ATTACK)) {
 		attacking = true;
 		if (attacking) {
-			if (animationComponent->play("ATTACK", dt, false))
+			if (movementComponent->getState(IDLE) || movementComponent->getState(MOVING_DOWN))
+			{
+				if (animationComponent->play("ATTACK", dt, false))
+				bullets.push_back(std::make_unique<Bullet>(this->getPosition().x, this->getPosition().y, this->movementComponent->getVelocity().x, this->movementComponent->getVelocity().y, bulletTexture));
 				attacking = false;
+				animationComponent->setIsDone("ATTACK", false);
+			}
+			else {
+				bullets.push_back(std::make_unique<Bullet>(this->getPosition().x, this->getPosition().y, this->movementComponent->getVelocity().x, this->movementComponent->getVelocity().y, bulletTexture));
+				attacking = false;
+				animationComponent->setIsDone("ATTACK", false);
+			}
 		}
 	}
 	else {
@@ -125,7 +139,17 @@ void Player::updateAnimation(const float& dt)
 void Player::update(const float& dt)
 {
 	movementComponent->update(dt);
-	
+	auto iter = bullets.begin();
+	while(iter!=bullets.end())
+	{
+		if (iter->get()->getRunning()) {
+			iter->get()->update(dt);
+			iter++;
+		}
+		else
+			iter = bullets.erase(iter);
+	}
+		
 	updateAnimation(dt);
 	
 	hitBoxComponent->update();
@@ -144,6 +168,11 @@ void Player::render(sf::RenderTarget& target, sf::Shader* shader, const bool sho
 		shader->setUniform("lightPos", this->getCenterPosition());
 
 		target.draw(sprite, shader);
+		for (auto& iter : bullets)
+		{
+			if (iter->getRunning())
+				iter->render(target);
+		}
 	}
 	else
 		target.draw(sprite);

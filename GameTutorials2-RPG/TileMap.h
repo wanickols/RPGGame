@@ -39,6 +39,7 @@ public:
 
 	//Accessors 
 	const sf::Texture* getTileSheet() const;
+	const sf::Vector2f& getMaxSizeF() const;
 
 
 	//Culling

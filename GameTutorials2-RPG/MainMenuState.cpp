@@ -93,27 +93,28 @@ void MainMenuState::updateButtons()
 		it.second->update(mousePosView);
 	}
 
-	//new game
-	if (buttons["GAME_STATE"]->isPressed())
-	{
-		states->push(std::make_unique<GameState>(stateData));
-	}
-	//Settings
-	if (buttons["SETTINGS"]->isPressed())
-	{
-		states->push(std::make_unique<SettingsState>(stateData));
-	}
-	//Editor
-	if (buttons["EDITOR_STATE"]->isPressed())
-	{
-		states->push(std::make_unique<EditorState>(stateData));
-	}
 
-	//Quit the game
-	if (buttons["EXIT_STATE"]->isPressed())
-	{
-		endState();
-	}
+		//new game
+		if (buttons["GAME_STATE"]->isPressed())
+		{
+			states->push(std::make_unique<GameState>(stateData));
+		}
+		//Settings
+		if (buttons["SETTINGS"]->isPressed())
+		{
+			states->push(std::make_unique<SettingsState>(stateData));
+		}
+		//Editor
+		if (buttons["EDITOR_STATE"]->isPressed())
+		{
+			states->push(std::make_unique<EditorState>(stateData));
+		}
+
+		//Quit the game
+		if (buttons["EXIT_STATE"]->isPressed())
+		{
+			endState();
+		}
 }
 
 void MainMenuState::update(const float& dt)

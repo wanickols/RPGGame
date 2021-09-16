@@ -80,6 +80,11 @@ const sf::Texture* TileMap::getTileSheet() const
 	return &tileSheet;
 }
 
+const sf::Vector2f& TileMap::getMaxSizeF() const
+{
+	return maxSizeWorldF;
+}
+
 
 //Functions
 void TileMap::clear()

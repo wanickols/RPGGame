@@ -1,5 +1,7 @@
 #pragma once
 #include "Entity.h"
+#include "Queue"
+#include "Bullet.h"
 
 class Player :
 	public Entity
@@ -31,6 +33,8 @@ public:
 private:
 
 	//variables
+	std::vector <std::unique_ptr<Bullet> > bullets;
+	sf::Texture bulletTexture;
 	bool attacking;
 };
 

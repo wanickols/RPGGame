@@ -63,6 +63,7 @@ const bool& AnimationComponent::play(const std::string key, const float& dt, con
 			{
 				lastAnimation->reset();
 				lastAnimation = animations[key];
+				
 			}
 		}
 
@@ -126,7 +127,17 @@ const bool AnimationComponent::getLastIsDone(const std::string key) const
 	return animations.at(key)->isDone();
 }
 
+void AnimationComponent::setIsDone(const std::string key, bool doneStatus)
+{
+	animations[key]->setDone(doneStatus);
+}
+
 const bool& AnimationComponent::Animation::isDone() const
 {
 	return done;
+}
+
+void AnimationComponent::Animation::setDone(bool done_status)
+{
+	done = done_status;
 }

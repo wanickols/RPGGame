@@ -40,6 +40,7 @@ public:
 private:
 	sf::View view;
 	sf::RenderTexture renderTexture;
+	sf::Vector2i viewGridPosition;
 	sf::Sprite renderSprite;
 	sf::Shader main_shader;
 

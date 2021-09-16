@@ -20,6 +20,7 @@ public:
 	const bool& play(const std::string key, const float& dt, const bool priority);
 	const bool& play(const std::string key, const float& dt, const float& modifier, const float& modifier_max, const bool priority);
 	const bool getLastIsDone(const std::string key) const;
+	void setIsDone(const std::string key, bool doneStatus);
 private:
 	class Animation {
 	public:
@@ -50,6 +51,8 @@ private:
 		//Accessors
 		const bool& isDone() const;
 
+		//Setters
+		void setDone(bool donestatus);
 		//functions
 
 		const bool& play(const float& dt) {

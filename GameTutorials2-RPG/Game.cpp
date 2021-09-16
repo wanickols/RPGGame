@@ -147,7 +147,7 @@ void Game::update()
 	}
 	//Application end
 	else {
-		endApplication();
+		//endApplication();
 		window->close();
 
 	}

@@ -99,6 +99,9 @@
     <ClCompile Include="PlayerStatMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="PlayerStatMenu.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -56,6 +56,9 @@ void GameState::initTextures()
 	if (!textures["PLAYER_SHEET"].loadFromFile("Resources/Images/Sprites/Player/PLAYER_SHEET.png")) {
 		throw "ERROR::GAME_STATE::COULD_NOT_LOAD_PLAYER_SHEET_TEXTURE \n";
 	}
+	if (!textures["FIRE_BULLET"].loadFromFile("Resources/Images/Sprites/Bullets/FIRE_BULLET.png")) {
+		throw "ERROR::GAME_STATE::COULD_NOT_LOAD_FIRE_BULLET_TEXTURE \n";
+	}
 }
 
 void GameState::initPauseMenu()
@@ -122,9 +125,40 @@ GameState::~GameState()
 
 void GameState::updateView()
 {
+	//Sets view to center the player
 	view.setCenter(
-		std::floor(player->getPosition().x + (static_cast<float>(mousePosWindow.x) - static_cast<float>(stateData->GraphicsSettings->resolution.width/2))/6),
-		std::floor(player->getPosition().y + (static_cast<float>(mousePosWindow.y) - static_cast<float>(stateData->GraphicsSettings->resolution.height/2))/6));
+		std::floor(player->getPosition().x + (static_cast<float>(mousePosWindow.x) - static_cast<float>(stateData->GraphicsSettings->resolution.width/2))/10),
+		std::floor(player->getPosition().y + (static_cast<float>(mousePosWindow.y) - static_cast<float>(stateData->GraphicsSettings->resolution.height/2))/10));
+
+
+	//Makes sure view doesn't show outside world bounds.
+	//X
+	if (map->getMaxSizeF().x >= this->view.getSize().x)
+	{
+		if (this->view.getCenter().x - this->view.getSize().x / 2.f < 0.f)
+		{
+			this->view.setCenter(0.f + this->view.getSize().x / 2.f, this->view.getCenter().y);
+		}
+		else if (this->view.getCenter().x + this->view.getSize().x / 2.f > map->getMaxSizeF().x)
+		{
+			this->view.setCenter(map->getMaxSizeF().x - this->view.getSize().x / 2.f, this->view.getCenter().y);
+		}
+	}
+	//Y
+	if (map->getMaxSizeF().y >= this->view.getSize().y)
+	{
+		if (this->view.getCenter().y - this->view.getSize().y / 2.f < 0.f)
+		{
+			this->view.setCenter(this->view.getCenter().x, 0.f + this->view.getSize().y / 2.f);
+		}
+		else if (this->view.getCenter().y + this->view.getSize().y / 2.f > map->getMaxSizeF().y)
+		{
+			this->view.setCenter(this->view.getCenter().x, map->getMaxSizeF().y - this->view.getSize().y / 2.f);
+		}
+	}
+	
+	viewGridPosition.x = static_cast<int>(this->view.getCenter().x) / static_cast<int>(this->stateData->gridSize);
+	viewGridPosition.y = static_cast<int>(this->view.getCenter().y) / static_cast<int>(this->stateData->gridSize);
 }
 
 void GameState::updatePlayerInput(const float& dt)
