@@ -39,6 +39,10 @@ const bool& AnimationComponent::play(const std::string key, const float& dt, con
 					lastAnimation = animations[key];
 				}
 			}
+			else if(lastAnimation == animations[key] && animations[key]->isDone())
+			{
+				priorityAnimation = NULL;
+			}
 
 			//If the priority animation is done, remove it
 			if (animations[key]->play(dt))

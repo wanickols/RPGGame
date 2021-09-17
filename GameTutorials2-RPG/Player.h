@@ -26,6 +26,7 @@ public:
 	void addEnergy(const int energy);
 	void loseExp(const int exp);
 	void addExp(const int exp);
+	void shoot();
 
 	void updateAnimation(const float& dt);
 	virtual void update(const float& dt);

@@ -4,6 +4,7 @@
 MovementComponent::MovementComponent(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration)
 	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f)
 {
+	lastState = 0;
 }
 
 MovementComponent::~MovementComponent()
@@ -23,11 +24,35 @@ const float& MovementComponent::getMaxVelocity() const
 
 const bool MovementComponent::getState(const short unsigned state) const
 {
+	
 	switch (state)
 	{
-	case IDLE:
+	case DOWNIDLE:
 
 		if (velocity.x == 0.f && velocity.y == 0.f)
+			if (lastState == movement_states::MOVING_DOWN || lastState == movement_states::DOWNIDLE) {
+				return true;
+			}
+
+		break;
+	case UPIDLE:
+
+		if (velocity.x == 0.f && velocity.y == 0.f)
+			if (lastState == movement_states::MOVING_UP || lastState == movement_states::UPIDLE)
+			return true;
+
+		break;
+	case LEFTIDLE:
+
+		if (velocity.x == 0.f && velocity.y == 0.f)
+			if (lastState == movement_states::MOVING_LEFT || lastState == movement_states::LEFTIDLE)
+			return true;
+
+		break;
+	case RIGHTIDLE:
+
+		if (velocity.x == 0.f && velocity.y == 0.f)
+			if (lastState == movement_states::MOVING_RIGHT || lastState == movement_states::RIGHTIDLE)
 			return true;
 
 		break;
@@ -68,6 +93,16 @@ const bool MovementComponent::getState(const short unsigned state) const
 	}
 
 	return false;
+}
+
+const unsigned short int MovementComponent::getLastState() const
+{
+	return lastState;
+}
+
+void MovementComponent::setLastState(const short unsigned state)
+{
+	lastState = state;
 }
 
 void MovementComponent::stopVelocity()

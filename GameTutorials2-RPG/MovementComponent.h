@@ -1,9 +1,9 @@
 #pragma once
 
 
-enum movement_states { IDLE = 0, ATTACK, MOVING_LEFT, MOVING_RIGHT, MOVING_UP, MOVING_DOWN };
+	enum movement_states { DOWNIDLE = 0, UPIDLE, LEFTIDLE, RIGHTIDLE, ATTACK, MOVING_LEFT, MOVING_RIGHT, MOVING_UP, MOVING_DOWN };
 
-class MovementComponent
+	class MovementComponent
 {
 private:
 	//Initializer functions
@@ -16,6 +16,8 @@ public:
 	const sf::Vector2f& getVelocity();
 	const float& getMaxVelocity() const;
 	const bool getState(const short unsigned state) const;
+	const unsigned short int getLastState() const;
+	void setLastState(const short unsigned state);
 
 	//functions
 	void stopVelocity();
@@ -30,6 +32,7 @@ private:
 	float acceleration;
 	float deceleration;
 
+	unsigned short lastState;
 	sf::Vector2f velocity;
 
 };
