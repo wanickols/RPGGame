@@ -26,10 +26,10 @@ public:
 	void addEnergy(const int energy);
 	void loseExp(const int exp);
 	void addExp(const int exp);
-	void shoot();
+	void shoot(const sf::Vector2f& mousePosView);
 
-	void updateAnimation(const float& dt);
-	virtual void update(const float& dt);
+	void updateAnimation(const float& dt, const sf::Vector2f& mousePosView);
+	virtual void update(const float& dt, const sf::Vector2f& mousePosView);
 	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, const bool show_hitbox = false);
 private:
 

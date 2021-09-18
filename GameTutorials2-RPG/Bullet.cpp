@@ -6,20 +6,34 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 	: running(true), xVel(velX), yVel(velY)
 {
 	
-	if (xVel == 0 && yVel == 0)
+if (xVel == 0 && yVel == 0)
 	{
-		if (state == DOWNIDLE)
-			yVel = 1.f;
-		else if (state == UPIDLE)
-			yVel = -1.f;
+	if (state == DOWNIDLE) {
+		yVel = 1.f; xVel = .3f;
+	}
+	else if (state == UPIDLE) {
+		yVel = -1.f; xVel = -.3f;
+	}
 		else if (state == RIGHTIDLE)
 			xVel = 1.f;
 		else if (state == LEFTIDLE)
 			xVel = -1.f;
-		
+		this->setPosition(x + (xVel * 32), y + (yVel * 32));
 	}
-		
-	this->setPosition(x, y);
+	else {
+		if (yVel > 0) {
+			this->setPosition(x + 10, y + 32);
+		}
+		if (yVel < 0) {
+			this->setPosition(x - 10, y - 32);
+		}
+		if (xVel > 0) {
+			this->setPosition(x + 32, y);
+		}
+		if (xVel < 0) {
+			this->setPosition(x - 32, y);
+		}
+	}
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(0,0,32,32));
 	createAnimationComponent(texture);
@@ -35,7 +49,7 @@ void Bullet::updateAnimation(const float& dt)
 	};
 }
 
-void Bullet::update(const float& dt)
+void Bullet::update(const float& dt, const sf::Vector2f& mousePosView)
 {
 	movementComponent->move(xVel, yVel, dt);
 	

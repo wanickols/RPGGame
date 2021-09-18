@@ -101,13 +101,13 @@ void Player::addExp(const int exp)
 	attributeComponent->addExp(exp);
 }
 
-void Player::shoot()
+void Player::shoot(const sf::Vector2f& mousePosView)
 {
 	bullets.push_back(std::make_unique<Bullet>(this->getPosition().x, this->getPosition().y, this->movementComponent->getVelocity().x, this->movementComponent->getVelocity().y, bulletTexture, movementComponent->getLastState()));
 }
 
 //Functions
-void Player::updateAnimation(const float& dt)
+void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 {
 	if (movementComponent->getState(ATTACK)) {
 		attacking = true;
@@ -117,7 +117,7 @@ void Player::updateAnimation(const float& dt)
 				if (!animationComponent->getLastIsDone("ATTACKDOWN"))
 				{
 					if (animationComponent->play("ATTACKDOWN", dt, false)) {
-						shoot();
+						shoot(mousePosView);
 					}
 				}
 				else {
@@ -125,7 +125,7 @@ void Player::updateAnimation(const float& dt)
 						movementComponent->setLastState(DOWNIDLE);
 					}
 					else {
-						shoot();
+						shoot(mousePosView);
 						animationComponent->setIsDone("ATTACKINGDOWN", false);
 						attacking = false;
 					}
@@ -136,7 +136,7 @@ void Player::updateAnimation(const float& dt)
 				if (!animationComponent->getLastIsDone("ATTACKUP"))
 				{
 					if (animationComponent->play("ATTACKUP", dt, false)) {
-						shoot();
+						shoot(mousePosView);
 					}
 				}
 				else {
@@ -145,7 +145,7 @@ void Player::updateAnimation(const float& dt)
 					}
 					else {
 						movementComponent->setLastState(UPIDLE);
-						shoot();
+						shoot(mousePosView);
 						animationComponent->setIsDone("ATTACKINGUP", false);
 						attacking = false;
 					}
@@ -157,7 +157,7 @@ void Player::updateAnimation(const float& dt)
 				if (!animationComponent->getLastIsDone("ATTACKRIGHT"))
 				{
 					if (animationComponent->play("ATTACKRIGHT", dt, false)) {
-						shoot();
+						shoot(mousePosView);
 					}
 				}
 				else {
@@ -166,7 +166,7 @@ void Player::updateAnimation(const float& dt)
 					}
 					else {
 						movementComponent->setLastState(RIGHTIDLE);
-						shoot();
+						shoot(mousePosView);
 						animationComponent->setIsDone("ATTACKINGRIGHT", false);
 						attacking = false;
 					}
@@ -178,7 +178,7 @@ void Player::updateAnimation(const float& dt)
 				if (!animationComponent->getLastIsDone("ATTACKLEFT"))
 				{
 					if (animationComponent->play("ATTACKLEFT", dt, false)) {
-						shoot();
+						shoot(mousePosView);
 					}
 				}
 				else {
@@ -186,7 +186,7 @@ void Player::updateAnimation(const float& dt)
 						movementComponent->setLastState(LEFTIDLE);
 					}
 					else {
-						shoot();
+						shoot(mousePosView);
 						animationComponent->setIsDone("ATTACKINGLEFT", false);
 						attacking = false;
 					}
@@ -241,15 +241,16 @@ void Player::updateAnimation(const float& dt)
 	}
 }
 
-void Player::update(const float& dt)
+void Player::update(const float& dt, const sf::Vector2f& mousePosView)
 {
 	movementComponent->update(dt);
+	//Bullets
 	if (!bullets.empty()) {
 		auto iter = bullets.begin();
 		while (iter != bullets.end())
 		{
 			if (iter->get()->getRunning()) {
-				iter->get()->update(dt);
+				iter->get()->update(dt, mousePosView);
 				iter++;
 			}
 			else
@@ -258,9 +259,12 @@ void Player::update(const float& dt)
 	}
 	else {
 		animationComponent->setIsDone("ATTACKDOWN", false);
+		animationComponent->setIsDone("ATTACKUP", false);
+		animationComponent->setIsDone("ATTACKLEFT", false);
+		animationComponent->setIsDone("ATTACKRIGHT", false);
 	}
 		
-	updateAnimation(dt);
+	updateAnimation(dt, mousePosView);
 	
 	hitBoxComponent->update();
 	

@@ -231,7 +231,7 @@ void GameState::update(const float& dt)
 		updatePlayerInput(dt);
 		updatePlayerGui(dt);
 
-		player->update(dt);
+		player->update(dt, mousePosView);
 		
 	}
 	else if (paused) {
