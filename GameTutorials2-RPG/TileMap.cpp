@@ -58,6 +58,22 @@ TileMap::~TileMap()
 {
 }
 
+const bool TileMap::tileEmpty(const int x, const int y, const int layer) const
+{
+	if (x >= 0 && x < static_cast<int>(map.size()))
+	{
+		if (y >= 0 && y < static_cast<int>(map[x].size()))
+		{
+			if (layer >= 0 && layer < static_cast<int>(map[x][y].size()))
+			{
+				return map[x][y][layer].empty();
+			}
+		}
+	}
+	
+	return false;
+}
+
 //Accessors
 const int TileMap::getLayerSize(const int x, const int y, const int layer) const
 {

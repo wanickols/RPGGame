@@ -22,6 +22,7 @@ public:
 	virtual ~TileMap();
 	
 	//Accessors
+	const bool tileEmpty(const int x, const int y, const int layer) const;
 	const int getLayerSize(const int x, const int y, const int layer) const;
 
 	//Functions

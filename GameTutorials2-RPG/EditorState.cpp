@@ -12,6 +12,7 @@ void EditorState::initVariables()
 	collision = false;
 	layer = 0;
 	Type = TileType::DEFAULT;
+	tileLock = false;
 	cameraSpeed = 400.f;
 	showCollision = true;
 }
@@ -131,7 +132,11 @@ void EditorState::updateEditorInput(const float& dt)
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && getKeyTime())
 	{
 		if (!textureSelector->getActive()) {
-			map->addTile(mousePosGrid.x, mousePosGrid.y, 0, textureRect, collision, Type);
+			if (tileLock) {
+				if (map->tileEmpty(mousePosGrid.x, mousePosGrid.y, layer))
+					map->addTile(mousePosGrid.x, mousePosGrid.y, 0, textureRect, collision, Type);
+			}else
+				map->addTile(mousePosGrid.x, mousePosGrid.y, 0, textureRect, collision, Type);
 		}
 		else {
 			textureRect = textureSelector->getTextureRect();
@@ -151,6 +156,14 @@ void EditorState::updateEditorInput(const float& dt)
 				collision = false;
 			else
 				collision = true;
+		}
+		//Toggle Collisions with C button
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("TOGGLE_LOCKED"))) && getKeyTime()) //C key
+		{
+			if (tileLock)
+				tileLock = false;
+			else
+				tileLock = true;
 		}
 		//Shows Collision Hitbox with X
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("SHOW_COLLISION"))) && getKeyTime())
@@ -233,11 +246,12 @@ void EditorState::updateGui(const float& dt)
 		selectorRect.setPosition(mousePosGrid.x * gridSize, mousePosGrid.y * gridSize);
 	}
 	std::stringstream ss;
-	ss << mousePosView.x << " " << mousePosView.y << "\n" 
-	   << mousePosGrid.x << " " << mousePosGrid.y << "\n"
-	   << "Collision: " << collision << "\n"
-	   << "Tiles: " << map->getLayerSize(mousePosGrid.x, mousePosGrid.y, layer) << "\n"
-	   << "Type: " << Type;
+	ss << mousePosView.x << " " << mousePosView.y << "\n"
+		<< mousePosGrid.x << " " << mousePosGrid.y << "\n"
+		<< "Collision: " << collision << "\n"
+		<< "Tiles: " << map->getLayerSize(mousePosGrid.x, mousePosGrid.y, layer) << "\n"
+		<< "Type: " << Type << "\n"
+		<< "Locked " << tileLock;
 	cursorText.setString(ss.str());
 	cursorText.setPosition(mousePosWindow.x + 100.f, mousePosWindow.y - 50.f);
 

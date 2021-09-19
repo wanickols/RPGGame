@@ -52,6 +52,7 @@ private:
 	bool collision;
 	bool showCollision;
 	short Type;
+	bool tileLock;
 	float cameraSpeed;
 
 	sf::Texture bgTexture; //background texture;
