@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "TileMap.h"
 
 //Init Functions
 void Player::initVariables()
@@ -108,7 +109,17 @@ void Player::addExp(const int exp)
 
 void Player::shoot(const sf::Vector2f& mousePosView)
 {
-	bullets.push_back(std::make_unique<Bullet>(this->getPosition().x, this->getPosition().y, this->movementComponent->getVelocity().x, this->movementComponent->getVelocity().y, bulletTexture, movementComponent->getLastState()));
+	bullets.push_back(std::make_shared<Bullet>(this->getPosition().x, this->getPosition().y, this->movementComponent->getVelocity().x, this->movementComponent->getVelocity().y, bulletTexture, movementComponent->getLastState()));
+}
+
+void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
+{
+	if (!bullets.empty()) {
+		for (int i = 0; i < bullets.size(); i++) {
+			map->updateCollision(bullets.at(i), dt);
+
+		}
+	}
 }
 
 //Functions

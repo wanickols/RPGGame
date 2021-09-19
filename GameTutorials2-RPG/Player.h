@@ -3,6 +3,8 @@
 #include "Queue"
 #include "Bullet.h"
 
+class TileMap;
+
 class Player :
 	public Entity
 {
@@ -27,14 +29,15 @@ public:
 	void loseExp(const int exp);
 	void addExp(const int exp);
 	void shoot(const sf::Vector2f& mousePosView);
-
+	
+	void updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map);
 	void updateAnimation(const float& dt, const sf::Vector2f& mousePosView);
 	virtual void update(const float& dt, const sf::Vector2f& mousePosView);
 	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, const bool show_hitbox = false);
 private:
 
 	//variables
-	std::vector <std::unique_ptr<Bullet> > bullets;
+	std::vector <std::shared_ptr<Bullet> > bullets;
 	sf::Texture bulletTexture;
 	bool attacking;
 };

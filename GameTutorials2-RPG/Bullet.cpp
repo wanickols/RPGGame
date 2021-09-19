@@ -38,7 +38,7 @@ if (xVel == 0 && yVel == 0)
 	sprite.setTextureRect(sf::IntRect(0,0,32,32));
 	createAnimationComponent(texture);
 	createMovementComponent(700.f, 1300.f, 400.f);
-	createHitBoxComponent(sprite, 6.f, 2.f, 21, 30);
+	createHitBoxComponent(sprite, 6.f, 2.f, 27, 27);
 	animationComponent->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
 }
 
@@ -56,6 +56,7 @@ void Bullet::update(const float& dt, const sf::Vector2f& mousePosView)
 	
 	movementComponent->update(dt);
 	updateAnimation(dt);
+	hitBoxComponent->update();
 }
 
 void Bullet::render(sf::RenderTarget& target, sf::Shader* shader, const bool show_hitbox)
