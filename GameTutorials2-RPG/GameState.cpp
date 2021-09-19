@@ -84,14 +84,14 @@ void GameState::initShaders()
 
 void GameState::initTileMap()
 {
-	//CHANGE LATER TO GET LOADFROMFILE
-	map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
-	map->loadFromFile("Save/mapfile");
+	map = std::make_shared<TileMap>("Save/mapfile");
+	//map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
+	//map->loadFromFile("Save/mapfile");
 }
 
 void GameState::initPlayers()
 {
-	player = std::make_unique<Player>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
+	player = std::make_shared<Player>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 }
 
 void GameState::initPlayerGui()
@@ -216,6 +216,7 @@ void GameState::updateTileMap(const float& dt)
 	//std::shared_ptr<Entity> player1 = std::make_shared<Entity>(player);
 	map->update();
 	map->updateCollision(player, dt);
+	player->updateBulletCollision(dt, map);
 }
 
 void GameState::update(const float& dt)
@@ -253,7 +254,7 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 	renderTexture.setView(view);
 	map->render(renderTexture, player->getGridPosition((int)stateData->gridSize), player->getCenterPosition(), &main_shader);
 	player->render(renderTexture, &main_shader);
-	map->renderDeferred(renderTexture);
+	map->renderDeferred(renderTexture, player->getPosition(), &main_shader);
 	
 	//Player Gui
 	renderTexture.setView(renderTexture.getDefaultView());

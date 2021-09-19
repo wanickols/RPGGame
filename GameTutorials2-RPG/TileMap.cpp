@@ -10,8 +10,16 @@ void TileMap::initTileMap()
 }
 
 TileMap::TileMap(float grid_size, int width, int height, std::string texture_file)
-	: textureFile(texture_file), fromX(0), toX(0), fromY(0), toY(0), layer()
+	: textureFile(texture_file), fromX(0), toX(0), fromY(0), toY(0), layer(0)
 {
+	
+
+	
+
+	
+	if (!tileSheet.loadFromFile(texture_file))
+		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
+
 	gridSizeF = grid_size;
 	gridSizeI = static_cast<int>(grid_size);
 	layers = 1;
@@ -22,36 +30,33 @@ TileMap::TileMap(float grid_size, int width, int height, std::string texture_fil
 	maxSizeWorldI.y = height * gridSizeI;
 
 
-	map.reserve(maxSize.x);
-	for (unsigned short x = 0; x < maxSize.x; x++)
-	{
-		map.emplace_back(std::vector<std::vector<std::vector<std::shared_ptr<Tile>>>>());
-		map[x].reserve(maxSize.y);
-		for (unsigned short y = 0; y < maxSize.y; y++)
-		{
-			map[x].emplace_back(std::vector<std::vector<std::shared_ptr<Tile>>>());
-			map[x][y].reserve(layers);
-			for (unsigned short z = 0; z < layers; z++)
-			{
-				map[x][y].emplace_back(std::vector<std::shared_ptr<Tile>>());
-				map[x][y][z].reserve(map[x][y][z].size());
-				for (size_t k = 0; k < map[x][y][z].size(); k++) {
-					map[x][y][z].emplace_back(nullptr);
-				}
-			}
-		}
-	}
-
-	
-	if (!tileSheet.loadFromFile(texture_file))
-		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
-
 	collisionBox.setSize(sf::Vector2f(gridSizeF, gridSizeF));
 	collisionBox.setFillColor(sf::Color::Transparent);
 	collisionBox.setOutlineColor(sf::Color::Red);
 	collisionBox.setOutlineThickness(1.f);
 
 
+}
+
+TileMap::TileMap(const std::string file_name)
+: fromX(0), toX(0), fromY(0), toY(0), layer(0)
+{
+
+	loadFromFile(file_name);
+
+	gridSizeF = (float)gridSizeI;
+	maxSizeWorldF.x = static_cast<float>(maxSize.x) * gridSizeF;
+	maxSizeWorldF.y = static_cast<float>(maxSize.y) * gridSizeF;
+	maxSizeWorldI.x = maxSize.x * gridSizeI;
+	maxSizeWorldI.y = maxSize.y * gridSizeI;
+
+	//if (!tileSheet.loadFromFile(textureFile))
+		//std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
+
+	collisionBox.setSize(sf::Vector2f(gridSizeF, gridSizeF));
+	collisionBox.setFillColor(sf::Color::Transparent);
+	collisionBox.setOutlineColor(sf::Color::Red);
+	collisionBox.setOutlineThickness(1.f);
 }
 
 TileMap::~TileMap()
@@ -105,16 +110,18 @@ const sf::Vector2f& TileMap::getMaxSizeF() const
 //Functions
 void TileMap::clear()
 {
-	for (unsigned short x = 0; x < maxSize.x; x++)
-	{
-		for (unsigned short y = 0; y < maxSize.y; y++)
+	if (!map.empty()) {
+		for (unsigned short x = 0; x < maxSize.x; x++)
 		{
-			for (unsigned short z = 0; z < layers; z++)
+			for (unsigned short y = 0; y < maxSize.y; y++)
 			{
-				for (size_t k = 0; k < map[x][y][z].size(); k++) {
-					if (!map[x][y][z].empty()) //sees if tile there to remove
-					{
-						map[x][y][z].pop_back();
+				for (unsigned short z = 0; z < layers; z++)
+				{
+					for (size_t k = 0; k < map[x][y][z].size(); k++) {
+						if (!map[x][y][z].empty()) //sees if tile there to remove
+						{
+							map[x][y][z].pop_back();
+						}
 					}
 				}
 			}
@@ -173,6 +180,7 @@ void TileMap::saveToFile(const std::string file_name)
 			<< gridSizeI << "\n"
 			<< layers << "\n"
 			<< textureFile << "\n";
+		
 		for (unsigned short x = 0; x < maxSize.x; x++)
 		{
 			for (unsigned short y = 0; y < maxSize.y; y++)
@@ -215,7 +223,29 @@ void TileMap::loadFromFile(const std::string file_name)
 			>> gridSizeI
 			>> layers
 			>> textureFile;
+		gridSizeF = (float)gridSizeI;
+		map.reserve(maxSize.x);
+		for (unsigned short x = 0; x < maxSize.x; x++)
+		{
+			map.emplace_back(std::vector<std::vector<std::vector<std::shared_ptr<Tile>>>>());
+			map[x].reserve(maxSize.y);
+			for (unsigned short y = 0; y < maxSize.y; y++)
+			{
+				map[x].emplace_back(std::vector<std::vector<std::shared_ptr<Tile>>>());
+				map[x][y].reserve(layers);
+				for (unsigned short z = 0; z < layers; z++)
+				{
+					map[x][y].emplace_back(std::vector<std::shared_ptr<Tile>>());
+					map[x][y][z].reserve(map[x][y][z].size());
+					for (size_t k = 0; k < map[x][y][z].size(); k++) {
+						map[x][y][z].emplace_back(nullptr);
+					}
+				}
+			}
+		}
 
+		if (!tileSheet.loadFromFile(textureFile))
+			std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
 
 		//Tile
 		int x;
@@ -371,25 +401,25 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 {
 		layer = 0;
 		//Render boxes only around the player. (just enough to never show rendering on screen)
-		fromX = gridPosition.x - 18;
+		fromX = gridPosition.x - 23;
 		if (fromX < 0)
 			fromX = 0;
 		else if (fromX > maxSizeWorldI.x)
 			fromX = maxSizeWorldI.x;
 
-		toX = gridPosition.x + 18;
+		toX = gridPosition.x + 23;
 		if (toX < 0)
 			toX = 0;
 		else if (toX > maxSizeWorldI.x)
 			toX = maxSizeWorldI.x;
 
-		fromY = gridPosition.y - 10;
+		fromY = gridPosition.y - 17;
 		if (fromY < 0)
 			fromY = 0;
 		else if (fromY > maxSizeWorldI.y)
 			fromY = maxSizeWorldI.y;
 
-		toY = gridPosition.y + 10;
+		toY = gridPosition.y + 17;
 		if (toY < 0)
 			toY = 0;
 		else if (toY > maxSizeWorldI.y)
