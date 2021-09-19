@@ -71,8 +71,9 @@ void EditorState::initButtons()
 
 void EditorState::initTileMap()
 {
-	map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
-	map->loadFromFile("Save/mapfile");
+	map = std::make_unique<TileMap>("Save/mapfile");
+	//map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
+	//map->loadFromFile("Save/mapfile");
 }
 
 void EditorState::initGui()

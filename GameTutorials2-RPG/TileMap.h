@@ -19,6 +19,7 @@ private:
 public:
 	
 	TileMap(float grid_size, int width, int height, std::string texture_file);
+	TileMap(const std::string file_name);
 	virtual ~TileMap();
 	
 	//Accessors
@@ -31,6 +32,7 @@ public:
 	void removeTile(const int x, const int y, const int z);
 	void saveToFile(const std::string file_name);
 	void loadFromFile(const std::string file_name);
+	void initLoadFromFile(const std::string& file_name);
 
 	void updateCollision(std::shared_ptr<Entity> entity, const float& dt);
 	

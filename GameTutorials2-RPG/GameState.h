@@ -45,7 +45,7 @@ private:
 	sf::Shader main_shader;
 
 
-	std::unique_ptr<TileMap> map;
+	std::shared_ptr<TileMap> map;
 	std::shared_ptr<Player> player;
 	std::shared_ptr<PlayerGui> playerGui;
 	std::unique_ptr<PauseMenu> pmenu;
