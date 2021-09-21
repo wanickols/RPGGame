@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Tile.h"
 
-Tile::Tile(float x, float y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect, bool collision, short type)
+Tile::Tile(float x, float y, const sf::Texture& texture, const sf::IntRect& texture_rect, bool collision, short type)
 	: collision(collision), type(type)
 {
 	

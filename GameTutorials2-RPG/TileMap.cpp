@@ -137,7 +137,7 @@ void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& 
 		z >= 0 && z < layers)//z 
 	{
 		
-			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, gridSizeF, tileSheet, texture_rect, collision, type));
+			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
 	
 	}
 }
@@ -242,7 +242,7 @@ void TileMap::loadFromFile(const std::string file_name)
 			
 				
 					//std::cout << x << y << z << trX << trY << collision << type;
-				map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, gridSizeF, tileSheet, texture_rect, collision, type));
+				map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
 		}
 	}
 	else
@@ -305,7 +305,7 @@ void TileMap::initLoadFromFile(const std::string& file_name)
 
 
 			//std::cout << x << y << z << trX << trY << collision << type;
-			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, gridSizeF, tileSheet, texture_rect, collision, type));
+			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
 		}
 	}
 	else

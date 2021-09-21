@@ -4,6 +4,7 @@
 #include "GraphicsSettings.h"
 #include "PauseMenu.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "PlayerGui.h"
 
 void GameState::initDefferredRender()
@@ -92,6 +93,7 @@ void GameState::initTileMap()
 void GameState::initPlayers()
 {
 	player = std::make_shared<Player>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
+	testEnemy = std::make_shared<Enemy>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 }
 
 void GameState::initPlayerGui()
@@ -233,7 +235,7 @@ void GameState::update(const float& dt)
 		updatePlayerGui(dt);
 
 		player->update(dt, mousePosView);
-		
+		testEnemy->update(dt, mousePosView);
 	}
 	else if (paused) {
 		pmenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
@@ -254,6 +256,7 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 	renderTexture.setView(view);
 	map->render(renderTexture, player->getGridPosition((int)stateData->gridSize), player->getCenterPosition(), &main_shader);
 	player->render(renderTexture, &main_shader);
+	testEnemy->render(renderTexture, &main_shader);
 	map->renderDeferred(renderTexture, player->getPosition(), &main_shader);
 	
 	//Player Gui

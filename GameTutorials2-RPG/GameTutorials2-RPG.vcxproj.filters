@@ -37,6 +37,9 @@
     <Filter Include="Items">
       <UniqueIdentifier>{14b5998d-c221-42c0-bb72-ea605bc00c3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Items\Runes">
+      <UniqueIdentifier>{25e623ac-76a7-48e4-b0d7-4ba3ccda642d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,6 +109,21 @@
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
+    <ClCompile Include="FireRune.cpp">
+      <Filter>Items\Runes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rune.cpp">
+      <Filter>Items\Runes</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillComponent.cpp">
+      <Filter>Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -174,6 +192,21 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="FireRune.h">
+      <Filter>Items\Runes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rune.h">
+      <Filter>Items\Runes</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillComponent.h">
+      <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
