@@ -121,7 +121,8 @@ void Player::addExp(const int exp)
 
 void Player::shoot(const sf::Vector2f& mousePosView)
 {
-	activeRune->shoot(getPosition().x, getPosition().y, movementComponent->getVelocity().x, movementComponent->getVelocity().y, movementComponent->getLastState());
+	
+	activeRune->shoot(getPosition().x, getPosition().y, movementComponent->getVelocity().x + (mousePosView.x - getPosition().x)/50, movementComponent->getVelocity().y + (mousePosView.y - getPosition().y)/50, movementComponent->getLastState());
 }
 
 void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
@@ -133,7 +134,7 @@ void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map
 //Functions
 void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 {
-	//IF STATEMENT BASED ON LASTSTATE OF PLAYER TO DETERMINE ANIMATION NEEDED
+	//IF STATEMENT BASED ON LASTSTATE OF PLAYER TO DETERMINE ANIMATION NEEDED //FIXME MAKE SWITCH
 	if (movementComponent->getState(ATTACK)) {
 		attacking = true;
 		if (attacking) {

@@ -5,22 +5,72 @@
 Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, const unsigned short state)
 	: running(true), xVel(velX), yVel(velY)
 {
-	
-if (xVel == 0 && yVel == 0)
+
+	if (xVel == 0 && yVel == 0)
 	{
-	if (state == DOWNIDLE) {
-		yVel = 1.f; xVel = .3f;
-	}
-	else if (state == UPIDLE) {
-		yVel = -1.f; xVel = -.3f;
-	}
+		if (state == DOWNIDLE) {
+			yVel = 1.f; xVel = .3f;
+		}
+		else if (state == UPIDLE) {
+			yVel = -1.f; xVel = -.3f;
+		}
 		else if (state == RIGHTIDLE)
 			xVel = 1.f;
-		else if (state == LEFTIDLE)
+		else if (state == LEFTIDLE) {
 			xVel = -1.f;
+		}
+		else {
+			xVel = 1.f;
+			yVel = 1.f;
+		}
 		this->setPosition(x + (xVel * 32), y + (yVel * 32));
 	}
 	else {
+		//FIXME SWITCH STAMENNT
+		//Add bullet Direction Bounds when add switchstatments
+		if (state == MOVING_RIGHT && xVel <= 0)
+		{
+			xVel = -xVel;
+			yVel = 0;
+		}
+		else if(state == RIGHTIDLE && xVel <= 0)
+		{
+			xVel = -xVel;
+			yVel = 0;
+		}
+		else if (state == MOVING_LEFT && xVel >= 0)
+		{
+			xVel = -xVel;
+			yVel = 0;
+		}
+		else if (state == LEFTIDLE && xVel >= 0)
+		{
+			xVel = -xVel;
+			yVel = 0;
+		}else if (state == MOVING_DOWN && yVel <= 0)
+		{
+			yVel = -yVel;
+			xVel = 0;
+		}
+		else if (state == DOWNIDLE && yVel <= 0)
+		{
+			yVel = -yVel;
+			xVel = 0;
+		}
+		else if (state == MOVING_UP && yVel >= 0)
+		{
+			yVel = -yVel;
+			xVel = 0;
+		}
+		else if (state == UPIDLE && yVel >= 0)
+		{
+			yVel = -yVel;
+			xVel = 0;
+		}
+
+		
+
+		//Offset
 		if (yVel > 0) {
 			this->setPosition(x + 10, y + 32);
 		}
@@ -33,7 +83,11 @@ if (xVel == 0 && yVel == 0)
 		if (xVel < 0) {
 			this->setPosition(x - 32, y);
 		}
+
 	}
+
+
+
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(0,0,32,32));
 	createAnimationComponent(texture);
