@@ -15,7 +15,8 @@ public:
 	//Accessors
 	const sf::Vector2f& getVelocity();
 	const float& getMaxVelocity() const;
-	const bool getState(const short unsigned state) const;
+	const bool getState(const short unsigned state);
+	const unsigned short int getState();
 	const unsigned short int getLastState() const;
 	void setLastState(const short unsigned state);
 

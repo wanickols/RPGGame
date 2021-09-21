@@ -22,15 +22,17 @@ const float& MovementComponent::getMaxVelocity() const
 	return maxVelocity;
 }
 
-const bool MovementComponent::getState(const short unsigned state) const
+const bool MovementComponent::getState(const short unsigned state)
 {
-	
+		
+
 	switch (state)
 	{
 	case DOWNIDLE:
 
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_DOWN || lastState == movement_states::DOWNIDLE) {
+				lastState = state;
 				return true;
 			}
 
@@ -38,22 +40,28 @@ const bool MovementComponent::getState(const short unsigned state) const
 	case UPIDLE:
 
 		if (velocity.x == 0.f && velocity.y == 0.f)
-			if (lastState == movement_states::MOVING_UP || lastState == movement_states::UPIDLE)
-			return true;
+			if (lastState == movement_states::MOVING_UP || lastState == movement_states::UPIDLE) {
+				lastState = state;
+				return true;
+			}
 
 		break;
 	case LEFTIDLE:
 
 		if (velocity.x == 0.f && velocity.y == 0.f)
-			if (lastState == movement_states::MOVING_LEFT || lastState == movement_states::LEFTIDLE)
-			return true;
+			if (lastState == movement_states::MOVING_LEFT || lastState == movement_states::LEFTIDLE) {
+				lastState = state;
+				return true;
+			}
 
 		break;
 	case RIGHTIDLE:
 
 		if (velocity.x == 0.f && velocity.y == 0.f)
-			if (lastState == movement_states::MOVING_RIGHT || lastState == movement_states::RIGHTIDLE)
-			return true;
+			if (lastState == movement_states::MOVING_RIGHT || lastState == movement_states::RIGHTIDLE) {
+				lastState = state;
+				return true;
+			}
 
 		break;
 
@@ -65,34 +73,76 @@ const bool MovementComponent::getState(const short unsigned state) const
 
 	case MOVING_LEFT:
 
-		if (velocity.x < 0.f)
+		if (velocity.x < 0.f) {
+			lastState = state;
 			return true;
+		}
 
 		break;
 
 	case MOVING_RIGHT:
 
-		if (velocity.x > 0.f)
+		if (velocity.x > 0.f) {
+			lastState = state;
 			return true;
-
+		}
 		break;
 
 	case MOVING_UP:
 
-		if (velocity.y < 0.f)
+		if (velocity.y < 0.f) {
+			lastState = state;
 			return true;
-
+		}
 		break;
 
 	case MOVING_DOWN:
 
-		if (velocity.y > 0.f)
+		if (velocity.y > 0.f) {
+			lastState = state;
 			return true;
-
+		}
 		break;
 	}
 
 	return false;
+}
+
+const unsigned short int MovementComponent::getState()
+{	
+	if (getState(DOWNIDLE))
+	{
+		return DOWNIDLE;
+	}
+	else if (getState(UPIDLE))
+	{
+		return UPIDLE;
+	}
+	else if (getState(LEFTIDLE))
+	{
+		return LEFTIDLE;
+	}
+	else if (getState(RIGHTIDLE))
+	{
+		return RIGHTIDLE;
+	}
+	else if (getState(MOVING_LEFT))
+	{
+		return MOVING_LEFT;
+	}
+	else if (getState(MOVING_UP))
+	{
+		return MOVING_UP; 
+	}
+	else if (getState(MOVING_RIGHT))
+	{
+		return MOVING_RIGHT;
+	}
+	else if (getState(MOVING_DOWN))
+	{
+		return MOVING_DOWN;
+	}
+	
 }
 
 const unsigned short int MovementComponent::getLastState() const

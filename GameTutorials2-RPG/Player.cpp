@@ -122,7 +122,7 @@ void Player::addExp(const int exp)
 void Player::shoot(const sf::Vector2f& mousePosView)
 {
 	
-	activeRune->shoot(getPosition().x, getPosition().y, movementComponent->getVelocity().x + (mousePosView.x - getPosition().x)/50, movementComponent->getVelocity().y + (mousePosView.y - getPosition().y)/50, movementComponent->getLastState());
+	activeRune->shoot(getPosition().x, getPosition().y, movementComponent->getVelocity().x + (mousePosView.x - getPosition().x)/100, movementComponent->getVelocity().y + (mousePosView.y - getPosition().y)/100, movementComponent->getLastState());
 }
 
 void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
@@ -134,12 +134,12 @@ void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map
 //Functions
 void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 {
-	//IF STATEMENT BASED ON LASTSTATE OF PLAYER TO DETERMINE ANIMATION NEEDED //FIXME MAKE SWITCH
 	if (movementComponent->getState(ATTACK)) {
 		attacking = true;
 		if (attacking) {
-			if (movementComponent->getState(DOWNIDLE))
+			switch (movementComponent->getLastState())
 			{
+			case(DOWNIDLE):
 				movementComponent->setLastState(DOWNIDLE);
 				if (!animationComponent->getLastIsDone("IDLEATTACKDOWN"))
 				{
@@ -149,31 +149,28 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 				}
 				else {
 					if (!animationComponent->play("IDLEATTACKINGDOWN", dt, false)) {
-						
+
 					}
 					else {
 						shoot(mousePosView);
-						
+
 						animationComponent->setIsDone("IDLEATTACKINGDOWN", false);
 						attacking = false;
 					}
 				}
-			}
-			else if (movementComponent->getState(MOVING_DOWN))
-			{
+				break;
+			case(MOVING_DOWN):
 				movementComponent->setLastState(MOVING_DOWN);
 				if (!animationComponent->play("MOVINGATTACKDOWN", dt, false)) {
-					
+
 				}
 				else {
 					shoot(mousePosView);
 					animationComponent->setIsDone("MOVINGATTACKDOWN", false);
 					attacking = false;
-
 				}
-			}
-			else if (movementComponent->getState(UPIDLE))
-			{
+				break;
+			case(UPIDLE):
 				movementComponent->setLastState(UPIDLE);
 				if (!animationComponent->getLastIsDone("IDLEATTACKUP"))
 				{
@@ -183,22 +180,20 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 				}
 				else {
 					if (!animationComponent->play("IDLEATTACKINGUP", dt, false)) {
-						
+
 					}
 					else {
-						
+
 						shoot(mousePosView);
 						animationComponent->setIsDone("IDLEATTACKINGUP", false);
 						attacking = false;
 					}
 				}
-
-			}
-			else if (movementComponent->getState(MOVING_UP))
-			{
+				break;
+			case(MOVING_UP):
 				movementComponent->setLastState(MOVING_UP);
 				if (!animationComponent->play("MOVINGATTACKUP", dt, false)) {
-					
+
 				}
 				else {
 					shoot(mousePosView);
@@ -206,9 +201,8 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 					attacking = false;
 
 				}
-			}
-			else if (movementComponent->getState(RIGHTIDLE))
-			{
+				break;
+			case(RIGHTIDLE):
 				movementComponent->setLastState(RIGHTIDLE);
 				if (!animationComponent->getLastIsDone("IDLEATTACKRIGHT"))
 				{
@@ -225,24 +219,20 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 						attacking = false;
 					}
 				}
-
-			}
-			else if (movementComponent->getState(MOVING_RIGHT))
-			{
+				break;
+			case(MOVING_RIGHT):
 				movementComponent->setLastState(MOVING_RIGHT);
 
 				if (!animationComponent->play("MOVINGATTACKRIGHT", dt, false)) {
-				
+
 				}
 				else {
 					shoot(mousePosView);
 					animationComponent->setIsDone("MOVINGATTACKRIGHT", false);
 					attacking = false;
-
 				}
-			}
-			else if (movementComponent->getState(LEFTIDLE))
-			{
+				break;
+			case(LEFTIDLE):
 				movementComponent->setLastState(LEFTIDLE);
 				if (!animationComponent->getLastIsDone("IDLEATTACKLEFT"))
 				{
@@ -252,7 +242,7 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 				}
 				else {
 					if (!animationComponent->play("IDLEATTACKINGLEFT", dt, false)) {
-		
+
 					}
 					else {
 						shoot(mousePosView);
@@ -260,65 +250,51 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 						attacking = false;
 					}
 				}
-
-			}
-			else if (movementComponent->getState(MOVING_LEFT))
-			{
+				break;
+			case(MOVING_LEFT):
 				movementComponent->setLastState(MOVING_LEFT);
 				if (!animationComponent->play("MOVINGATTACKLEFT", dt, false)) {
-					
+
 				}
 				else {
 					shoot(mousePosView);
 					animationComponent->setIsDone("MOVINGATTACKLEFT", false);
 					attacking = false;
-
 				}
-			}
+				break;
 			
+			}
 		}
+		movementComponent->getState();
 	}
-
 	else {
-		if (movementComponent->getState(DOWNIDLE))
-		{
-			movementComponent->setLastState(DOWNIDLE);
+	//ANIMATIONS WHILE NOT ATTACKING
+		switch (movementComponent->getState())
+		{	
+		case(DOWNIDLE):
 			animationComponent->play("DOWNIDLE", dt, false);
-		}
-		else if (movementComponent->getState(UPIDLE))
-		{
-			movementComponent->setLastState(UPIDLE);
+			break;
+		case(UPIDLE):
 			animationComponent->play("UPIDLE", dt, false);
-		}
-		else if (movementComponent->getState(LEFTIDLE))
-		{
-			movementComponent->setLastState(LEFTIDLE);
+			break;
+		case(LEFTIDLE):
 			animationComponent->play("LEFTIDLE", dt, false);
-		}
-		else if (movementComponent->getState(RIGHTIDLE))
-		{
-			movementComponent->setLastState(RIGHTIDLE);
+			break;
+		case(RIGHTIDLE):
 			animationComponent->play("RIGHTIDLE", dt, false);
-		}
-		else if (movementComponent->getState(MOVING_LEFT))
-		{
-			movementComponent->setLastState(MOVING_LEFT);
+			break;
+		case(MOVING_LEFT):
 			animationComponent->play("WALK_LEFT", dt, movementComponent->getVelocity().x, movementComponent->getMaxVelocity(), false);
-		}
-		else if (movementComponent->getState(MOVING_RIGHT))
-		{
-			movementComponent->setLastState(MOVING_RIGHT);
+			break;
+		case(MOVING_RIGHT):
 			animationComponent->play("WALK_RIGHT", dt, movementComponent->getVelocity().x, movementComponent->getMaxVelocity(), false);
-		}
-		else if (movementComponent->getState(MOVING_UP))
-		{
-			movementComponent->setLastState(MOVING_UP);
+			break;
+		case(MOVING_UP):
 			animationComponent->play("WALK_UP", dt, movementComponent->getVelocity().y, movementComponent->getMaxVelocity(), false);
-		}
-		else if (movementComponent->getState(MOVING_DOWN))
-		{
-			movementComponent->setLastState(MOVING_DOWN);
+			break;
+		case(MOVING_DOWN):
 			animationComponent->play("WALK_DOWN", dt, movementComponent->getVelocity().y, movementComponent->getMaxVelocity(), false);
+			break;
 		}
 	}
 }

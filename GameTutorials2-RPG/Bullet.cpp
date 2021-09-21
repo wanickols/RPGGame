@@ -8,85 +8,66 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 
 	if (xVel == 0 && yVel == 0)
 	{
-		if (state == DOWNIDLE) {
-			yVel = 1.f; xVel = .3f;
-		}
-		else if (state == UPIDLE) {
-			yVel = -1.f; xVel = -.3f;
-		}
-		else if (state == RIGHTIDLE)
-			xVel = 1.f;
-		else if (state == LEFTIDLE) {
-			xVel = -1.f;
-		}
-		else {
-			xVel = 1.f;
-			yVel = 1.f;
+
+		switch (state)
+		{
+		case(DOWNIDLE): 
+			yVel = 2.f; xVel = .3f;
+			this->setPosition(x + 10, y + 32);
+			break; 
+		case(UPIDLE):
+			yVel = -2.f; xVel = -.3f;
+			this->setPosition(x - 10, y - 32);
+			break;
+		case(RIGHTIDLE):
+			xVel = 2.f;
+			this->setPosition(x + 32, y);
+			break;
+		case(LEFTIDLE):
+			xVel = -2.f;
+			this->setPosition(x - 32, y-5);
+			break;
+		default:
+			xVel = 2.f;
+			yVel = 2.f;
+			break;
 		}
 		this->setPosition(x + (xVel * 32), y + (yVel * 32));
 	}
 	else {
 		//FIXME SWITCH STAMENNT
 		//Add bullet Direction Bounds when add switchstatments
-		if (state == MOVING_RIGHT && xVel <= 0)
+		switch (state) 
 		{
-			xVel = -xVel;
-			yVel = 0;
-		}
-		else if(state == RIGHTIDLE && xVel <= 0)
-		{
-			xVel = -xVel;
-			yVel = 0;
-		}
-		else if (state == MOVING_LEFT && xVel >= 0)
-		{
-			xVel = -xVel;
-			yVel = 0;
-		}
-		else if (state == LEFTIDLE && xVel >= 0)
-		{
-			xVel = -xVel;
-			yVel = 0;
-		}else if (state == MOVING_DOWN && yVel <= 0)
-		{
-			yVel = -yVel;
-			xVel = 0;
-		}
-		else if (state == DOWNIDLE && yVel <= 0)
-		{
-			yVel = -yVel;
-			xVel = 0;
-		}
-		else if (state == MOVING_UP && yVel >= 0)
-		{
-			yVel = -yVel;
-			xVel = 0;
-		}
-		else if (state == UPIDLE && yVel >= 0)
-		{
-			yVel = -yVel;
-			xVel = 0;
-		}
-
-		
-
-		//Offset
-		if (yVel > 0) {
-			this->setPosition(x + 10, y + 32);
-		}
-		if (yVel < 0) {
-			this->setPosition(x - 10, y - 32);
-		}
-		if (xVel > 0) {
+		case(MOVING_RIGHT):
+		case(RIGHTIDLE):
+			if (xVel < 1.5f)
+				xVel = 1.5f;
 			this->setPosition(x + 32, y);
-		}
-		if (xVel < 0) {
-			this->setPosition(x - 32, y);
+			break;
+		case(MOVING_LEFT):
+		case(LEFTIDLE):
+			if (xVel > -1.5f)
+				xVel = -1.5f;
+			this->setPosition(x - 30, y+10);
+			break;
+		case(MOVING_UP):
+		case(UPIDLE):
+			if (yVel > -1.5f)
+				yVel = -1.5f;
+			this->setPosition(x - 10, y - 32);
+			break;
+		case(MOVING_DOWN):
+		case(DOWNIDLE):
+			if (yVel < 1.5f)
+				yVel = 1.5f;
+			this->setPosition(x + 10, y + 32);
+			break;
+		default:
+			break;
 		}
 
 	}
-
-
 
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(0,0,32,32));
