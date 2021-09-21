@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Queue"
 #include "Bullet.h"
+#include "FireRune.h"
 
 class TileMap;
 
@@ -12,6 +13,8 @@ private:
 	//Init Functions
 	void initVariables();
 	void initComponents();
+	void initAnimations(sf::Texture& texture_sheet);
+	void initRunes();
 public:
 	//Constructors
 	Player() = delete;
@@ -36,9 +39,9 @@ public:
 	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, const bool show_hitbox = false);
 private:
 
+	std::vector< std::shared_ptr<Rune> > runes;
+	std::shared_ptr <Rune> activeRune;
 	//variables
-	std::vector <std::shared_ptr<Bullet> > bullets;
-	sf::Texture bulletTexture;
 	bool attacking;
 };
 

@@ -2,32 +2,26 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "TileMap.h"
+#include "FireRune.h"
 
 //Init Functions
 void Player::initVariables()
 {
 	attacking = false;
-	if (!bulletTexture.loadFromFile("Resources/Images/Sprites/Bullets/FIRE_BULLET.png")) {
-		throw "ERROR::GAME_STATE::COULD_NOT_LOAD_FIRE_BULLET_TEXTURE \n";
-	}
+	
 }
 
 void Player::initComponents()
 {
 	createMovementComponent(350.f, 1300.f, 400.f); //speed for player set here
 	createHitBoxComponent(sprite, 12.f, 4.f, 41, 60);
+	createSkillComponent();
+	creatAttributeComponent(1);
 }
 
-//Constructors
-Player::Player(float x, float y, sf::Texture& texture_sheet)
+void Player::initAnimations(sf::Texture& texture_sheet)
 {
-	initVariables();
-	initComponents();
-
-	setPosition(x, y);
-
-	createAnimationComponent(texture_sheet); 
-	creatAttributeComponent(1);
+	createAnimationComponent(texture_sheet);
 	animationComponent->addAnimation("DOWNIDLE", 15.f, 0, 0, 4, 0, 64, 64);
 	animationComponent->addAnimation("UPIDLE", 15.f, 27, 0, 31, 0, 64, 64);
 	animationComponent->addAnimation("RIGHTIDLE", 15.f, 9, 0, 13, 0, 64, 64);
@@ -51,6 +45,24 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 	animationComponent->addAnimation("MOVINGATTACKRIGHT", 10.f, 5, 4, 8, 4, 64, 64);
 	animationComponent->addAnimation("MOVINGATTACKLEFT", 10.f, 5, 5, 8, 5, 64, 64);
 
+}
+
+void Player::initRunes()
+{
+	runes.push_back(std::make_shared<FireRune>());
+	activeRune = runes.at(0);
+}
+
+//Constructors
+Player::Player(float x, float y, sf::Texture& texture_sheet)
+{
+	initVariables();
+	initComponents();
+	initAnimations(texture_sheet);
+	initRunes();
+
+	setPosition(x, y);
+	
 }
 
 Player::~Player()
@@ -109,22 +121,19 @@ void Player::addExp(const int exp)
 
 void Player::shoot(const sf::Vector2f& mousePosView)
 {
-	bullets.push_back(std::make_shared<Bullet>(this->getPosition().x, this->getPosition().y, this->movementComponent->getVelocity().x, this->movementComponent->getVelocity().y, bulletTexture, movementComponent->getLastState()));
+	activeRune->shoot(getPosition().x, getPosition().y, movementComponent->getVelocity().x, movementComponent->getVelocity().y, movementComponent->getLastState());
 }
 
 void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
 {
-	if (!bullets.empty()) {
-		for (int i = 0; i < bullets.size(); i++) {
-			map->updateCollision(bullets.at(i), dt);
 
-		}
-	}
+	activeRune->updateBulletCollision(dt, map);
 }
 
 //Functions
 void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 {
+	//IF STATEMENT BASED ON LASTSTATE OF PLAYER TO DETERMINE ANIMATION NEEDED
 	if (movementComponent->getState(ATTACK)) {
 		attacking = true;
 		if (attacking) {
@@ -315,21 +324,12 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 
 void Player::update(const float& dt, const sf::Vector2f& mousePosView)
 {
+	
 	movementComponent->update(dt);
+	activeRune->update(dt, mousePosView);
 	//Bullets
-	if (!bullets.empty()) {
-		auto iter = bullets.begin();
-		while (iter != bullets.end())
-		{
-			if (iter->get()->getRunning()) {
-				iter->get()->update(dt, mousePosView);
-				iter++;
-			}
-			else
-				iter = bullets.erase(iter);
-		}
-	}
-	else {
+	//Checks if there are bullets on the screen to know if keep arms up or put them down
+	if (activeRune->isBulletEmpty()) {
 		animationComponent->setIsDone("IDLEATTACKDOWN", false);
 		animationComponent->setIsDone("IDLEATTACKUP", false);
 		animationComponent->setIsDone("IDLEATTACKLEFT", false);
@@ -340,6 +340,8 @@ void Player::update(const float& dt, const sf::Vector2f& mousePosView)
 	
 	hitBoxComponent->update();
 	
+	std::cout << skillComponent->getSkillLvl("Endurance") << "\n";
+
 	
 	//addExp(20);
 	//system("cls");
@@ -352,16 +354,14 @@ void Player::render(sf::RenderTarget& target, sf::Shader* shader, const bool sho
 	if (shader) {
 		shader->setUniform("hasTexture", true);
 		shader->setUniform("lightPos", this->getCenterPosition());
-
+		
 		target.draw(sprite, shader);
-		for (auto& iter : bullets)
-		{
-			if (iter->getRunning())
-				iter->render(target);
-		}
+		activeRune->render(target, shader);
 	}
-	else
+	else {
 		target.draw(sprite);
+		activeRune->render(target);
+	}
 	if(show_hitbox)
 		hitBoxComponent->render(target);
 
