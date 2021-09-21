@@ -8,6 +8,7 @@ namespace sf {
 	class Color;
 	class RectangleShape;
 }
+class Player;
 
 enum button_states { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE };
 
@@ -133,4 +134,30 @@ namespace gui {
 		void render(sf::RenderTarget& target);
 	};
 
+	class progressBar
+	{
+
+	public:
+		progressBar
+		(
+			float frontWidth, float backWidth, float height, float xPos, float yPos,
+			sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Player>& player,
+			sf::Font& font, sf::VideoMode& vm, int offset = 0, int fontSize = 12
+		);
+
+		sf::RectangleShape ProgBarBack; //background
+		sf::RectangleShape ProgBarIn; //content
+
+		void update(const float& dt, float& percentWidth);
+		void update(const float& dt, float& percentWidth, std::string textString);
+		void render(sf::RenderTarget& target);
+
+	private:
+		std::string textString;
+		sf::Text text;
+		std::shared_ptr<Player> player;
+		float height;
+		float fullWidth;
+		float percentWidth;
+	};
 }

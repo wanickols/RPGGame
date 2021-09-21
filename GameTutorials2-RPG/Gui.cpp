@@ -1,6 +1,12 @@
 #include "stdafx.h"
+#include "Player.h"
+/*
+*
+*
+*==================================== Gui ============================================
+*
+*/
 
-//==================================== Gui ============================================
 const float gui::p2pX(const float& perc, sf::VideoMode& vm)
 {
 	return std::floor(static_cast<float>(vm.width) * (perc / 100.f));
@@ -17,8 +23,13 @@ const float gui::p2pS(const float& perc, sf::VideoMode& vm)
 }
 
 
+/*
+*
+*
+*==================================== BUTTON ============================================
+*
+*/
 
-//==================================== BUTTON ============================================
 gui::Button::Button(float x, float y, float width, float height,
 	sf::Font& font, std::string text, short character_size,
 	sf::Color text_idle_color, sf::Color text_hover_color, sf::Color text_active_color,
@@ -214,7 +225,11 @@ void gui::Button::render(sf::RenderTarget& target)
 	target.draw(text);
 }
 
-//==================================== Drop Down List ============================================
+/*
+*
+*==================================== Drop Down List ============================================
+*
+*/
 
 gui::DropDownList::DropDownList(float x, float y, float width, float height,
 	sf::Font& font, std::string list[], unsigned nrOfElements, unsigned default_index)
@@ -311,7 +326,12 @@ void gui::DropDownList::render(sf::RenderTarget& target)
 	}
 }
 
-//==================================== Texture Selector ============================================
+/*
+* 
+* 
+*==================================== Texture Selector ============================================
+*
+*/
 
 gui::TextureSelector::TextureSelector(float x, float y, float width, float height, float gridSize, const sf::Texture& texture_sheet, sf::Font& font)
 	: active(false), hidden(false), gridSize(gridSize), font(font), keyTimeMax(10.f), keyTime(0.f)
@@ -446,3 +466,43 @@ const bool& gui::TextureSelector::getActive() const
 	return active;
 }
 
+//Progress Bar
+gui::progressBar::progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Player>& player, sf::Font& font, sf::VideoMode& vm, int offset, int fontSize)
+	: fullWidth(frontWidth), percentWidth(100), height(height), player(player)
+{
+	text.setFont(font);
+	text.setCharacterSize(fontSize);
+	text.setFillColor(sf::Color(250, 250, 250, 230));
+	text.setPosition(xPos + (float)fontSize / 2 + (float)offset * 2, yPos + (height / 2) - ((float)fontSize / 2));
+	text.setString("HP:" + 100);
+
+	ProgBarBack.setSize(sf::Vector2f(backWidth, height));
+	ProgBarBack.setFillColor(backgroundColor);
+	ProgBarBack.setPosition(xPos, yPos);
+	ProgBarBack.setOutlineColor(sf::Color(255, 255, 255, 250));
+	ProgBarBack.setOutlineThickness(gui::p2pS(0.1f, vm));
+
+	ProgBarIn.setSize(sf::Vector2f(frontWidth, height));
+	ProgBarIn.setFillColor(fillColor);
+	ProgBarIn.setPosition(xPos, yPos);
+}
+
+void gui::progressBar::update(const float& dt, float& percentWidth)
+{
+	ProgBarIn.setSize(sf::Vector2f((float)std::floor(percentWidth * fullWidth), height));
+	ProgBarIn.setSize(sf::Vector2f((float)std::floor(percentWidth * fullWidth), height));
+}
+
+void gui::progressBar::update(const float& dt, float& percentWidth, std::string textString)
+{
+
+	update(dt, percentWidth);
+	text.setString(textString);
+}
+
+void gui::progressBar::render(sf::RenderTarget& target)
+{
+	target.draw(ProgBarBack);
+	target.draw(ProgBarIn);
+	target.draw(text);
+}
