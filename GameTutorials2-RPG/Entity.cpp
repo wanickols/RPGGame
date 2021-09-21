@@ -42,6 +42,11 @@ void Entity::creatAttributeComponent(int level)
 	attributeComponent = std::make_shared<AttributeComponent>(level);
 }
 
+void Entity::createSkillComponent()
+{
+	skillComponent = std::make_unique<SkillComponent>();
+}
+
 void Entity::createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height)
 {
 	hitBoxComponent = std::make_unique<HitboxComponent>(sprite, offset_x, offset_y, width, height);
@@ -122,6 +127,11 @@ void Entity::move(const float dir_x, const float dir_y, const float& dt)
 {
 	if (movementComponent) {
 		movementComponent->move(dir_x, dir_y, dt); //setsVelocity
+	}
+
+	if (skillComponent)
+	{	
+		skillComponent->addExp("Endurance", 1);
 	}
 }
 

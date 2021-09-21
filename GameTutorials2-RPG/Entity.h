@@ -1,8 +1,11 @@
 #pragma once
+//Have to include these so all entities have them. Elsewise, you'd have to do it in each cpp;
 #include "HitboxComponent.h"
 #include "MovementComponent.h"
 #include "AnimationComponent.h"
 #include "AttributeComponent.h"
+#include "SkillComponent.h"
+
 
 namespace sf {
 	class Texture;
@@ -24,6 +27,7 @@ public:
 	void createMovementComponent(const float maxVelocity, const float acceleration, const float deceleration);
 	void createAnimationComponent(sf::Texture& texture_sheet);
 	void creatAttributeComponent(int level);
+	void createSkillComponent();
 	void createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height);
 
 	const virtual sf::Vector2f& getPosition() const;
@@ -50,6 +54,7 @@ protected:
 	std::unique_ptr<HitboxComponent> hitBoxComponent;
 	std::unique_ptr<MovementComponent> movementComponent;
 	std::unique_ptr<AnimationComponent> animationComponent;
+	std::unique_ptr<SkillComponent> skillComponent;
 	std::shared_ptr<AttributeComponent> attributeComponent;
 	sf::Sprite sprite;
 private:
