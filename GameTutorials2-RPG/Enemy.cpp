@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Enemy.h"
+#include "EnemySpawner.h"
 #include "Item.h"
 
 void Enemy::initVariables()
@@ -20,11 +21,12 @@ void Enemy::initAnimations(sf::Texture& texture_sheet)
 	animationComponent->addAnimation("DOWNIDLE", 15.f, 0, 0, 4, 0, 64, 64);
 }
 
-Enemy::Enemy(float x, float y, sf::Texture& texture_sheet)
+Enemy::Enemy(float x, float y, sf::Texture& texture_sheet, EnemySpawner& origin)
 {
 	initVariables();
 	initComponents();
 	initAnimations(texture_sheet);
+	Origin = std::make_unique<EnemySpawner>(origin);
 
 	setPosition(x, y);
 

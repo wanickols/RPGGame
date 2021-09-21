@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Tile.h"
+#include "EnemySpawner.h"
 #include "Entity.h"
 #include "TileMap.h"
 
@@ -136,9 +137,18 @@ void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& 
 		y >= 0 && y < maxSize.y && //y
 		z >= 0 && z < layers)//z 
 	{
-		
 			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
-	
+	}
+}
+
+void TileMap::addEnemyTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, int enemy_type, int max_spawned, int time_to_spawn, float max_distance)
+{
+	//Take two indicies and checks to see if in array size.
+	if (x >= 0 && x < maxSize.x && //x
+		y >= 0 && y < maxSize.y && //y
+		z >= 0 && z < layers)//z 
+	{
+			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, enemy_type, max_spawned, time_to_spawn, max_distance));
 	}
 }
 

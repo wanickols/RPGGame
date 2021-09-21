@@ -40,6 +40,9 @@
     <Filter Include="Items\Runes">
       <UniqueIdentifier>{25e623ac-76a7-48e4-b0d7-4ba3ccda642d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Menus">
+      <UniqueIdentifier>{75c763be-58cd-43a2-a653-ddd8e0209b6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,9 +81,6 @@
     <ClCompile Include="Gui.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="PauseMenu.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Map\Tiles</Filter>
     </ClCompile>
@@ -102,9 +102,6 @@
     <ClCompile Include="PlayerGui.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerStatMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -124,7 +121,13 @@
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="EnemySpawner.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Map\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>GUI\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStatMenu.cpp">
+      <Filter>GUI\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,9 +167,6 @@
     <ClInclude Include="Gui.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="PauseMenu.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Map\Tiles</Filter>
     </ClInclude>
@@ -184,9 +184,6 @@
     </ClInclude>
     <ClInclude Include="PlayerGui.h">
       <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStatMenu.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Entities</Filter>
@@ -207,7 +204,13 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="EnemySpawner.h">
-      <Filter>Header Files</Filter>
+      <Filter>Map\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>GUI\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStatMenu.h">
+      <Filter>GUI\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

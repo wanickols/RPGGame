@@ -1,6 +1,6 @@
 #pragma once
 
-enum TileType { DEFAULT = 0, DAMAGING, DEFERRED };
+enum TileType { DEFAULT = 0, DAMAGING, DEFERRED, ENEMYSPAWNER };
 
 class ofstream;
 class Tile
