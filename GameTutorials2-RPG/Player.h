@@ -23,6 +23,8 @@ public:
 
 	//Accessors
 	std::shared_ptr<AttributeComponent> getAttributeComponent();
+	const facing getDirection() const;
+	void setDirection(facing new_direction);
 
 	//Functions
 	void loseHealth(const int health);

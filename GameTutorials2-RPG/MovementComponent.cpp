@@ -2,9 +2,8 @@
 #include "MovementComponent.h"
 
 MovementComponent::MovementComponent(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration)
-	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f)
+	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), lastState(0), direction(facing::DOWN)
 {
-	lastState = 0;
 }
 
 MovementComponent::~MovementComponent()
@@ -33,6 +32,7 @@ const bool MovementComponent::getState(const short unsigned state)
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_DOWN || lastState == movement_states::DOWNIDLE) {
 				lastState = state;
+				direction = facing::DOWN;
 				return true;
 			}
 
@@ -42,6 +42,7 @@ const bool MovementComponent::getState(const short unsigned state)
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_UP || lastState == movement_states::UPIDLE) {
 				lastState = state;
+				direction = facing::UP;
 				return true;
 			}
 
@@ -51,6 +52,7 @@ const bool MovementComponent::getState(const short unsigned state)
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_LEFT || lastState == movement_states::LEFTIDLE) {
 				lastState = state;
+				direction = facing::LEFT;
 				return true;
 			}
 
@@ -60,6 +62,7 @@ const bool MovementComponent::getState(const short unsigned state)
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_RIGHT || lastState == movement_states::RIGHTIDLE) {
 				lastState = state;
+				direction = facing::RIGHT;
 				return true;
 			}
 
@@ -75,6 +78,7 @@ const bool MovementComponent::getState(const short unsigned state)
 
 		if (velocity.x < 0.f) {
 			lastState = state;
+			direction = facing::LEFT;
 			return true;
 		}
 
@@ -84,6 +88,7 @@ const bool MovementComponent::getState(const short unsigned state)
 
 		if (velocity.x > 0.f) {
 			lastState = state;
+			direction = facing::RIGHT;
 			return true;
 		}
 		break;
@@ -92,6 +97,7 @@ const bool MovementComponent::getState(const short unsigned state)
 
 		if (velocity.y < 0.f) {
 			lastState = state;
+			direction = facing::UP;
 			return true;
 		}
 		break;
@@ -100,6 +106,7 @@ const bool MovementComponent::getState(const short unsigned state)
 
 		if (velocity.y > 0.f) {
 			lastState = state;
+			direction = facing::DOWN;
 			return true;
 		}
 		break;
@@ -152,6 +159,16 @@ const unsigned short int MovementComponent::getLastState() const
 	return lastState;
 }
 
+const facing MovementComponent::getDirection() const
+{
+	return direction;
+}
+
+void MovementComponent::setDirection(facing player_direction)
+{
+	direction = player_direction;
+}
+
 void MovementComponent::setLastState(const short unsigned state)
 {
 	lastState = state;
@@ -181,11 +198,25 @@ void MovementComponent::stopVelocityY()
 
 
 //Functions
-void MovementComponent::move(const float dir_x, const float dir_y, const float& dt)
+void MovementComponent::move(const float dir_x, const float dir_y, const float& dt, bool player)
 {
-	//Acceleration
-	velocity.x += acceleration * dir_x * dt;
-	velocity.y += acceleration * dir_y * dt;
+	if (player) {
+		//Acceleration
+		if (direction == facing::DOWN || direction == facing::UP) {
+			velocity.y += acceleration * dir_y * dt;
+			stopVelocityX();
+		}
+		else {
+			velocity.x += acceleration * dir_x * dt;
+			stopVelocityY();
+		}
+	}else
+	{
+		velocity.x += acceleration * dir_x * dt;
+		velocity.y += acceleration * dir_y * dt;
+	}
+	
+	
 
 }
 

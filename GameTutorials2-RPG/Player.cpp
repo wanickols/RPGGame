@@ -75,6 +75,16 @@ std::shared_ptr<AttributeComponent> Player::getAttributeComponent()
 	return attributeComponent;
 }
 
+const facing Player::getDirection() const
+{
+	return movementComponent->getDirection();
+}
+
+void Player::setDirection(facing new_direction)
+{
+	movementComponent->setDirection(new_direction);
+}
+
 void Player::loseHealth(const int health)
 {
 	attributeComponent->hp -= health;

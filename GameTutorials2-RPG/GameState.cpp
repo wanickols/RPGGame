@@ -166,14 +166,23 @@ void GameState::updateView()
 void GameState::updatePlayerInput(const float& dt)
 {
 	//Player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Up"))))
-		player->move(0.f, -1.f, dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Left"))))
-		player->move(-1.f, 0.f, dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Down"))))
-		player->move(0.f, 1.f, dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Right"))))
-		player->move(1.f, 0.f, dt);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Up")))) {
+		player->setDirection(facing::UP);
+		player->move(0.f, -1.f, dt, true);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Left")))) {
+		player->setDirection(facing::LEFT);
+		player->move(-1.f, 0.f, dt, true);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Down")))) {
+		player->setDirection(facing::DOWN);
+		player->move(0.f, 1.f, dt, true);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Right")))) {
+		player->setDirection(facing::RIGHT);
+		player->move(1.f, 0.f, dt, true);
+
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && getKeyTime()) {
 		player->loseHealth(10);
 		player->loseEnergy(10);

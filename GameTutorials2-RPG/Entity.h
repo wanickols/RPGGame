@@ -42,7 +42,7 @@ public:
 	virtual void setNextPosition(float x, float y);
 
 	//functions
-	virtual void move(const float x, const float y, const float& dt);
+	virtual void move(const float x, const float y, const float& dt, bool player = false);
 	virtual void stopVelocity();
 	virtual void stopVelocityX();
 	virtual void stopVelocityY();

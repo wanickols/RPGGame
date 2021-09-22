@@ -123,11 +123,9 @@ void Entity::setNextPosition(float x, float y)
 		sprite.setPosition(x, y);
 }
 
-void Entity::move(const float dir_x, const float dir_y, const float& dt)
+void Entity::move(const float dir_x, const float dir_y, const float& dt, bool player)
 {
-	if (movementComponent) {
-		movementComponent->move(dir_x, dir_y, dt); //setsVelocity
-	}
+	movementComponent->move(dir_x, dir_y, dt, player); //setsVelocity
 
 	if (skillComponent)
 	{	
