@@ -448,43 +448,6 @@ void TileMap::updateCollision(std::shared_ptr<Entity> entity, const float& dt)
 
 void TileMap::update(std::shared_ptr<Entity> entity)
 {
-	layer = 0;
-	//Update around the player
-	fromX = entity->getGridPosition(gridSizeI).x - 5;
-	if (fromX < 0)
-		fromX = 0;
-	else if (fromX > gridSizeI)
-		fromX = gridSizeI;
-
-	toX = entity->getGridPosition(gridSizeI).x + 6;
-	if (toX < 0)
-		toX = 0;
-	else if (toX > gridSizeI)
-		toX = gridSizeI;
-
-	fromY = entity->getGridPosition(gridSizeI).y - 3;
-	if (fromY < 0)
-		fromY = 0;
-	else if (fromY > maxSizeWorldI.y)
-		fromY = maxSizeWorldI.y;
-
-	toY = entity->getGridPosition(gridSizeI).y + 4;
-	if (toY < 0)
-		toY = 0;
-	else if (toY > gridSizeI)
-		toY = gridSizeI;
-	//loop through nearby objects
-	for (int x = fromX; x < toX; x++)
-	{
-		for (int y = fromY; y < toY; y++)
-		{
-			for (size_t k = 0; k < map[x][y][layer].size(); k++) {
-				if (map[x][y][layer][k] != nullptr) {
-					
-				}
-			}
-		}
-	}
 }
 
 

@@ -32,7 +32,6 @@ const bool MovementComponent::getState(const short unsigned state)
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_DOWN || lastState == movement_states::DOWNIDLE) {
 				lastState = state;
-				direction = facing::DOWN;
 				return true;
 			}
 
@@ -42,7 +41,6 @@ const bool MovementComponent::getState(const short unsigned state)
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_UP || lastState == movement_states::UPIDLE) {
 				lastState = state;
-				direction = facing::UP;
 				return true;
 			}
 
@@ -52,7 +50,6 @@ const bool MovementComponent::getState(const short unsigned state)
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_LEFT || lastState == movement_states::LEFTIDLE) {
 				lastState = state;
-				direction = facing::LEFT;
 				return true;
 			}
 
@@ -62,7 +59,6 @@ const bool MovementComponent::getState(const short unsigned state)
 		if (velocity.x == 0.f && velocity.y == 0.f)
 			if (lastState == movement_states::MOVING_RIGHT || lastState == movement_states::RIGHTIDLE) {
 				lastState = state;
-				direction = facing::RIGHT;
 				return true;
 			}
 
@@ -78,7 +74,6 @@ const bool MovementComponent::getState(const short unsigned state)
 
 		if (velocity.x < 0.f) {
 			lastState = state;
-			direction = facing::LEFT;
 			return true;
 		}
 
@@ -88,7 +83,6 @@ const bool MovementComponent::getState(const short unsigned state)
 
 		if (velocity.x > 0.f) {
 			lastState = state;
-			direction = facing::RIGHT;
 			return true;
 		}
 		break;
@@ -97,7 +91,6 @@ const bool MovementComponent::getState(const short unsigned state)
 
 		if (velocity.y < 0.f) {
 			lastState = state;
-			direction = facing::UP;
 			return true;
 		}
 		break;
@@ -106,7 +99,6 @@ const bool MovementComponent::getState(const short unsigned state)
 
 		if (velocity.y > 0.f) {
 			lastState = state;
-			direction = facing::DOWN;
 			return true;
 		}
 		break;

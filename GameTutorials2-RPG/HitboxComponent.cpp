@@ -9,7 +9,7 @@ HitboxComponent::HitboxComponent(sf::Sprite& sprite, float offset_x, float offse
 	nextPosition.width = width;
 	nextPosition.height = height;
 
-	hitbox.setPosition(sprite.getPosition().x + offSetX, sprite.getPosition().y + offSetY);
+	hitbox.setPosition(sprite.getPosition().x +  offSetX, sprite.getPosition().y + offSetY + height/2);
 	hitbox.setSize(sf::Vector2f(width, height));
 	hitbox.setFillColor(sf::Color::Transparent);
 	hitbox.setOutlineThickness(-1.f);
@@ -35,7 +35,7 @@ const sf::FloatRect& HitboxComponent::getNextPosition(const sf::Vector2f& veloci
 void HitboxComponent::setPosition(const sf::Vector2f& position)
 {
 	hitbox.setPosition(position);
-	sprite.setPosition(position.x - offSetX, position.y - offSetY);
+	sprite.setPosition(position.x - offSetX, position.y - offSetY - sprite.getTextureRect().height / 4);
 }
 
 void HitboxComponent::setNextPosition(const sf::Vector2f& position)
@@ -56,7 +56,7 @@ const sf::FloatRect HitboxComponent::getGlobalBounds() const
 
 void HitboxComponent::update()
 {
-	hitbox.setPosition(sprite.getPosition().x + offSetX, sprite.getPosition().y + offSetY);
+	hitbox.setPosition(sprite.getPosition().x + offSetX, sprite.getPosition().y + offSetY + sprite.getTextureRect().height/4);
 }
 
 void HitboxComponent::render(sf::RenderTarget& target)

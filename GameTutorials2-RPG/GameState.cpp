@@ -264,7 +264,7 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 	//Player and Map
 	renderTexture.setView(view);
 	map->render(renderTexture, player->getGridPosition((int)stateData->gridSize), player->getCenterPosition(), &main_shader);
-	player->render(renderTexture, &main_shader, player->getCenterPosition());
+	player->render(renderTexture, &main_shader, player->getCenterPosition(), true);
 	//testEnemy->render(renderTexture, &main_shader);
 	map->renderDeferred(renderTexture, player->getPosition(), &main_shader);
 	
