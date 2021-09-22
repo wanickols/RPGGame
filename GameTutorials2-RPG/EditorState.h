@@ -4,6 +4,12 @@
 
 class PauseMenu;
 class TileMap;
+class EditorMode;
+struct EditorStateData;
+
+enum EditorModes { DefaultMode = 1, EnemyEditorMode };
+
+
 
 class EditorState :
     public State	
@@ -11,14 +17,15 @@ class EditorState :
 private:
 	//init functions
 	void initVariables();
+	void initEditorStateData();
 	void initView();
-	void initBackround();
 	void initPauseMenu();
 	void initTexts();
 	void initKeybinds();
-	void initButtons();
 	void initGui();
 	void initTileMap();
+
+	void initModes();
 
 
 public:
@@ -33,31 +40,26 @@ public:
 	void updateGui(const float& dt);
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);
-	void renderGui(sf::RenderTarget& target);
-	void renderButtons(sf::RenderTarget& target);
+	void renderGui(std::shared_ptr<sf::RenderTarget> target);
+	void renderButtons(std::shared_ptr<sf::RenderTarget> target);
 private:
 
 	//variables 
-	sf::Text cursorText;
+	std::shared_ptr<EditorStateData> editorStateData;
+	
 	sf::View view;
 
 	std::map<std::string, std::unique_ptr<gui::Button>> buttons;
-	std::unique_ptr<TileMap> map;
-	sf::RectangleShape sideBar;
-	std::unique_ptr<gui::TextureSelector> textureSelector;
-	sf::IntRect textureRect;
-	
-	sf::RectangleShape selectorRect;
-	int layer;
-	bool collision;
-	bool showCollision;
-	short Type;
-	bool tileLock;
-	float cameraSpeed;
+	std::shared_ptr<TileMap> map;
 
-	sf::Texture bgTexture; //background texture;
-	sf::RectangleShape background;
-	std::unique_ptr<PauseMenu> pmenu;
+	
+	
+	std::vector<std::unique_ptr<EditorMode>> modes;
+	
+
+
+	std::shared_ptr<PauseMenu> pmenu;
+	
 	
 
 	//functions

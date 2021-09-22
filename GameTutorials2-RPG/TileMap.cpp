@@ -354,26 +354,26 @@ void TileMap::updateCollision(std::shared_ptr<Entity> entity, const float& dt)
 	fromX = entity->getGridPosition(gridSizeI).x - 23;
 	if (fromX < 0)
 		fromX = 0;
-	else if (fromX > maxSizeWorldI.x)
-		fromX = maxSizeWorldI.x;
+	else if (fromX > gridSizeI)
+		fromX = gridSizeI;
 
 	toX = entity->getGridPosition(gridSizeI).x + 23;
 	if (toX < 0)
 		toX = 0;
-	else if (toX > maxSizeWorldI.x)
-		toX = maxSizeWorldI.x;
+	else if (toX > gridSizeI)
+		toX = gridSizeI;
 
 	fromY = entity->getGridPosition(gridSizeI).y - 17;
 	if (fromY < 0)
 		fromY = 0;
-	else if (fromY > maxSizeWorldI.y)
-		fromY = maxSizeWorldI.y;
+	else if (fromY > gridSizeI)
+		fromY = gridSizeI;
 
 	toY = entity->getGridPosition(gridSizeI).y + 17;
 	if (toY < 0)
 		toY = 0;
-	else if (toY > maxSizeWorldI.y)
-		toY = maxSizeWorldI.y;
+	else if (toY > gridSizeI)
+		toY = gridSizeI;
 	//loop through nearby objects
 	for (int x = fromX; x < toX; x++)
 	{
@@ -453,14 +453,14 @@ void TileMap::update(std::shared_ptr<Entity> entity)
 	fromX = entity->getGridPosition(gridSizeI).x - 5;
 	if (fromX < 0)
 		fromX = 0;
-	else if (fromX > maxSizeWorldI.x)
-		fromX = maxSizeWorldI.x;
+	else if (fromX > gridSizeI)
+		fromX = gridSizeI;
 
 	toX = entity->getGridPosition(gridSizeI).x + 6;
 	if (toX < 0)
 		toX = 0;
-	else if (toX > maxSizeWorldI.x)
-		toX = maxSizeWorldI.x;
+	else if (toX > gridSizeI)
+		toX = gridSizeI;
 
 	fromY = entity->getGridPosition(gridSizeI).y - 3;
 	if (fromY < 0)
@@ -471,8 +471,8 @@ void TileMap::update(std::shared_ptr<Entity> entity)
 	toY = entity->getGridPosition(gridSizeI).y + 4;
 	if (toY < 0)
 		toY = 0;
-	else if (toY > maxSizeWorldI.y)
-		toY = maxSizeWorldI.y;
+	else if (toY > gridSizeI)
+		toY = gridSizeI;
 	//loop through nearby objects
 	for (int x = fromX; x < toX; x++)
 	{
@@ -495,26 +495,31 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 		fromX = gridPosition.x - 23;
 		if (fromX < 0)
 			fromX = 0;
-		else if (fromX > maxSizeWorldI.x)
-			fromX = maxSizeWorldI.x;
+		else if (fromX > gridSizeI)
+			fromX = gridSizeI;
 
 		toX = gridPosition.x + 23;
+		if (toX > 64) 
+		{
+			std::cout << "Hhu";
+		}
 		if (toX < 0)
 			toX = 0;
-		else if (toX > maxSizeWorldI.x)
-			toX = maxSizeWorldI.x;
+		else if (toX > gridSizeI)
+			toX = gridSizeI;
 
 		fromY = gridPosition.y - 17;
 		if (fromY < 0)
 			fromY = 0;
 		else if (fromY > maxSizeWorldI.y)
-			fromY = maxSizeWorldI.y;
+			fromY = gridSizeI;
 
 		toY = gridPosition.y + 17;
 		if (toY < 0)
 			toY = 0;
-		else if (toY > maxSizeWorldI.y)
-			toY = maxSizeWorldI.y;
+		else if (toY > gridSizeI)
+			toY = gridSizeI;
+
 
 		for (int x = fromX; x < toX; x++)
 		{

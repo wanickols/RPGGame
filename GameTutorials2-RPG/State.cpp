@@ -94,6 +94,7 @@ void State::updateKeyTime(const float& dt)
 	}
 }
 
+
 std::unique_ptr<gui::Button> State::addButton(float x, float y, const std::string text, float width, float height, short characterSize)
 {
 	//Takes pixel values from addbutton in 1920/1080 and converts them to percentages so they stay that way on every screen size. 

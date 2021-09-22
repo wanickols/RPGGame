@@ -132,7 +132,7 @@ const unsigned short int MovementComponent::getState()
 	}
 	else if (getState(MOVING_UP))
 	{
-		return MOVING_UP; 
+		return MOVING_UP;
 	}
 	else if (getState(MOVING_RIGHT))
 	{
@@ -142,6 +142,8 @@ const unsigned short int MovementComponent::getState()
 	{
 		return MOVING_DOWN;
 	}
+	else
+		throw("ERROR::MOVEMENTCOMPONENT::GETSTATE()::DID NOT RETURN ANY STATE ");
 	
 }
 
