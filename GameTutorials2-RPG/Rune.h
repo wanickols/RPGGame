@@ -11,7 +11,7 @@ public:
 
 	void updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map);
 	virtual void update(const float& dt, const sf::Vector2f& mousePosView) = 0;
-	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, const bool show_hitbox = false) = 0;
+	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(), const bool show_hitbox = false) = 0;
 	virtual void shoot(float playerX, float playerY, float playerVelX, float playerVelY, const unsigned short lastState) = 0; \
 
 	//accessors

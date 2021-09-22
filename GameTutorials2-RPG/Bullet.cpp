@@ -94,9 +94,17 @@ void Bullet::update(const float& dt, const sf::Vector2f& mousePosView)
 	hitBoxComponent->update();
 }
 
-void Bullet::render(sf::RenderTarget& target, sf::Shader* shader, const bool show_hitbox)
+void Bullet::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
-	target.draw(sprite);
+	if (shader) {
+		shader->setUniform("hasTexture", true);
+		shader->setUniform("lightPos", light_position);
+
+		target.draw(sprite, shader);
+	}
+	else {
+		target.draw(sprite);
+	}
 }
 
 const bool Bullet::getRunning() const

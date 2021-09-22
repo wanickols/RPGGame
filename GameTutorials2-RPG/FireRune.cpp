@@ -32,16 +32,25 @@ void FireRune::update(const float& dt, const sf::Vector2f& mousePosView)
 	}
 }
 
-void FireRune::render(sf::RenderTarget& target, sf::Shader* shader, const bool show_hitbox)
+void FireRune::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
-	
 	//Rune
-
+	
 	//bullets
-	for (auto& iter : bullets)
-	{
-		
-		if (iter->getRunning())
-			iter->render(target);
+	if (shader) {
+		for (auto& iter : bullets)
+		{
+
+			if (iter->getRunning())
+				iter->render(target,shader, light_position);
+		}
+	}
+	else {
+		for (auto& iter : bullets)
+		{
+
+			if (iter->getRunning())
+				iter->render(target);
+		}
 	}
 }

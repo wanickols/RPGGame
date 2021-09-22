@@ -326,14 +326,14 @@ void Player::update(const float& dt, const sf::Vector2f& mousePosView)
 	
 }
 
-void Player::render(sf::RenderTarget& target, sf::Shader* shader, const bool show_hitbox)
+void Player::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
 	if (shader) {
 		shader->setUniform("hasTexture", true);
 		shader->setUniform("lightPos", this->getCenterPosition());
 		
 		target.draw(sprite, shader);
-		activeRune->render(target, shader);
+		activeRune->render(target);
 	}
 	else {
 		target.draw(sprite);
