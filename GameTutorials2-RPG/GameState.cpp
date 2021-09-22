@@ -216,7 +216,7 @@ void GameState::updatePauseMenuButtons()
 void GameState::updateTileMap(const float& dt)
 {
 	//std::shared_ptr<Entity> player1 = std::make_shared<Entity>(player);
-	map->update();
+	map->update(player);
 	map->updateCollision(player, dt);
 	player->updateBulletCollision(dt, map);
 }

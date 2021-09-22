@@ -350,26 +350,26 @@ void TileMap::updateCollision(std::shared_ptr<Entity> entity, const float& dt)
 	}
 	
 	layer = 0;
-	//Render around the player
-	fromX = entity->getGridPosition(gridSizeI).x - 5;
+	//Update around the player
+	fromX = entity->getGridPosition(gridSizeI).x - 23;
 	if (fromX < 0)
 		fromX = 0;
 	else if (fromX > maxSizeWorldI.x)
 		fromX = maxSizeWorldI.x;
 
-	toX = entity->getGridPosition(gridSizeI).x + 6;
+	toX = entity->getGridPosition(gridSizeI).x + 23;
 	if (toX < 0)
 		toX = 0;
 	else if (toX > maxSizeWorldI.x)
 		toX = maxSizeWorldI.x;
 
-	fromY = entity->getGridPosition(gridSizeI).y - 3;
+	fromY = entity->getGridPosition(gridSizeI).y - 17;
 	if (fromY < 0)
 		fromY = 0;
 	else if (fromY > maxSizeWorldI.y)
 		fromY = maxSizeWorldI.y;
 
-	toY = entity->getGridPosition(gridSizeI).y + 4;
+	toY = entity->getGridPosition(gridSizeI).y + 17;
 	if (toY < 0)
 		toY = 0;
 	else if (toY > maxSizeWorldI.y)
@@ -382,6 +382,9 @@ void TileMap::updateCollision(std::shared_ptr<Entity> entity, const float& dt)
 
 			for (size_t k = 0; k < map[x][y][layer].size(); k++) {
 				if (map[x][y][layer][k] != nullptr) {
+
+					map[x][y][layer][k]->update();
+					
 					sf::FloatRect playerBounds = entity->getGlobalBounds();
 					sf::FloatRect wallBounds = map[x][y][layer][k]->getGlobalBounds();
 					sf::FloatRect nextPositionBounds = entity->getNextPositionBounds(dt);
@@ -443,9 +446,47 @@ void TileMap::updateCollision(std::shared_ptr<Entity> entity, const float& dt)
 }
 
 
-void TileMap::update()
+void TileMap::update(std::shared_ptr<Entity> entity)
 {
+	layer = 0;
+	//Update around the player
+	fromX = entity->getGridPosition(gridSizeI).x - 5;
+	if (fromX < 0)
+		fromX = 0;
+	else if (fromX > maxSizeWorldI.x)
+		fromX = maxSizeWorldI.x;
+
+	toX = entity->getGridPosition(gridSizeI).x + 6;
+	if (toX < 0)
+		toX = 0;
+	else if (toX > maxSizeWorldI.x)
+		toX = maxSizeWorldI.x;
+
+	fromY = entity->getGridPosition(gridSizeI).y - 3;
+	if (fromY < 0)
+		fromY = 0;
+	else if (fromY > maxSizeWorldI.y)
+		fromY = maxSizeWorldI.y;
+
+	toY = entity->getGridPosition(gridSizeI).y + 4;
+	if (toY < 0)
+		toY = 0;
+	else if (toY > maxSizeWorldI.y)
+		toY = maxSizeWorldI.y;
+	//loop through nearby objects
+	for (int x = fromX; x < toX; x++)
+	{
+		for (int y = fromY; y < toY; y++)
+		{
+			for (size_t k = 0; k < map[x][y][layer].size(); k++) {
+				if (map[x][y][layer][k] != nullptr) {
+					
+				}
+			}
+		}
+	}
 }
+
 
 void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition, const sf::Vector2f playerPos, sf::Shader* shader, const bool show_collision)
 {
@@ -506,12 +547,12 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 }
 
 
-void TileMap::renderDeferred(sf::RenderTarget& target, const sf::Vector2f playerPos, sf::Shader* shader)
+void TileMap::renderDeferred(sf::RenderTarget& target, const sf::Vector2f player_position, sf::Shader* shader)
 {
 	while (!deferredRenderStack.empty())
 	{
 		if (shader)
-			deferredRenderStack.top()->render(target, playerPos, shader);
+			deferredRenderStack.top()->render(target, player_position, shader);
 		else
 			deferredRenderStack.top()->render(target);
 		deferredRenderStack.pop();

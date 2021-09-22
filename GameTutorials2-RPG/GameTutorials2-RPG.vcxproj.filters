@@ -43,6 +43,9 @@
     <Filter Include="GUI\Menus">
       <UniqueIdentifier>{75c763be-58cd-43a2-a653-ddd8e0209b6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\EditorModes">
+      <UniqueIdentifier>{aad3fbf2-204e-48fa-9f39-86a1c8e6e842}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -129,6 +132,9 @@
     <ClCompile Include="PlayerStatMenu.cpp">
       <Filter>GUI\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="EditorMode.cpp">
+      <Filter>States\EditorModes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -211,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="PlayerStatMenu.h">
       <Filter>GUI\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorMode.h">
+      <Filter>States\EditorModes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

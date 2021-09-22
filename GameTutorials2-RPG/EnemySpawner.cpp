@@ -17,7 +17,7 @@ void EnemySpawner::update()
 {
 }
 
-void EnemySpawner::render(sf::RenderTarget& target, const sf::Vector2f playerPosition, sf::Shader* shader)
+void EnemySpawner::render(sf::RenderTarget& target, const sf::Vector2f player_position, sf::Shader* shader)
 {
 	target.draw(shape);
 }

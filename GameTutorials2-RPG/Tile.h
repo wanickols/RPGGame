@@ -21,7 +21,7 @@ public:
 	friend std::ofstream& operator<<(std::ofstream& os, Tile& tile);
 
 	const bool intersects(const sf::FloatRect bounds) const;
-	void update();
+	virtual void update();
 	void render(sf::RenderTarget& target, const sf::Vector2f playerPosition = sf::Vector2f(), sf::Shader* shader = NULL);
 protected:
 	sf::Sprite shape;
