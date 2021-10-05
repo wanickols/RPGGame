@@ -4,13 +4,13 @@
 #include "TileMap.h"
 #include "Tile.h"
 #include "PauseMenu.h"
-#include "EditorMode.h"
-#include "DefaultEditorMode.h"
+#include "EditorModes.h"
 
 //Initializer functions
 void EditorState::initVariables()
 {
-	
+	cameraSpeed = 500.f;
+	activeMode = 0;
 }
 
 void EditorState::initEditorStateData()
@@ -79,6 +79,7 @@ void EditorState::initTileMap()
 void EditorState::initModes()
 {
 	modes.push_back(std::make_unique<DefaultEditorMode>(stateData,map,editorStateData));
+	modes.push_back(std::make_unique<EnemyEditorMode>(stateData, map, editorStateData));
 }
 
 void EditorState::initGui()
@@ -135,6 +136,31 @@ void EditorState::updateInput(const float& dt)
 		else
 			unpauseState();
 	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("TOGGLE_MODE"))) && getKeyTime()) {
+		if(activeMode < modes.size()-1)
+		{
+			activeMode++;
+		}else
+		{
+			activeMode = 0;
+		}
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(editorStateData->keybinds.at("MOVE_CAMERA_UP"))))
+	{
+		editorStateData->view.move(0.f, -cameraSpeed * dt);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(editorStateData->keybinds.at("MOVE_CAMERA_DOWN"))))
+	{
+		editorStateData->view.move(0.f, cameraSpeed * dt);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(editorStateData->keybinds.at("MOVE_CAMERA_LEFT"))))
+	{
+		editorStateData->view.move(-cameraSpeed * dt, 0.f);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(editorStateData->keybinds.at("MOVE_CAMERA_RIGHT"))))
+	{
+		editorStateData->view.move(cameraSpeed * dt, 0.f);
+	}
 	
 
 }
@@ -156,13 +182,14 @@ void EditorState::updateGui(const float& dt)
 
 void EditorState::update(const float& dt)
 {
-	updateMousePositions(std::make_unique<sf::View>(view));
+	
+	updateMousePositions(std::make_unique<sf::View>(editorStateData->view));
 	updateKeyTime(dt);
 	updateInput(dt);
 
 	
 	if (!paused) {
-		modes.at(0)->update(dt);
+		modes.at(activeMode)->update(dt);
 			
 	}
 	else {
@@ -188,13 +215,13 @@ void EditorState::renderGui(std::shared_ptr<sf::RenderTarget> target)
 {
 	if (!target)
 		target = stateData->window;
-	target->setView(view);
+	target->setView(editorStateData->view);
 	//PauseMenu
 	if (!paused) {
-
+		updateButtons();
 		target->setView(stateData->window->getDefaultView());
 		
-		modes.at(0)->render(target);
+		modes.at(activeMode)->render(target);
 	}
 	else {
 		target->setView(stateData->window->getDefaultView());
@@ -205,8 +232,20 @@ void EditorState::renderGui(std::shared_ptr<sf::RenderTarget> target)
 
 void EditorState::render(std::shared_ptr<sf::RenderTarget> target)
 {
-	renderGui(target);
-	
+	if (!target)
+		target = stateData->window;
+	target->setView(editorStateData->view);
+	//PauseMenu
+	if (!paused) {
+
+		target->setView(stateData->window->getDefaultView());
+		renderButtons(target);
+		renderGui(target);
+	}
+	else {
+		target->setView(stateData->window->getDefaultView());
+		pmenu->render(*target);
+	}
 }
 
 

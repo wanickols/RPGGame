@@ -153,6 +153,7 @@
     <ClCompile Include="DefaultEditorMode.cpp" />
     <ClCompile Include="EditorMode.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyEditorMode.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="FireRune.cpp" />
     <ClCompile Include="GraphicsSettings.cpp" />
@@ -187,7 +188,9 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="DefaultEditorMode.h" />
     <ClInclude Include="EditorMode.h" />
+    <ClInclude Include="EditorModes.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyEditorMode.h" />
     <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="FireRune.h" />
     <ClInclude Include="GraphicsSettings.h" />

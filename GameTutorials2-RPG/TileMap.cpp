@@ -15,8 +15,7 @@ TileMap::TileMap(float grid_size, int width, int height, std::string texture_fil
 {
 	
 
-	
-
+	enemySpawner.loadFromFile("Resources/Images/Tiles/EnemyTile");
 	
 	if (!tileSheet.loadFromFile(texture_file))
 		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';

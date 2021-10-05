@@ -135,32 +135,32 @@ void GameState::updateView()
 
 	//Makes sure view doesn't show outside world bounds.
 	//X
-	if (map->getMaxSizeF().x >= this->view.getSize().x)
+	if (map->getMaxSizeF().x >= view.getSize().x)
 	{
-		if (this->view.getCenter().x - this->view.getSize().x / 2.f < 0.f)
+		if (view.getCenter().x - view.getSize().x / 2.f < 0.f)
 		{
-			this->view.setCenter(0.f + this->view.getSize().x / 2.f, this->view.getCenter().y);
+			view.setCenter(0.f + view.getSize().x / 2.f, view.getCenter().y);
 		}
-		else if (this->view.getCenter().x + this->view.getSize().x / 2.f > map->getMaxSizeF().x)
+		else if (view.getCenter().x + view.getSize().x / 2.f > map->getMaxSizeF().x)
 		{
-			this->view.setCenter(map->getMaxSizeF().x - this->view.getSize().x / 2.f, this->view.getCenter().y);
+			view.setCenter(map->getMaxSizeF().x - view.getSize().x / 2.f, view.getCenter().y);
 		}
 	}
 	//Y
-	if (map->getMaxSizeF().y >= this->view.getSize().y)
+	if (map->getMaxSizeF().y >= view.getSize().y)
 	{
-		if (this->view.getCenter().y - this->view.getSize().y / 2.f < 0.f)
+		if (view.getCenter().y - view.getSize().y / 2.f < 0.f)
 		{
-			this->view.setCenter(this->view.getCenter().x, 0.f + this->view.getSize().y / 2.f);
+			view.setCenter(view.getCenter().x, 0.f + view.getSize().y / 2.f);
 		}
-		else if (this->view.getCenter().y + this->view.getSize().y / 2.f > map->getMaxSizeF().y)
+		else if (view.getCenter().y + view.getSize().y / 2.f > map->getMaxSizeF().y)
 		{
-			this->view.setCenter(this->view.getCenter().x, map->getMaxSizeF().y - this->view.getSize().y / 2.f);
+			view.setCenter(view.getCenter().x, map->getMaxSizeF().y - view.getSize().y / 2.f);
 		}
 	}
 	
-	viewGridPosition.x = static_cast<int>(this->view.getCenter().x) / static_cast<int>(this->stateData->gridSize);
-	viewGridPosition.y = static_cast<int>(this->view.getCenter().y) / static_cast<int>(this->stateData->gridSize);
+	viewGridPosition.x = static_cast<int>(view.getCenter().x) / static_cast<int>(stateData->gridSize);
+	viewGridPosition.y = static_cast<int>(view.getCenter().y) / static_cast<int>(stateData->gridSize);
 }
 
 void GameState::updatePlayerInput(const float& dt)

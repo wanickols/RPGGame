@@ -13,7 +13,7 @@ void Player::initVariables()
 
 void Player::initComponents()
 {
-	createMovementComponent(350.f, 1300.f, 400.f); //speed for player set here
+	createMovementComponent(250.f, 1300.f, 400.f); //speed for player set here
 	createHitBoxComponent(sprite, 12.f, 0.f, 41, 42);
 	createSkillComponent();
 	creatAttributeComponent(1);
@@ -333,7 +333,7 @@ void Player::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f l
 {
 	if (shader) {
 		shader->setUniform("hasTexture", true);
-		shader->setUniform("lightPos", this->getCenterPosition());
+		shader->setUniform("lightPos", getCenterPosition());
 		
 		target.draw(sprite, shader);
 		activeRune->render(target);

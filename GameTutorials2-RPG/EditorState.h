@@ -7,7 +7,7 @@ class TileMap;
 class EditorMode;
 struct EditorStateData;
 
-enum EditorModes { DefaultMode = 1, EnemyEditorMode };
+enum EditorModes { DefaultMode = 1, EnemyMode };
 
 
 
@@ -55,8 +55,8 @@ private:
 	
 	
 	std::vector<std::unique_ptr<EditorMode>> modes;
-	
-
+	int activeMode;
+	float cameraSpeed;
 
 	std::shared_ptr<PauseMenu> pmenu;
 	

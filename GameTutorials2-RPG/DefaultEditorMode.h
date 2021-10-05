@@ -10,7 +10,7 @@ class DefaultEditorMode : public EditorMode
 private:
 	//Init Functions
 	void initVariables();
-	void initGui(int& character_size);
+	void initGui();
 public:
 	DefaultEditorMode(std::shared_ptr<StateData> state_data, std::shared_ptr<TileMap> tile_map, std::shared_ptr<EditorStateData> editor_state_data);
 
@@ -22,9 +22,6 @@ public:
 	 void renderGui(std::shared_ptr<sf::RenderTarget> target) override;
 
 private:
-
-	sf::View& view;
-	sf::Font& font;
 	sf::Text cursorText;
 	sf::RectangleShape sideBar;
 	std::unique_ptr<gui::TextureSelector> textureSelector;

@@ -66,9 +66,6 @@
     <ClCompile Include="MainMenuState.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="MovementComponent.cpp">
       <Filter>Entities\Components</Filter>
     </ClCompile>
@@ -117,9 +114,6 @@
     <ClCompile Include="Rune.cpp">
       <Filter>Items\Runes</Filter>
     </ClCompile>
-    <ClCompile Include="SkillComponent.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -136,6 +130,15 @@
       <Filter>States\EditorModes</Filter>
     </ClCompile>
     <ClCompile Include="DefaultEditorMode.cpp">
+      <Filter>States\EditorModes</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillComponent.cpp">
+      <Filter>Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyEditorMode.cpp">
       <Filter>States\EditorModes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -225,6 +228,12 @@
       <Filter>States\EditorModes</Filter>
     </ClInclude>
     <ClInclude Include="DefaultEditorMode.h">
+      <Filter>States\EditorModes</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorModes.h">
+      <Filter>States\EditorModes</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyEditorMode.h">
       <Filter>States\EditorModes</Filter>
     </ClInclude>
   </ItemGroup>

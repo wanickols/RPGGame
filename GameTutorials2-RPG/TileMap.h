@@ -61,10 +61,13 @@ private:
 	sf::Vector2i maxSizeWorldI;
 	sf::Vector2f maxSizeWorldF;
 	std::string textureFile;
+	std::string enemySpawnerTextureFile;
 	int layers;
 	float gridSizeF;
 	int gridSizeI;
 	sf::Texture tileSheet;
+	sf::Texture tileSheet32;
+	sf::Texture enemySpawner;
 	sf::RectangleShape collisionBox;
 	//   x            y				z(depth)
 	std::vector < std::vector < std::vector < std::vector <std::shared_ptr<Tile>> > > > map;

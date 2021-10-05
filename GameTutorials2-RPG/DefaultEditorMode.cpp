@@ -18,12 +18,12 @@ void DefaultEditorMode::initVariables()
 	
 }
 
-void DefaultEditorMode::initGui(int& character_size)
+void DefaultEditorMode::initGui()
 {
 	//CursorText
-	cursorText.setFont(font);
+	cursorText.setFont(editorStateData->font);
 	cursorText.setFillColor(sf::Color::White);
-	cursorText.setCharacterSize(character_size / 4);
+	cursorText.setCharacterSize(editorStateData->characterSize / 4);
 
 	//SideBar
 	
@@ -40,15 +40,15 @@ void DefaultEditorMode::initGui(int& character_size)
 	selectorRect.setTexture(map->getTileSheet());
 	selectorRect.setTextureRect(textureRect);
 
-	textureSelector = std::make_unique<gui::TextureSelector>(20.f, 20.f, 1000.f, 500.f, stateData->gridSize, *map->getTileSheet(), font);
+	textureSelector = std::make_unique<gui::TextureSelector>(20.f, 20.f, 1000.f, 500.f, stateData->gridSize, *map->getTileSheet(), editorStateData->font);
 }
 
 
 DefaultEditorMode::DefaultEditorMode(std::shared_ptr<StateData> state_data, std::shared_ptr<TileMap> tile_map, std::shared_ptr<EditorStateData> editor_state_data)
-	: EditorMode(state_data, tile_map, editor_state_data), font(editor_state_data->font), view(editor_state_data->view)
+	: EditorMode(state_data, tile_map, editor_state_data)
 {
 	initVariables();
-	initGui(editor_state_data->characterSize);
+	initGui();
 }
 
 void DefaultEditorMode::updateInput(const float& dt)
@@ -111,22 +111,7 @@ void DefaultEditorMode::updateInput(const float& dt)
 			if (Type > 0)
 				Type--;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(editorStateData->keybinds.at("MOVE_CAMERA_UP"))))
-		{
-			view.move(0.f, -cameraSpeed * dt);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(editorStateData->keybinds.at("MOVE_CAMERA_DOWN"))))
-		{
-			view.move(0.f, cameraSpeed * dt);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(editorStateData->keybinds.at("MOVE_CAMERA_LEFT"))))
-		{
-			view.move(-cameraSpeed * dt, 0.f);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(editorStateData->keybinds.at("MOVE_CAMERA_RIGHT"))))
-		{
-			view.move(cameraSpeed * dt, 0.f);
-		}
+		
 	}
 }
 
@@ -156,7 +141,7 @@ void DefaultEditorMode::updateGui(const float& dt)
 
 void DefaultEditorMode::update(const float& dt)
 {
-	updateMousePositions(view);
+	updateMousePositions(editorStateData->view);
 	updateKeyTime(dt);
 	updateInput(dt);
 
@@ -178,7 +163,7 @@ void DefaultEditorMode::render(std::shared_ptr<sf::RenderTarget> target)
 	renderGui(target);
 	textureSelector->render(*target);
 	
-	target->setView(view);
+	target->setView(editorStateData->view);
 	if (!textureSelector->getActive())
 		target->draw(selectorRect);
 
@@ -192,15 +177,13 @@ void DefaultEditorMode::renderGui(std::shared_ptr<sf::RenderTarget>target)
 {
 	if (!target)
 		target = stateData->window;
-	target->setView(view);
+	target->setView(editorStateData->view);
 	//PauseMenu
 	if (!paused) {
-
-		map->render(*target, editorStateData->mousePosGrid, sf::Vector2f(), NULL, showCollision);
+		map->render(*target, editorStateData->mousePosGrid, sf::Vector2f(), NULL, true);
 		map->renderDeferred(*target);
-
 		target->setView(stateData->window->getDefaultView());
-		//renderButtons(*target);
+	//	renderButtons(*target);
 	}
 	else {
 		target->setView(stateData->window->getDefaultView());

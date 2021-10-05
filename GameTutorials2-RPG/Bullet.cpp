@@ -13,26 +13,26 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 		{
 		case(DOWNIDLE): 
 			yVel = 2.f; xVel = .3f;
-			this->setPosition(x + 10, y + 32);
+			setPosition(x + 10, y + 32);
 			break; 
 		case(UPIDLE):
 			yVel = -2.f; xVel = -.3f;
-			this->setPosition(x - 10, y - 32);
+			setPosition(x - 10, y - 32);
 			break;
 		case(RIGHTIDLE):
 			xVel = 2.f;
-			this->setPosition(x + 32, y);
+			setPosition(x + 32, y);
 			break;
 		case(LEFTIDLE):
 			xVel = -2.f;
-			this->setPosition(x - 32, y-5);
+			setPosition(x - 32, y-5);
 			break;
 		default:
 			xVel = 2.f;
 			yVel = 2.f;
 			break;
 		}
-		this->setPosition(x + (xVel * 32), y + (yVel * 32));
+		setPosition(x + (xVel * 32), y + (yVel * 32));
 	}
 	else {
 		//FIXME SWITCH STAMENNT
@@ -43,25 +43,25 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 		case(RIGHTIDLE):
 			if (xVel < 1.5f)
 				xVel = 1.5f;
-			this->setPosition(x + 32, y);
+			setPosition(x + 32, y);
 			break;
 		case(MOVING_LEFT):
 		case(LEFTIDLE):
 			if (xVel > -1.5f)
 				xVel = -1.5f;
-			this->setPosition(x - 30, y+10);
+			setPosition(x - 30, y+10);
 			break;
 		case(MOVING_UP):
 		case(UPIDLE):
 			if (yVel > -1.5f)
 				yVel = -1.5f;
-			this->setPosition(x - 10, y - 32);
+			setPosition(x - 10, y - 32);
 			break;
 		case(MOVING_DOWN):
 		case(DOWNIDLE):
 			if (yVel < 1.5f)
 				yVel = 1.5f;
-			this->setPosition(x + 10, y + 32);
+			setPosition(x + 10, y + 32);
 			break;
 		default:
 			break;

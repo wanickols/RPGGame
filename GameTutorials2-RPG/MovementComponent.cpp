@@ -192,21 +192,10 @@ void MovementComponent::stopVelocityY()
 //Functions
 void MovementComponent::move(const float dir_x, const float dir_y, const float& dt, bool player)
 {
-	if (player) {
-		//Acceleration
-		if (direction == facing::DOWN || direction == facing::UP) {
-			velocity.y += acceleration * dir_y * dt;
-			stopVelocityX();
-		}
-		else {
-			velocity.x += acceleration * dir_x * dt;
-			stopVelocityY();
-		}
-	}else
-	{
+	
 		velocity.x += acceleration * dir_x * dt;
 		velocity.y += acceleration * dir_y * dt;
-	}
+	
 	
 	
 
