@@ -241,16 +241,15 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 				if (!animationComponent->getLastIsDone("IDLEATTACKLEFT"))
 				{
 					if (animationComponent->play("IDLEATTACKLEFT", dt, false)) {
+						shoot(mousePosView);
 					}
 				}
 				else {
 					if (!animationComponent->play("IDLEATTACKINGLEFT", dt, false)) {
-
 					}
 					else {
 						shoot(mousePosView);
 						animationComponent->setIsDone("IDLEATTACKINGLEFT", false);
-						attacking = false;
 					}
 				}
 				break;
@@ -262,7 +261,6 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 				else {
 					shoot(mousePosView);
 					animationComponent->setIsDone("MOVINGATTACKLEFT", false);
-					attacking = false;
 				}
 				break;
 			
