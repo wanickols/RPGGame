@@ -8,7 +8,8 @@ void Rune::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
 {
 	if (!bullets.empty()) {
 		for (int i = 0; i < bullets.size(); i++) {
-			map->updateCollision(bullets.at(i), dt);
+			map->updateTileCollision(bullets.at(i), dt);
+			map->updateWorldBounds(bullets.at(i));
 		}
 	}
 }

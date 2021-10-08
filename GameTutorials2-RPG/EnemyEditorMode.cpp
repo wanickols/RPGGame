@@ -67,7 +67,7 @@ void EnemyEditorMode::updateInput(const float& dt)
 	{
 		if (!sidebar.getGlobalBounds().contains(sf::Vector2f(editorStateData->mousePosWindow)))
 		{
-			map->removeTile(editorStateData->mousePosGrid.x, editorStateData->mousePosGrid.y, 0);
+			map->removeTile(editorStateData->mousePosGrid.x, editorStateData->mousePosGrid.y, 0, true);
 		}
 	}
 
@@ -115,7 +115,7 @@ void EnemyEditorMode::updateInput(const float& dt)
 			if (maxDistance > 0)
 				maxDistance--;
 		}
-		else if (maxDistance < 1000)
+		else if (maxDistance < 10000)
 			maxDistance++;
 		else
 			maxDistance = 0;

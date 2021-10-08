@@ -20,6 +20,7 @@ private:
 	void initShaders();
 	void initTileMap();
 	void initPlayers();
+	void initEnemies();
 	void initPlayerGui();
 
 
@@ -35,6 +36,8 @@ public:
 	void updatePauseMenuButtons();
 	void updateTileMap(const float& dt);
 
+	void updateEnemies(const float& dt);
+	void updatePlayer(const float& dt);
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);
 
@@ -48,6 +51,7 @@ private:
 
 	std::shared_ptr<TileMap> map;
 	std::shared_ptr<Player> player;
+	std::vector<std::shared_ptr<Enemy>> enemies;
 	std::shared_ptr<PlayerGui> playerGui;
 	std::unique_ptr<PauseMenu> pmenu;
 

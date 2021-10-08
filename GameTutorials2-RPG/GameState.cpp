@@ -96,6 +96,11 @@ void GameState::initPlayers()
 	//testEnemy = std::make_shared<Enemy>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 }
 
+void GameState::initEnemies()
+{
+	//map->initEnemies();
+}
+
 void GameState::initPlayerGui()
 {
 	playerGui = std::make_shared<PlayerGui>(player, font, GraphicsSettings->resolution);
@@ -225,8 +230,27 @@ void GameState::updatePauseMenuButtons()
 void GameState::updateTileMap(const float& dt)
 {
 	//std::shared_ptr<Entity> player1 = std::make_shared<Entity>(player);
-	map->update(player);
-	map->updateCollision(player, dt);
+	map->updateTiles(player, dt);
+}
+
+void GameState::updateEnemies(const float& dt)
+{
+	
+		for(auto& i : enemies) 
+		{
+			i->update(dt);
+		}
+	
+}
+
+void GameState::updatePlayer(const float& dt)
+{
+
+	map->updateWorldBounds(player);
+	map->updateTileCollision(player, dt);
+	updatePlayerInput(dt);
+	updatePlayerGui(dt);
+	player->update(dt, mousePosView);
 	player->updateBulletCollision(dt, map);
 }
 
@@ -240,17 +264,16 @@ void GameState::update(const float& dt)
 
 		updateView();
 		updateTileMap(dt);
-		updatePlayerInput(dt);
-		updatePlayerGui(dt);
-
-		player->update(dt, mousePosView);
+		updatePlayer(dt);
+		updateEnemies(dt);
+		
 		//testEnemy->update(dt, mousePosView);
 	}
 	else if (paused) {
 		pmenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
 		updatePauseMenuButtons();
 	}else	{
-		
+		//playerGuiMenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y);
 	}
 }
 
