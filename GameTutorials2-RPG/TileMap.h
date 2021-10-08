@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Tile.h"
 
 namespace sf {
 	class Texture;
@@ -7,7 +8,7 @@ namespace sf {
 	class RectangleShape;
 }
 
-class Tile;
+class Enemy;
 
 class TileMap
 {
@@ -30,13 +31,17 @@ public:
 	void clear();
 	void addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool collision, const short type);
 	void addEnemyTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, int enemy_type, int max_spawned, int time_to_spawn, float max_distance);
-	void removeTile(const int x, const int y, const int z);
+	void removeTile(const int x, const int y, const int z, bool type_check = false);
 	void saveToFile(const std::string file_name);
 	void loadFromFile(const std::string file_name);
 	void initLoadFromFile(const std::string& file_name);
 
-	void updateCollision(std::shared_ptr<Entity> entity, const float& dt);
-	void update(std::shared_ptr<Entity> entity);
+
+	void updateWorldBounds(std::shared_ptr<Entity> entity);
+	void updateTileCollision(std::shared_ptr<Entity> entity, const float& dt);
+	void updateTiles(std::shared_ptr<Entity> entity, const float& dt);
+	
+	void update(std::shared_ptr<Entity> entity, const float& dt);
 	void render(sf::RenderTarget& Target, const sf::Vector2i& gridPosition, const sf::Vector2f player_position = sf::Vector2f(0.f, 0.f), sf::Shader* shader = NULL, const bool show_collision = false, const bool show_EnemySpawner = false);
 	void renderDeferred(sf::RenderTarget& Target, const sf::Vector2f player_position = sf::Vector2f(0.f,0.f), sf::Shader* shader = NULL);
 

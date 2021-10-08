@@ -166,6 +166,11 @@ void MovementComponent::setLastState(const short unsigned state)
 	lastState = state;
 }
 
+void MovementComponent::setAcceleration(float newAccel)
+{
+	acceleration = newAccel;
+}
+
 void MovementComponent::stopVelocity()
 {
 	/* Resets the velocity to 0.*/

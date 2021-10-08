@@ -21,6 +21,7 @@ public:
 	const facing getDirection() const;
 	void setDirection(facing player_direction);
 	void setLastState(const short unsigned state);
+	void setAcceleration(float newAccel);
 
 	//functions
 	void stopVelocity();
