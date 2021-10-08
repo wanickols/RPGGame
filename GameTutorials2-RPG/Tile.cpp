@@ -34,13 +34,20 @@ const sf::FloatRect Tile::getGlobalBounds() const
 	return shape.getGlobalBounds();
 }
 
+std::ofstream& Tile::getStringTile(std::ofstream& os)
+{
+	os << type << " " << shape.getTextureRect().left << " " << shape.getTextureRect().top
+		<< " " << collision;
+	return os;
+}
+
 const bool Tile::intersects(const sf::FloatRect bounds) const
 {
 	return shape.getGlobalBounds().intersects(bounds);
 }
 
 //Functions
-void Tile::update()
+void Tile::update(const float& dt)
 {
 }
 
@@ -59,7 +66,7 @@ void Tile::render(sf::RenderTarget& target, const sf::Vector2f playerPosition, s
 std::ofstream& operator<<(std::ofstream& os, Tile& tile)
 {
 	//Texture rect x y, type, collision
-	os << tile.shape.getTextureRect().left << " " << tile.shape.getTextureRect().top
-		<< " " << tile.collision << " " << tile.type;
+	os << tile.type << " " << tile.shape.getTextureRect().left << " " << tile.shape.getTextureRect().top
+		<< " " << tile.collision;
 	return os;
 }

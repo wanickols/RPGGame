@@ -142,7 +142,7 @@ void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map
 }
 
 //Functions
-void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
+void Player::updateAnimation(const float& dt, const sf::Vector2f mousePosView)
 {
 	if (movementComponent->getState(ATTACK)) {
 		attacking = true;
@@ -300,7 +300,7 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
 	}
 }
 
-void Player::update(const float& dt, const sf::Vector2f& mousePosView)
+void Player::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	
 	movementComponent->update(dt);

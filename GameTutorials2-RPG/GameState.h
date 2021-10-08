@@ -48,7 +48,6 @@ private:
 
 	std::shared_ptr<TileMap> map;
 	std::shared_ptr<Player> player;
-	std::shared_ptr<Enemy> testEnemy;
 	std::shared_ptr<PlayerGui> playerGui;
 	std::unique_ptr<PauseMenu> pmenu;
 

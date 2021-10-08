@@ -5,8 +5,7 @@
 
 void Enemy::initVariables()
 {
-
-
+	name = "NoNameEnemy";
 }
 void Enemy::initComponents()
 {
@@ -36,35 +35,19 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::updateAnimation(const float& dt, const sf::Vector2f& mousePosView)
+void Enemy::updateAnimation(const float& dt)
 {
 	animationComponent->play("DOWNIDLE", dt, false);
 }
 
-void Enemy::update(const float& dt, const sf::Vector2f& mousePosView)
+void Enemy::update(const float& dt, const sf::Vector2f mousePosView)
 {
 
 	movementComponent->update(dt);
-	//activeRune->update(dt, mousePosView);
-	//Bullets
-	//Checks if there are bullets on the screen to know if keep arms up or put them down
-	/*if (activeRune->isBulletEmpty()) {
-		animationComponent->setIsDone("IDLEATTACKDOWN", false);
-		animationComponent->setIsDone("IDLEATTACKUP", false);
-		animationComponent->setIsDone("IDLEATTACKLEFT", false);
-		animationComponent->setIsDone("IDLEATTACKRIGHT", false);
-	}*/
 
-	updateAnimation(dt, mousePosView);
+	updateAnimation(dt);
 
 	hitBoxComponent->update();
-
-	//std::cout << skillComponent->getSkillLvl("Endurance") << "\n";
-
-
-	//addExp(20);
-	//system("cls");
-	//std::cout << attributeComponent->debugPrint();
 
 }
 

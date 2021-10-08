@@ -157,7 +157,7 @@ void EnemyEditorMode::renderGui(std::shared_ptr<sf::RenderTarget> target)
 
 	if(!paused)
 	{
-		map->render(*target, editorStateData->mousePosGrid, sf::Vector2f(), NULL, true);
+		map->render(*target, editorStateData->mousePosGrid, sf::Vector2f(), NULL, true, true);
 		map->renderDeferred(*target);
 	
 

@@ -84,7 +84,7 @@ void Bullet::updateAnimation(const float& dt)
 	};
 }
 
-void Bullet::update(const float& dt, const sf::Vector2f& mousePosView)
+void Bullet::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	movementComponent->move(xVel, yVel, dt);
 	

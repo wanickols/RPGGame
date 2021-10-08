@@ -37,7 +37,7 @@ public:
 
 	void updateCollision(std::shared_ptr<Entity> entity, const float& dt);
 	void update(std::shared_ptr<Entity> entity);
-	void render(sf::RenderTarget& Target, const sf::Vector2i& gridPosition, const sf::Vector2f player_position = sf::Vector2f(0.f, 0.f), sf::Shader* shader = NULL, const bool show_collision = false);
+	void render(sf::RenderTarget& Target, const sf::Vector2i& gridPosition, const sf::Vector2f player_position = sf::Vector2f(0.f, 0.f), sf::Shader* shader = NULL, const bool show_collision = false, const bool show_EnemySpawner = false);
 	void renderDeferred(sf::RenderTarget& Target, const sf::Vector2f player_position = sf::Vector2f(0.f,0.f), sf::Shader* shader = NULL);
 
 	//Accessors 

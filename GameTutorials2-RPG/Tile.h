@@ -18,12 +18,12 @@ public:
 	const sf::FloatRect getGlobalBounds() const;
 
 	//Functions
+	virtual std::ofstream& getStringTile(std::ofstream& os);
 	friend std::ofstream& operator<<(std::ofstream& os, Tile& tile);
 
 	const bool intersects(const sf::FloatRect bounds) const;
-	virtual void update();
+	virtual void update(const float& dt);
 	void render(sf::RenderTarget& target, const sf::Vector2f playerPosition = sf::Vector2f(), sf::Shader* shader = NULL);
-protected:
 	sf::Sprite shape;
 };
 

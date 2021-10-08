@@ -177,7 +177,12 @@ void TileMap::saveToFile(const std::string file_name)
 	texture file
 
 	All tiles
-	gridPos x y layer, Texture rect x y, type, collision
+	type,Texture rect x y, collision
+	x y z
+	EnemyTiles:
+	type,Texture rect x y, collision
+	enemy_type, max_spawned, time_to_spawn, max_distance
+	x y z
 	*/
 
 	std::ofstream of;
@@ -199,8 +204,20 @@ void TileMap::saveToFile(const std::string file_name)
 					for (size_t k = 0; k < map[x][y][z].size(); k++) {
 						if (!map[x][y][z].empty()) {
 							if (map[x][y][z][k] != NULL) {
-								of << x << " " << y << " " << z << " ";
-								of << *map[x][y][z][k] << " ";
+								switch (map[x][y][z][k]->getType()) 
+								{
+								case(TileType::ENEMYSPAWNER):
+									map[x][y][z][k]->getStringTile(of);
+									of << " " << x << " " << y << " " << z << "\n";
+									of;
+									break;
+								default:
+									map[x][y][z][k]->getStringTile(of);
+									of << " " << x << " " << y << " " << z << "\n";
+									break;
+								}
+							
+								
 							}
 						}
 					}
@@ -234,24 +251,35 @@ void TileMap::loadFromFile(const std::string file_name)
 			>> textureFile;
 	
 		//Tile
+		short type;
 		int x;
 		int y;
 		int z;
 		int trX;
 		int trY;
 		bool collision;
-		short type;
+		
 
-
-		while (is >> x >> y >> z >> trX >> trY >> collision >> type)
-		{
+		while (is >> type >> trX >> trY >> collision) {
 			sf::IntRect texture_rect;
 			texture_rect.left = trX; texture_rect.top = trY;
 			texture_rect.width = (int)gridSizeF; texture_rect.height = (int)gridSizeF;
-			
-				
-					//std::cout << x << y << z << trX << trY << collision << type;
-				map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
+
+			switch(type)
+			{
+			case(TileType::ENEMYSPAWNER):
+				int enemy_type, max_spawned, time_to_spawn;
+				float max_distance;
+				is >> enemy_type >> max_spawned >> time_to_spawn >> max_distance
+					>> x >> y >> z;
+				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, enemy_type, max_spawned, time_to_spawn, max_distance));
+				break;
+			default:
+				//std::cout << x << y << z << trX << trY << collision << type
+				is >> x >> y >> z;
+				map[x][y][z].emplace_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
+				break;
+			}
 		}
 	}
 	else
@@ -295,33 +323,10 @@ void TileMap::initLoadFromFile(const std::string& file_name)
 
 		if (!tileSheet.loadFromFile(textureFile))
 			std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
-
-		//Tile
-		int x;
-		int y;
-		int z;
-		int trX;
-		int trY;
-		bool collision;
-		short type;
-
-
-		while (is >> x >> y >> z >> trX >> trY >> collision >> type)
-		{
-			sf::IntRect texture_rect;
-			texture_rect.left = trX; texture_rect.top = trY;
-			texture_rect.width = (int)gridSizeF; texture_rect.height = (int)gridSizeF;
-
-
-			//std::cout << x << y << z << trX << trY << collision << type;
-			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
-		}
-	}
-	else
-	{
-		std::cout << "TILEMAP LOAD COULD OPEN TILEMAP FILE: " << file_name << "\n";
 	}
 	is.close();
+	loadFromFile(file_name);
+	
 }
 
 void TileMap::updateCollision(std::shared_ptr<Entity> entity, const float& dt)
@@ -382,7 +387,7 @@ void TileMap::updateCollision(std::shared_ptr<Entity> entity, const float& dt)
 			for (size_t k = 0; k < map[x][y][layer].size(); k++) {
 				if (map[x][y][layer][k] != nullptr) {
 
-					map[x][y][layer][k]->update();
+					map[x][y][layer][k]->update(dt);
 					
 					sf::FloatRect playerBounds = entity->getGlobalBounds();
 					sf::FloatRect wallBounds = map[x][y][layer][k]->getGlobalBounds();
@@ -450,7 +455,7 @@ void TileMap::update(std::shared_ptr<Entity> entity)
 }
 
 
-void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition, const sf::Vector2f playerPos, sf::Shader* shader, const bool show_collision)
+void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition, const sf::Vector2f playerPos, sf::Shader* shader, const bool show_collision, const bool show_EnemySpawner)
 {
 		layer = 0;
 		//Render boxes only around the player. (just enough to never show rendering on screen)
@@ -489,22 +494,36 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 			{
 				for (size_t k = 0; k < map[x][y][layer].size(); k++) {
 					if (map[x][y][layer][k] != NULL) {
+
 						if (map[x][y][layer][k]->getType() == TileType::DEFERRED)
 						{
 							deferredRenderStack.push(map[x][y][layer][k]);
 						}
 						else {
-							if(shader)
-								map[x][y][layer][k]->render(target, playerPos, shader);
-							else
-								map[x][y][layer][k]->render(target);
+							if (show_EnemySpawner) { //Enemy Spawners rendered or not
+								if (shader)
+									map[x][y][layer][k]->render(target, playerPos, shader);
+								else
+									map[x][y][layer][k]->render(target);
+							}
+							else {
+								if (map[x][y][layer][k]->getType() != TileType::ENEMYSPAWNER) {
+									if (shader)
+										map[x][y][layer][k]->render(target, playerPos, shader);
+									else
+										map[x][y][layer][k]->render(target);
+								}
+							}
 						}
 
-						if (map[x][y][layer][k]->getCollision()) {
+						if (map[x][y][layer][k]->getCollision()) { //Collision box rendered or not
 							collisionBox.setPosition(map[x][y][layer][k]->getPosition());
-							if(show_collision)
-							target.draw(collisionBox);
+							if (show_collision)
+								target.draw(collisionBox);
 						}
+
+					
+					
 					}
 
 				}

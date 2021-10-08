@@ -46,6 +46,9 @@
     <Filter Include="States\EditorModes">
       <UniqueIdentifier>{aad3fbf2-204e-48fa-9f39-86a1c8e6e842}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Enemies">
+      <UniqueIdentifier>{058f5d12-03fd-4a71-8f21-5d055ad30359}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -114,9 +117,6 @@
     <ClCompile Include="Rune.cpp">
       <Filter>Items\Runes</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="EnemySpawner.cpp">
       <Filter>Map\Tiles</Filter>
     </ClCompile>
@@ -140,6 +140,12 @@
     </ClCompile>
     <ClCompile Include="EnemyEditorMode.cpp">
       <Filter>States\EditorModes</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Rat.cpp">
+      <Filter>Entities\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +218,6 @@
     <ClInclude Include="SkillComponent.h">
       <Filter>Entities\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="EnemySpawner.h">
       <Filter>Map\Tiles</Filter>
     </ClInclude>
@@ -235,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="EnemyEditorMode.h">
       <Filter>States\EditorModes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Rat.h">
+      <Filter>Entities\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
