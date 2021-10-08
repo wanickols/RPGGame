@@ -253,5 +253,8 @@
     <None Include="fragment_shader.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="bullet_shader.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

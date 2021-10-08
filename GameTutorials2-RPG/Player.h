@@ -40,7 +40,7 @@ public:
 	virtual void update(const float& dt, const sf::Vector2f mousePosView);
 	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(),  const bool show_hitbox = false);
 private:
-
+	sf::Shader bullet_shader;
 	std::vector< std::shared_ptr<Rune> > runes;
 	std::shared_ptr <Rune> activeRune;
 	//variables

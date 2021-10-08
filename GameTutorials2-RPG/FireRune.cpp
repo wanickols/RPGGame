@@ -42,7 +42,7 @@ void FireRune::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f
 		{
 
 			if (iter->getRunning())
-				iter->render(target,shader, light_position);
+				iter->render(target,shader, light_position, show_hitbox);
 		}
 	}
 	else {

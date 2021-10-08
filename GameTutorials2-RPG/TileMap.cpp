@@ -16,10 +16,12 @@ TileMap::TileMap(float grid_size, int width, int height, std::string texture_fil
 {
 	
 
-	enemySpawner.loadFromFile("Resources/Images/Tiles/EnemyTile");
+	//enemySpawner.loadFromFile("Resources/Images/Tiles/EnemyTile");
 	
 	if (!tileSheet.loadFromFile(texture_file))
 		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
+
+	
 
 	gridSizeF = grid_size;
 	gridSizeI = static_cast<int>(grid_size);
@@ -42,6 +44,8 @@ TileMap::TileMap(float grid_size, int width, int height, std::string texture_fil
 TileMap::TileMap(const std::string file_name)
 : fromX(0), toX(0), fromY(0), toY(0), layer(0)
 {
+	if (!ratText.loadFromFile("Resources/Images/Sprites/Enemies/rat1.png"))
+		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
 
 	initLoadFromFile(file_name);
 
@@ -143,12 +147,13 @@ void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& 
 
 void TileMap::addEnemyTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, int enemy_type, int max_spawned, int time_to_spawn, float max_distance)
 {
+	
 	//Take two indicies and checks to see if in array size.
 	if (x >= 0 && x < maxSize.x && //x
 		y >= 0 && y < maxSize.y && //y
 		z >= 0 && z < layers)//z 
 	{
-			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, enemy_type, max_spawned, time_to_spawn, max_distance));
+			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, ratText, enemy_type, max_spawned, time_to_spawn, max_distance));
 	}
 }
 
@@ -289,7 +294,7 @@ void TileMap::loadFromFile(const std::string file_name)
 				float max_distance;
 				is >> enemy_type >> max_spawned >> time_to_spawn >> max_distance
 					>> x >> y >> z;
-				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, enemy_type, max_spawned, time_to_spawn, max_distance));
+				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, ratText, enemy_type, max_spawned, time_to_spawn, max_distance));
 				break;
 			default:
 				//std::cout << x << y << z << trX << trY << collision << type
@@ -346,33 +351,37 @@ void TileMap::initLoadFromFile(const std::string& file_name)
 	
 }
 
-void TileMap::updateWorldBounds(std::shared_ptr<Entity> entity)
+bool TileMap::updateWorldBounds(std::shared_ptr<Entity> entity)
 {
 //WORLD BOUNDS
 if (entity->getPosition().x < 0.f)
 {
 	entity->setPosition(0.f, entity->getPosition().y);
 	entity->stopVelocityX();
+	return true;
 }
 else if (entity->getPosition().x + entity->getGlobalBounds().width > maxSizeWorldI.x)
 {
 	entity->setPosition(maxSizeWorldI.x - entity->getGlobalBounds().width, entity->getPosition().y);
 	entity->stopVelocityX();
+	return true;
 }
 if (entity->getPosition().y < 0.f)
 {
 	entity->setPosition(entity->getPosition().x, 0.f);
 	entity->stopVelocityY();
+	return true;
 }
 else if (entity->getPosition().y + entity->getGlobalBounds().height > maxSizeWorldI.y)
 {
 	entity->setPosition(entity->getPosition().x, maxSizeWorldI.y - entity->getGlobalBounds().height);
 	entity->stopVelocityY();
+	return true;
+}
+return false;
 }
 
-}
-
-void TileMap::updateTileCollision(std::shared_ptr<Entity> entity, const float& dt)
+bool TileMap::updateTileCollision(std::shared_ptr<Entity> entity, const float& dt)
 {
 	layer = 0;
 	//Update around the player
@@ -427,7 +436,7 @@ void TileMap::updateTileCollision(std::shared_ptr<Entity> entity, const float& d
 						{
 							entity->stopVelocityY();
 							entity->setPosition(playerBounds.left, wallBounds.top - playerBounds.height - 1.f);
-
+							return true;
 						}
 
 						
@@ -440,6 +449,7 @@ void TileMap::updateTileCollision(std::shared_ptr<Entity> entity, const float& d
 						{
 							entity->stopVelocityY();
 							entity->setPosition(playerBounds.left, wallBounds.top + wallBounds.height + 1.f);
+							return true;
 						}
 						
 
@@ -452,6 +462,7 @@ void TileMap::updateTileCollision(std::shared_ptr<Entity> entity, const float& d
 						{
 							entity->stopVelocityX();
 							entity->setPosition(wallBounds.left - playerBounds.width - 1.f, playerBounds.top);
+							return true;
 						}
 
 
@@ -464,6 +475,7 @@ void TileMap::updateTileCollision(std::shared_ptr<Entity> entity, const float& d
 						{
 							entity->stopVelocityX();
 							entity->setPosition(wallBounds.left + wallBounds.width + 1.f, playerBounds.top);
+							return true;
 						}
 					}
 				}
@@ -471,9 +483,10 @@ void TileMap::updateTileCollision(std::shared_ptr<Entity> entity, const float& d
 		}
 
 	}
+	return false;
 }
 
-void TileMap::updateTiles(std::shared_ptr<Entity> entity, const float& dt)
+void TileMap::updateTiles(std::shared_ptr<Entity> entity, const float& dt, std::vector<std::shared_ptr<Enemy>>& enemies)
 {
 	layer = 0;
 	//Update around the player
@@ -508,8 +521,16 @@ void TileMap::updateTiles(std::shared_ptr<Entity> entity, const float& dt)
 
 			for (size_t k = 0; k < map[x][y][layer].size(); k++) {
 				if (map[x][y][layer][k] != nullptr) {
-
-					map[x][y][layer][k]->update(dt);
+					if (map[x][y][layer][k]->getType() == TileType::ENEMYSPAWNER) 
+					{
+						EnemySpawner* es = dynamic_cast<EnemySpawner*>(map[x][y][layer][k].get());
+						if(es)
+						{
+							if (es->canSpawn())
+								enemies.push_back(es->spawn());
+						}
+					}	
+						map[x][y][layer][k]->update(dt);
 					}
 				}
 			}
@@ -523,7 +544,7 @@ void TileMap::update(std::shared_ptr<Entity> entity, const float& dt)
 {
 	updateTileCollision(entity, dt);
 	updateWorldBounds(entity);
-	updateTiles(entity, dt);
+	//updateTiles(entity, dt);
 }
 
 

@@ -37,9 +37,9 @@ public:
 	void initLoadFromFile(const std::string& file_name);
 
 
-	void updateWorldBounds(std::shared_ptr<Entity> entity);
-	void updateTileCollision(std::shared_ptr<Entity> entity, const float& dt);
-	void updateTiles(std::shared_ptr<Entity> entity, const float& dt);
+	bool updateWorldBounds(std::shared_ptr<Entity> entity);
+	bool updateTileCollision(std::shared_ptr<Entity> entity, const float& dt);
+	void updateTiles(std::shared_ptr<Entity> entity, const float& dt, std::vector<std::shared_ptr<Enemy>>& enemies);
 	
 	void update(std::shared_ptr<Entity> entity, const float& dt);
 	void render(sf::RenderTarget& Target, const sf::Vector2i& gridPosition, const sf::Vector2f player_position = sf::Vector2f(0.f, 0.f), sf::Shader* shader = NULL, const bool show_collision = false, const bool show_EnemySpawner = false);
@@ -71,7 +71,7 @@ private:
 	float gridSizeF;
 	int gridSizeI;
 	sf::Texture tileSheet;
-	sf::Texture tileSheet32;
+	sf::Texture ratText;
 	sf::Texture enemySpawner;
 	sf::RectangleShape collisionBox;
 	//   x            y				z(depth)

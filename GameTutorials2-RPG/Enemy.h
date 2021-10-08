@@ -3,6 +3,7 @@
 
 class EnemySpawner;
 class Item;
+enum EnemyType { RAT = 0, BIRD = 1, WORM = 2};
 
 class Enemy : public Entity
 {

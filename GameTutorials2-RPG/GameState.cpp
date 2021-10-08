@@ -5,6 +5,8 @@
 #include "PauseMenu.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Rat.h"
+#include "EnemySpawner.h"
 #include "PlayerGui.h"
 
 void GameState::initDefferredRender()
@@ -29,7 +31,7 @@ void GameState::initView()
 {
 	view.setSize(sf::Vector2f((float)GraphicsSettings->resolution.width, (float)GraphicsSettings->resolution.height));
 	//view.setCenter(GraphicsSettings->resolution.width / 2.f, GraphicsSettings->resolution.height / 2.f);
-
+	
 }
 
 void GameState::initKeybinds()
@@ -98,7 +100,6 @@ void GameState::initPlayers()
 
 void GameState::initEnemies()
 {
-	//map->initEnemies();
 }
 
 void GameState::initPlayerGui()
@@ -230,12 +231,11 @@ void GameState::updatePauseMenuButtons()
 void GameState::updateTileMap(const float& dt)
 {
 	//std::shared_ptr<Entity> player1 = std::make_shared<Entity>(player);
-	map->updateTiles(player, dt);
+	map->updateTiles(player, dt, enemies);
 }
 
 void GameState::updateEnemies(const float& dt)
 {
-	
 		for(auto& i : enemies) 
 		{
 			i->update(dt);
@@ -286,9 +286,14 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 
 	//Player and Map
 	renderTexture.setView(view);
-	map->render(renderTexture, player->getGridPosition((int)stateData->gridSize), player->getCenterPosition(), &main_shader);
-	player->render(renderTexture, &main_shader, player->getCenterPosition(), true);
-	//testEnemy->render(renderTexture, &main_shader);
+	map->render(renderTexture, player->getGridPosition((int)stateData->gridSize), player->getCenterPosition(), &main_shader, false, true);
+	player->render(renderTexture, &main_shader, player->getCenterPosition(), false);
+	
+	for (auto& i : enemies)
+	{
+		i->render(renderTexture, &main_shader, player->getCenterPosition(), true);
+	}
+
 	map->renderDeferred(renderTexture, player->getPosition(), &main_shader);
 	
 	//Player Gui

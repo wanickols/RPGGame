@@ -1,4 +1,3 @@
-
 in vec4 vert_pos;
 
 uniform sampler2D texture;
@@ -18,7 +17,7 @@ void main()
 	lightToFrag.y = lightToFrag.y / 1.7;
 
 	//Length of the circle (distance)
-	float vecLength = clamp(length(lightToFrag) * 2, 0, .7);
+	float vecLength = clamp(length(lightToFrag) * 4, 0, 1);
 
     // lookup the pixel in the texture
     vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
@@ -26,7 +25,8 @@ void main()
     // multiply it by the color and lighting
 	if(hasTexture == true)
 	{
-		gl_FragColor = gl_Color * pixel * (clamp(ambient + vec4(1-vecLength, 1-vecLength, 1-vecLength, 1), 0, 1));
+		//						changingcolor																	transparent(0 is clear, 1 is visible)
+		gl_FragColor = gl_Color * 1.5 * pixel * (clamp(ambient + vec4(1-vecLength, 1-vecLength, 1-vecLength, 1), 0, 1));
 	}
 	else
 	{

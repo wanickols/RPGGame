@@ -49,7 +49,7 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 		case(LEFTIDLE):
 			if (xVel > -1.5f)
 				xVel = -1.5f;
-			setPosition(x - 30, y+10);
+			setPosition(x - 30, y);
 			break;
 		case(MOVING_UP):
 		case(UPIDLE):
@@ -72,8 +72,8 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(0,0,32,32));
 	createAnimationComponent(texture);
-	createMovementComponent(700.f, 1300.f, 400.f);
-	createHitBoxComponent(sprite, 6.f, 2.f, 27, 27);
+	createMovementComponent(600.f, 1300.f, 400.f);
+	createHitBoxComponent(sprite, 4.f, 2.f, 20, 20);
 	animationComponent->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
 }
 
@@ -86,9 +86,7 @@ void Bullet::updateAnimation(const float& dt)
 
 void Bullet::update(const float& dt, const sf::Vector2f mousePosView)
 {
-	movementComponent->move(xVel, yVel, dt);
-	
-	
+	movementComponent->move(xVel, yVel, dt);	
 	movementComponent->update(dt);
 	updateAnimation(dt);
 	hitBoxComponent->update();
@@ -98,13 +96,15 @@ void Bullet::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f l
 {
 	if (shader) {
 		shader->setUniform("hasTexture", true);
-		shader->setUniform("lightPos", light_position);
+		shader->setUniform("lightPos", this->getCenterPosition());
 
 		target.draw(sprite, shader);
 	}
 	else {
 		target.draw(sprite);
 	}
+	if (show_hitbox)
+		hitBoxComponent->render(target);
 }
 
 const bool Bullet::getRunning() const

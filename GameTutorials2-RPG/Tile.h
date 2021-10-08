@@ -23,7 +23,7 @@ public:
 
 	const bool intersects(const sf::FloatRect bounds) const;
 	virtual void update(const float& dt);
-	void render(sf::RenderTarget& target, const sf::Vector2f playerPosition = sf::Vector2f(), sf::Shader* shader = NULL);
+	virtual void render(sf::RenderTarget& target, const sf::Vector2f playerPosition = sf::Vector2f(), sf::Shader* shader = NULL);
 	sf::Sprite shape;
 };
 

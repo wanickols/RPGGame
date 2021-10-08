@@ -8,7 +8,12 @@
 void Player::initVariables()
 {
 	attacking = false;
-	
+
+	if (!bullet_shader.loadFromFile("vertex_shader.vert", "bullet_shader.frag"))
+	{
+		std::cout << "ERROR::PLAYER::COULD_NOT_LOAD_BULLET_SHADER" << "\n";
+	}
+
 }
 
 void Player::initComponents()
@@ -334,7 +339,7 @@ void Player::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f l
 		shader->setUniform("lightPos", getCenterPosition());
 		
 		target.draw(sprite, shader);
-		activeRune->render(target);
+		activeRune->render(target, &bullet_shader, light_position, false);
 	}
 	else {
 		target.draw(sprite);
