@@ -8,6 +8,7 @@
 #include "Rat.h"
 #include "EnemySpawner.h"
 #include "PlayerGui.h"
+#include "EnemyLibrary.h"
 
 void GameState::initDefferredRender()
 {
@@ -85,9 +86,13 @@ void GameState::initShaders()
 
 }
 
+void GameState::initEnemies()
+{
+	enemyLib = std::make_shared<EnemyLibrary>();
+}
 void GameState::initTileMap()
 {
-	map = std::make_shared<TileMap>("Save/mapfile");
+	map = std::make_shared<TileMap>("Save/mapfile", enemyLib);
 	//map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
 	//map->loadFromFile("Save/mapfile");
 }
@@ -98,9 +103,7 @@ void GameState::initPlayers()
 	//testEnemy = std::make_shared<Enemy>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 }
 
-void GameState::initEnemies()
-{
-}
+
 
 void GameState::initPlayerGui()
 {
@@ -119,6 +122,7 @@ GameState::GameState(std::shared_ptr<StateData> state_data)
 	initTextures();
 	initPauseMenu();
 	initShaders();
+	initEnemies();
 	initTileMap();
 	initPlayers();
 	initPlayerGui();
@@ -231,16 +235,12 @@ void GameState::updatePauseMenuButtons()
 void GameState::updateTileMap(const float& dt)
 {
 	//std::shared_ptr<Entity> player1 = std::make_shared<Entity>(player);
-	map->updateTiles(player, dt, enemies);
+	map->updateTiles(player, dt, enemyLib->getEnemies());
 }
 
 void GameState::updateEnemies(const float& dt)
 {
-		for(auto& i : enemies) 
-		{
-			i->update(dt);
-		}
-	
+	enemyLib->update(dt);
 }
 
 void GameState::updatePlayer(const float& dt)
@@ -289,10 +289,7 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 	map->render(renderTexture, player->getGridPosition((int)stateData->gridSize), player->getCenterPosition(), &main_shader, false, true);
 	player->render(renderTexture, &main_shader, player->getCenterPosition(), false);
 	
-	for (auto& i : enemies)
-	{
-		i->render(renderTexture, &main_shader, player->getCenterPosition(), true);
-	}
+	enemyLib->render(renderTexture, &main_shader, player->getPosition(), false);
 
 	map->renderDeferred(renderTexture, player->getPosition(), &main_shader);
 	

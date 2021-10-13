@@ -17,13 +17,14 @@ void Rat::initComponents()
 
 void Rat::initAnimations(sf::Texture& texture_sheet)
 {
-	createAnimationComponent(texture_sheet);
-	animationComponent->addAnimation("DOWNIDLE", 10.f, 0, 0, 3, 0, 60, 64);
-	animationComponent->addAnimation("WALKRIGHT", 10.f, 0, 1, 3, 1, 60, 64);
-	animationComponent->addAnimation("WALKLEFT", 10.f, 0, 2, 3, 2, 60, 64);
-	animationComponent->addAnimation("WALKUP", 10.f, 0, 3, 3, 3, 60, 64);
-	animationComponent->addAnimation("WALKDOWN", 10.f, 0, 4, 3, 4, 60, 64);
-	//animationComponent->addAnimation("ATTACK", 10.f, 0, 0, 3, 0, 60, 64); //doesn't exist
+	std::shared_ptr<AnimationComponent> animationComponent = std::make_shared<AnimationComponent>(sprite, texture_sheet, this);
+	addComponent(animationComponent);
+	getComponent<AnimationComponent>()->addAnimation("DOWNIDLE", 10.f, 0, 0, 3, 0, 60, 64);
+	getComponent<AnimationComponent>()->addAnimation("WALKRIGHT", 10.f, 0, 1, 3, 1, 60, 64);
+	getComponent<AnimationComponent>()->addAnimation("WALKLEFT", 10.f, 0, 2, 3, 2, 60, 64);
+	getComponent<AnimationComponent>()->addAnimation("WALKUP", 10.f, 0, 3, 3, 3, 60, 64);
+	getComponent<AnimationComponent>()->addAnimation("WALKDOWN", 10.f, 0, 4, 3, 4, 60, 64);
+	//getComponent<AnimationComponent>()->addAnimation("ATTACK", 10.f, 0, 0, 3, 0, 60, 64); //doesn't exist
 }
 
 Rat::Rat(float x, float y, sf::Texture& texture, EnemySpawner& origin)
@@ -39,10 +40,10 @@ Rat::Rat(float x, float y, sf::Texture& texture, EnemySpawner& origin)
 
 void Rat::updateAnimation(const float& dt)
 {
-	//animationComponent->play("DOWNIDLE", dt, false);
+	//getComponent<AnimationComponent>()->play("DOWNIDLE", dt, false);
 	if(movementComponent->getDirection() == facing::RIGHT)
 	{
-		animationComponent->play("WALKRIGHT", dt, false);
+		getComponent<AnimationComponent>()->play("WALKRIGHT", dt, false);
 	}
 }
 

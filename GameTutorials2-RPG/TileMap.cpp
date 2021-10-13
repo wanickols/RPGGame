@@ -3,6 +3,7 @@
 #include "EnemySpawner.h"
 #include "Entity.h"
 #include "Enemy.h"
+#include "EnemyLibrary.h"
 #include "TileMap.h"
 
 void TileMap::initTileMap()
@@ -17,7 +18,7 @@ TileMap::TileMap(float grid_size, int width, int height, std::string texture_fil
 	
 
 	//enemySpawner.loadFromFile("Resources/Images/Tiles/EnemyTile");
-	
+
 	if (!tileSheet.loadFromFile(texture_file))
 		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
 
@@ -41,11 +42,10 @@ TileMap::TileMap(float grid_size, int width, int height, std::string texture_fil
 
 }
 
-TileMap::TileMap(const std::string file_name)
+TileMap::TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enemy_lib)
 : fromX(0), toX(0), fromY(0), toY(0), layer(0)
 {
-	if (!ratText.loadFromFile("Resources/Images/Sprites/Enemies/rat1.png"))
-		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET " << '\n';
+	enemyLib = enemy_lib;
 
 	initLoadFromFile(file_name);
 
@@ -153,7 +153,7 @@ void TileMap::addEnemyTile(const int x, const int y, const int z, const sf::IntR
 		y >= 0 && y < maxSize.y && //y
 		z >= 0 && z < layers)//z 
 	{
-			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, ratText, enemy_type, max_spawned, time_to_spawn, max_distance));
+			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance));
 	}
 }
 
@@ -294,7 +294,7 @@ void TileMap::loadFromFile(const std::string file_name)
 				float max_distance;
 				is >> enemy_type >> max_spawned >> time_to_spawn >> max_distance
 					>> x >> y >> z;
-				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, ratText, enemy_type, max_spawned, time_to_spawn, max_distance));
+				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance));
 				break;
 			default:
 				//std::cout << x << y << z << trX << trY << collision << type

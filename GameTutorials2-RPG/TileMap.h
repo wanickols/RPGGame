@@ -8,6 +8,7 @@ namespace sf {
 	class RectangleShape;
 }
 
+class EnemyLibrary;
 class Enemy;
 
 class TileMap
@@ -20,7 +21,7 @@ private:
 public:
 	
 	TileMap(float grid_size, int width, int height, std::string texture_file);
-	TileMap(const std::string file_name);
+	TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enemyLib = NULL);
 	virtual ~TileMap();
 	
 	//Accessors
@@ -71,9 +72,9 @@ private:
 	float gridSizeF;
 	int gridSizeI;
 	sf::Texture tileSheet;
-	sf::Texture ratText;
 	sf::Texture enemySpawner;
 	sf::RectangleShape collisionBox;
+	std::shared_ptr<EnemyLibrary> enemyLib;
 	//   x            y				z(depth)
 	std::vector < std::vector < std::vector < std::vector <std::shared_ptr<Tile>> > > > map;
 	std::stack<std::shared_ptr<Tile>> deferredRenderStack;

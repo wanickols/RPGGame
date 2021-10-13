@@ -7,6 +7,7 @@ class Enemy;
 class PlayerGui;
 class PauseMenu;
 class TileMap;
+class EnemyLibrary;
 
 class GameState : public State
 {
@@ -51,7 +52,7 @@ private:
 
 	std::shared_ptr<TileMap> map;
 	std::shared_ptr<Player> player;
-	std::vector<std::shared_ptr<Enemy>> enemies;
+	std::shared_ptr<EnemyLibrary> enemyLib;
 	std::shared_ptr<PlayerGui> playerGui;
 	std::unique_ptr<PauseMenu> pmenu;
 

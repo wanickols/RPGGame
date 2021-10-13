@@ -18,6 +18,8 @@ void Player::initVariables()
 
 void Player::initComponents()
 {
+	
+
 	createMovementComponent(250.f, 1300.f, 400.f); //speed for player set here
 	createHitBoxComponent(sprite, 12.f, 0.f, 41, 42);
 	createSkillComponent();
@@ -26,29 +28,31 @@ void Player::initComponents()
 
 void Player::initAnimations(sf::Texture& texture_sheet)
 {
-	createAnimationComponent(texture_sheet);
-	animationComponent->addAnimation("DOWNIDLE", 15.f, 0, 0, 4, 0, 64, 64);
-	animationComponent->addAnimation("UPIDLE", 15.f, 27, 0, 31, 0, 64, 64);
-	animationComponent->addAnimation("RIGHTIDLE", 15.f, 9, 0, 13, 0, 64, 64);
-	animationComponent->addAnimation("LEFTIDLE", 15.f, 18, 0, 22, 0, 64, 64);
-	animationComponent->addAnimation("WALK_DOWN", 8.f, 0, 1, 3, 1, 64, 64);
-	animationComponent->addAnimation("WALK_LEFT", 8.f, 4, 1, 7, 1, 64, 64);
-	animationComponent->addAnimation("WALK_RIGHT", 8.f, 8, 1, 11, 1, 64, 64);
-	animationComponent->addAnimation("WALK_UP", 8.f, 12, 1, 15, 1, 64, 64);
-	//Idle Attack Animations
-	animationComponent->addAnimation("IDLEATTACKDOWN", 6.f, 0, 2, 4, 2, 64, 64);
-	animationComponent->addAnimation("IDLEATTACKINGDOWN", 6.f, 3, 2, 4, 2, 64, 64);
-	animationComponent->addAnimation("IDLEATTACKUP", 6.f, 0, 3, 4, 3, 64, 64);
-	animationComponent->addAnimation("IDLEATTACKINGUP", 6.f, 3, 3, 4, 3, 64, 64);
-	animationComponent->addAnimation("IDLEATTACKRIGHT", 6.f, 0, 4, 4, 4, 64, 64);
-	animationComponent->addAnimation("IDLEATTACKINGRIGHT", 6.f, 3, 4, 4, 4, 64, 64);
-	animationComponent->addAnimation("IDLEATTACKLEFT", 6.f, 0, 5, 4, 5, 64, 64);
-	animationComponent->addAnimation("IDLEATTACKINGLEFT", 6.f, 3, 5, 4, 5, 64, 64);
+	std::shared_ptr<AnimationComponent> animationComponent = std::make_shared<AnimationComponent>(sprite, texture_sheet, this);
+	addComponent(animationComponent);
 
-	animationComponent->addAnimation("MOVINGATTACKDOWN", 8.f, 5, 2, 8, 2, 64, 64);
-	animationComponent->addAnimation("MOVINGATTACKUP", 8.f, 5, 3, 8, 3, 64, 64);
-	animationComponent->addAnimation("MOVINGATTACKRIGHT", 8.f, 5, 4, 8, 4, 64, 64);
-	animationComponent->addAnimation("MOVINGATTACKLEFT", 8.f, 5, 5, 8, 5, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("DOWNIDLE", 15.f, 0, 0, 4, 0, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("UPIDLE", 15.f, 27, 0, 31, 0, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("RIGHTIDLE", 15.f, 9, 0, 13, 0, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("LEFTIDLE", 15.f, 18, 0, 22, 0, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("WALK_DOWN", 8.f, 0, 1, 3, 1, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("WALK_LEFT", 8.f, 4, 1, 7, 1, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("WALK_RIGHT", 8.f, 8, 1, 11, 1, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("WALK_UP", 8.f, 12, 1, 15, 1, 64, 64);
+	//Idle Attack Animations
+	getComponent<AnimationComponent>()->addAnimation("IDLEATTACKDOWN", 6.f, 0, 2, 4, 2, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("IDLEATTACKINGDOWN", 6.f, 3, 2, 4, 2, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("IDLEATTACKUP", 6.f, 0, 3, 4, 3, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("IDLEATTACKINGUP", 6.f, 3, 3, 4, 3, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("IDLEATTACKRIGHT", 6.f, 0, 4, 4, 4, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("IDLEATTACKINGRIGHT", 6.f, 3, 4, 4, 4, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("IDLEATTACKLEFT", 6.f, 0, 5, 4, 5, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("IDLEATTACKINGLEFT", 6.f, 3, 5, 4, 5, 64, 64);
+
+	getComponent<AnimationComponent>()->addAnimation("MOVINGATTACKDOWN", 8.f, 5, 2, 8, 2, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("MOVINGATTACKUP", 8.f, 5, 3, 8, 3, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("MOVINGATTACKRIGHT", 8.f, 5, 4, 8, 4, 64, 64);
+	getComponent<AnimationComponent>()->addAnimation("MOVINGATTACKLEFT", 8.f, 5, 5, 8, 5, 64, 64);
 
 }
 
@@ -156,116 +160,116 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f mousePosView)
 			{
 			case(DOWNIDLE):
 				movementComponent->setLastState(DOWNIDLE);
-				if (!animationComponent->getLastIsDone("IDLEATTACKDOWN"))
+				if (!getComponent<AnimationComponent>()->getLastIsDone("IDLEATTACKDOWN"))
 				{
-					if (animationComponent->play("IDLEATTACKDOWN", dt, false)) {
+					if (getComponent<AnimationComponent>()->play("IDLEATTACKDOWN", dt, false)) {
 						shoot(mousePosView);
 					}
 				}
 				else {
-					if (!animationComponent->play("IDLEATTACKINGDOWN", dt, false)) {
+					if (!getComponent<AnimationComponent>()->play("IDLEATTACKINGDOWN", dt, false)) {
 						
 					}
 					else {
 						shoot(mousePosView);
-						animationComponent->setIsDone("IDLEATTACKINGDOWN", false);
+						getComponent<AnimationComponent>()->setIsDone("IDLEATTACKINGDOWN", false);
 					}
 				}
 				break;
 			case(MOVING_DOWN):
 				movementComponent->setLastState(MOVING_DOWN);
-				if (!animationComponent->play("MOVINGATTACKDOWN", dt, false)) {
+				if (!getComponent<AnimationComponent>()->play("MOVINGATTACKDOWN", dt, false)) {
 				
 				}
 				else {
 					shoot(mousePosView);
-					animationComponent->setIsDone("MOVINGATTACKDOWN", false);
+					getComponent<AnimationComponent>()->setIsDone("MOVINGATTACKDOWN", false);
 				}
 				break;
 			case(UPIDLE):
 				movementComponent->setLastState(UPIDLE);
-				if (!animationComponent->getLastIsDone("IDLEATTACKUP"))
+				if (!getComponent<AnimationComponent>()->getLastIsDone("IDLEATTACKUP"))
 				{
-					if (animationComponent->play("IDLEATTACKUP", dt, false)) {
+					if (getComponent<AnimationComponent>()->play("IDLEATTACKUP", dt, false)) {
 						shoot(mousePosView);
 					}
 				}
 				else {
-					if (!animationComponent->play("IDLEATTACKINGUP", dt, false)) {
+					if (!getComponent<AnimationComponent>()->play("IDLEATTACKINGUP", dt, false)) {
 
 					}
 					else {
 
 						shoot(mousePosView);
-						animationComponent->setIsDone("IDLEATTACKINGUP", false);
+						getComponent<AnimationComponent>()->setIsDone("IDLEATTACKINGUP", false);
 					}
 				}
 				break;
 			case(MOVING_UP):
 				movementComponent->setLastState(MOVING_UP);
-				if (!animationComponent->play("MOVINGATTACKUP", dt, false)) {
+				if (!getComponent<AnimationComponent>()->play("MOVINGATTACKUP", dt, false)) {
 					
 				}
 				else {
 					shoot(mousePosView);
-					animationComponent->setIsDone("MOVINGATTACKUP", false);
+					getComponent<AnimationComponent>()->setIsDone("MOVINGATTACKUP", false);
 
 				}
 				break;
 			case(RIGHTIDLE):
 				movementComponent->setLastState(RIGHTIDLE);
-				if (!animationComponent->getLastIsDone("IDLEATTACKRIGHT"))
+				if (!getComponent<AnimationComponent>()->getLastIsDone("IDLEATTACKRIGHT"))
 				{
-					if (animationComponent->play("IDLEATTACKRIGHT", dt, false)) {
+					if (getComponent<AnimationComponent>()->play("IDLEATTACKRIGHT", dt, false)) {
 						shoot(mousePosView);
 					}
 				}
 				else {
-					if (!animationComponent->play("IDLEATTACKINGRIGHT", dt, false)) {
+					if (!getComponent<AnimationComponent>()->play("IDLEATTACKINGRIGHT", dt, false)) {
 					}
 					else {
 						shoot(mousePosView);
-						animationComponent->setIsDone("IDLEATTACKINGRIGHT", false);
+						getComponent<AnimationComponent>()->setIsDone("IDLEATTACKINGRIGHT", false);
 					}
 				}
 				break;
 			case(MOVING_RIGHT):
 				movementComponent->setLastState(MOVING_RIGHT);
-				if (!animationComponent->play("MOVINGATTACKRIGHT", dt, false)) {
+				if (!getComponent<AnimationComponent>()->play("MOVINGATTACKRIGHT", dt, false)) {
 				
 				}
 				else {
 					shoot(mousePosView);
-					animationComponent->setIsDone("MOVINGATTACKRIGHT", false);
+					getComponent<AnimationComponent>()->setIsDone("MOVINGATTACKRIGHT", false);
 
 				}
 			
 				break;
 			case(LEFTIDLE):
 				movementComponent->setLastState(LEFTIDLE);
-				if (!animationComponent->getLastIsDone("IDLEATTACKLEFT"))
+				if (!getComponent<AnimationComponent>()->getLastIsDone("IDLEATTACKLEFT"))
 				{
-					if (animationComponent->play("IDLEATTACKLEFT", dt, false)) {
+					if (getComponent<AnimationComponent>()->play("IDLEATTACKLEFT", dt, false)) {
 						shoot(mousePosView);
 					}
 				}
 				else {
-					if (!animationComponent->play("IDLEATTACKINGLEFT", dt, false)) {
+					if (!getComponent<AnimationComponent>()->play("IDLEATTACKINGLEFT", dt, false)) {
 					}
 					else {
 						shoot(mousePosView);
-						animationComponent->setIsDone("IDLEATTACKINGLEFT", false);
+						getComponent<AnimationComponent>()->setIsDone("IDLEATTACKINGLEFT", false);
 					}
 				}
 				break;
 			case(MOVING_LEFT):
 				movementComponent->setLastState(MOVING_LEFT);
-				if (!animationComponent->play("MOVINGATTACKLEFT", dt, false)) {
+				if (!getComponent<AnimationComponent>()->play("MOVINGATTACKLEFT", dt, false)) {
 
 				}
 				else {
 					shoot(mousePosView);
-					animationComponent->setIsDone("MOVINGATTACKLEFT", false);
+					getComponent<AnimationComponent>()->setIsDone("MOVINGATTACKLEFT", false);
 				}
 				break;
 			
@@ -278,28 +282,28 @@ void Player::updateAnimation(const float& dt, const sf::Vector2f mousePosView)
 		switch (movementComponent->getState())
 		{	
 		case(DOWNIDLE):
-			animationComponent->play("DOWNIDLE", dt, false);
+			getComponent<AnimationComponent>()->play("DOWNIDLE", dt, false);
 			break;
 		case(UPIDLE):
-			animationComponent->play("UPIDLE", dt, false);
+			getComponent<AnimationComponent>()->play("UPIDLE", dt, false);
 			break;
 		case(LEFTIDLE):
-			animationComponent->play("LEFTIDLE", dt, false);
+			getComponent<AnimationComponent>()->play("LEFTIDLE", dt, false);
 			break;
 		case(RIGHTIDLE):
-			animationComponent->play("RIGHTIDLE", dt, false);
+			getComponent<AnimationComponent>()->play("RIGHTIDLE", dt, false);
 			break;
 		case(MOVING_LEFT):
-			animationComponent->play("WALK_LEFT", dt, movementComponent->getVelocity().x, movementComponent->getMaxVelocity(), false);
+			getComponent<AnimationComponent>()->play("WALK_LEFT", dt, movementComponent->getVelocity().x, movementComponent->getMaxVelocity(), false);
 			break;
 		case(MOVING_RIGHT):
-			animationComponent->play("WALK_RIGHT", dt, movementComponent->getVelocity().x, movementComponent->getMaxVelocity(), false);
+			getComponent<AnimationComponent>()->play("WALK_RIGHT", dt, movementComponent->getVelocity().x, movementComponent->getMaxVelocity(), false);
 			break;
 		case(MOVING_UP):
-			animationComponent->play("WALK_UP", dt, movementComponent->getVelocity().y, movementComponent->getMaxVelocity(), false);
+			getComponent<AnimationComponent>()->play("WALK_UP", dt, movementComponent->getVelocity().y, movementComponent->getMaxVelocity(), false);
 			break;
 		case(MOVING_DOWN):
-			animationComponent->play("WALK_DOWN", dt, movementComponent->getVelocity().y, movementComponent->getMaxVelocity(), false);
+			getComponent<AnimationComponent>()->play("WALK_DOWN", dt, movementComponent->getVelocity().y, movementComponent->getMaxVelocity(), false);
 			break;
 		}
 	}
@@ -313,10 +317,10 @@ void Player::update(const float& dt, const sf::Vector2f mousePosView)
 	//Bullets
 	//Checks if there are bullets on the screen to know if keep arms up or put them down
 	if (activeRune->isBulletEmpty()) {
-		animationComponent->setIsDone("IDLEATTACKDOWN", false);
-		animationComponent->setIsDone("IDLEATTACKUP", false);
-		animationComponent->setIsDone("IDLEATTACKLEFT", false);
-		animationComponent->setIsDone("IDLEATTACKRIGHT", false);
+		getComponent<AnimationComponent>()->setIsDone("IDLEATTACKDOWN", false);
+		getComponent<AnimationComponent>()->setIsDone("IDLEATTACKUP", false);
+		getComponent<AnimationComponent>()->setIsDone("IDLEATTACKLEFT", false);
+		getComponent<AnimationComponent>()->setIsDone("IDLEATTACKRIGHT", false);
 	}
 		
 	updateAnimation(dt, mousePosView);

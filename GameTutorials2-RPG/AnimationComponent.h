@@ -1,14 +1,16 @@
 #pragma once
+#include "Component.h"
 
 namespace sf {
 	class Texture;
-	class Sprite;
+	class Sprite;	
 }
+class Entity;
 
-class AnimationComponent
+class AnimationComponent : public Component
 {
 public:
-	AnimationComponent(sf::Sprite& sprite, sf::Texture& texture_sheet);
+	AnimationComponent(sf::Sprite& sprite, sf::Texture& texture_sheet, Entity* owner);
 	virtual ~AnimationComponent();
 
 	//Functions
@@ -20,6 +22,8 @@ public:
 	const bool& play(const std::string key, const float& dt, const bool priority);
 	const bool& play(const std::string key, const float& dt, const float& modifier, const float& modifier_max, const bool priority);
 	const bool getLastIsDone(const std::string key) const;
+	void update(const float& dt, const sf::Vector2f mousePosView);
+	void render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox);
 	void setIsDone(const std::string key, bool doneStatus);
 private:
 	class Animation {

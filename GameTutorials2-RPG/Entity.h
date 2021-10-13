@@ -5,6 +5,7 @@
 #include "AnimationComponent.h"
 #include "AttributeComponent.h"
 #include "SkillComponent.h"
+#include "Component.h"
 
 
 namespace sf {
@@ -25,7 +26,6 @@ public:
 	//component functions
 	void setTexture(sf::Texture& texture);
 	void createMovementComponent(const float maxVelocity, const float acceleration, const float deceleration);
-	void createAnimationComponent(sf::Texture& texture_sheet);
 	void creatAttributeComponent(int level);
 	void createSkillComponent();
 	void createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height);
@@ -35,6 +35,23 @@ public:
 	const virtual sf::Vector2i getGridPosition(const int& gridSizeI);
 	const sf::FloatRect& getNextPositionBounds(const float& dt) const;
 	
+	void addComponent(std::shared_ptr<Component> component);
+
+	//template class to get any component
+	template<class T>
+	T* getComponent() 
+	{
+		for (auto comp : components) 
+		{
+			T* target = nullptr;
+			if(target = dynamic_cast<T*>(comp.get()))
+			{
+				return target;
+			}	
+		}
+		return (nullptr);
+	}
+
 
 	const sf::FloatRect getGlobalBounds() const;
 
@@ -47,13 +64,17 @@ public:
 	virtual void stopVelocityX();
 	virtual void stopVelocityY();
 
-	virtual void update(const float& dt, const sf::Vector2f mousePosView) = 0;
-	virtual void render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox) = 0;
+	virtual void update(const float& dt, const sf::Vector2f mousePosView);
+	virtual void render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox);
 protected:
+
+
+	//Components
+	std::vector<std::shared_ptr<Component>> components;;
+	std::map<std::string, bool> componentList;
 
 	std::unique_ptr<HitboxComponent> hitBoxComponent;
 	std::unique_ptr<MovementComponent> movementComponent;
-	std::unique_ptr<AnimationComponent> animationComponent;
 	std::unique_ptr<SkillComponent> skillComponent;
 	std::shared_ptr<AttributeComponent> attributeComponent;
 	sf::Sprite sprite;

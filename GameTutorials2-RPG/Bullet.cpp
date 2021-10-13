@@ -35,7 +35,7 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 		setPosition(x + (xVel * 32), y + (yVel * 32));
 	}
 	else {
-		//FIXME SWITCH STAMENNT
+		
 		//Add bullet Direction Bounds when add switchstatments
 		switch (state) 
 		{
@@ -71,15 +71,20 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(0,0,32,32));
-	createAnimationComponent(texture);
+	
+	//Animation
+	std::shared_ptr<AnimationComponent> animationComponent = std::make_shared<AnimationComponent>(sprite, texture, this);
+	addComponent(animationComponent);
+	
+	getComponent<AnimationComponent>()->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
 	createMovementComponent(600.f, 1300.f, 400.f);
 	createHitBoxComponent(sprite, 4.f, 2.f, 20, 20);
-	animationComponent->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
+	
 }
 
 void Bullet::updateAnimation(const float& dt)
 {
-	if (animationComponent->play("ATTACK", dt, false)) {
+	if (getComponent<AnimationComponent>()->play("ATTACK", dt, false)) {
 		running = false;
 	};
 }

@@ -54,3 +54,10 @@ void FireRune::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f
 		}
 	}
 }
+
+FireRune* FireRune::clone()
+{
+	//returns copy of self
+	//used in inv
+	return new FireRune(*this);
+}

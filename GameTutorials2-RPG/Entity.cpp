@@ -5,9 +5,15 @@ void Entity::initVariables()
 {
 	hitBoxComponent = NULL;
 	movementComponent = NULL;
-	animationComponent = NULL;
 	attributeComponent = NULL;
 	
+
+	componentList["hitbox"] = false;
+	componentList["movement"] = false;
+	componentList["animation"] = false;
+	componentList["attribute"] = false;
+	componentList["AI"] = false;
+	componentList["skill"] = false;
 }
 
 Entity::Entity()
@@ -30,11 +36,6 @@ void Entity::setTexture(sf::Texture& texture)
 void Entity::createMovementComponent(const float maxVelocity, const float acceleration, const float deceleration)
 {
 	movementComponent = std::make_unique<MovementComponent>(sprite, maxVelocity, acceleration, deceleration);
-}
-
-void Entity::createAnimationComponent(sf::Texture& texture_sheet)
-{
-	animationComponent = std::make_unique<AnimationComponent>(sprite, texture_sheet);
 }
 
 void Entity::creatAttributeComponent(int level)
@@ -105,6 +106,17 @@ const sf::FloatRect& Entity::getNextPositionBounds(const float& dt) const
 	
 }
 
+void Entity::addComponent(std::shared_ptr<Component> component)
+{
+	if (!componentList.find(component->getName())->second) //checks if component exist already
+	{
+		componentList.find(component->getName())->second = true;
+		components.push_back(component);
+	}
+	else
+		std::cout << "COMPONENT already exist" << std::endl;
+}
+
 //functions
 void Entity::setPosition(float x, float y)
 {
@@ -157,6 +169,22 @@ void Entity::stopVelocityY()
 {
 	if (movementComponent)
 		movementComponent->stopVelocityY();
+}
+
+void Entity::update(const float& dt, const sf::Vector2f mousePosView)
+{
+	for(auto& i : components)
+	{
+		i->update(dt, mousePosView);
+	}
+}
+
+void Entity::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
+{
+	for (auto& i : components)
+	{
+		i->render(target, shader, light_position, show_hitbox);
+	}
 }
 
 

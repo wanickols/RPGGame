@@ -14,6 +14,7 @@ public:
 	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(), const bool show_hitbox = false) = 0;
 	virtual void shoot(float playerX, float playerY, float playerVelX, float playerVelY, const unsigned short lastState) = 0; \
 
+	virtual Rune* clone() = 0;
 	//accessors
 	const bool isBulletEmpty();
 protected:
