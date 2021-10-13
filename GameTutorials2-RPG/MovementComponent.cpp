@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "MovementComponent.h"
+#include "Entity.h"
 
-MovementComponent::MovementComponent(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration)
-	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), lastState(0), direction(facing::DOWN)
+MovementComponent::MovementComponent(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner)
+	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), lastState(0), direction(facing::DOWN),
+	Component("movement", owner)
 {
 }
 
@@ -202,11 +204,10 @@ void MovementComponent::move(const float dir_x, const float dir_y, const float& 
 		velocity.y += acceleration * dir_y * dt;
 	
 	
-	
 
 }
 
-void MovementComponent::update(const float& dt)
+void MovementComponent::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	/*X MOVEMENT*/
 	if (velocity.x > 0.f) { //positive x movement
@@ -255,4 +256,8 @@ void MovementComponent::update(const float& dt)
 
 	//Final move
 	sprite.move(velocity * dt); //uses velocity	
+}
+
+void MovementComponent::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
+{
 }

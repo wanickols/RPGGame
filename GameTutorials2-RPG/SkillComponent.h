@@ -1,4 +1,6 @@
 #pragma once
+#include "Component.h"
+
 class Skill
 {
 public:
@@ -69,10 +71,10 @@ public:
 	int levelCap;
 };
 
-class SkillComponent
+class SkillComponent : public Component
 {
 public:
-	SkillComponent();
+	SkillComponent(Entity* owner);
 
 	//Functions
 	Skill& getSkill(std::string key);
@@ -81,6 +83,8 @@ public:
 
 	void addExp(std::string key, const int exp);
 	void loseExp(std::string key, const int exp);
+
+	void update(const float& dt, const sf::Vector2f mousePosView);
 
 private:
 	std::map<std::string, Skill> skills;

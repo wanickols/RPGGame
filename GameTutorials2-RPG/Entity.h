@@ -1,12 +1,6 @@
 #pragma once
 //Have to include these so all entities have them. Elsewise, you'd have to do it in each cpp;
-#include "HitboxComponent.h"
-#include "MovementComponent.h"
-#include "AnimationComponent.h"
-#include "AttributeComponent.h"
-#include "SkillComponent.h"
-#include "Component.h"
-
+class Component;
 
 namespace sf {
 	class Texture;
@@ -25,35 +19,33 @@ public:
 
 	//component functions
 	void setTexture(sf::Texture& texture);
-	void createMovementComponent(const float maxVelocity, const float acceleration, const float deceleration);
-	void creatAttributeComponent(int level);
-	void createSkillComponent();
-	void createHitBoxComponent(sf::Sprite& sprite, const float offset_x, const float offset_y, float width, float height);
-
-	const virtual sf::Vector2f& getPosition() const;
-	const virtual sf::Vector2f getCenterPosition() const;
-	const virtual sf::Vector2i getGridPosition(const int& gridSizeI);
-	const sf::FloatRect& getNextPositionBounds(const float& dt) const;
-	
-	void addComponent(std::shared_ptr<Component> component);
 
 	//template class to get any component
 	template<class T>
-	T* getComponent() 
+	T* getComponent()
 	{
-		for (auto comp : components) 
+		for (auto comp : components)
 		{
 			T* target = nullptr;
-			if(target = dynamic_cast<T*>(comp.get()))
+			if (target = dynamic_cast<T*>(comp.get()))
 			{
 				return target;
-			}	
+			}
 		}
 		return (nullptr);
 	}
+	
+	const virtual sf::Vector2f& getPosition();
+	const virtual sf::Vector2f getCenterPosition();
+	const virtual sf::Vector2i getGridPosition(const int& gridSizeI);
+	const sf::FloatRect& getNextPositionBounds(const float& dt);
+	
+	void addComponent(std::shared_ptr<Component> component);
+
+	
 
 
-	const sf::FloatRect getGlobalBounds() const;
+	const sf::FloatRect getGlobalBounds();
 
 	virtual void setPosition(float x, float y);
 	virtual void setNextPosition(float x, float y);
@@ -72,11 +64,6 @@ protected:
 	//Components
 	std::vector<std::shared_ptr<Component>> components;;
 	std::map<std::string, bool> componentList;
-
-	std::unique_ptr<HitboxComponent> hitBoxComponent;
-	std::unique_ptr<MovementComponent> movementComponent;
-	std::unique_ptr<SkillComponent> skillComponent;
-	std::shared_ptr<AttributeComponent> attributeComponent;
 	sf::Sprite sprite;
 private:
 	sf::Vector2i gridPosition;

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Bullet.h"
-
+#include "AnimationComponent.h"
+#include "MovementComponent.h"
+#include "HitboxComponent.h"
 
 Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, const unsigned short state)
 	: running(true), xVel(velX), yVel(velY)
@@ -75,10 +77,15 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 	//Animation
 	std::shared_ptr<AnimationComponent> animationComponent = std::make_shared<AnimationComponent>(sprite, texture, this);
 	addComponent(animationComponent);
-	
 	getComponent<AnimationComponent>()->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
-	createMovementComponent(600.f, 1300.f, 400.f);
-	createHitBoxComponent(sprite, 4.f, 2.f, 20, 20);
+
+	//Movement
+	std::shared_ptr<MovementComponent> movementComponent = std::make_shared<MovementComponent>(sprite, 600.f, 1300.f, 400.f, this); //speed for bullet set here
+	addComponent(movementComponent);
+	
+	//Hitbox
+	std::shared_ptr<HitboxComponent> hitboxComponent = std::make_shared<HitboxComponent>(sprite, 4.f, 2.f, 20.f, 20.f, this); //hitbox for player set here
+	addComponent(hitboxComponent);
 	
 }
 
@@ -91,10 +98,9 @@ void Bullet::updateAnimation(const float& dt)
 
 void Bullet::update(const float& dt, const sf::Vector2f mousePosView)
 {
-	movementComponent->move(xVel, yVel, dt);	
-	movementComponent->update(dt);
+	Entity::update(dt, mousePosView);
+	getComponent<MovementComponent>()->move(xVel, yVel, dt);	
 	updateAnimation(dt);
-	hitBoxComponent->update();
 }
 
 void Bullet::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
@@ -108,8 +114,6 @@ void Bullet::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f l
 	else {
 		target.draw(sprite);
 	}
-	if (show_hitbox)
-		hitBoxComponent->render(target);
 }
 
 const bool Bullet::getRunning() const

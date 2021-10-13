@@ -1,12 +1,14 @@
 #pragma once
+#include "Component.h"
 
 class sf::RenderTarget;
 class sf::Sprite;
+class Entity;
 
-class HitboxComponent
+class HitboxComponent : public Component
 {
 public:
-	HitboxComponent(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height);
+	HitboxComponent(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height, Entity* owner);
 	virtual ~HitboxComponent();
 
 	//Accessors
@@ -21,8 +23,8 @@ public:
 	//functions
 	bool intersect(const sf::FloatRect& frect);
 
-	void update();
-	void render(sf::RenderTarget& target);
+	void update(const float& dt, const sf::Vector2f mousePosView);
+	void render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox);
 private:
 	sf::Sprite& sprite;
 	sf::RectangleShape hitbox;

@@ -1,15 +1,17 @@
 #pragma once
+#include "Component.h"
 
-
+class Entity;
 	enum movement_states { DOWNIDLE = 0, UPIDLE, LEFTIDLE, RIGHTIDLE, ATTACK, MOVING_LEFT, MOVING_RIGHT, MOVING_UP, MOVING_DOWN };
 	enum class facing {DOWN, UP, LEFT, RIGHT};
-	class MovementComponent
+	
+	class MovementComponent : public Component
 {
 private:
 	//Initializer functions
 
 public:
-	MovementComponent(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration);
+	MovementComponent(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner);
 	virtual ~MovementComponent();
 
 	//Accessors
@@ -28,7 +30,8 @@ public:
 	void stopVelocityX();
 	void stopVelocityY();
 	void move(const float x, const float y, const float& dt, bool player = false);
-	void update(const float& dt);
+	void update(const float& dt, const sf::Vector2f mousePosView);
+	void render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox);
 private:
 	sf::Sprite& sprite;
 

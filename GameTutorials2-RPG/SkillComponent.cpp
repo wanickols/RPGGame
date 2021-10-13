@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "SkillComponent.h"
 
-SkillComponent::SkillComponent()
+SkillComponent::SkillComponent(Entity* owner)
+	: Component("skill", owner)
+
 {
 	skills["Endurance"];
 	skills["FireRes"];
@@ -15,7 +17,6 @@ SkillComponent::SkillComponent()
 
 	skills["mining"];
 	skills["fishing"];
-
 
 }
 
@@ -37,4 +38,8 @@ const int& SkillComponent::getSkillLvl(std::string key) const
 void SkillComponent::addExp(std::string key, const int exp)
 {
 	skills.at(key).addExp(exp);
+}
+
+void SkillComponent::update(const float& dt, const sf::Vector2f mousePosView)
+{
 }

@@ -1,9 +1,8 @@
 #pragma once
 #include "Entity.h"
-#include "Queue"
-#include "Bullet.h"
-#include "FireRune.h"
-
+class Bullet;
+class FireRune;
+class Rune;
 class TileMap;
 
 class Player :
@@ -22,19 +21,10 @@ public:
 	virtual ~Player();
 
 	//Accessors
-	std::shared_ptr<AttributeComponent> getAttributeComponent();
-	const facing getDirection() const;
-	void setDirection(facing new_direction);
+	const std::shared_ptr<Rune> getActiveRune();
+
 
 	//Functions
-	void loseHealth(const int health);
-	void addHealth(const int health);
-	void loseEnergy(const int energy);
-	void addEnergy(const int energy);
-	void loseExp(const int exp);
-	void addExp(const int exp);
-	void shoot(const sf::Vector2f& mousePosView);
-	
 	void updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map);
 	void updateAnimation(const float& dt, const sf::Vector2f mousePosView);
 	virtual void update(const float& dt, const sf::Vector2f mousePosView);

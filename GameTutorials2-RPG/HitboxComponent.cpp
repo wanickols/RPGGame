@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "HitboxComponent.h"
+#include "Entity.h"
 
-HitboxComponent::HitboxComponent(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height)
-	: sprite(sprite), offSetX(offset_x), offSetY(offset_y)
+HitboxComponent::HitboxComponent(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height, Entity* owner)
+	: sprite(sprite), offSetX(offset_x), offSetY(offset_y), Component("hitbox", owner)
 {
 	nextPosition.left = 0.f;
 	nextPosition.top = 0.f;
@@ -49,17 +50,17 @@ bool HitboxComponent::intersect(const sf::FloatRect& frect)
 	return hitbox.getGlobalBounds().intersects(frect);
 }
 
+void HitboxComponent::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
+{
+	target.draw(hitbox);
+}
+
 const sf::FloatRect HitboxComponent::getGlobalBounds() const
 {
 	return hitbox.getGlobalBounds();
 }
 
-void HitboxComponent::update()
+void HitboxComponent::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	hitbox.setPosition(sprite.getPosition().x + offSetX, sprite.getPosition().y + offSetY + sprite.getTextureRect().height/4);
-}
-
-void HitboxComponent::render(sf::RenderTarget& target)
-{
-	target.draw(hitbox);
 }

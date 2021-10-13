@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "AttributeComponent.h"
+#include "Entity.h"
 
 //Con //Des
-AttributeComponent::AttributeComponent(int level) :
-	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true), energyUpdate(true)
+AttributeComponent::AttributeComponent(int level, Entity* owner) :
+	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true), energyUpdate(true),
+	Component("attribute", owner)
 {
 	expnext = 50;
 	vitality = 1;
@@ -95,8 +97,49 @@ void AttributeComponent::updateLevel()
 }
 
 
-void AttributeComponent::update()
+void AttributeComponent::update(const float& dt, const sf::Vector2f mousePosView)
 {
+
+}
+
+void AttributeComponent::loseHealth(const int health)
+{
+	hp -= health;
+	healthUpdate = true;
+	if (hp < 0)
+		hp = 0;
+}
+
+void AttributeComponent::addHealth(const int health)
+{
+	hp += health;
+	healthUpdate = true;
+	if (hp > hpMax)
+		hp = hpMax;
+}
+
+void AttributeComponent::loseEnergy(const int energy)
+{
+	this->energy -= energy;
+	energyUpdate = true;
+	if (energy < 0)
+		this->energy = 0;
+}
+
+void AttributeComponent::addEnergy(const int energy)
+{
+	this->energy += energy;
+	energyUpdate = true;
+	if (this->energy > energyMax)
+		this->energy = energyMax;
+
+}
+
+void AttributeComponent::loseExp(const int xp)
+{
+	exp -= xp;
+	if (exp < 0)
+		exp = 0;
 }
 
 void AttributeComponent::addExp(int xp)

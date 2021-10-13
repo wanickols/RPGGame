@@ -2,9 +2,8 @@
 #include "AnimationComponent.h"
 
 AnimationComponent::AnimationComponent(sf::Sprite& sprite, sf::Texture& texture_sheet, Entity* owner)
-	: sprite(sprite), textureSheet(texture_sheet), lastAnimation(NULL), priorityAnimation(NULL)
+	: sprite(sprite), textureSheet(texture_sheet), lastAnimation(NULL), priorityAnimation(NULL), Component("animation", owner)
 {
-	name = "animation";
 }
 
 AnimationComponent::~AnimationComponent()
@@ -135,10 +134,6 @@ const bool AnimationComponent::getLastIsDone(const std::string key) const
 void AnimationComponent::update(const float& dt, const sf::Vector2f mousePosView)
 {
 
-}
-
-void AnimationComponent::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
-{
 }
 
 void AnimationComponent::setIsDone(const std::string key, bool doneStatus)
