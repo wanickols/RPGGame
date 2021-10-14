@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Bullet.h"
-#include "AnimationComponent.h"
-#include "MovementComponent.h"
-#include "HitboxComponent.h"
+#include "AnimationC.h"
+#include "Movement.h"
+#include "Hitbox.h"
 
 Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, const unsigned short state)
 	: running(true), xVel(velX), yVel(velY)
@@ -75,23 +75,24 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 	sprite.setTextureRect(sf::IntRect(0,0,32,32));
 	
 	//Animation
-	std::shared_ptr<AnimationComponent> animationComponent = std::make_shared<AnimationComponent>(sprite, texture, this);
-	addComponent(animationComponent);
-	getComponent<AnimationComponent>()->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
+
+	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture, this);
+	addComponent(animation);
+	getComponent<AnimationC>()->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
 
 	//Movement
-	std::shared_ptr<MovementComponent> movementComponent = std::make_shared<MovementComponent>(sprite, 600.f, 1300.f, 400.f, this); //speed for bullet set here
-	addComponent(movementComponent);
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 600.f, 1300.f, 400.f, this); //speed for bullet set here
+	addComponent(movement);
 	
 	//Hitbox
-	std::shared_ptr<HitboxComponent> hitboxComponent = std::make_shared<HitboxComponent>(sprite, 4.f, 2.f, 20.f, 20.f, this); //hitbox for player set here
-	addComponent(hitboxComponent);
+	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 4.f, 2.f, 20.f, 20.f, this); //hitbox for player set here
+	addComponent(hitbox);
 	
 }
 
 void Bullet::updateAnimation(const float& dt)
 {
-	if (getComponent<AnimationComponent>()->play("ATTACK", dt, false)) {
+	if (getComponent<AnimationC>()->play("ATTACK", dt, false)) {
 		running = false;
 	};
 }
@@ -99,7 +100,7 @@ void Bullet::updateAnimation(const float& dt)
 void Bullet::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	Entity::update(dt, mousePosView);
-	getComponent<MovementComponent>()->move(xVel, yVel, dt);	
+	getComponent<Movement>()->move(xVel, yVel, dt);	
 	updateAnimation(dt);
 }
 

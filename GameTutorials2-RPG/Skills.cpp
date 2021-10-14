@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "SkillComponent.h"
+#include "Skills.h"
 
-SkillComponent::SkillComponent(Entity* owner)
+Skills::Skills(Entity* owner)
 	: Component("skill", owner)
 
 {
@@ -21,25 +21,25 @@ SkillComponent::SkillComponent(Entity* owner)
 }
 
 //Functions
-Skill& SkillComponent::getSkill(std::string key)
+Skill& Skills::getSkill(std::string key)
 {
 	return skills[key];
 }
 
-const int& SkillComponent::getSkillLvl(std::string key) const
+const int& Skills::getSkillLvl(std::string key) const
 {
 	//Returns skilllevel of skill name entered
 	if (skills.count(key))
 		return skills.at(key).getExpNext();
 	else
-		throw("ERROR::SKILLCOMPONENT::Skill does not exist" + key);
+		throw("ERROR::Skills::Skill does not exist" + key);
 }
 
-void SkillComponent::addExp(std::string key, const int exp)
+void Skills::addExp(std::string key, const int exp)
 {
 	skills.at(key).addExp(exp);
 }
 
-void SkillComponent::update(const float& dt, const sf::Vector2f mousePosView)
+void Skills::update(const float& dt, const sf::Vector2f mousePosView)
 {
 }

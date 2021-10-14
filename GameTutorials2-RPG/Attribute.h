@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-class AttributeComponent : public Component
+class Attribute : public Component
 {
 public:
 	
@@ -44,7 +44,7 @@ public:
 
 	
 	//Con 
-	AttributeComponent(int level, Entity* owner);
+	Attribute(int level, Entity* owner);
 
 	//Utility Functions
 	int calculateExpNext(int level) const;

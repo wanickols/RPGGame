@@ -69,10 +69,10 @@
     <ClCompile Include="MainMenuState.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="MovementComponent.cpp">
+    <ClCompile Include="Movement.cpp">
       <Filter>Entities\Components</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationComponent.cpp">
+    <ClCompile Include="AnimationC.cpp">
       <Filter>Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="EditorState.cpp">
@@ -93,13 +93,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="HitboxComponent.cpp">
+    <ClCompile Include="Hitbox.cpp">
       <Filter>Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AttributeComponent.cpp">
+    <ClCompile Include="Attribute.cpp">
       <Filter>Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="PlayerGui.cpp">
@@ -135,7 +135,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="SkillComponent.cpp">
+    <ClCompile Include="Skills.cpp">
       <Filter>Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="EnemyEditorMode.cpp">
@@ -156,8 +156,11 @@
     <ClCompile Include="Component.cpp">
       <Filter>Entities\Components</Filter>
     </ClCompile>
-    <ClCompile Include="InputComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="UserInput.cpp">
+      <Filter>Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyData.cpp">
+      <Filter>Entities\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,16 +179,16 @@
     <ClInclude Include="Player.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="MovementComponent.h">
+    <ClInclude Include="Movement.h">
       <Filter>Entities\Components</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationComponent.h">
+    <ClInclude Include="AnimationC.h">
       <Filter>Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="EditorState.h">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="HitboxComponent.h">
+    <ClInclude Include="Hitbox.h">
       <Filter>Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="SettingsState.h">
@@ -206,7 +209,7 @@
     <ClInclude Include="GraphicsSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AttributeComponent.h">
+    <ClInclude Include="Attribute.h">
       <Filter>Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="PlayerGui.h">
@@ -224,7 +227,7 @@
     <ClInclude Include="Rune.h">
       <Filter>Items\Runes</Filter>
     </ClInclude>
-    <ClInclude Include="SkillComponent.h">
+    <ClInclude Include="Skills.h">
       <Filter>Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="EnemySpawner.h">
@@ -266,7 +269,10 @@
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputComponent.h">
+    <ClInclude Include="UserInput.h">
+      <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyData.h">
       <Filter>Entities\Components</Filter>
     </ClInclude>
   </ItemGroup>

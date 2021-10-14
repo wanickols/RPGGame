@@ -71,10 +71,10 @@ public:
 	int levelCap;
 };
 
-class SkillComponent : public Component
+class Skills : public Component
 {
 public:
-	SkillComponent(Entity* owner);
+	Skills(Entity* owner);
 
 	//Functions
 	Skill& getSkill(std::string key);

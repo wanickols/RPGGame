@@ -1,29 +1,29 @@
 #include "stdafx.h"
-#include "MovementComponent.h"
+#include "Movement.h"
 #include "Entity.h"
 
-MovementComponent::MovementComponent(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner)
+Movement::Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner)
 	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), lastState(0), direction(facing::DOWN),
 	Component("movement", owner)
 {
 }
 
-MovementComponent::~MovementComponent()
+Movement::~Movement()
 {
 }
 
 //Accesors
-const sf::Vector2f& MovementComponent::getVelocity()
+const sf::Vector2f& Movement::getVelocity()
 {
 	return velocity;
 }
 
-const float& MovementComponent::getMaxVelocity() const
+const float& Movement::getMaxVelocity() const
 {
 	return maxVelocity;
 }
 
-const bool MovementComponent::getState(const short unsigned state)
+const bool Movement::getState(const short unsigned state)
 {
 		
 
@@ -109,7 +109,7 @@ const bool MovementComponent::getState(const short unsigned state)
 	return false;
 }
 
-const unsigned short int MovementComponent::getState()
+const unsigned short int Movement::getState()
 {	
 	if (getState(DOWNIDLE))
 	{
@@ -144,36 +144,36 @@ const unsigned short int MovementComponent::getState()
 		return MOVING_DOWN;
 	}
 	else
-		throw("ERROR::MOVEMENTCOMPONENT::GETSTATE()::DID NOT RETURN ANY STATE ");
+		throw("ERROR::Movement::GETSTATE()::DID NOT RETURN ANY STATE ");
 	
 }
 
-const unsigned short int MovementComponent::getLastState() const
+const unsigned short int Movement::getLastState() const
 {
 	return lastState;
 }
 
-const facing MovementComponent::getDirection() const
+const facing Movement::getDirection() const
 {
 	return direction;
 }
 
-void MovementComponent::setDirection(facing player_direction)
+void Movement::setDirection(facing player_direction)
 {
 	direction = player_direction;
 }
 
-void MovementComponent::setLastState(const short unsigned state)
+void Movement::setLastState(const short unsigned state)
 {
 	lastState = state;
 }
 
-void MovementComponent::setAcceleration(float newAccel)
+void Movement::setAcceleration(float newAccel)
 {
 	acceleration = newAccel;
 }
 
-void MovementComponent::stopVelocity()
+void Movement::stopVelocity()
 {
 	/* Resets the velocity to 0.*/
 
@@ -181,14 +181,14 @@ void MovementComponent::stopVelocity()
 	velocity.y = 0.f;
 }
 
-void MovementComponent::stopVelocityX()
+void Movement::stopVelocityX()
 {
 	/* Resets the velocity x to 0.*/
 
 	velocity.x = 0.f;
 }
 
-void MovementComponent::stopVelocityY()
+void Movement::stopVelocityY()
 {
 	/* Resets the velocity y to 0.*/
 
@@ -197,7 +197,7 @@ void MovementComponent::stopVelocityY()
 
 
 //Functions
-void MovementComponent::move(const float dir_x, const float dir_y, const float& dt, bool player)
+void Movement::move(const float dir_x, const float dir_y, const float& dt, bool player)
 {
 	
 		velocity.x += acceleration * dir_x * dt;
@@ -207,7 +207,7 @@ void MovementComponent::move(const float dir_x, const float dir_y, const float& 
 
 }
 
-void MovementComponent::update(const float& dt, const sf::Vector2f mousePosView)
+void Movement::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	/*X MOVEMENT*/
 	if (velocity.x > 0.f) { //positive x movement
@@ -258,6 +258,6 @@ void MovementComponent::update(const float& dt, const sf::Vector2f mousePosView)
 	sprite.move(velocity * dt); //uses velocity	
 }
 
-void MovementComponent::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
+void Movement::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
 }

@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "AnimationComponent.h"
+#include "AnimationC.h"
 
-AnimationComponent::AnimationComponent(sf::Sprite& sprite, sf::Texture& texture_sheet, Entity* owner)
+AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, Entity* owner)
 	: sprite(sprite), textureSheet(texture_sheet), lastAnimation(NULL), priorityAnimation(NULL), Component("animation", owner)
 {
 }
 
-AnimationComponent::~AnimationComponent()
+AnimationC::~AnimationC()
 {
 }
 //Functions
 
-void AnimationComponent::addAnimation(
+void AnimationC::addAnimation(
 	const std::string key,
 	float animationTimer,
 	int start_x, int start_y, int end_x, int end_y, int width, int height)
@@ -23,7 +23,7 @@ void AnimationComponent::addAnimation(
 		);
 }
 
-const bool& AnimationComponent::play(const std::string key, const float& dt, const bool priority = false)
+const bool& AnimationC::play(const std::string key, const float& dt, const bool priority = false)
 {
 	if (priorityAnimation) //If there is a priority animation
 	{
@@ -77,7 +77,7 @@ const bool& AnimationComponent::play(const std::string key, const float& dt, con
 	return animations[key]->isDone();
 }
 
-const bool& AnimationComponent::play(const std::string key, const float& dt, const float& modifier, const float& modifier_max, const bool priority = false)
+const bool& AnimationC::play(const std::string key, const float& dt, const float& modifier, const float& modifier_max, const bool priority = false)
 {
 	if (priorityAnimation) //If there is a priority animation
 	{
@@ -126,27 +126,27 @@ const bool& AnimationComponent::play(const std::string key, const float& dt, con
 	return animations[key]->isDone();
 }
 
-const bool AnimationComponent::getLastIsDone(const std::string key) const
+const bool AnimationC::getLastIsDone(const std::string key) const
 {
 	return animations.at(key)->isDone();
 }
 
-void AnimationComponent::update(const float& dt, const sf::Vector2f mousePosView)
+void AnimationC::update(const float& dt, const sf::Vector2f mousePosView)
 {
 
 }
 
-void AnimationComponent::setIsDone(const std::string key, bool doneStatus)
+void AnimationC::setIsDone(const std::string key, bool doneStatus)
 {
 	animations[key]->setDone(doneStatus);
 }
 
-const bool& AnimationComponent::Animation::isDone() const
+const bool& AnimationC::Animation::isDone() const
 {
 	return done;
 }
 
-void AnimationComponent::Animation::setDone(bool done_status)
+void AnimationC::Animation::setDone(bool done_status)
 {
 	done = done_status;
 }

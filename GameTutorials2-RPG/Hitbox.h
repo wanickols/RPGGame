@@ -5,11 +5,11 @@ class sf::RenderTarget;
 class sf::Sprite;
 class Entity;
 
-class HitboxComponent : public Component
+class Hitbox : public Component
 {
 public:
-	HitboxComponent(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height, Entity* owner);
-	virtual ~HitboxComponent();
+	Hitbox(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height, Entity* owner);
+	virtual ~Hitbox();
 
 	//Accessors
 	const sf::FloatRect getGlobalBounds() const;

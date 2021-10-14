@@ -147,13 +147,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationComponent.cpp" />
-    <ClCompile Include="AttributeComponent.cpp" />
+    <ClCompile Include="AnimationC.cpp" />
+    <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DefaultEditorMode.cpp" />
     <ClCompile Include="EditorMode.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyData.cpp" />
     <ClCompile Include="EnemyEditorMode.cpp" />
     <ClCompile Include="EnemyLibrary.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
@@ -164,13 +165,13 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="HitboxComponent.cpp" />
-    <ClCompile Include="InputComponent.cpp" />
+    <ClCompile Include="Hitbox.cpp" />
+    <ClCompile Include="UserInput.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
-    <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="Movement.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerGui.cpp" />
@@ -178,7 +179,7 @@
     <ClCompile Include="Rat.cpp" />
     <ClCompile Include="Rune.cpp" />
     <ClCompile Include="SettingsState.cpp" />
-    <ClCompile Include="SkillComponent.cpp" />
+    <ClCompile Include="Skills.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -188,14 +189,15 @@
     <ClCompile Include="TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationComponent.h" />
-    <ClInclude Include="AttributeComponent.h" />
+    <ClInclude Include="AnimationC.h" />
+    <ClInclude Include="Attribute.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DefaultEditorMode.h" />
     <ClInclude Include="EditorMode.h" />
     <ClInclude Include="EditorModes.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyData.h" />
     <ClInclude Include="EnemyEditorMode.h" />
     <ClInclude Include="EnemyLibrary.h" />
     <ClInclude Include="EnemySpawner.h" />
@@ -206,12 +208,12 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
-    <ClInclude Include="HitboxComponent.h" />
-    <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="Hitbox.h" />
+    <ClInclude Include="UserInput.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="MainMenuState.h" />
-    <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="Movement.h" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerGui.h" />
@@ -219,7 +221,7 @@
     <ClInclude Include="Rat.h" />
     <ClInclude Include="Rune.h" />
     <ClInclude Include="SettingsState.h" />
-    <ClInclude Include="SkillComponent.h" />
+    <ClInclude Include="Skills.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tile.h" />

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "AttributeComponent.h"
+#include "Attribute.h"
 #include "Entity.h"
 
 //Con //Des
-AttributeComponent::AttributeComponent(int level, Entity* owner) :
+Attribute::Attribute(int level, Entity* owner) :
 	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true), energyUpdate(true),
 	Component("attribute", owner)
 {
@@ -18,13 +18,13 @@ AttributeComponent::AttributeComponent(int level, Entity* owner) :
 
 //Utility Functions
 
-int AttributeComponent::calculateExpNext(int level) const
+int Attribute::calculateExpNext(int level) const
 {
 	return (50  + (50/3) * static_cast<int>(static_cast<int>(pow(level, 3)) - 6 * static_cast<int>(pow(level, 2)) + (level * 17) - 12));
 }
 
 //Main Functions
-void AttributeComponent::levelUp()
+void Attribute::levelUp()
 {
 	int attributeCap = 50;
 	if (level <= attributeCap)
@@ -38,7 +38,7 @@ void AttributeComponent::levelUp()
 	intelligence += 1;
 }
 
-void AttributeComponent::updateStats(const bool reset)
+void Attribute::updateStats(const bool reset)
 {
 	levelUpdate = true;
 	healthUpdate = true;
@@ -85,7 +85,7 @@ void AttributeComponent::updateStats(const bool reset)
 		}
 }
 
-void AttributeComponent::updateLevel()
+void Attribute::updateLevel()
 {
 	while (exp >= expnext) {
 		exp -= expnext;
@@ -97,12 +97,12 @@ void AttributeComponent::updateLevel()
 }
 
 
-void AttributeComponent::update(const float& dt, const sf::Vector2f mousePosView)
+void Attribute::update(const float& dt, const sf::Vector2f mousePosView)
 {
 
 }
 
-void AttributeComponent::loseHealth(const int health)
+void Attribute::loseHealth(const int health)
 {
 	hp -= health;
 	healthUpdate = true;
@@ -110,7 +110,7 @@ void AttributeComponent::loseHealth(const int health)
 		hp = 0;
 }
 
-void AttributeComponent::addHealth(const int health)
+void Attribute::addHealth(const int health)
 {
 	hp += health;
 	healthUpdate = true;
@@ -118,7 +118,7 @@ void AttributeComponent::addHealth(const int health)
 		hp = hpMax;
 }
 
-void AttributeComponent::loseEnergy(const int energy)
+void Attribute::loseEnergy(const int energy)
 {
 	this->energy -= energy;
 	energyUpdate = true;
@@ -126,7 +126,7 @@ void AttributeComponent::loseEnergy(const int energy)
 		this->energy = 0;
 }
 
-void AttributeComponent::addEnergy(const int energy)
+void Attribute::addEnergy(const int energy)
 {
 	this->energy += energy;
 	energyUpdate = true;
@@ -135,27 +135,27 @@ void AttributeComponent::addEnergy(const int energy)
 
 }
 
-void AttributeComponent::loseExp(const int xp)
+void Attribute::loseExp(const int xp)
 {
 	exp -= xp;
 	if (exp < 0)
 		exp = 0;
 }
 
-void AttributeComponent::addExp(int xp)
+void Attribute::addExp(int xp)
 {
 	exp += xp;
 	expUpdate = true;
 	updateLevel();
 }
 
-const int AttributeComponent::getAttributePoints() const
+const int Attribute::getAttributePoints() const
 {
 	return attributePoints;
 }
 
 //Temp
-std::string AttributeComponent::debugPrint()
+std::string Attribute::debugPrint()
 {
 	std::stringstream ss;
 

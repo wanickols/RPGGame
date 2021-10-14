@@ -7,11 +7,11 @@ namespace sf {
 }
 class Entity;
 
-class AnimationComponent : public Component
+class AnimationC : public Component
 {
 public:
-	AnimationComponent(sf::Sprite& sprite, sf::Texture& texture_sheet, Entity* owner);
-	virtual ~AnimationComponent();
+	AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, Entity* owner);
+	virtual ~AnimationC();
 
 	//Functions
 	void addAnimation(

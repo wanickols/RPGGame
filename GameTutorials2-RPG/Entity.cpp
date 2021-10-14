@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "Entity.h"
-#include "HitboxComponent.h"
-#include "MovementComponent.h"
-#include "AnimationComponent.h"
-#include "AttributeComponent.h"
-#include "InputComponent.h"
-#include "SkillComponent.h"
+#include "Hitbox.h"
+#include "Movement.h"
+#include "AnimationC.h"
+#include "Attribute.h"
+#include "UserInput.h"
+#include "Skills.h"
 #include "Component.h"
 
 
@@ -43,20 +43,20 @@ void Entity::setTexture(sf::Texture& texture)
 //Accessors
 const sf::Vector2f& Entity::getPosition()
 {
-	if (getComponent<HitboxComponent>())
-		return getComponent<HitboxComponent>()->getPosition();
+	if (getComponent<Hitbox>())
+		return getComponent<Hitbox>()->getPosition();
 
 	return sprite.getPosition();
 }
 
 const sf::Vector2f Entity::getCenterPosition()
 {
-	if (getComponent<HitboxComponent>())
-		return getComponent<HitboxComponent>()->getPosition() +
+	if (getComponent<Hitbox>())
+		return getComponent<Hitbox>()->getPosition() +
 		sf::Vector2f
 		(
-			getComponent<HitboxComponent>()->getGlobalBounds().width/2.f,
-			getComponent<HitboxComponent>()->getGlobalBounds().height/2.f
+			getComponent<Hitbox>()->getGlobalBounds().width/2.f,
+			getComponent<Hitbox>()->getGlobalBounds().height/2.f
 		);
 
 	return sprite.getPosition() + 
@@ -69,9 +69,9 @@ const sf::Vector2f Entity::getCenterPosition()
 
 const sf::Vector2i Entity::getGridPosition(const int& gridSizeI)
 {
-	if (getComponent<HitboxComponent>()) {
-		gridPosition.x = (int)getComponent<HitboxComponent>()->getPosition().x;
-		gridPosition.y = (int)getComponent<HitboxComponent>()->getPosition().y;
+	if (getComponent<Hitbox>()) {
+		gridPosition.x = (int)getComponent<Hitbox>()->getPosition().x;
+		gridPosition.y = (int)getComponent<Hitbox>()->getPosition().y;
 
 		gridPosition.x = gridPosition.x / gridSizeI;
 		gridPosition.y = gridPosition.y / gridSizeI;
@@ -89,7 +89,7 @@ const sf::Vector2i Entity::getGridPosition(const int& gridSizeI)
 const sf::FloatRect& Entity::getNextPositionBounds(const float& dt)
 {
 	
-	return getComponent<HitboxComponent>()->getNextPosition(getComponent<MovementComponent>()->getVelocity() * dt);
+	return getComponent<Hitbox>()->getNextPosition(getComponent<Movement>()->getVelocity() * dt);
 	
 }
 
@@ -107,8 +107,8 @@ void Entity::addComponent(std::shared_ptr<Component> component)
 //functions
 void Entity::setPosition(float x, float y)
 {
-	if (getComponent<HitboxComponent>())
-		getComponent<HitboxComponent>()->setPosition(sf::Vector2f(x, y));
+	if (getComponent<Hitbox>())
+		getComponent<Hitbox>()->setPosition(sf::Vector2f(x, y));
 	else
 		sprite.setPosition(x, y);
 
@@ -116,46 +116,46 @@ void Entity::setPosition(float x, float y)
 
 void Entity::setNextPosition(float x, float y)
 {
-	if (getComponent<HitboxComponent>())
-		getComponent<HitboxComponent>()->setNextPosition(sf::Vector2f(x, y));
+	if (getComponent<Hitbox>())
+		getComponent<Hitbox>()->setNextPosition(sf::Vector2f(x, y));
 	else
 		sprite.setPosition(x, y);
 }
 
 void Entity::move(const float dir_x, const float dir_y, const float& dt, bool player)
 {
-	getComponent<MovementComponent>()->move(dir_x, dir_y, dt, player); //setsVelocity
+	getComponent<Movement>()->move(dir_x, dir_y, dt, player); //setsVelocity
 
-	//if (skillComponent)
+	//if (Skills)
 //	{	
-	//	skillComponent->addExp("Endurance", 1);
+	//	Skills->addExp("Endurance", 1);
 	//}
 }
 
 const sf::FloatRect Entity::getGlobalBounds()
 {
-	if (getComponent<HitboxComponent>())
-		return getComponent<HitboxComponent>()->getGlobalBounds();
+	if (getComponent<Hitbox>())
+		return getComponent<Hitbox>()->getGlobalBounds();
 
 	return sprite.getGlobalBounds();
 }
 
 void Entity::stopVelocity()
 {
-	if (getComponent<MovementComponent>())
-		getComponent<MovementComponent>()->stopVelocity();
+	if (getComponent<Movement>())
+		getComponent<Movement>()->stopVelocity();
 }
 
 void Entity::stopVelocityX()
 {
-	if (getComponent<MovementComponent>())
-		getComponent<MovementComponent>()->stopVelocityX();
+	if (getComponent<Movement>())
+		getComponent<Movement>()->stopVelocityX();
 }
 
 void Entity::stopVelocityY()
 {
-	if (getComponent<MovementComponent>())
-		getComponent<MovementComponent>()->stopVelocityY();
+	if (getComponent<Movement>())
+		getComponent<Movement>()->stopVelocityY();
 }
 
 void Entity::update(const float& dt, const sf::Vector2f mousePosView)

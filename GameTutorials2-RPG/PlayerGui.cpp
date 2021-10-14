@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "PlayerGui.h"
-#include "AttributeComponent.h"
-#include "SkillComponent.h"
+#include "Attribute.h"
+#include "Skills.h"
 
 void PlayerGui::initLevel()
 {
-	addButton("LEVEL", gui::p2pX(2.6f, vm), gui::p2pY(4.6f, vm), gui::p2pS(1.3f, vm), std::to_string(player->getComponent<AttributeComponent>()->level), (short)gui::p2pS(1.3f, vm));
+	addButton("LEVEL", gui::p2pX(2.6f, vm), gui::p2pY(4.6f, vm), gui::p2pS(1.3f, vm), std::to_string(player->getComponent<Attribute>()->level), (short)gui::p2pS(1.3f, vm));
 }
 
 void PlayerGui::initBars()
@@ -61,23 +61,23 @@ void PlayerGui::addBar
 void PlayerGui::updateBars(const float& dt)
 {
 
-	if (player->getComponent<AttributeComponent>()->healthUpdate) {
-		ProgressBarText = "HP: " + std::to_string(player->getComponent<AttributeComponent>()->hp) + " / " + std::to_string(player->getComponent<AttributeComponent>()->hpMax);
-		tempPercent = (float)player->getComponent<AttributeComponent>()->hp / static_cast<float>(player->getComponent<AttributeComponent>()->hpMax);
+	if (player->getComponent<Attribute>()->healthUpdate) {
+		ProgressBarText = "HP: " + std::to_string(player->getComponent<Attribute>()->hp) + " / " + std::to_string(player->getComponent<Attribute>()->hpMax);
+		tempPercent = (float)player->getComponent<Attribute>()->hp / static_cast<float>(player->getComponent<Attribute>()->hpMax);
 		bars.at("HPBar")->update(dt, tempPercent, ProgressBarText);
-	player->getComponent<AttributeComponent>()->healthUpdate = false;
+	player->getComponent<Attribute>()->healthUpdate = false;
 	}
-	if (player->getComponent<AttributeComponent>()->expUpdate) {
-		ProgressBarText = "EXP: " + std::to_string(player->getComponent<AttributeComponent>()->exp) + " / " + std::to_string(player->getComponent<AttributeComponent>()->expnext);
-		tempPercent = (float)player->getComponent<AttributeComponent>()->exp / static_cast<float>(player->getComponent<AttributeComponent>()->expnext);
+	if (player->getComponent<Attribute>()->expUpdate) {
+		ProgressBarText = "EXP: " + std::to_string(player->getComponent<Attribute>()->exp) + " / " + std::to_string(player->getComponent<Attribute>()->expnext);
+		tempPercent = (float)player->getComponent<Attribute>()->exp / static_cast<float>(player->getComponent<Attribute>()->expnext);
 		bars.at("ExpBar")->update(dt, tempPercent, ProgressBarText);
-		player->getComponent<AttributeComponent>()->expUpdate = false;
+		player->getComponent<Attribute>()->expUpdate = false;
 	}
-	if (player->getComponent<AttributeComponent>()->energyUpdate) {
-		ProgressBarText = "Energy: " + std::to_string(player->getComponent<AttributeComponent>()->energy) + " / " + std::to_string(player->getComponent<AttributeComponent>()->energyMax);
-		tempPercent = (float)player->getComponent<AttributeComponent>()->energy / static_cast<float>(player->getComponent<AttributeComponent>()->energyMax);
+	if (player->getComponent<Attribute>()->energyUpdate) {
+		ProgressBarText = "Energy: " + std::to_string(player->getComponent<Attribute>()->energy) + " / " + std::to_string(player->getComponent<Attribute>()->energyMax);
+		tempPercent = (float)player->getComponent<Attribute>()->energy / static_cast<float>(player->getComponent<Attribute>()->energyMax);
 		bars.at("EnergyBar")->update(dt, tempPercent, ProgressBarText);
-		player->getComponent<AttributeComponent>()->energyUpdate = false;
+		player->getComponent<Attribute>()->energyUpdate = false;
 	}
 }
 
@@ -90,9 +90,9 @@ void PlayerGui::update(const float& dt, const sf::Vector2f& mousePos)
 		{
 			i.second->update(mousePos);
 			if (i.first == "LEVEL") {
-				if (player->getComponent<AttributeComponent>()->levelUpdate) {
-					i.second->setText(std::to_string(player->getComponent<AttributeComponent>()->level));
-					player->getComponent<AttributeComponent>()->levelUpdate = false;
+				if (player->getComponent<Attribute>()->levelUpdate) {
+					i.second->setText(std::to_string(player->getComponent<Attribute>()->level));
+					player->getComponent<Attribute>()->levelUpdate = false;
 				}
 			}
 		}

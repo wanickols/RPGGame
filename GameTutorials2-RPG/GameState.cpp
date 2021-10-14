@@ -9,8 +9,8 @@
 #include "EnemySpawner.h"
 #include "PlayerGui.h"
 #include "EnemyLibrary.h"
-#include "MovementComponent.h"
-#include "AttributeComponent.h"
+#include "Movement.h"
+#include "Attribute.h"
 
 void GameState::initDefferredRender()
 {
@@ -179,33 +179,33 @@ void GameState::updatePlayerInput(const float& dt)
 {
 	//Player input
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Up")))) {
-		player->getComponent<MovementComponent>()->setDirection(facing::UP);
-		player->getComponent<MovementComponent>()->move(0.f, -1.f, dt, true);
+		player->getComponent<Movement>()->setDirection(facing::UP);
+		player->getComponent<Movement>()->move(0.f, -1.f, dt, true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Left")))) {
-		player->getComponent<MovementComponent>()->setDirection(facing::LEFT);
-		player->getComponent<MovementComponent>()->move(-1.f, 0.f, dt, true);
+		player->getComponent<Movement>()->setDirection(facing::LEFT);
+		player->getComponent<Movement>()->move(-1.f, 0.f, dt, true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Down")))) {
-		player->getComponent<MovementComponent>()->setDirection(facing::DOWN);
-		player->getComponent<MovementComponent>()->move(0.f, 1.f, dt, true);
+		player->getComponent<Movement>()->setDirection(facing::DOWN);
+		player->getComponent<Movement>()->move(0.f, 1.f, dt, true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Right")))) {
-		player->getComponent<MovementComponent>()->setDirection(facing::RIGHT);
-		player->getComponent<MovementComponent>()->move(1.f, 0.f, dt, true);
+		player->getComponent<Movement>()->setDirection(facing::RIGHT);
+		player->getComponent<Movement>()->move(1.f, 0.f, dt, true);
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && getKeyTime()) {
-		player->getComponent<AttributeComponent>()->loseHealth(10);
-		player->getComponent<AttributeComponent>()->loseEnergy(10);
-		player->getComponent<AttributeComponent>()->loseExp(10);
+		player->getComponent<Attribute>()->loseHealth(10);
+		player->getComponent<Attribute>()->loseEnergy(10);
+		player->getComponent<Attribute>()->loseExp(10);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O) && getKeyTime()) {
-		player->getComponent<AttributeComponent>()->addHealth(20);
-		player->getComponent<AttributeComponent>()->addEnergy(20);
+		player->getComponent<Attribute>()->addHealth(20);
+		player->getComponent<Attribute>()->addEnergy(20);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G) && getKeyTime())
-		player->getComponent<AttributeComponent>()->addExp(50);
+		player->getComponent<Attribute>()->addExp(50);
 
 
 

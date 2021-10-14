@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "Rat.h"
-#include "MovementComponent.h"
-#include "AnimationComponent.h"
-#include "AttributeComponent.h"
-#include "HitboxComponent.h"
+#include "Movement.h"
+#include "AnimationC.h"
+#include "Attribute.h"
+#include "Hitbox.h"
 
 void Rat::initVariables()
 {
@@ -15,30 +15,30 @@ void Rat::initVariables()
 void Rat::initComponents()
 {
 	//Movement
-	std::shared_ptr<MovementComponent> movementComponent = std::make_shared<MovementComponent>(sprite, 350.f, 1300.f, 400.f, this); //speed for rat set here
-	addComponent(movementComponent);
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 350.f, 1300.f, 400.f, this); //speed for rat set here
+	addComponent(movement);
 
 	//Hitbox
-	std::shared_ptr<HitboxComponent> hitboxComponent = std::make_shared<HitboxComponent>(sprite, 20.f, 32.f, 16.f, 16.f, this); //hitbox for player set here
-	addComponent(hitboxComponent);
+	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 20.f, 32.f, 16.f, 16.f, this); //hitbox for player set here
+	addComponent(hitbox);
 
 	//attribute
-	std::shared_ptr<AttributeComponent> attributeComponent = std::make_shared<AttributeComponent>(1, this); //hitbox for player set here
-	addComponent(attributeComponent);
+	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, this); //hitbox for player set here
+	addComponent(attribute);
 }
 
 void Rat::initAnimations(sf::Texture& texture_sheet)
 {
 	//Animation
-	std::shared_ptr<AnimationComponent> animationComponent = std::make_shared<AnimationComponent>(sprite, texture_sheet, this);
-	addComponent(animationComponent);
+	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture_sheet, this);
+	addComponent(animation);
 
-	getComponent<AnimationComponent>()->addAnimation("DOWNIDLE", 10.f, 0, 0, 3, 0, 60, 64);
-	getComponent<AnimationComponent>()->addAnimation("WALKRIGHT", 10.f, 0, 1, 3, 1, 60, 64);
-	getComponent<AnimationComponent>()->addAnimation("WALKLEFT", 10.f, 0, 2, 3, 2, 60, 64);
-	getComponent<AnimationComponent>()->addAnimation("WALKUP", 10.f, 0, 3, 3, 3, 60, 64);
-	getComponent<AnimationComponent>()->addAnimation("WALKDOWN", 10.f, 0, 4, 3, 4, 60, 64);
-	//getComponent<AnimationComponent>()->addAnimation("ATTACK", 10.f, 0, 0, 3, 0, 60, 64); //doesn't exist
+	getComponent<AnimationC>()->addAnimation("DOWNIDLE", 10.f, 0, 0, 3, 0, 60, 64);
+	getComponent<AnimationC>()->addAnimation("WALKRIGHT", 10.f, 0, 1, 3, 1, 60, 64);
+	getComponent<AnimationC>()->addAnimation("WALKLEFT", 10.f, 0, 2, 3, 2, 60, 64);
+	getComponent<AnimationC>()->addAnimation("WALKUP", 10.f, 0, 3, 3, 3, 60, 64);
+	getComponent<AnimationC>()->addAnimation("WALKDOWN", 10.f, 0, 4, 3, 4, 60, 64);
+	//getComponent<AnimationC>()->addAnimation("ATTACK", 10.f, 0, 0, 3, 0, 60, 64); //doesn't exist
 }
 
 Rat::Rat(float x, float y, sf::Texture& texture, EnemySpawner& origin)
@@ -48,24 +48,26 @@ Rat::Rat(float x, float y, sf::Texture& texture, EnemySpawner& origin)
 	sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
 	setPosition(x, y);
 	initVariables();
-	initComponents();
 	initAnimations(texture);
+	initComponents();
+	
 }
 
 void Rat::updateAnimation(const float& dt)
 {
-	//getComponent<AnimationComponent>()->play("DOWNIDLE", dt, false);
-	if(getComponent<MovementComponent>()->getDirection() == facing::RIGHT)
+	//getComponent<AnimationC>()->play("DOWNIDLE", dt, false);
+	if(getComponent<Movement>()->getDirection() == facing::RIGHT)
 	{
-		getComponent<AnimationComponent>()->play("WALKRIGHT", dt, false);
+		getComponent<AnimationC>()->play("WALKRIGHT", dt, false);
 	}
 }
 
 void Rat::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	Entity::update(dt, mousePosView);
-	getComponent<MovementComponent>()->move(.4f, 0.f, dt, false);
-	getComponent<MovementComponent>()->setDirection(facing::RIGHT);
+	//debugging
+	getComponent<Movement>()->move(.4f, 0.f, dt, false);
+	getComponent<Movement>()->setDirection(facing::RIGHT);
 
 	updateAnimation(dt);
 }

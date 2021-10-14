@@ -5,14 +5,14 @@ class Entity;
 	enum movement_states { DOWNIDLE = 0, UPIDLE, LEFTIDLE, RIGHTIDLE, ATTACK, MOVING_LEFT, MOVING_RIGHT, MOVING_UP, MOVING_DOWN };
 	enum class facing {DOWN, UP, LEFT, RIGHT};
 	
-	class MovementComponent : public Component
+	class Movement : public Component
 {
 private:
 	//Initializer functions
 
 public:
-	MovementComponent(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner);
-	virtual ~MovementComponent();
+	Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner);
+	virtual ~Movement();
 
 	//Accessors
 	const sf::Vector2f& getVelocity();
