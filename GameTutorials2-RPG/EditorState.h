@@ -57,7 +57,7 @@ private:
 	std::vector<std::unique_ptr<EditorMode>> modes;
 	int activeMode;
 	float cameraSpeed;
-
+	std::shared_ptr<EnemyLibrary> enemyLib;
 	std::shared_ptr<PauseMenu> pmenu;
 	
 	

@@ -15,18 +15,18 @@ void Rat::initVariables()
 void Rat::initComponents(EnemySpawner& origin)
 {
 	//Movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 350.f, 1300.f, 400.f, this); //speed for rat set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 350.f, 1300.f, 400.f, this); //speed for enemy set here
 	addComponent(movement);
 
 	//Hitbox
-	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 20.f, 32.f, 16.f, 16.f, this); //hitbox for rat set here
+	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 20.f, 32.f, 16.f, 16.f, this); //hitbox for enemy set here
 	addComponent(hitbox);
 
 	//attribute
-	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, this); //attribute for rat set here
+	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, this); //attribute for enemy set here
 	addComponent(attribute);
 
-	std::shared_ptr<EnemyData> data = std::make_shared<EnemyData>("Rat", 100, nullptr, origin, this); //data for rat set here
+	std::shared_ptr<EnemyData> data = std::make_shared<EnemyData>("Rat", 100, nullptr, origin, this); //data for enemy set here
 	addComponent(data);
 }
 
@@ -54,7 +54,7 @@ Rat::Rat(float x, float y, sf::Texture& texture, EnemySpawner& origin)
 
 void Rat::updateAnimation(const float& dt)
 {
-	//getComponent<AnimationC>()->play("DOWNIDLE", dt, false);
+	//Ai FIXME (make AI component
 	if(getComponent<Movement>()->getDirection() == facing::RIGHT)
 	{
 		getComponent<AnimationC>()->play("WALKRIGHT", dt, false);
@@ -73,6 +73,6 @@ void Rat::update(const float& dt, const sf::Vector2f mousePosView)
 
 void Rat::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
+	//Goal of components!
 	Entity::render(target, shader, light_position, false);
-
 }

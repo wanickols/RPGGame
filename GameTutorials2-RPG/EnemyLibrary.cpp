@@ -12,6 +12,12 @@ EnemyLibrary::EnemyLibrary()
 	//if (!textures.at("Bird")->loadFromFile("Resources/Images/Sprites/Enemies/bird1.png"))
 		//std::cout << "ERROR::EnemyLibrary::FAILED TO LOAD Bird " << '\n';
 
+	int j = 0;
+	auto iter = textures.begin();
+	while (iter != textures.end()){
+		types[0] = iter->first;
+		j++; iter++;
+	}
 }
 
 std::shared_ptr<sf::Texture> EnemyLibrary::find(std::string name)
@@ -37,16 +43,7 @@ void EnemyLibrary::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vect
 
 std::string EnemyLibrary::translateType(int type)
 {
-	switch(type)
-	{
-	case(EnemyType::RAT):
-		return "Rat";
-		break;
-	default:
-		std::cout << "ENEMY TYPE NOT FOUND ";
-		return "Rat";
-		break;
-	}
+	return types.find(type)->second;
 }
 
 std::vector<std::shared_ptr<Enemy>>& EnemyLibrary::getEnemies()

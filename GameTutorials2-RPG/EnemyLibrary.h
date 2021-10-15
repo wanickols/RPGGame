@@ -16,6 +16,7 @@ public:
 	std::vector<std::shared_ptr<Enemy>>& getEnemies();
 private:
 	std::vector<std::shared_ptr<Enemy>> enemies;
+	std::map<int, std::string> types;
 	std::map<std::string, std::shared_ptr<sf::Texture>> textures;
 
 

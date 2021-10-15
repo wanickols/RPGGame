@@ -5,12 +5,14 @@
 #include "Tile.h"
 #include "PauseMenu.h"
 #include "EditorModes.h"
+#include "EnemyLibrary.h"
 
 //Initializer functions
 void EditorState::initVariables()
 {
 	cameraSpeed = 500.f;
 	activeMode = 0;
+	enemyLib = std::make_shared<EnemyLibrary>();
 }
 
 void EditorState::initEditorStateData()
@@ -71,7 +73,7 @@ void EditorState::initTexts()
 
 void EditorState::initTileMap()
 {
-	map = std::make_shared<TileMap>("Save/mapfile");
+	map = std::make_shared<TileMap>("Save/mapfile", enemyLib);
 	//map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
 	//map->loadFromFile("Save/mapfile");
 }
