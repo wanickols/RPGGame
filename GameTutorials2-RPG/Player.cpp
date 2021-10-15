@@ -44,9 +44,9 @@ void Player::initComponents()
 
 }
 
-void Player::initAnimations(sf::Texture& texture_sheet)
+void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 {
-	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture_sheet, this);
+	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture_sheet, x,y, this);
 	addComponent(animation);
 	
 
@@ -86,9 +86,8 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 {
 	initVariables();
 	initRunes();
-	initAnimations(texture_sheet);
+	initAnimations(texture_sheet, x, y);
 	initComponents();
-	setPosition(x, y);
 	
 }
 
@@ -104,22 +103,17 @@ const std::shared_ptr<Rune> Player::getActiveRune()
 
 void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
 {
-
 	activeRune->updateBulletCollision(dt, map);
 }
 
 //Functions
-void Player::updateAnimation(const float& dt, const sf::Vector2f mousePosView)
-{
-	
-	
-}
-
 void Player::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	activeRune->update(dt, mousePosView);
+	//components
 	Entity::update(dt, mousePosView);
-	//Bullets
+	
+	//Rune
 	//Checks if there are bullets on the screen to know if keep arms up or put them down
 	if (activeRune->isBulletEmpty()) {
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKDOWN", false);
@@ -127,10 +121,8 @@ void Player::update(const float& dt, const sf::Vector2f mousePosView)
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKLEFT", false);
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKRIGHT", false);
 	}
-		
-	updateAnimation(dt, mousePosView);
 	
-	
+	//Debug
 	std::cout << getComponent<Skills>()->getSkillLvl("Endurance") << "\n";
 
 	
@@ -142,16 +134,14 @@ void Player::update(const float& dt, const sf::Vector2f mousePosView)
 
 void Player::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
-	Entity::render(target, shader, light_position, true);
+	//components
+	Entity::render(target, shader, light_position, false);
+	
+	//Rune
 	if (shader) {
-		shader->setUniform("hasTexture", true);
-		shader->setUniform("lightPos", getCenterPosition());
-		
-		target.draw(sprite, shader);
 		activeRune->render(target, &bullet_shader, light_position, false);
 	}
 	else {
-		target.draw(sprite);
 		activeRune->render(target);
 	}
 

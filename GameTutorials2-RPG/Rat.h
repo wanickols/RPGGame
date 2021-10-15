@@ -5,8 +5,8 @@ class Rat : public Enemy
 {
 private:
 	void initVariables();
-	void initComponents();
-	void initAnimations(sf::Texture& texture_sheet);
+	void initComponents(EnemySpawner& origin);
+	void initAnimations(sf::Texture& texture_sheet, float x, float y);
 public:
 	
 	Rat(float x, float y, sf::Texture& texture, EnemySpawner& origin);

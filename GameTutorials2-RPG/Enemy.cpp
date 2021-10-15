@@ -3,10 +3,9 @@
 #include "EnemySpawner.h"
 #include "Item.h"
 
-Enemy::Enemy(float x, float y, sf::Texture& texture, EnemySpawner& origin)
+Enemy::Enemy()
 {
-	setPosition(x, y);
-	Origin = std::make_unique<EnemySpawner>(origin);
+
 }
 
 Enemy::~Enemy()

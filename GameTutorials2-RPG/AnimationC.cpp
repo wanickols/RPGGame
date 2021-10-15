@@ -1,9 +1,14 @@
 #include "stdafx.h"
 #include "AnimationC.h"
+#include "Entity.h"
 
-AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, Entity* owner)
+AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, float x, float y, Entity* owner)
 	: sprite(sprite), textureSheet(texture_sheet), lastAnimation(NULL), priorityAnimation(NULL), Component("animation", owner)
 {
+	//sets initial sprite pos
+	owner->setPosition(x, y);
+	//rest of sprite set in animations.
+
 }
 
 AnimationC::~AnimationC()
@@ -134,6 +139,20 @@ const bool AnimationC::getLastIsDone(const std::string key) const
 void AnimationC::update(const float& dt, const sf::Vector2f mousePosView)
 {
 
+}
+
+void AnimationC::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
+{
+	if (shader) {
+		shader->setUniform("hasTexture", true);
+		shader->setUniform("lightPos", light_position);
+
+		target.draw(sprite, shader);
+	}
+	else
+	{
+		target.draw(sprite);
+	}
 }
 
 void AnimationC::setIsDone(const std::string key, bool doneStatus)

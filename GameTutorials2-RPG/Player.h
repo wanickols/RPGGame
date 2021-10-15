@@ -12,7 +12,7 @@ private:
 	//Init Functions
 	void initVariables();
 	void initComponents();
-	void initAnimations(sf::Texture& texture_sheet);
+	void initAnimations(sf::Texture& texture_sheet, float x, float y);
 	void initRunes();
 public:
 	//Constructors

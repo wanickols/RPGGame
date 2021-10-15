@@ -21,6 +21,7 @@ void Entity::initVariables()
 	componentList["input"] = false;
 	componentList["AI"] = false;
 	componentList["skill"] = false;
+	componentList["enemyData"] = false;
 }
 
 Entity::Entity()

@@ -10,7 +10,7 @@ class Entity;
 class AnimationC : public Component
 {
 public:
-	AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, Entity* owner);
+	AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, float x, float y, Entity* owner);
 	virtual ~AnimationC();
 
 	//Functions
@@ -23,6 +23,7 @@ public:
 	const bool& play(const std::string key, const float& dt, const float& modifier, const float& modifier_max, const bool priority);
 	const bool getLastIsDone(const std::string key) const;
 	void update(const float& dt, const sf::Vector2f mousePosView);
+	void render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox);
 	void setIsDone(const std::string key, bool doneStatus);
 private:
 	class Animation {

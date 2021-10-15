@@ -52,7 +52,9 @@ bool Hitbox::intersect(const sf::FloatRect& frect)
 
 void Hitbox::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
-	target.draw(hitbox);
+	if (show_hitbox) {
+		target.draw(hitbox);
+	}
 }
 
 const sf::FloatRect Hitbox::getGlobalBounds() const
