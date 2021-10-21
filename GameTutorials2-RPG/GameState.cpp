@@ -256,6 +256,12 @@ void GameState::updatePlayer(const float& dt)
 	player->updateBulletCollision(dt, map);
 }
 
+void GameState::updateCombat(const float& dt)
+{
+	//if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->getWeapon()->getAttackTimer())
+		//this->player->setAttack(true);
+}
+
 void GameState::update(const float& dt)
 {
 

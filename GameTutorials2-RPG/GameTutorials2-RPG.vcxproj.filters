@@ -177,6 +177,9 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Items\Components\Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Combat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Items\Components\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Combat.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

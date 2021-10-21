@@ -39,6 +39,7 @@ public:
 
 	void updateEnemies(const float& dt);
 	void updatePlayer(const float& dt);
+	void updateCombat(const float& dt);
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);
 

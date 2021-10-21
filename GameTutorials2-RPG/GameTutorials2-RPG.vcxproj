@@ -150,6 +150,7 @@
     <ClCompile Include="AnimationC.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Combat.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DefaultEditorMode.cpp" />
     <ClCompile Include="EditorMode.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="AnimationC.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Combat.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DefaultEditorMode.h" />
     <ClInclude Include="EditorMode.h" />

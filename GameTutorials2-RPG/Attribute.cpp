@@ -99,7 +99,6 @@ void Attribute::updateLevel()
 
 void Attribute::update(const float& dt, const sf::Vector2f mousePosView)
 {
-
 }
 
 void Attribute::loseHealth(const int health)

@@ -28,6 +28,8 @@ void Rat::initComponents(EnemySpawner& origin)
 
 	std::shared_ptr<EnemyData> data = std::make_shared<EnemyData>("Rat", 100, nullptr, origin, this); //data for enemy set here
 	addComponent(data);
+
+
 }
 
 void Rat::initAnimations(sf::Texture& texture_sheet, float x, float y)
@@ -65,9 +67,9 @@ void Rat::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	Entity::update(dt, mousePosView);
 	//debugging
-	getComponent<Movement>()->move(.4f, 0.f, dt, false);
+	getComponent<Movement>()->move(0.f, 0.f, dt, false);
 	getComponent<Movement>()->setDirection(facing::RIGHT);
-
+	getComponent<Attribute>()->loseHealth(1);
 	updateAnimation(dt);
 }
 

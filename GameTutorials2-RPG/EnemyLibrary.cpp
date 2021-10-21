@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EnemyLibrary.h"
 #include "Enemy.h"
+#include "Attribute.h"
 
 EnemyLibrary::EnemyLibrary()
 {
@@ -27,9 +28,18 @@ std::shared_ptr<sf::Texture> EnemyLibrary::find(std::string name)
 
 void EnemyLibrary::update(const float& dt)
 {
-	for (auto& i : enemies)
-	{
-		i->update(dt);
+	if (!enemies.empty()) {
+		auto it = enemies.begin();
+		enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [&](auto iter) {
+			return it->get()->getComponent<Attribute>()->hp <= 0;
+			}), enemies.end()
+				);
+
+
+		for (auto& i : enemies)
+		{
+			i->update(dt);
+		}
 	}
 }
 

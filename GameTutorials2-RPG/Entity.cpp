@@ -22,6 +22,8 @@ void Entity::initVariables()
 	componentList["AI"] = false;
 	componentList["skill"] = false;
 	componentList["enemyData"] = false;
+	componentList["Combat"] = false;
+	componentList["item"] = false;
 }
 
 Entity::Entity()
@@ -48,6 +50,12 @@ const sf::Vector2f& Entity::getPosition()
 		return getComponent<Hitbox>()->getPosition();
 
 	return sprite.getPosition();
+}
+
+const float Entity::getDistance(Entity& entity)
+{
+	
+	return sqrtf(pow((this->getCenterPosition().x - entity.getCenterPosition().x), 2) + pow((this->getCenterPosition().y - entity.getCenterPosition().y), 2));
 }
 
 const sf::Vector2f Entity::getCenterPosition()
