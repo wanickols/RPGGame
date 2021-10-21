@@ -37,9 +37,6 @@
     <Filter Include="Items">
       <UniqueIdentifier>{14b5998d-c221-42c0-bb72-ea605bc00c3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Items\Runes">
-      <UniqueIdentifier>{25e623ac-76a7-48e4-b0d7-4ba3ccda642d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GUI\Menus">
       <UniqueIdentifier>{75c763be-58cd-43a2-a653-ddd8e0209b6b}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,15 @@
     </Filter>
     <Filter Include="Entities\Enemies">
       <UniqueIdentifier>{058f5d12-03fd-4a71-8f21-5d055ad30359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Items\Components">
+      <UniqueIdentifier>{81be94b3-9731-4e7a-9062-91e2007ea639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Items\Components\General">
+      <UniqueIdentifier>{7a7acff3-2c30-49ae-9c87-42eba186fdb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Items\Components\Classes">
+      <UniqueIdentifier>{9857eae6-7637-4b1e-9b3e-1704d30c9019}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,12 +117,6 @@
     <ClCompile Include="Item.cpp">
       <Filter>Items</Filter>
     </ClCompile>
-    <ClCompile Include="FireRune.cpp">
-      <Filter>Items\Runes</Filter>
-    </ClCompile>
-    <ClCompile Include="Rune.cpp">
-      <Filter>Items\Runes</Filter>
-    </ClCompile>
     <ClCompile Include="EnemySpawner.cpp">
       <Filter>Map\Tiles</Filter>
     </ClCompile>
@@ -161,6 +161,21 @@
     </ClCompile>
     <ClCompile Include="EnemyData.cpp">
       <Filter>Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemComponent.cpp">
+      <Filter>Items\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemInfo.cpp">
+      <Filter>Items\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="itemSprite.cpp">
+      <Filter>Items\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="RuneComponent.cpp">
+      <Filter>Items\Components\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Items\Components\Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,12 +236,6 @@
     <ClInclude Include="Item.h">
       <Filter>Items</Filter>
     </ClInclude>
-    <ClInclude Include="FireRune.h">
-      <Filter>Items\Runes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rune.h">
-      <Filter>Items\Runes</Filter>
-    </ClInclude>
     <ClInclude Include="Skills.h">
       <Filter>Entities\Components</Filter>
     </ClInclude>
@@ -274,6 +283,24 @@
     </ClInclude>
     <ClInclude Include="EnemyData.h">
       <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="itemSprite.h">
+      <Filter>Items\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInfo.h">
+      <Filter>Items\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemComponent.h">
+      <Filter>Items\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="RuneComponent.h">
+      <Filter>Items\Components\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="itemComponentInlcudes.h">
+      <Filter>Items\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Items\Components\Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Movement.h"
+#include "RuneComponent.h"
 #include "Rune.h"
 #include "AnimationC.h"
 
@@ -17,7 +18,7 @@ UserInput::UserInput(Entity* owner)
 void UserInput::shoot(const sf::Vector2f& mousePosView)
 {
 	attacking = false;
-	player->getActiveRune()->shoot(owner->getPosition().x, owner->getPosition().y, owner->getComponent<Movement>()->getVelocity().x + (mousePosView.x - owner->getPosition().x) / 100, owner->getComponent<Movement>()->getVelocity().y + (mousePosView.y - owner->getPosition().y) / 100, owner->getComponent<Movement>()->getLastState());
+	player->getActiveRune()->getItemComponent<RuneComponent>()->shoot(owner->getPosition().x, owner->getPosition().y, owner->getComponent<Movement>()->getVelocity().x + (mousePosView.x - owner->getPosition().x) / 100, owner->getComponent<Movement>()->getVelocity().y + (mousePosView.y - owner->getPosition().y) / 100, owner->getComponent<Movement>()->getLastState());
 	
 }
 

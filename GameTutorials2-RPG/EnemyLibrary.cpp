@@ -10,7 +10,7 @@ EnemyLibrary::EnemyLibrary()
 		std::cout << "ERROR::EnemyLibrary::FAILED TO LOAD RAT " << '\n';
 	//textures["Bird"] = std::make_shared<sf::Texture>();
 	//if (!textures.at("Bird")->loadFromFile("Resources/Images/Sprites/Enemies/bird1.png"))
-		//std::cout << "ERROR::EnemyLibrary::FAILED TO LOAD Bird " << '\n';
+		//std::cout << "ERROR::EnemyLibrary::FAILED TO LOAD BIRD " << '\n';
 
 	int j = 0;
 	auto iter = textures.begin();

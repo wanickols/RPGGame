@@ -4,6 +4,8 @@ class Bullet;
 class FireRune;
 class Rune;
 class TileMap;
+class Inventory;
+class Item;
 
 class Player :
 	public Entity
@@ -21,18 +23,19 @@ public:
 	virtual ~Player();
 
 	//Accessors
-	const std::shared_ptr<Rune> getActiveRune();
+	const std::shared_ptr<Item> getActiveRune();
 
 
 	//Functions
 	void updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map);
-	void updateAnimation(const float& dt, const sf::Vector2f mousePosView);
+	//void updateAnimation(const float& dt, const sf::Vector2f mousePosView);
 	virtual void update(const float& dt, const sf::Vector2f mousePosView);
 	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(),  const bool show_hitbox = false);
 private:
 	sf::Shader bullet_shader;
-	std::vector< std::shared_ptr<Rune> > runes;
-	std::shared_ptr <Rune> activeRune;
+	std::vector< std::shared_ptr<Item> > runes;
+	std::shared_ptr <Item> activeRune;
+	std::shared_ptr<Inventory> inventory;
 	//variables
 	bool attacking;
 };

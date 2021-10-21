@@ -34,7 +34,7 @@ const bool Inventory::empty() const
 
 void Inventory::clear()
 {
-	for (int i = 0; i < capacity; i++)
+	for (unsigned i = 0; i < capacity; i++)
 	{
 		delete itemArray[i];
 	}
@@ -65,6 +65,7 @@ const bool Inventory::remove(unsigned index)
 		
 		delete itemArray[index];
 		itemArray[index] = nullptr;
+		nrOfItems--;
 		return true;   
 	}
 	return false;
@@ -82,7 +83,7 @@ const bool Inventory::loadFromFile(const std::string file_name)
 
 void Inventory::nullify(const unsigned from)
 {
-	for (int i = from; i < nrOfItems; i++)
+	for (unsigned int i = from; i < nrOfItems; i++)
 	{
 		itemArray[i] = nullptr;
 	}
@@ -91,7 +92,7 @@ void Inventory::nullify(const unsigned from)
 void Inventory::freeMemory()
 {
 	//Nullifies everything from parameter to capactiy;
-	for (int i = 0; i < capacity; i++)
+	for (unsigned int i = 0; i < capacity; i++)
 	{
 		delete itemArray[i];
 	}

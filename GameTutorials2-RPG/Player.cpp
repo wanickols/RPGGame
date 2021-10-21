@@ -10,6 +10,8 @@
 #include "UserInput.h"
 #include "Skills.h"
 #include "Component.h"
+#include "Inventory.h"
+#include "itemComponentInlcudes.h"
 
 
 
@@ -23,6 +25,7 @@ void Player::initVariables()
 		std::cout << "ERROR::PLAYER::COULD_NOT_LOAD_BULLET_SHADER" << "\n";
 	}
 
+	
 }
 
 void Player::initComponents()
@@ -77,8 +80,27 @@ void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 
 void Player::initRunes()
 {
-	runes.push_back(std::make_shared<FireRune>());
+	std::shared_ptr<Item> fr = std::make_shared<Item>();
+	//FireRune
+	std::shared_ptr<ItemInfo> info = std::make_shared<ItemInfo>(0, "Fire Rune",
+		"A fiery red stone hot to the touch and incredibely dense. \n Its origin is unknown, but it enables the user to shoot fire when placed in his hand.",//description
+		ItemRarity::Unique, ItemClasses::RUNE, *fr); //Info
+	fr->addItemComponent(info);
+
+	std::shared_ptr<Weapon> weapon = std::make_shared<Weapon>(25, 20, 25, 2, *fr, "Resources/Images/Sprites/Items/Firerune.png");
+	fr->addItemComponent(weapon);
+
+	std::shared_ptr<RuneComponent> runeComp = std::make_shared<RuneComponent>("Resources/Images/Sprites/Bullets/FIRE_BULLET.png", *fr);
+	fr->addItemComponent(runeComp);
+	runes.push_back(fr);
+
 	activeRune = runes.at(0);
+
+	inventory = std::make_shared<Inventory>(32);
+	std::cout << "Inv: Before" << inventory->maxSize() << inventory->size() << std::endl;
+	inventory->add(fr.get());
+	inventory->remove(0);
+	std::cout << "Inv: After" << inventory->maxSize() << inventory->size() << std::endl;
 }
 
 //Constructors
@@ -96,26 +118,26 @@ Player::~Player()
 
 }
 
-const std::shared_ptr<Rune> Player::getActiveRune()
+const std::shared_ptr<Item> Player::getActiveRune()
 {
 	return activeRune;
 }
 
 void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
 {
-	activeRune->updateBulletCollision(dt, map);
+	activeRune->getItemComponent<RuneComponent>()->updateBulletCollision(dt, map);
 }
 
 //Functions
 void Player::update(const float& dt, const sf::Vector2f mousePosView)
 {
-	activeRune->update(dt, mousePosView);
+	activeRune->update(dt, mousePosView, getCenterPosition());
 	//components
 	Entity::update(dt, mousePosView);
 	
 	//Rune
 	//Checks if there are bullets on the screen to know if keep arms up or put them down
-	if (activeRune->isBulletEmpty()) {
+	if (activeRune->getItemComponent<RuneComponent>()->isBulletEmpty()) {
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKDOWN", false);
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKUP", false);
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKLEFT", false);
