@@ -42,6 +42,7 @@ public:
 	 bool expUpdate;
 	 bool energyUpdate;
 
+	 int range;
 	
 	//Con 
 	Attribute(int level, Entity* owner);
@@ -54,6 +55,8 @@ public:
 	void updateStats(const bool reset);
 	void updateLevel();
 	void update(const float& dt, const sf::Vector2f mousePosView);
+
+	bool isDead();
 
 	//Attribute Functions
 	void loseHealth(const int health);

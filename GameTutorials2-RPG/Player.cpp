@@ -25,6 +25,7 @@ void Player::initVariables()
 		std::cout << "ERROR::PLAYER::COULD_NOT_LOAD_BULLET_SHADER" << "\n";
 	}
 
+	attack = false;
 	
 }
 
@@ -80,8 +81,8 @@ void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 
 void Player::initRunes()
 {
-	std::shared_ptr<Item> fr = std::make_shared<Item>();
 	//FireRune
+	std::shared_ptr<Item> fr = std::make_shared<Item>();
 	std::shared_ptr<ItemInfo> info = std::make_shared<ItemInfo>(0, "Fire Rune",
 		"A fiery red stone hot to the touch and incredibely dense. \n Its origin is unknown, but it enables the user to shoot fire when placed in his hand.",//description
 		ItemRarity::Unique, ItemClasses::RUNE, *fr); //Info
@@ -96,6 +97,8 @@ void Player::initRunes()
 
 	activeRune = runes.at(0);
 
+	getComponent<Attribute>()->range = activeRune->getItemComponent<Weapon>()->getRange();
+
 	inventory = std::make_shared<Inventory>(32);
 	std::cout << "Inv: Before" << inventory->maxSize() << inventory->size() << std::endl;
 	inventory->add(fr.get());
@@ -107,10 +110,11 @@ void Player::initRunes()
 Player::Player(float x, float y, sf::Texture& texture_sheet)
 {
 	initVariables();
-	initRunes();
 	initAnimations(texture_sheet, x, y);
 	initComponents();
+	initRunes();
 	
+
 }
 
 Player::~Player()
@@ -168,6 +172,16 @@ void Player::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f l
 	}
 
 
+}
+
+const bool Player::getAttack()
+{
+	return this->attack;
+}
+
+void Player::setAttack(bool attacking)
+{
+	attack = attacking;
 }
 
 

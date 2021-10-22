@@ -3,6 +3,7 @@
 #include "AnimationC.h"
 #include "Movement.h"
 #include "Hitbox.h"
+#include "Attribute.h"
 
 Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, const unsigned short state)
 	: running(true), xVel(velX), yVel(velY)
@@ -87,7 +88,9 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 600.f, 1300.f, 400.f, this); //speed for bullet set here
 	addComponent(movement);
 	
-	
+	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, this); //speed for bullet set here
+	addComponent(attribute);
+	attribute->range = 40;
 	
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "EnemySpawner.h"
-class Item;
+#include "Item.h"
 
 class EnemyData :
     public Component

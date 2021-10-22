@@ -183,4 +183,9 @@ void Entity::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f l
 	}
 }
 
+sf::Sprite& Entity::getSprite()
+{
+	return sprite;
+}
+
 

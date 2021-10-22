@@ -13,6 +13,7 @@ Attribute::Attribute(int level, Entity* owner) :
 	dexterity = 1;
 	agility = 1;
 	intelligence = 1;
+	range = 30;
 	updateStats(true);
 }
 
@@ -99,6 +100,13 @@ void Attribute::updateLevel()
 
 void Attribute::update(const float& dt, const sf::Vector2f mousePosView)
 {
+}
+
+bool Attribute::isDead()
+{
+	if(hp <= 0)
+		return true;
+	return false;
 }
 
 void Attribute::loseHealth(const int health)

@@ -31,12 +31,16 @@ public:
 	//void updateAnimation(const float& dt, const sf::Vector2f mousePosView);
 	virtual void update(const float& dt, const sf::Vector2f mousePosView);
 	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(),  const bool show_hitbox = false);
+
+	const bool getAttack();
+	void setAttack(bool attacking);
 private:
 	sf::Shader bullet_shader;
 	std::vector< std::shared_ptr<Item> > runes;
 	std::shared_ptr <Item> activeRune;
 	std::shared_ptr<Inventory> inventory;
 	//variables
-	bool attacking;
+	bool attacking; //used internally
+	bool attack; //used externally
 };
 

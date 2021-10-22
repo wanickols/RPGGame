@@ -153,7 +153,7 @@ void TileMap::addEnemyTile(const int x, const int y, const int z, const sf::IntR
 		y >= 0 && y < maxSize.y && //y
 		z >= 0 && z < layers)//z 
 	{
-			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance));
+			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, enemyLib));
 	}
 }
 
@@ -294,7 +294,7 @@ void TileMap::loadFromFile(const std::string file_name)
 				float max_distance;
 				is >> enemy_type >> max_spawned >> time_to_spawn >> max_distance
 					>> x >> y >> z;
-				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance));
+				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, enemyLib));
 				break;
 			default:
 				//std::cout << x << y << z << trX << trY << collision << type

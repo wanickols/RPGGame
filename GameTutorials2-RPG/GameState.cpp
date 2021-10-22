@@ -226,6 +226,7 @@ void GameState::updateInput(const float& dt)
 		else
 			unpauseState();
 	}
+	
 }
 
 void GameState::updatePauseMenuButtons()
@@ -242,7 +243,8 @@ void GameState::updateTileMap(const float& dt)
 
 void GameState::updateEnemies(const float& dt)
 {
-	enemyLib->update(dt);
+	
+	enemyLib->update(dt, player->getAttack(), player);
 }
 
 void GameState::updatePlayer(const float& dt)
@@ -258,8 +260,12 @@ void GameState::updatePlayer(const float& dt)
 
 void GameState::updateCombat(const float& dt)
 {
-	//if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->getWeapon()->getAttackTimer())
-		//this->player->setAttack(true);
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) //&& this->player->getWeapon()->getAttackTimer()
+		this->player->setAttack(true);
+	else 
+		this->player->setAttack(false);
+
+
 }
 
 void GameState::update(const float& dt)
@@ -274,6 +280,7 @@ void GameState::update(const float& dt)
 		updateTileMap(dt);
 		updatePlayer(dt);
 		updateEnemies(dt);
+		updateCombat(dt);
 		
 		//testEnemy->update(dt, mousePosView);
 	}

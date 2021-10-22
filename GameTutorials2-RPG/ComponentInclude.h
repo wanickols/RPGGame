@@ -1,0 +1,10 @@
+#pragma once
+#include "Hitbox.h"
+#include "Movement.h"
+#include "AnimationC.h"
+#include "Combat.h"
+#include "UserInput.h"
+#include "EnemyData.h"
+#include "Attribute.h"
+#include "Skills.h"
+#include "enemyAi.h"

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Map>
+	<Enemy name="Rat" typeNum="0">
+		<SpriteSheet path ="Resources/Images/Sprites/Enemies/rat1.png"/>
+	</Enemy>
+	<Enemy name="Bird" typeNum="1">
+		<SpriteSheet path ="Resources/Images/Sprites/Enemies/bird1.png"/>
+	</Enemy>
+
+
+</Map>
+

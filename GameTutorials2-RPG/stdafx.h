@@ -24,8 +24,13 @@
 #include <SFML\Audio.hpp>
 #include <SFML\Network.hpp>
 
+//XML
+#include "tinyxml2.h"
+
 //Mine
 #include "Gui.h"
+
+
 
 //11640 before precompiled headers
 //2137 after: be amazed :O!

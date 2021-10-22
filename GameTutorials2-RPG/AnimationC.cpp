@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AnimationC.h"
 #include "Entity.h"
+#include "Movement.h"
 
 AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, float x, float y, Entity* owner)
 	: sprite(sprite), textureSheet(texture_sheet), lastAnimation(NULL), priorityAnimation(NULL), Component("animation", owner)

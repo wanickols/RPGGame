@@ -144,9 +144,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Rat.cpp">
-      <Filter>Entities\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyLibrary.cpp">
       <Filter>Entities\Enemies</Filter>
     </ClCompile>
@@ -179,6 +176,12 @@
     </ClCompile>
     <ClCompile Include="Combat.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyAi.cpp">
+      <Filter>Entities\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +269,6 @@
     <ClInclude Include="Enemy.h">
       <Filter>Entities\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Rat.h">
-      <Filter>Entities\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyLibrary.h">
       <Filter>Entities\Enemies</Filter>
     </ClInclude>
@@ -308,6 +308,18 @@
     <ClInclude Include="Combat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentInclude.h">
+      <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Presets.h">
+      <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAi.h">
+      <Filter>Entities\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertex_shader.vert">
@@ -319,5 +331,13 @@
     <None Include="bullet_shader.frag">
       <Filter>Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="test.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+    <Xml Include="enemyComponent.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

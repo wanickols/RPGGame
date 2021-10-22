@@ -2,11 +2,12 @@
 #include "Tile.h"
 
 class Enemy;
+class EnemyLibrary;
 
 class EnemySpawner : public Tile
 {
 public:
-	EnemySpawner(float x, float y, const sf::Texture& texture, const sf::IntRect& texture_rect, const sf::Texture& enemy_texture, int enemy_type, int max_spawned, int time_to_spawn, float max_distance);
+	EnemySpawner(float x, float y, const sf::Texture& texture, const sf::IntRect& texture_rect, const sf::Texture& enemy_texture, int enemy_type, int max_spawned, int time_to_spawn, float max_distance, std::shared_ptr<EnemyLibrary> lib);
 	std::shared_ptr<Enemy> spawn();
 	void update(const float& dt);
 	void render(sf::RenderTarget& target, const sf::Vector2f player_position = sf::Vector2f(), sf::Shader* shader = NULL) override;
@@ -25,7 +26,8 @@ private:
 	sf::Vector2f position;
 
 	sf::Texture enemyTexture;
-		
+	
+	std::shared_ptr<EnemyLibrary> enemyLib;
 	
 };
 
