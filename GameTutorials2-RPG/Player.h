@@ -36,9 +36,6 @@ public:
 	void setAttack(bool attacking);
 private:
 	sf::Shader bullet_shader;
-	std::vector< std::shared_ptr<Item> > runes;
-	std::shared_ptr <Item> activeRune;
-	std::shared_ptr<Inventory> inventory;
 	//variables
 	bool attacking; //used internally
 	bool attack; //used externally

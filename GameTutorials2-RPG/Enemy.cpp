@@ -4,7 +4,7 @@
 #include "Item.h"
 #include "ComponentInclude.h"
 
-Enemy::Enemy(float x, float y, sf::Texture& texture, EnemySpawner& origin)
+Enemy::Enemy()
 {
 }
 

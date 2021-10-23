@@ -31,7 +31,7 @@ public:
 	//Functions
 	void clear();
 	void addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool collision, const short type);
-	void addEnemyTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, int enemy_type, int max_spawned, int time_to_spawn, float max_distance);
+	void addEnemyTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, int enemy_type, int max_spawned, int time_to_spawn, float max_distance, int level);
 	void removeTile(const int x, const int y, const int z, bool type_check = false);
 	void saveToFile(const std::string file_name);
 	void loadFromFile(const std::string file_name);

@@ -8,6 +8,7 @@ class PlayerGui;
 class PauseMenu;
 class TileMap;
 class EnemyLibrary;
+class TextTagSystem;
 
 class GameState : public State
 {
@@ -17,6 +18,7 @@ private:
 	void initView();
 	void initKeybinds();
 	void initTextures();
+	void initTextTags();
 	void initPauseMenu();
 	void initShaders();
 	void initTileMap();
@@ -56,7 +58,7 @@ private:
 	std::shared_ptr<EnemyLibrary> enemyLib;
 	std::shared_ptr<PlayerGui> playerGui;
 	std::unique_ptr<PauseMenu> pmenu;
-
+	std::shared_ptr<TextTagSystem> tts;
 	bool playerGuiMenuOpen;
 	//functions
 };

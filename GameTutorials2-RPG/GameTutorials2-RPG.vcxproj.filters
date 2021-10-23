@@ -174,14 +174,20 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Items\Components\Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Combat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="tinyxml2.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="enemyAi.cpp">
       <Filter>Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Combat.cpp">
+      <Filter>Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemComp.cpp">
+      <Filter>Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextTagSystem.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,9 +311,6 @@
     <ClInclude Include="Weapon.h">
       <Filter>Items\Components\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Combat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tinyxml2.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
@@ -319,6 +322,15 @@
     </ClInclude>
     <ClInclude Include="enemyAi.h">
       <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Combat.h">
+      <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemComp.h">
+      <Filter>Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextTagSystem.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

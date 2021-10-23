@@ -3,16 +3,17 @@
 	<Enemy name="Rat" typeNum="0">
 		<Component type="2" name="animation" numAnim ="5">
 			<animation key="DOWNIDLE" animation_timer="10.f" start_frame_x="0" start_frame_y="0" frames_x="3" frames_y="0" width="60" height="64"/>
-			<animation key="WALKRIGHT" animation_timer="10.f" start_frame_x="0" start_frame_y="1" frames_x="3" frames_y="1" width="60" height="64"/>
+			<animation key="WALKDOWN" animation_timer="10.f" start_frame_x="0" start_frame_y="1" frames_x="3" frames_y="1" width="60" height="64"/>
 			<animation key="WALKLEFT" animation_timer="10.f" start_frame_x="0" start_frame_y="2" frames_x="3" frames_y="2" width="60" height="64"/>
-			<animation key="WALKUP" animation_timer="10.f" start_frame_x="0" start_frame_y="3" frames_x="3" frames_y="3" width="60" height="64"/>
-			<animation key="WALKDOWN" animation_timer="10.f" start_frame_x="0" start_frame_y="4" frames_x="3" frames_y="4" width="60" height="64"/>
+			<animation key="WALKRIGHT" animation_timer="10.f" start_frame_x="0" start_frame_y="3" frames_x="3" frames_y="3" width="60" height="64"/>
+			<animation key="WALKUP" animation_timer="10.f" start_frame_x="0" start_frame_y="4" frames_x="3" frames_y="4" width="60" height="64"/>
 		</Component>
-		<Component type="1" name="movement" maxVelocity="350.0" acceleration="1300.0" deceleration="400"/>
+		<Component type="1" name="movement" maxVelocity="250.0" acceleration="800.0" deceleration="300"/>
 		<Component type="0" name="hitbox" offsetX="20.f" offsetY ="20.f" width="16.f" height="16.f"/>
 		<Component type="5" name="AI"/>
-		<Component type="3"  name="attribute" level ="1" />
-		<Component type="7" name="enemydata"/>
+		<Component type="3"  name="attribute" level ="1" range ="400"/>
+		<Component type="7" name="enemydata"  enemyName="Rat" enemyPowerLevel="1" exp_mult="1.f" vitalityMultiplier="1.f" strengthMultiplier="1.f" dexterityMultiplier="1.f" agilityMultiplier="1.f" intellgenceMultiplier="1.f"/>
+		<Component type="8"  name="combat"/>
 	</Enemy>
 
 

@@ -1,16 +1,14 @@
 #include "stdafx.h"
 #include "EnemyLibrary.h"
-#include "Enemy.h"
-#include "Attribute.h"
-#include "EnemyData.h"
 #include "ComponentInclude.h"
 #include "Presets.h"
+#include "TileMap.h"
+#include "TextTagSystem.h"
 
 //Take in a File
-EnemyLibrary::EnemyLibrary()
+EnemyLibrary::EnemyLibrary(std::shared_ptr<TextTagSystem> textts)
+	: tts(textts)
 {
-
-	
 	//Init Textures
 	if (textureDoc.LoadFile("test.xml") != tinyxml2::XML_SUCCESS)
 	{
@@ -48,7 +46,7 @@ std::shared_ptr<sf::Texture> EnemyLibrary::find(std::string name)
 	return textures.find(name)->second;
 }
 
-void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker)
+void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker, std::shared_ptr<TileMap> map)
 {
 
 
@@ -59,18 +57,39 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 			if (playerAttack)
 				if (i->get()->getDistance(*attacker) < attacker->getComponent<Attribute>()->range)
 				{
-					i->get()->getComponent<Attribute>()->loseHealth(10);
-					std::cout << i->get()->getComponent<EnemyData>()->getName() << " Hit! \n";
+					int dmg = attacker->getComponent<Combat>()->attack();
+					i->get()->getComponent<Combat>()->defend(dmg);
+					tts->addTextTag(NEGATIVE_TAG, i->get()->getPosition().x, i->get()->getPosition().y, dmg, "", "");
 				}
-			i->get()->update(dt);
 
+			//update
+			i->get()->update(dt);
+			
+			//Collison
+			map->updateWorldBounds(std::make_shared<Entity>(*i->get()));
+			map->updateTileCollision(std::make_shared<Entity>(*i->get()), dt);
+
+			//AI
+			if (i->get()->getDistance(*attacker) < i->get()->getComponent<Attribute>()->range)
+			{
+				i->get()->getComponent<enemyAi>()->reactions(attacker);
+				
+			}else
+			{
+				i->get()->getComponent<enemyAi>()->setIdle();
+			}
+
+			//IsDead
 			if (i->get()->getComponent<Attribute>()->isDead()) {
+				int exp = attacker->getComponent<Combat>()->expHandler(i->get()->getComponent<EnemyData>()->expWorth, i->get()->getComponent<Attribute>()->level);
+				this->tts->addTextTag(EXPERIENCE_TAG, attacker->getPosition().x - 40.f, attacker->getPosition().y - 30.f, exp, "+", " exp");
 				i = enemies.erase(i);	
 			}
 			else
 			{
 				++i;
 			}
+
 		}
 	}
 }
@@ -90,7 +109,7 @@ std::string EnemyLibrary::translateType(int type)
 	return types.find(type)->second;
 }
 
-bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, int x, int y)
+bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, EnemySpawner& spawner)
 {
 	//0
 	if (componentPresets.find(name)->second->hitBox.created)
@@ -107,7 +126,7 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, int x, int y
 	//2
 	if (componentPresets.find(name)->second->animation.created)
 	{
-		std::shared_ptr<AnimationC> animationComp = std::make_shared<AnimationC>(enemy.getSprite(), *textures.find(name)->second, x, y, &enemy);
+		std::shared_ptr<AnimationC> animationComp = std::make_shared<AnimationC>(enemy.getSprite(), *textures.find(name)->second, spawner.getPosition().x, spawner.getPosition().y, &enemy);
 		for (int i = 0; i < componentPresets.find(name)->second->animation.numAnimations; i++)
 		{
 			std::shared_ptr<AnimationPreset> aP = componentPresets.find(name)->second->animation.animations.at(i);
@@ -120,6 +139,16 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, int x, int y
 	if (componentPresets.find(name)->second->attribute.created)
 	{
 		std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(componentPresets.find(name)->second->attribute.level, &enemy);
+
+		attribute->range = componentPresets.find(name)->second->attribute.range;
+
+		for (int i = 0; i < spawner.enemyLevel - 1; i++)
+		{
+			attribute->levelUp();
+		}
+
+		attribute->randomAssignment();
+		attribute->updateStats(true);
 		enemy.addComponent(attribute);
 	}
 	//5
@@ -128,6 +157,19 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, int x, int y
 		std::shared_ptr<enemyAi> ai = std::make_shared<enemyAi>(&enemy);
 		enemy.addComponent(ai);
 	}
+	//7
+	if (componentPresets.find(name)->second->enemyData.created)
+	{
+		std::shared_ptr<enemyDataPreset> eP = std::make_shared<enemyDataPreset>(componentPresets.find(name)->second->enemyData);
+		std::shared_ptr<EnemyData> data = std::make_shared<EnemyData>(eP->enemyName, EnemyPowerLevel::NORMAL, eP->expMult, eP->vitalityMult, eP->strengthMult, eP->dexterityMult, eP->agilityMult, eP->intellegenceMult, nullptr, spawner, &enemy);
+		enemy.addComponent(data);
+	}
+	if (componentPresets.find(name)->second->combat.created)
+	{
+		std::shared_ptr<Combat> combat = std::make_shared<Combat>(&enemy);
+		enemy.addComponent(combat);
+	}
+
 	
 	return false;
 }
@@ -169,11 +211,11 @@ ComponentLibrary::ComponentLibrary()
 	componentTypes["movement"] = 1;
 	componentTypes["animation"] = 2;
 	componentTypes["attribute"] = 3;
-	componentTypes["input"] = 4;
+	componentTypes["userInput"] = 4;
 	componentTypes["AI"] = 5;
 	componentTypes["skill"] = 6;
 	componentTypes["enemyData"] = 7;
-	componentTypes["Combat"] = 8;
+	componentTypes["combat"] = 8;
 	componentTypes["item"] = 9;
 
 }
@@ -190,8 +232,13 @@ std::shared_ptr<allEnemyPresets> ComponentLibrary::add(tinyxml2::XMLElement* com
 			addAnimation(component, presets);
 		else if (component->IntAttribute("type") == componentTypes.find("attribute")->second)//3
 			addAttribute(component, presets);
-		else if (component->IntAttribute("type") == componentTypes.find("AI")->second)
+		else if (component->IntAttribute("type") == componentTypes.find("AI")->second) //5
 			addAI(component, presets);
+		else if (component->IntAttribute("type") == componentTypes.find("enemyData")->second) //7
+			addEnemyData(component, presets);
+		else if (component->IntAttribute("type") == componentTypes.find("combat")->second) //8
+			addCombat(component, presets);
+		
 		std::cout << component->IntAttribute("type") << "\n";
 		component = component->NextSiblingElement();
 	}
@@ -221,6 +268,7 @@ void ComponentLibrary::addAttribute(tinyxml2::XMLElement* component, std::shared
 {
 	presets->attribute.created = true;
 	component->QueryIntAttribute("level", &presets->attribute.level);
+	component->QueryIntAttribute("range", &presets->attribute.range);
 }
 
 void ComponentLibrary::addAnimation(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)
@@ -242,6 +290,24 @@ void ComponentLibrary::addAnimation(tinyxml2::XMLElement* component, std::shared
 		animation_->QueryIntAttribute("height", &presets->animation.animations.back()->height);
 		animation_ = animation_->NextSiblingElement("animation");
 	}
+}
+
+void ComponentLibrary::addCombat(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets)
+{
+	presets->combat.created = true;
+}
+
+void ComponentLibrary::addEnemyData(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)
+{
+	presets->enemyData.created = true;
+	presets->enemyData.enemyName = component->Attribute("enemyName");
+	component->QueryIntAttribute("enemyPowerLevel", &presets->enemyData.enemyPowerLevel);
+	component->QueryFloatAttribute("exp_mult", &presets->enemyData.expMult);
+	component->QueryFloatAttribute("vitalityMultiplier", &presets->enemyData.vitalityMult);
+	component->QueryFloatAttribute("strengthMultiplier", &presets->enemyData.strengthMult);
+	component->QueryFloatAttribute("dexterityMultiplier", &presets->enemyData.dexterityMult);
+	component->QueryFloatAttribute("agilityMultiplier", &presets->enemyData.agilityMult);
+	component->QueryFloatAttribute("intellgenceMultiplier", &presets->enemyData.intellegenceMult);
 }
 
 void ComponentLibrary::addAI(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)

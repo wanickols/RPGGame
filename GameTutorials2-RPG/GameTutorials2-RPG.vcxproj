@@ -167,10 +167,12 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Hitbox.cpp" />
+    <ClCompile Include="ItemComp.cpp" />
     <ClCompile Include="ItemComponent.cpp" />
     <ClCompile Include="ItemInfo.cpp" />
     <ClCompile Include="itemSprite.cpp" />
     <ClCompile Include="RuneComponent.cpp" />
+    <ClCompile Include="TextTagSystem.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="UserInput.cpp" />
     <ClCompile Include="Inventory.cpp" />
@@ -216,12 +218,14 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Hitbox.h" />
+    <ClInclude Include="ItemComp.h" />
     <ClInclude Include="ItemComponent.h" />
     <ClInclude Include="itemComponentInlcudes.h" />
     <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="itemSprite.h" />
     <ClInclude Include="Presets.h" />
     <ClInclude Include="RuneComponent.h" />
+    <ClInclude Include="TextTagSystem.h" />
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="UserInput.h" />
     <ClInclude Include="Inventory.h" />

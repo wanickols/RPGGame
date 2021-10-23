@@ -2,6 +2,9 @@
 #include "Attribute.h"
 #include "Entity.h"
 
+std::random_device Attribute::seed;
+std::default_random_engine Attribute::engine(seed());
+
 //Con //Des
 Attribute::Attribute(int level, Entity* owner) :
 	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true), energyUpdate(true),
@@ -13,7 +16,10 @@ Attribute::Attribute(int level, Entity* owner) :
 	dexterity = 1;
 	agility = 1;
 	intelligence = 1;
+	critChance = .01f;
+	critMult = 1.5f;
 	range = 30;
+	expMult = 1.f;
 	updateStats(true);
 }
 
@@ -27,6 +33,7 @@ int Attribute::calculateExpNext(int level) const
 //Main Functions
 void Attribute::levelUp()
 {
+	++level;
 	int attributeCap = 50;
 	if (level <= attributeCap)
 		attributePoints += 2 + (level / 5);
@@ -37,6 +44,7 @@ void Attribute::levelUp()
 	dexterity += 1;
 	agility += 1;
 	intelligence += 1;
+	std::cout << expnext << "\n";
 }
 
 void Attribute::updateStats(const bool reset)
@@ -73,12 +81,14 @@ void Attribute::updateStats(const bool reset)
 		}
 	}
 	hpMax     = 70 + (int)(level * levelBoostRate * 10) + (vitality * 10) + (strength * 5) + (intelligence * 5); //base 100
-	damageMax = ((5 + strength * 4 + dexterity) + strength/2); //base 10
-	damageMin = ((5 + strength * 4 + dexterity) + strength / 4); //base 10
-	accuracy  = dexterity * 4 + intelligence * 2; //base 10
-	defense   = agility * 2 + agility / 3; // base 2
-	energyMax    = 90 + intelligence * 10; //base 100 
+	damageMax = ((4 + strength * 4 + agility * 2) + strength/2); //base 10
+	damageMin = ((4 + strength * 4 + agility * 2) + strength / 4); //base 10
+	accuracy  = dexterity * 4 + agility * 2; //base 10
+	defense   = strength * 2 + agility / 3; // base 2
+	energyMax  = 90 + intelligence * 10; //base 100 
+	critChance = ((dexterity * 2 + agility * 2 - vitality * 2 + intelligence - strength)/2.f)/100.f; // base 1%
 	
+
 		if (reset)
 		{
 			hp = hpMax;
@@ -91,7 +101,7 @@ void Attribute::updateLevel()
 	while (exp >= expnext) {
 		exp -= expnext;
 		levelUp();
-		++level;
+		randomAssignment();
 		updateStats(true);
 		expnext = calculateExpNext(level);
 	}
@@ -100,6 +110,37 @@ void Attribute::updateLevel()
 
 void Attribute::update(const float& dt, const sf::Vector2f mousePosView)
 {
+}
+
+void Attribute::randomAssignment()
+{
+	std::uniform_int_distribution<int> attributeDivider(0, 4);
+	while (attributePoints > 0) 
+	{
+		switch(attributeDivider(engine))
+		{
+		case(0):
+			++vitality;
+			break;
+		case(1):
+			++strength;
+			break;
+		case(2):
+			++dexterity;
+			break;
+		case(3):
+			++agility;
+			break;
+		case(4):
+			++intelligence;
+			break;
+		default:
+			++vitality;
+			break;
+
+		}
+		--attributePoints;
+	}
 }
 
 bool Attribute::isDead()
@@ -170,6 +211,7 @@ std::string Attribute::debugPrint()
 	ss << "Level: " << level << "\n"
 		<< "Exp: " << exp << "\n"
 		<< "Exp Next: " << expnext << "\n"
+		<< "Exp Multiplier: " << expMult << "\n"
 		<< "Attriubutes Points: " << attributePoints << "\n"
 
 		<< "Attributes" << "\n"
@@ -184,6 +226,8 @@ std::string Attribute::debugPrint()
 		<< "Health: " << hp << "\n"
 		<< "Max damage: " << damageMax << "\n"
 		<< "Min damage: " << damageMin << "\n"
+		<< "Crit chance: " << critChance * 100 << "% \n"
+		<< "Crit multiplier: " << critMult << "\n"
 		<< "Defense: " << defense << "\n"
 		<< "Energy: " << energy << "\n";
 

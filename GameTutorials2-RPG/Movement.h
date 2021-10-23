@@ -3,7 +3,7 @@
 
 class Entity;
 	enum movement_states { DOWNIDLE = 0, UPIDLE, LEFTIDLE, RIGHTIDLE, ATTACK, MOVING_LEFT, MOVING_RIGHT, MOVING_UP, MOVING_DOWN };
-	enum class facing {DOWN, UP, LEFT, RIGHT};
+	enum class facing {IDLE, DOWN, UP, LEFT, RIGHT};
 	
 	class Movement : public Component
 {

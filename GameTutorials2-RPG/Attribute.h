@@ -12,6 +12,7 @@ public:
 	 int exp;
 	 int expnext;
 	 int attributePoints;
+	 float expMult;
 
 	//Attributes
 	 int vitality;
@@ -29,6 +30,8 @@ public:
   	 int damageMax;
 
      int accuracy;
+	 float critChance;
+	 float critMult;
  	 int defense;
 
 	 int speed;
@@ -55,7 +58,7 @@ public:
 	void updateStats(const bool reset);
 	void updateLevel();
 	void update(const float& dt, const sf::Vector2f mousePosView);
-
+	void randomAssignment();
 	bool isDead();
 
 	//Attribute Functions
@@ -65,6 +68,9 @@ public:
 	void addEnergy(const int energy);
 	void loseExp(const int exp);
 	void addExp(int xp);
+
+	static std::random_device seed;
+	static std::default_random_engine engine;
 
 	//Accessor
 	const int getAttributePoints() const;

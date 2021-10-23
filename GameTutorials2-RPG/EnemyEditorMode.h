@@ -27,5 +27,6 @@ private:
 	int amount;
 	int timeToSpawn;
 	float maxDistance;
+	int enemyLevel;
 };
 

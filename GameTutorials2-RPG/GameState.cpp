@@ -4,13 +4,15 @@
 #include "GraphicsSettings.h"
 #include "PauseMenu.h"
 #include "Player.h"
-#include "Enemy.h"
-#include "Rat.h"
 #include "EnemySpawner.h"
 #include "PlayerGui.h"
 #include "EnemyLibrary.h"
 #include "Movement.h"
 #include "Attribute.h"
+#include "ItemComp.h"
+#include "Weapon.h"
+#include "Item.h"
+#include "TextTagSystem.h"
 
 void GameState::initDefferredRender()
 {
@@ -67,6 +69,11 @@ void GameState::initTextures()
 	}
 }
 
+void GameState::initTextTags()
+{
+	tts = std::make_shared<TextTagSystem>("Fonts/PixellettersFull.ttf");
+}
+
 void GameState::initPauseMenu()
 {
 	sf::VideoMode& vm = GraphicsSettings->resolution;
@@ -90,7 +97,7 @@ void GameState::initShaders()
 
 void GameState::initEnemies()
 {
-	enemyLib = std::make_shared<EnemyLibrary>();
+	enemyLib = std::make_shared<EnemyLibrary>(tts);
 }
 void GameState::initTileMap()
 {
@@ -122,6 +129,7 @@ GameState::GameState(std::shared_ptr<StateData> state_data)
 	initView();
 	initKeybinds();
 	initTextures();
+	initTextTags();
 	initPauseMenu();
 	initShaders();
 	initEnemies();
@@ -195,6 +203,7 @@ void GameState::updatePlayerInput(const float& dt)
 		player->getComponent<Movement>()->move(1.f, 0.f, dt, true);
 
 	}
+	//Debugging
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && getKeyTime()) {
 		player->getComponent<Attribute>()->loseHealth(10);
 		player->getComponent<Attribute>()->loseEnergy(10);
@@ -204,8 +213,10 @@ void GameState::updatePlayerInput(const float& dt)
 		player->getComponent<Attribute>()->addHealth(20);
 		player->getComponent<Attribute>()->addEnergy(20);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G) && getKeyTime())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G) && getKeyTime()) {
 		player->getComponent<Attribute>()->addExp(50);
+		this->tts->addTextTag(EXPERIENCE_TAG, this->player->getPosition().x - 40.f, this->player->getPosition().y - 30.f, 50, "+", " exp");
+	}
 
 
 
@@ -244,7 +255,7 @@ void GameState::updateTileMap(const float& dt)
 void GameState::updateEnemies(const float& dt)
 {
 	
-	enemyLib->update(dt, player->getAttack(), player);
+	enemyLib->update(dt, player->getAttack(), player, map);
 }
 
 void GameState::updatePlayer(const float& dt)
@@ -260,7 +271,7 @@ void GameState::updatePlayer(const float& dt)
 
 void GameState::updateCombat(const float& dt)
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) //&& this->player->getWeapon()->getAttackTimer()
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && player->getComponent<ItemComp>()->activeRune->getItemComponent<Weapon>()->getAttackTimer()) //&& this->player->getWeapon()->getAttackTimer()
 		this->player->setAttack(true);
 	else 
 		this->player->setAttack(false);
@@ -281,6 +292,7 @@ void GameState::update(const float& dt)
 		updatePlayer(dt);
 		updateEnemies(dt);
 		updateCombat(dt);
+		tts->update(dt);
 		
 		//testEnemy->update(dt, mousePosView);
 	}
@@ -301,13 +313,13 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 
 	//Player and Map
 	renderTexture.setView(view);
+
 	map->render(renderTexture, player->getGridPosition((int)stateData->gridSize), player->getCenterPosition(), &main_shader, false, true);
 	player->render(renderTexture, &main_shader, player->getCenterPosition(), false);
-	
 	enemyLib->render(renderTexture, &main_shader, player->getPosition(), false);
-
 	map->renderDeferred(renderTexture, player->getPosition(), &main_shader);
-	
+
+	tts->render(renderTexture);
 	//Player Gui
 	renderTexture.setView(renderTexture.getDefaultView());
 	playerGui->render(renderTexture);

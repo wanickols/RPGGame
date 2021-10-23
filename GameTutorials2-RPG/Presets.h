@@ -24,11 +24,19 @@ struct attributePreset
 {
 	bool created = false;
 	int level;
+	int range;
 };
 struct enemyDataPreset 
 {
 	bool created = false;
-	std::string name;
+	std::string enemyName = "";
+	float expMult;
+	int enemyPowerLevel;
+	float vitalityMult;
+	float strengthMult;
+	float dexterityMult;
+	float agilityMult;
+	float intellegenceMult;
 	int xp;
 };
 
@@ -59,6 +67,11 @@ struct AIPreset
 	bool created = false;
 };
 
+struct combatPreset 
+{
+	bool created = false;
+};
+
 struct allEnemyPresets 
 {
 	hitBoxPreset hitBox;
@@ -66,5 +79,6 @@ struct allEnemyPresets
 	enemyDataPreset enemyData;
 	attributePreset attribute;
 	AnimationCPreset animation;
+	combatPreset combat;
 	AIPreset ai;
 };

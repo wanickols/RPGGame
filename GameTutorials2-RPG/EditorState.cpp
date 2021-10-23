@@ -6,13 +6,14 @@
 #include "PauseMenu.h"
 #include "EditorModes.h"
 #include "EnemyLibrary.h"
+#include "TextTagSystem.h"
 
 //Initializer functions
 void EditorState::initVariables()
 {
 	cameraSpeed = 500.f;
 	activeMode = 0;
-	enemyLib = std::make_shared<EnemyLibrary>();
+	enemyLib = std::make_shared<EnemyLibrary>(std::shared_ptr<TextTagSystem>());
 }
 
 void EditorState::initEditorStateData()

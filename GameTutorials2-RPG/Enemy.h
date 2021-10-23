@@ -13,7 +13,7 @@ private:
 	virtual void initAnimations(sf::Texture& texture_sheet, float x, float y) {};
 public:
 
-	Enemy(float x, float y, sf::Texture& texture, EnemySpawner& origin);
+	Enemy();
 	~Enemy();
 	virtual void updateAnimation(const float& dt) {};
 	virtual void update(const float& dt, const sf::Vector2f mousePosView = sf::Vector2f(0.f, 0.f));

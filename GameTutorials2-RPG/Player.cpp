@@ -3,14 +3,8 @@
 #include "Bullet.h"
 #include "TileMap.h"
 #include "FireRune.h"
-#include "Hitbox.h"
-#include "Movement.h"
-#include "AnimationC.h"
-#include "Attribute.h"
-#include "UserInput.h"
-#include "Skills.h"
-#include "Component.h"
 #include "Inventory.h"
+#include "ComponentInclude.h"
 #include "itemComponentInlcudes.h"
 
 
@@ -43,9 +37,16 @@ void Player::initComponents()
 	//Skill
 	addComponent(std::make_shared<Skills>(this)); //Skills
 	//attribute
-	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, this); //hitbox for player set here
+	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, this); //attribute for player set here
 	addComponent(attribute);
 
+	std::cout << attribute->debugPrint();
+
+	std::shared_ptr<Combat> combat = std::make_shared<Combat>(this); //combat for player set here
+	addComponent(combat);
+
+	std::shared_ptr<ItemComp> itemC = std::make_shared<ItemComp>(this); //itemComp for player set here
+	addComponent(itemC);
 }
 
 void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
@@ -81,29 +82,7 @@ void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 
 void Player::initRunes()
 {
-	//FireRune
-	std::shared_ptr<Item> fr = std::make_shared<Item>();
-	std::shared_ptr<ItemInfo> info = std::make_shared<ItemInfo>(0, "Fire Rune",
-		"A fiery red stone hot to the touch and incredibely dense. \n Its origin is unknown, but it enables the user to shoot fire when placed in his hand.",//description
-		ItemRarity::Unique, ItemClasses::RUNE, *fr); //Info
-	fr->addItemComponent(info);
-
-	std::shared_ptr<Weapon> weapon = std::make_shared<Weapon>(25, 20, 25, 2, *fr, "Resources/Images/Sprites/Items/Firerune.png");
-	fr->addItemComponent(weapon);
-
-	std::shared_ptr<RuneComponent> runeComp = std::make_shared<RuneComponent>("Resources/Images/Sprites/Bullets/FIRE_BULLET.png", *fr);
-	fr->addItemComponent(runeComp);
-	runes.push_back(fr);
-
-	activeRune = runes.at(0);
-
-	getComponent<Attribute>()->range = activeRune->getItemComponent<Weapon>()->getRange();
-
-	inventory = std::make_shared<Inventory>(32);
-	std::cout << "Inv: Before" << inventory->maxSize() << inventory->size() << std::endl;
-	inventory->add(fr.get());
-	inventory->remove(0);
-	std::cout << "Inv: After" << inventory->maxSize() << inventory->size() << std::endl;
+	getComponent<ItemComp>()->addItem();
 }
 
 //Constructors
@@ -113,8 +92,8 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 	initAnimations(texture_sheet, x, y);
 	initComponents();
 	initRunes();
-	
 
+	
 }
 
 Player::~Player()
@@ -124,24 +103,24 @@ Player::~Player()
 
 const std::shared_ptr<Item> Player::getActiveRune()
 {
-	return activeRune;
+	return getComponent<ItemComp>()->activeRune;
 }
 
 void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
 {
-	activeRune->getItemComponent<RuneComponent>()->updateBulletCollision(dt, map);
+	getComponent<ItemComp>()->activeRune->getItemComponent<RuneComponent>()->updateBulletCollision(dt, map);
 }
 
 //Functions
 void Player::update(const float& dt, const sf::Vector2f mousePosView)
 {
-	activeRune->update(dt, mousePosView, getCenterPosition());
+	getComponent<ItemComp>()->activeRune->update(dt, mousePosView, getCenterPosition());
 	//components
 	Entity::update(dt, mousePosView);
 	
 	//Rune
 	//Checks if there are bullets on the screen to know if keep arms up or put them down
-	if (activeRune->getItemComponent<RuneComponent>()->isBulletEmpty()) {
+	if (getComponent<ItemComp>()->activeRune->getItemComponent<RuneComponent>()->isBulletEmpty()) {
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKDOWN", false);
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKUP", false);
 		getComponent<AnimationC>()->setIsDone("IDLEATTACKLEFT", false);
@@ -149,7 +128,7 @@ void Player::update(const float& dt, const sf::Vector2f mousePosView)
 	}
 	
 	//Debug
-	std::cout << getComponent<Skills>()->getSkillLvl("Endurance") << "\n";
+	//std::cout << getComponent<Skills>()->getSkillLvl("Endurance") << "\n";
 
 	
 	//addExp(20);
@@ -165,10 +144,10 @@ void Player::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f l
 	
 	//Rune
 	if (shader) {
-		activeRune->render(target, &bullet_shader, light_position, false);
+		getComponent<ItemComp>()->activeRune->render(target, &bullet_shader, light_position, false);
 	}
 	else {
-		activeRune->render(target);
+		getComponent<ItemComp>()->activeRune->render(target);
 	}
 
 

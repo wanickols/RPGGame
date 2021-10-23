@@ -3,6 +3,8 @@
 #include "Enemy.h"
 
 class allEnemyPresets;
+class TileMap;
+class TextTagSystem;
 
 class ComponentLibrary 
 {
@@ -16,6 +18,8 @@ public:
 	void addMovement(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
 	void addAttribute(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
 	void addAnimation(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
+	void addCombat(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
+	void addEnemyData(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
 	void addAI(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
 };
 
@@ -23,13 +27,13 @@ class EnemyLibrary
 {
 public:
 	void initComponents();
-	EnemyLibrary();
+	EnemyLibrary(std::shared_ptr<TextTagSystem> textts);
 	std::shared_ptr<sf::Texture> find(std::string name);
 
-	void update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker);
+	void update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker, std::shared_ptr<TileMap> map);
 	void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(), const bool show_hitbox = false);
 	std::string translateType(int type);
-	bool createComponents(Enemy& enemy, std::string name, int x, int y);
+	bool createComponents(Enemy& enemy, std::string name, EnemySpawner& spawner);
 
 	std::vector<std::shared_ptr<Enemy>>& getEnemies();
 private:
@@ -40,6 +44,6 @@ private:
 	tinyxml2::XMLDocument textureDoc;
 	tinyxml2::XMLDocument componentDoc;
 	ComponentLibrary componentLibrary;
-
+	std::shared_ptr<TextTagSystem> tts;
 };
 

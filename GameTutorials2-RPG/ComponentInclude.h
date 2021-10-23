@@ -8,3 +8,4 @@
 #include "Attribute.h"
 #include "Skills.h"
 #include "enemyAi.h"
+#include "ItemComp.h"

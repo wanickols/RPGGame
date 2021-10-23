@@ -24,7 +24,7 @@ public:
 	template<class T>
 	T* getComponent()
 	{
-		for (auto comp : components)
+		for (auto& comp : components)
 		{
 			T* target = nullptr;
 			if (target = dynamic_cast<T*>(comp.get()))

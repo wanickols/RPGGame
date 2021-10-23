@@ -3,7 +3,7 @@
 #include "Entity.h"
 
 Movement::Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner)
-	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), lastState(0), direction(facing::DOWN),
+	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), lastState(0), direction(facing::IDLE),
 	Component("movement", owner)
 {
 }
