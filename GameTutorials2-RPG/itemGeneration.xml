@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Map name ="Main">
+	<!--===========================RUNES!!========================== -->
+	<Item name="FireRune" typeNum="0">
+		<Component type="0"  name="info" value="0" rarity="0" level="1" item_class ="1"
+				   description="A fiery red stone hot to the touch and incredibely dense. \n Its origin is unknown, but it enables the user to shoot fire when placed in his hand." /> <!--\n makes new line. Description-->
+		<Component type ="1" name="sprite" width="32" height="32" textureFile="Resources/Images/Sprites/Items/Firerune.png"/>
+		<Component type ="2" name="weapon" damage="25" level="1" levelMax="100" range="40" defense="2" textureFile="Resources/Images/Sprites/Items/Firerune.png"/>
+		<Component type ="3" name="rune" bulletTexture="Resources/Images/Sprites/Bullets/FIRE_BULLET.png"/>
+	</Item>
+</Map>

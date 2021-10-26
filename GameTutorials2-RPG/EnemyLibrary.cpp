@@ -4,6 +4,8 @@
 #include "Presets.h"
 #include "TileMap.h"
 #include "TextTagSystem.h"
+#include "StateData.h"
+#include "GraphicsSettings.h"
 
 //Take in a File
 EnemyLibrary::EnemyLibrary(std::shared_ptr<TextTagSystem> textts)
@@ -31,19 +33,17 @@ EnemyLibrary::EnemyLibrary(std::shared_ptr<TextTagSystem> textts)
 		enemy_1 = enemy_1->NextSiblingElement();
 	}
 
-	
-	
-
-	//textures["Bird"] = std::make_shared<sf::Texture>();
-	//if (!textures.at("Bird")->loadFromFile("Resources/Images/Sprites/Enemies/bird1.png"))
-		//std::cout << "ERROR::EnemyLibrary::FAILED TO LOAD BIRD " << '\n';
-
 	initComponents();
 }
 
 std::shared_ptr<sf::Texture> EnemyLibrary::find(std::string name)
 {
 	return textures.find(name)->second;
+}
+
+void EnemyLibrary::initStateData(StateData& state_data)
+{
+	stateData = std::make_shared<StateData>(state_data);
 }
 
 void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker, std::shared_ptr<TileMap> map)
@@ -111,17 +111,20 @@ std::string EnemyLibrary::translateType(int type)
 
 bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, EnemySpawner& spawner)
 {
+	bool anyCreated = false;
 	//0
 	if (componentPresets.find(name)->second->hitBox.created)
 	{
 		std::shared_ptr<Hitbox> hitBox = std::make_shared<Hitbox>(enemy.getSprite(), componentPresets.find(name)->second->hitBox.offSetX, componentPresets.find(name)->second->hitBox.offSetY, componentPresets.find(name)->second->hitBox.width, componentPresets.find(name)->second->hitBox.height, &enemy);
 		enemy.addComponent(hitBox);
+		anyCreated = true;
 	}
 	//1
 	if (componentPresets.find(name)->second->movement.created)
 	{
 		std::shared_ptr<Movement> movement = std::make_shared<Movement>(enemy.getSprite(), componentPresets.find(name)->second->movement.maxVelocity, componentPresets.find(name)->second->movement.acceleration, componentPresets.find(name)->second->movement.deceleration, &enemy);
 		enemy.addComponent(movement);
+		anyCreated = true;
 	}
 	//2
 	if (componentPresets.find(name)->second->animation.created)
@@ -133,6 +136,7 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, EnemySpawner
 			animationComp->addAnimation(aP->key, aP->animation_timer, aP->start_frame_x, aP->start_frame_y, aP->frames_x, aP->frames_y, aP->width, aP->height);
 		}
 		enemy.addComponent(animationComp);
+		anyCreated = true;
 		
 	}
 	//3
@@ -150,12 +154,14 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, EnemySpawner
 		attribute->randomAssignment();
 		attribute->updateStats(true);
 		enemy.addComponent(attribute);
+		anyCreated = true;
 	}
 	//5
 	if (componentPresets.find(name)->second->ai.created)
 	{
 		std::shared_ptr<enemyAi> ai = std::make_shared<enemyAi>(&enemy);
 		enemy.addComponent(ai);
+		anyCreated = true;
 	}
 	//7
 	if (componentPresets.find(name)->second->enemyData.created)
@@ -163,15 +169,19 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, EnemySpawner
 		std::shared_ptr<enemyDataPreset> eP = std::make_shared<enemyDataPreset>(componentPresets.find(name)->second->enemyData);
 		std::shared_ptr<EnemyData> data = std::make_shared<EnemyData>(eP->enemyName, EnemyPowerLevel::NORMAL, eP->expMult, eP->vitalityMult, eP->strengthMult, eP->dexterityMult, eP->agilityMult, eP->intellegenceMult, nullptr, spawner, &enemy);
 		enemy.addComponent(data);
+		anyCreated = true;
 	}
+	sf::VideoMode& vm = stateData->GraphicsSettings->resolution;
+	std::shared_ptr<enemyGui> enmyGui = std::make_shared<enemyGui>(&enemy, *stateData->font, vm);
+	enemy.addComponent(enmyGui);
 	if (componentPresets.find(name)->second->combat.created)
 	{
 		std::shared_ptr<Combat> combat = std::make_shared<Combat>(&enemy);
 		enemy.addComponent(combat);
 	}
-
 	
-	return false;
+
+	return anyCreated;
 }
 
 void EnemyLibrary::initComponents()
@@ -238,8 +248,6 @@ std::shared_ptr<allEnemyPresets> ComponentLibrary::add(tinyxml2::XMLElement* com
 			addEnemyData(component, presets);
 		else if (component->IntAttribute("type") == componentTypes.find("combat")->second) //8
 			addCombat(component, presets);
-		
-		std::cout << component->IntAttribute("type") << "\n";
 		component = component->NextSiblingElement();
 	}
 

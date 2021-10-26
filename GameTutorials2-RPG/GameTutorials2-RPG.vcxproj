@@ -158,6 +158,7 @@
     <ClCompile Include="enemyAi.cpp" />
     <ClCompile Include="EnemyData.cpp" />
     <ClCompile Include="EnemyEditorMode.cpp" />
+    <ClCompile Include="enemyGui.cpp" />
     <ClCompile Include="EnemyLibrary.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="GraphicsSettings.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="ItemComp.cpp" />
     <ClCompile Include="ItemComponent.cpp" />
     <ClCompile Include="ItemInfo.cpp" />
+    <ClCompile Include="ItemLibrary.cpp" />
     <ClCompile Include="itemSprite.cpp" />
     <ClCompile Include="RuneComponent.cpp" />
     <ClCompile Include="TextTagSystem.cpp" />
@@ -209,6 +211,7 @@
     <ClInclude Include="enemyAi.h" />
     <ClInclude Include="EnemyData.h" />
     <ClInclude Include="EnemyEditorMode.h" />
+    <ClInclude Include="enemyGui.h" />
     <ClInclude Include="EnemyLibrary.h" />
     <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="GraphicsSettings.h" />
@@ -222,6 +225,8 @@
     <ClInclude Include="ItemComponent.h" />
     <ClInclude Include="itemComponentInlcudes.h" />
     <ClInclude Include="ItemInfo.h" />
+    <ClInclude Include="ItemLibrary.h" />
+    <ClInclude Include="ItemPresets.h" />
     <ClInclude Include="itemSprite.h" />
     <ClInclude Include="Presets.h" />
     <ClInclude Include="RuneComponent.h" />
@@ -251,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="enemyComponent.xml" />
+    <Xml Include="itemGeneration.xml" />
     <Xml Include="test.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

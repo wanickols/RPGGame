@@ -9,3 +9,4 @@
 #include "Skills.h"
 #include "enemyAi.h"
 #include "ItemComp.h"
+#include "enemyGui.h"

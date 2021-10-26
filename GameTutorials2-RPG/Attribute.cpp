@@ -44,7 +44,6 @@ void Attribute::levelUp()
 	dexterity += 1;
 	agility += 1;
 	intelligence += 1;
-	std::cout << expnext << "\n";
 }
 
 void Attribute::updateStats(const bool reset)

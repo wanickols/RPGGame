@@ -69,14 +69,6 @@ private:
 			this->fadeValue = tag->fadeValue;
 			this->reverse = tag->reverse;
 			this->velocity = tag->velocity;
-			std::cout << "textTag created: " 
-				<< text.getPosition().x << " " 
-				<< fadeValue << " " 
-				<< speed << " " 
-					
-				<< text.getPosition().x << " " 
-
-				<< text.getPosition().y << "\n";
 		}
 
 		~TextTag()

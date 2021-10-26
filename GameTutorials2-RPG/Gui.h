@@ -8,7 +8,7 @@ namespace sf {
 	class Color;
 	class RectangleShape;
 }
-class Player;
+class Entity;
 
 enum button_states { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE };
 
@@ -141,8 +141,8 @@ namespace gui {
 		progressBar
 		(
 			float frontWidth, float backWidth, float height, float xPos, float yPos,
-			sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Player>& player,
-			sf::Font& font, sf::VideoMode& vm, int offset = 0, int fontSize = 12
+			sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Entity>& player,
+			sf::Font& font, sf::VideoMode& vm, int offset = 0, int fontSize = 12, bool outline = true
 		);
 
 		sf::RectangleShape ProgBarBack; //background
@@ -150,12 +150,15 @@ namespace gui {
 
 		void update(const float& dt, float& percentWidth);
 		void update(const float& dt, float& percentWidth, std::string textString);
+		void setPosition(sf::Vector2f& pos);
+		void setPosition(float posX, float posY);
+		void setPosition(const sf::Vector2f& pos);
 		void render(sf::RenderTarget& target);
 
 	private:
 		std::string textString;
 		sf::Text text;
-		std::shared_ptr<Player> player;
+		std::shared_ptr<Entity> player;
 		float height;
 		float fullWidth;
 		float percentWidth;

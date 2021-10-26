@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Player.h"
+#include "Entity.h"
 /*
 *
 *
@@ -467,20 +467,21 @@ const bool& gui::TextureSelector::getActive() const
 }
 
 //Progress Bar
-gui::progressBar::progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Player>& player, sf::Font& font, sf::VideoMode& vm, int offset, int fontSize)
+gui::progressBar::progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Entity>& player, sf::Font& font, sf::VideoMode& vm, int offset, int fontSize, bool outline)
 	: fullWidth(frontWidth), percentWidth(100), height(height), player(player)
 {
 	text.setFont(font);
 	text.setCharacterSize(fontSize);
 	text.setFillColor(sf::Color(250, 250, 250, 230));
 	text.setPosition(xPos + (float)fontSize / 2 + (float)offset * 2, yPos + (height / 2) - ((float)fontSize / 2));
-	text.setString("HP:" + 100);
+	//text.setString("HP:" + 100);
 
 	ProgBarBack.setSize(sf::Vector2f(backWidth, height));
 	ProgBarBack.setFillColor(backgroundColor);
 	ProgBarBack.setPosition(xPos, yPos);
 	ProgBarBack.setOutlineColor(sf::Color(255, 255, 255, 250));
-	ProgBarBack.setOutlineThickness(gui::p2pS(0.1f, vm));
+	if(outline)
+		ProgBarBack.setOutlineThickness(gui::p2pS(0.1f, vm));
 
 	ProgBarIn.setSize(sf::Vector2f(frontWidth, height));
 	ProgBarIn.setFillColor(fillColor);
@@ -500,9 +501,28 @@ void gui::progressBar::update(const float& dt, float& percentWidth, std::string 
 	text.setString(textString);
 }
 
+void gui::progressBar::setPosition(sf::Vector2f& pos)
+{
+	ProgBarIn.setPosition(pos.x, pos.y);
+	ProgBarBack.setPosition(pos.x, pos.y);	
+}
+
 void gui::progressBar::render(sf::RenderTarget& target)
 {
 	target.draw(ProgBarBack);
 	target.draw(ProgBarIn);
 	target.draw(text);
 }
+
+void gui::progressBar::setPosition(float posX, float posY)
+{
+	ProgBarIn.setPosition(posX, posY);
+	ProgBarBack.setPosition(posX, posY);
+}
+
+void gui::progressBar::setPosition(const sf::Vector2f& pos)
+{
+	ProgBarIn.setPosition(pos.x, pos.y);
+	ProgBarBack.setPosition(pos.x, pos.y);
+}
+

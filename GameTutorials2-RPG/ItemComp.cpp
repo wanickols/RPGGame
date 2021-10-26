@@ -5,6 +5,7 @@
 #include "ComponentInclude.h"
 #include "itemComponentInlcudes.h"
 #include "Inventory.h"
+#include "ItemLibrary.h"
 
 void ItemComp::initInventory()
 {
@@ -17,34 +18,47 @@ ItemComp::ItemComp(Entity* owner)
 	initInventory();
 }
 
-bool ItemComp::addItem()
+void ItemComp::initLibrary(std::shared_ptr<ItemLibrary> item_lib)
+{
+	itemLib = item_lib;
+}
+
+bool ItemComp::addItem(std::string itemName, bool setActive)
 {
 
 	//MAKE LOAD FROM FILE
-	std::shared_ptr<Item> fr = std::make_shared<Item>();
-	std::shared_ptr<ItemInfo> info = std::make_shared<ItemInfo>(0, "Fire Rune",
-		"A fiery red stone hot to the touch and incredibely dense. \n Its origin is unknown, but it enables the user to shoot fire when placed in his hand.",//description
-		ItemRarity::Unique, ItemClasses::RUNE, *fr); //Info
-	fr->addItemComponent(info);
+	std::shared_ptr<Item> item = std::make_shared<Item>();
+	if (itemLib->createComponents(*item, itemName))
+	{
+		
 
-	std::shared_ptr<Weapon> weapon = std::make_shared<Weapon>(25, 25, 2, *fr, "Resources/Images/Sprites/Items/Firerune.png");
-	fr->addItemComponent(weapon);
+		std::cout << "Inv: Before" << inventory->maxSize() << inventory->size() << std::endl;
+		if (!inventory->add(item.get()))
+		{
+			std::cout << "inventory Full \n";
+			return false;
+		}
+		std::cout << "Inv: After add" << inventory->maxSize() << inventory->size() << std::endl;
+		
+		weapons.push_back(item);//weaponComponent thing
 
-	weapons.push_back(fr);//itemComponent addComponent
-	activeRune = weapons.back();
+		if (setActive) {
+			activeRune = weapons.back();//sets active Rune to new rune
+			owner->getComponent<Attribute>()->range = activeRune->getItemComponent<Weapon>()->getRange(); //adjust range by new range
+		}
+		return true;
+	}
+	std::cout << "ERROR::ITEMCOMP::ADDITEM : COULD NOT ADD ITEM COMPONENTS FOR " << itemName;
+	return false;
 
-	std::shared_ptr<RuneComponent> runeComp = std::make_shared<RuneComponent>("Resources/Images/Sprites/Bullets/FIRE_BULLET.png", *fr);
-	fr->addItemComponent(runeComp);
-	
-	
+}
 
-	owner->getComponent<Attribute>()->range = activeRune->getItemComponent<Weapon>()->getRange();
+bool ItemComp::dropItem(int index)
+{
+	//if(undroppable) make false
 
-	std::cout << "Inv: Before" << inventory->maxSize() << inventory->size() << std::endl;
-	inventory->add(weapons.back().get());
-	std::cout << "Inv: After add" << inventory->maxSize() << inventory->size() << std::endl;
-	inventory->remove(0);
+	if (!inventory->remove(index))
+		return false;
 	std::cout << "Inv: After remove" << inventory->maxSize() << inventory->size() << std::endl;
-
 	return true;
 }

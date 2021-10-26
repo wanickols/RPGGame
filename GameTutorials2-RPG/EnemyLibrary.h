@@ -5,6 +5,7 @@
 class allEnemyPresets;
 class TileMap;
 class TextTagSystem;
+class StateData;
 
 class ComponentLibrary 
 {
@@ -30,6 +31,8 @@ public:
 	EnemyLibrary(std::shared_ptr<TextTagSystem> textts);
 	std::shared_ptr<sf::Texture> find(std::string name);
 
+	void initStateData(StateData& state_data);
+
 	void update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker, std::shared_ptr<TileMap> map);
 	void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(), const bool show_hitbox = false);
 	std::string translateType(int type);
@@ -43,6 +46,7 @@ private:
 	std::map<std::string, std::shared_ptr<allEnemyPresets>> componentPresets;
 	tinyxml2::XMLDocument textureDoc;
 	tinyxml2::XMLDocument componentDoc;
+	std::shared_ptr<StateData> stateData;
 	ComponentLibrary componentLibrary;
 	std::shared_ptr<TextTagSystem> tts;
 };

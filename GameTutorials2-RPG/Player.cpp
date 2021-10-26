@@ -6,6 +6,7 @@
 #include "Inventory.h"
 #include "ComponentInclude.h"
 #include "itemComponentInlcudes.h"
+#include "ItemLibrary.h"
 
 
 
@@ -82,7 +83,13 @@ void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 
 void Player::initRunes()
 {
-	getComponent<ItemComp>()->addItem();
+	
+}
+
+void Player::initItems(std::shared_ptr<ItemLibrary> item_lib)
+{
+ getComponent<ItemComp>()->initLibrary(item_lib);
+ getComponent<ItemComp>()->addItem("FireRune", true);
 }
 
 //Constructors
@@ -91,8 +98,6 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 	initVariables();
 	initAnimations(texture_sheet, x, y);
 	initComponents();
-	initRunes();
-
 	
 }
 

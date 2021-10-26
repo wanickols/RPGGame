@@ -25,6 +25,7 @@ public:
 	std::shared_ptr<sf::RenderWindow> window;
 	std::shared_ptr<std::map<std::string, int>> supportedKeys;
 	std::stack<std::shared_ptr<State>>* states = NULL;
+	std::shared_ptr<sf::Font> font;
 	//variables
 };
 

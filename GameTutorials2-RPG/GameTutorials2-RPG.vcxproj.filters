@@ -55,6 +55,18 @@
     <Filter Include="Items\Components\Classes">
       <UniqueIdentifier>{9857eae6-7637-4b1e-9b3e-1704d30c9019}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Components\General">
+      <UniqueIdentifier>{e5dca903-52a2-4f93-b1b6-6da40ad95ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Components\Entities">
+      <UniqueIdentifier>{018dabde-e95b-4f3c-aac1-ba696aa906d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Components\Entities\Player">
+      <UniqueIdentifier>{1c1c3d55-2f13-435b-8b52-ffca5fbdb2ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Components\Entities\Enemy">
+      <UniqueIdentifier>{4d40f61e-2158-4a04-9007-86d8fada047a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,12 +87,6 @@
     <ClCompile Include="MainMenuState.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="Movement.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationC.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
     <ClCompile Include="EditorState.cpp">
       <Filter>States</Filter>
     </ClCompile>
@@ -99,14 +105,8 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Hitbox.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicsSettings.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Attribute.cpp">
-      <Filter>Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="PlayerGui.cpp">
       <Filter>GUI</Filter>
@@ -135,9 +135,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Skills.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyEditorMode.cpp">
       <Filter>States\EditorModes</Filter>
     </ClCompile>
@@ -149,15 +146,6 @@
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInput.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyData.cpp">
-      <Filter>Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="ItemComponent.cpp">
       <Filter>Items\Components\General</Filter>
@@ -177,17 +165,47 @@
     <ClCompile Include="tinyxml2.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="enemyAi.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Combat.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemComp.cpp">
-      <Filter>Entities\Components</Filter>
-    </ClCompile>
     <ClCompile Include="TextTagSystem.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationC.cpp">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Attribute.cpp">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Entities\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Combat.cpp">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyAi.cpp">
+      <Filter>Entities\Components\Entities\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyData.cpp">
+      <Filter>Entities\Components\Entities\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Hitbox.cpp">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemComp.cpp">
+      <Filter>Entities\Components\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Movement.cpp">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Skills.cpp">
+      <Filter>Entities\Components\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInput.cpp">
+      <Filter>Entities\Components\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyGui.cpp">
+      <Filter>Entities\Components\Entities\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemLibrary.cpp">
+      <Filter>Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,17 +224,8 @@
     <ClInclude Include="Player.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Movement.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationC.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
     <ClInclude Include="EditorState.h">
       <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="Hitbox.h">
-      <Filter>Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="SettingsState.h">
       <Filter>States</Filter>
@@ -236,9 +245,6 @@
     <ClInclude Include="GraphicsSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Attribute.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerGui.h">
       <Filter>GUI</Filter>
     </ClInclude>
@@ -247,9 +253,6 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Skills.h">
-      <Filter>Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="EnemySpawner.h">
       <Filter>Map\Tiles</Filter>
@@ -281,17 +284,8 @@
     <ClInclude Include="Inventory.h">
       <Filter>Items</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UserInput.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyData.h">
-      <Filter>Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="itemSprite.h">
       <Filter>Items\Components\General</Filter>
@@ -314,23 +308,56 @@
     <ClInclude Include="tinyxml2.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentInclude.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Presets.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyAi.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Combat.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemComp.h">
-      <Filter>Entities\Components</Filter>
-    </ClInclude>
     <ClInclude Include="TextTagSystem.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationC.h">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Attribute.h">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Combat.h">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentInclude.h">
+      <Filter>Entities\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Entities\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAi.h">
+      <Filter>Entities\Components\Entities\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyData.h">
+      <Filter>Entities\Components\Entities\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Hitbox.h">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemComp.h">
+      <Filter>Entities\Components\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Movement.h">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Presets.h">
+      <Filter>Entities\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Skills.h">
+      <Filter>Entities\Components\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInput.h">
+      <Filter>Entities\Components\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyGui.h">
+      <Filter>Entities\Components\Entities\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemLibrary.h">
+      <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemPresets.h">
+      <Filter>Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +376,9 @@
       <Filter>Resource Files</Filter>
     </Xml>
     <Xml Include="enemyComponent.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+    <Xml Include="itemGeneration.xml">
       <Filter>Resource Files</Filter>
     </Xml>
   </ItemGroup>

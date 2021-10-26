@@ -7,6 +7,7 @@
 #include "EnemySpawner.h"
 #include "PlayerGui.h"
 #include "EnemyLibrary.h"
+#include "ItemLibrary.h"
 #include "Movement.h"
 #include "Attribute.h"
 #include "ItemComp.h"
@@ -98,6 +99,7 @@ void GameState::initShaders()
 void GameState::initEnemies()
 {
 	enemyLib = std::make_shared<EnemyLibrary>(tts);
+	enemyLib->initStateData(*stateData);
 }
 void GameState::initTileMap()
 {
@@ -108,7 +110,9 @@ void GameState::initTileMap()
 
 void GameState::initPlayers()
 {
+	itemLib = std::make_shared<ItemLibrary>();
 	player = std::make_shared<Player>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
+	player->initItems(itemLib);
 	//testEnemy = std::make_shared<Enemy>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 }
 

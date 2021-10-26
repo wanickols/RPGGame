@@ -13,7 +13,7 @@ private:
 	void initBars();
 
 public:
-	PlayerGui(std::shared_ptr<Player> player, sf::Font& font, sf::VideoMode& vm);
+	PlayerGui(std::shared_ptr<Entity> player, sf::Font& font, sf::VideoMode& vm);
 
 	//Functions
 	void addButton(const std::string& key, const float& x, const float& y, const float& width, const float& height, const std::string& text, const short& textSize = 12);
@@ -22,7 +22,7 @@ public:
 	(
 		std::string key,
 		float frontWidth, float backWidth, float height, float xPos, float yPos,
-		sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Player>& player,
+		sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Entity>& player,
 		sf::Font& font, sf::VideoMode& vm, int offset = 0, int fontSize = 12
 	);
 	void updateBars(const float& dt);
@@ -30,7 +30,7 @@ public:
 	void render(sf::RenderTarget& target);
 	
 private:
-	std::shared_ptr<Player> player;
+	std::shared_ptr<Entity> player;
 
 
 	//variables

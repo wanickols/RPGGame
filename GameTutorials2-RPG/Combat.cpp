@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Attribute.h"
 #include "EnemyData.h"
+#include "enemyGui.h"
 
 std::random_device Combat::seed;
 std::default_random_engine Combat::engine(seed());
@@ -51,7 +52,10 @@ void Combat::defend(int damage)
 		damage = 2;
 	}
 	
-	//if (owner->getComponent<EnemyData>() != nullptr)
+	if (owner->getComponent<enemyGui>() != nullptr)
+	{
+		owner->getComponent<enemyGui>()->setHidden(false);
+	}
 	//std::cout << owner->getComponent<EnemyData>()->getEnemyName() << " defended!" << "\n";
 	//else 
 		//std::cout << "Player defended!" << "\n";

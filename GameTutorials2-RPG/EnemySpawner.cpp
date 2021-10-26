@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "EnemySpawner.h"
 #include "Enemy.h"
-#include "Rat.h"
 #include "EnemyLibrary.h"
-#include "EnemyData.h"
-#include "Combat.h"
-#include "Attribute.h"
+#include "enemyGui.h"
 
 EnemySpawner::EnemySpawner(float x, float y, const sf::Texture& texture, const sf::IntRect& texture_rect, const sf::Texture& enemy_texture, int enemy_type, int max_spawned, int time_to_spawn, float max_distance, int enemy_level, std::shared_ptr<EnemyLibrary> lib)
 	: Tile(x, y, texture, texture_rect, false, ENEMYSPAWNER), enemyTexture(enemy_texture), enemyType(enemy_type), maxSpawned(max_spawned), timeToSpawn(time_to_spawn), maxDistance(max_distance)
@@ -22,12 +19,11 @@ std::shared_ptr<Enemy> EnemySpawner::spawn()
 	++totalSpawned;
 	std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>();
 
-
-
 	//enemyLib->translateType(enemyType);
 
 	enemyLib->createComponents(*enemy, "Rat", *this);
 
+	
 
 
 	return enemy;

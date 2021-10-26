@@ -22,6 +22,7 @@ State::State(std::shared_ptr<StateData> state_data)
 	stateData = state_data;
 	window = state_data->window;
 	states = state_data->states;
+	state_data->font = std::make_shared<sf::Font>(font);
 	GraphicsSettings = state_data->GraphicsSettings;
 	supportedKeys = state_data->supportedKeys;
 	quit = false;

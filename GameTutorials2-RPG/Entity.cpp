@@ -24,6 +24,8 @@ void Entity::initVariables()
 	componentList["enemyData"] = false;
 	componentList["Combat"] = false;
 	componentList["item"] = false;
+	componentList["enemyGui"] = false;
+
 }
 
 Entity::Entity()
@@ -55,7 +57,7 @@ const sf::Vector2f& Entity::getPosition()
 const float Entity::getDistance(Entity& entity)
 {
 	
-	return sqrtf(pow((this->getCenterPosition().x - entity.getCenterPosition().x), 2) + pow((this->getCenterPosition().y - entity.getCenterPosition().y), 2));
+	return sqrtf((float)pow((this->getCenterPosition().x - entity.getCenterPosition().x), 2) + (float)pow((this->getCenterPosition().y - entity.getCenterPosition().y), 2));
 }
 
 const sf::Vector2f Entity::getCenterPosition()
@@ -104,13 +106,8 @@ const sf::FloatRect& Entity::getNextPositionBounds(const float& dt)
 
 void Entity::addComponent(std::shared_ptr<Component> component)
 {
-	if (!componentList.find(component->getName())->second) //checks if component exist already
-	{
 		componentList.find(component->getName())->second = true;
 		components.push_back(component);
-	}
-	else
-		std::cout << "COMPONENT already exist" << std::endl;
 }
 
 //functions

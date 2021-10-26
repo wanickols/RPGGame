@@ -62,7 +62,6 @@ void TextTagSystem::update(const float& dt)
 		i->get()->update(dt);
 		if (i->get()->isExpired())
 		{
-			std::cout << "text tag deleted \n";
 			i = tags.erase(i);
 		}
 		else

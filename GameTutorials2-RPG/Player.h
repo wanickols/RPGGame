@@ -1,11 +1,13 @@
 #pragma once
 #include "Entity.h"
+
 class Bullet;
 class FireRune;
 class Rune;
 class TileMap;
 class Inventory;
 class Item;
+class ItemLibrary;
 
 class Player :
 	public Entity
@@ -15,7 +17,9 @@ private:
 	void initVariables();
 	void initComponents();
 	void initAnimations(sf::Texture& texture_sheet, float x, float y);
+public:
 	void initRunes();
+	void initItems(std::shared_ptr<ItemLibrary> item_lib);
 public:
 	//Constructors
 	Player() = delete;
@@ -31,6 +35,7 @@ public:
 	//void updateAnimation(const float& dt, const sf::Vector2f mousePosView);
 	virtual void update(const float& dt, const sf::Vector2f mousePosView);
 	virtual void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(),  const bool show_hitbox = false);
+	
 
 	const bool getAttack();
 	void setAttack(bool attacking);
