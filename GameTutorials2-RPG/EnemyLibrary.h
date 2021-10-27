@@ -36,9 +36,10 @@ public:
 	void update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker, std::shared_ptr<TileMap> map);
 	void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(), const bool show_hitbox = false);
 	std::string translateType(int type);
-	bool createComponents(Enemy& enemy, std::string name, EnemySpawner& spawner);
+	bool createComponents(Enemy& enemy, std::string name, std::shared_ptr<EnemySpawner> spawner);
 
 	std::vector<std::shared_ptr<Enemy>>& getEnemies();
+	bool decreaseSpawn;
 private:
 	std::vector<std::shared_ptr<Enemy>> enemies;
 	std::map<int, std::string> types; //assigning names to numbers

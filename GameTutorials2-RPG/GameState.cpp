@@ -14,6 +14,7 @@
 #include "Weapon.h"
 #include "Item.h"
 #include "TextTagSystem.h"
+#include "PlayerGuiTabs.h"
 
 void GameState::initDefferredRender()
 {
@@ -230,6 +231,11 @@ void GameState::updatePlayerInput(const float& dt)
 void GameState::updatePlayerGui(const float& dt)
 {
 	playerGui->update(dt, sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("Toggle_Charcter_Tab"))) && getKeyTime())
+	{
+		playerGui->toggleTab(PLAYER_TABS::CHARACTER_TAB);
+	}
+
 }
 
 void GameState::updateInput(const float& dt)

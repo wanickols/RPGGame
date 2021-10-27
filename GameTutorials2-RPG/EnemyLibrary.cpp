@@ -9,7 +9,7 @@
 
 //Take in a File
 EnemyLibrary::EnemyLibrary(std::shared_ptr<TextTagSystem> textts)
-	: tts(textts)
+	: tts(textts), decreaseSpawn(false)
 {
 	//Init Textures
 	if (textureDoc.LoadFile("test.xml") != tinyxml2::XML_SUCCESS)
@@ -83,7 +83,11 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 			if (i->get()->getComponent<Attribute>()->isDead()) {
 				int exp = attacker->getComponent<Combat>()->expHandler(i->get()->getComponent<EnemyData>()->expWorth, i->get()->getComponent<Attribute>()->level);
 				this->tts->addTextTag(EXPERIENCE_TAG, attacker->getPosition().x - 40.f, attacker->getPosition().y - 30.f, exp, "+", " exp");
+				decreaseSpawn = true;
 				i = enemies.erase(i);	
+			}
+			else if (i->get()->getComponent<EnemyData>()->getName() == "despawned")//make check for despawn
+			{
 			}
 			else
 			{
@@ -109,7 +113,7 @@ std::string EnemyLibrary::translateType(int type)
 	return types.find(type)->second;
 }
 
-bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, EnemySpawner& spawner)
+bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, std::shared_ptr<EnemySpawner> spawner)
 {
 	bool anyCreated = false;
 	//0
@@ -129,7 +133,7 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, EnemySpawner
 	//2
 	if (componentPresets.find(name)->second->animation.created)
 	{
-		std::shared_ptr<AnimationC> animationComp = std::make_shared<AnimationC>(enemy.getSprite(), *textures.find(name)->second, spawner.getPosition().x, spawner.getPosition().y, &enemy);
+		std::shared_ptr<AnimationC> animationComp = std::make_shared<AnimationC>(enemy.getSprite(), *textures.find(name)->second, spawner->getPosition().x, spawner->getPosition().y, &enemy);
 		for (int i = 0; i < componentPresets.find(name)->second->animation.numAnimations; i++)
 		{
 			std::shared_ptr<AnimationPreset> aP = componentPresets.find(name)->second->animation.animations.at(i);
@@ -146,7 +150,7 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, EnemySpawner
 
 		attribute->range = componentPresets.find(name)->second->attribute.range;
 
-		for (int i = 0; i < spawner.enemyLevel - 1; i++)
+		for (int i = 0; i < spawner->enemyLevel - 1; i++)
 		{
 			attribute->levelUp();
 		}

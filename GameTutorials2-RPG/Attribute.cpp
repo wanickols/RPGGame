@@ -196,6 +196,39 @@ void Attribute::addExp(int xp)
 	updateLevel();
 }
 
+const std::string Attribute::toStringCharacterTab()
+{
+	std::stringstream ss;
+
+
+	ss  
+		//header
+		<< "Level: " << level << "\n"
+		<< "HP: " << hp << "/" << hpMax << "\n"
+		<< "Energy: " << energy << "/" << energyMax << "\n"
+		<< "Exp: " << exp << "/" << expnext << "\n"
+
+		//Base Attributes
+		<< "Attributes" << "\n"
+		<< "Vitality: " << vitality << "\n"
+		<< "Strength: " << strength << "\n"
+		<< "Dexterity: " << dexterity << "\n"
+		<< "Agility: " << agility << "\n"
+		<< "Intelligence: " << intelligence << "\n"
+
+		<< "Stats" << "\n"
+		
+		
+		<< "Attack: " << damageMax << "\n"
+		<< "Crit chance: " << critChance * 100 << "% \n"
+		<< "Defense: " << defense << "\n"
+		
+		<< "Attriubutes Points: " << attributePoints << "\n"
+		;
+
+	return ss.str();
+}
+
 const int Attribute::getAttributePoints() const
 {
 	return attributePoints;

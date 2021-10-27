@@ -3,7 +3,7 @@
 class Player;
 class gui::Button;
 class gui::progressBar;
-
+class PlayerGuiTabs;
 
 class PlayerGui
 {
@@ -11,6 +11,7 @@ private:
 	//Init Functions
 	void initLevel();
 	void initBars();
+	void initPlayerTabs(std::shared_ptr<Entity> player, sf::Font& font, sf::VideoMode& vm);
 
 public:
 	PlayerGui(std::shared_ptr<Entity> player, sf::Font& font, sf::VideoMode& vm);
@@ -26,8 +27,10 @@ public:
 		sf::Font& font, sf::VideoMode& vm, int offset = 0, int fontSize = 12
 	);
 	void updateBars(const float& dt);
+	void updateButtons(const float& dt, const sf::Vector2f& mousePos);
 	void update(const float& dt, const sf::Vector2f& mousePos);
 	void render(sf::RenderTarget& target);
+	void toggleTab(const int tab_index);
 	
 private:
 	std::shared_ptr<Entity> player;
@@ -40,6 +43,7 @@ private:
 	std::string ProgressBarText; //words that go into progressBars
 	sf::Font& font;
 	sf::VideoMode& vm;
+	std::shared_ptr<PlayerGuiTabs> playerTabs;
 
 
 	
@@ -47,3 +51,4 @@ private:
 
 };
 
+//sf::Event::MouseButtonReleased

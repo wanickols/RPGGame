@@ -3,6 +3,7 @@
 #include "PlayerGui.h"
 #include "Attribute.h"
 #include "Skills.h"
+#include "PlayerGuiTabs.h"
 
 void PlayerGui::initLevel()
 {
@@ -16,7 +17,11 @@ void PlayerGui::initBars()
 	addBar("HPBar", gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(1.1f, vm), sf::Color(50, 50, 50, 200), sf::Color(250, 20, 20, 210), player, font, vm, static_cast<int>(gui::p2pX(1.f, vm)));
 	addBar("ExpBar", gui::p2pX(13.85f, vm), gui::p2pX(14.85f, vm), gui::p2pY(1.f, vm), gui::p2pX(.7f, vm), gui::p2pY(8.4f, vm), sf::Color(50, 50, 50, 200), sf::Color(140, 140, 140, 250), player, font, vm, 0, static_cast<int>(gui::p2pS(.4f, vm)));
 	addBar("EnergyBar", gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(4.8f, vm), sf::Color(50, 50, 50, 200), sf::Color(20, 20, 250, 210), player, font, vm, static_cast<int>(gui::p2pX(1.f, vm)));
-	
+}
+
+void PlayerGui::initPlayerTabs(std::shared_ptr<Entity> player, sf::Font& font, sf::VideoMode& vm)
+{
+	playerTabs = std::make_shared<PlayerGuiTabs>(vm, font, player);
 }
 
 PlayerGui::PlayerGui(std::shared_ptr<Entity> player, sf::Font& font, sf::VideoMode& vm)
@@ -24,6 +29,7 @@ PlayerGui::PlayerGui(std::shared_ptr<Entity> player, sf::Font& font, sf::VideoMo
 {
 	initLevel();
 	initBars();
+	initPlayerTabs(player, font, vm);
 }
 
 void PlayerGui::addButton(const std::string& key, const float& x, const float& y, const float& width, const float& height, const std::string& text, const short& textSize)
@@ -81,26 +87,37 @@ void PlayerGui::updateBars(const float& dt)
 	}
 }
 
+void PlayerGui::updateButtons(const float& dt, const sf::Vector2f& mousePos)
+{
+	for (auto& i : buttons)
+	{
+		i.second->update(mousePos);
+		if (i.first == "LEVEL") {
+			if (player->getComponent<Attribute>()->levelUpdate) {
+				i.second->setText(std::to_string(player->getComponent<Attribute>()->level));
+				player->getComponent<Attribute>()->levelUpdate = false;
+			}
+		}
+	}
+	if (buttons["LEVEL"]->isPressed())
+	{
+		toggleTab(0);
+	}
+}
+
 //Functions
 void PlayerGui::update(const float& dt, const sf::Vector2f& mousePos)
 {
 
 	updateBars(dt);
-		for (auto& i : buttons)
-		{
-			i.second->update(mousePos);
-			if (i.first == "LEVEL") {
-				if (player->getComponent<Attribute>()->levelUpdate) {
-					i.second->setText(std::to_string(player->getComponent<Attribute>()->level));
-					player->getComponent<Attribute>()->levelUpdate = false;
-				}
-			}
-		}
+	updateButtons(dt, mousePos);
+		
+		playerTabs->update();
 }
 
 void PlayerGui::render(sf::RenderTarget& target)
 {
-	//Render Bars
+		//Render Bars
 	for (auto& iter : bars) {
 		iter.second->render(target);
 	}
@@ -109,6 +126,14 @@ void PlayerGui::render(sf::RenderTarget& target)
 	{
 		i.second->render(target);
 	}
+
+	playerTabs->render(target);
+
+}
+
+void PlayerGui::toggleTab(const int tab_index)
+{
+	playerTabs->toggleTab(tab_index);
 }
 
 

@@ -7,6 +7,7 @@
 *
 */
 
+
 const float gui::p2pX(const float& perc, sf::VideoMode& vm)
 {
 	return std::floor(static_cast<float>(vm.width) * (perc / 100.f));
@@ -21,6 +22,24 @@ const float gui::p2pS(const float& perc, sf::VideoMode& vm)
 {
 	return std::floor(static_cast<float>(vm.height+ vm.width) * (perc / 100.f));;
 }
+
+void gui::KeyTimeManger::updateKeyTime(const float& dt)
+{
+	if (keyTime < keyTimeMax) {
+		keyTime += 100.f * dt;
+	}
+}
+
+const bool gui::KeyTimeManger::getKeyTime()
+{
+	if (keyTime > keyTimeMax)
+	{
+		keyTime = 0.f;
+		return true;
+	}
+	return false;
+}
+
 
 
 /*

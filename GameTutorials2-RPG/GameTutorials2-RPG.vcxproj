@@ -150,6 +150,7 @@
     <ClCompile Include="AnimationC.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="CharacterTab.cpp" />
     <ClCompile Include="Combat.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DefaultEditorMode.cpp" />
@@ -173,7 +174,9 @@
     <ClCompile Include="ItemInfo.cpp" />
     <ClCompile Include="ItemLibrary.cpp" />
     <ClCompile Include="itemSprite.cpp" />
+    <ClCompile Include="PlayerGuiTabs.cpp" />
     <ClCompile Include="RuneComponent.cpp" />
+    <ClCompile Include="Tab.cpp" />
     <ClCompile Include="TextTagSystem.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="UserInput.cpp" />
@@ -201,6 +204,7 @@
     <ClInclude Include="AnimationC.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="CharacterTab.h" />
     <ClInclude Include="Combat.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentInclude.h" />
@@ -228,8 +232,10 @@
     <ClInclude Include="ItemLibrary.h" />
     <ClInclude Include="ItemPresets.h" />
     <ClInclude Include="itemSprite.h" />
+    <ClInclude Include="PlayerGuiTabs.h" />
     <ClInclude Include="Presets.h" />
     <ClInclude Include="RuneComponent.h" />
+    <ClInclude Include="Tab.h" />
     <ClInclude Include="TextTagSystem.h" />
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="UserInput.h" />

@@ -15,12 +15,22 @@ enum button_states { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE };
 
 namespace gui {
 
+	
+	//pixeltopercent
 	const float p2pX(const float& perc, sf::VideoMode& vm);
 	const float p2pY(const float& perc, sf::VideoMode& vm);
 	const float p2pS(const float& perc, sf::VideoMode& vm);
+	
+	//KeyTime
+	struct KeyTimeManger {
+		float keyTime;
+		float keyTimeMax;
+		void updateKeyTime(const float& dt);
+		const bool getKeyTime();
+	};
 
+	//Buttons
 	enum class button_types { RECTANGLE = 0, CIRCLE, CONVEX };
-
 	class Button
 	{
 	public:
@@ -60,6 +70,7 @@ namespace gui {
 		sf::Font& font;
 		sf::Text text;
 
+		KeyTimeManger keyTimeManager;
 		std::vector<std::unique_ptr<sf::Shape>> shapes;
 
 		//colors
@@ -76,6 +87,7 @@ namespace gui {
 		sf::Color outlineActiveColor;
 	};
 
+	//DropDownList
 	class DropDownList
 	{
 	public:
@@ -100,6 +112,7 @@ namespace gui {
 		std::vector<std::shared_ptr<gui::Button>> list;
 	};
 
+	//TextureSelector
 	class TextureSelector
 	{
 	private:
@@ -133,7 +146,8 @@ namespace gui {
 		void update(const sf::Vector2f& mousePosWindow, const float& dt);
 		void render(sf::RenderTarget& target);
 	};
-
+	
+	//ProgressBar
 	class progressBar
 	{
 

@@ -67,6 +67,9 @@
     <Filter Include="Entities\Components\Entities\Enemy">
       <UniqueIdentifier>{4d40f61e-2158-4a04-9007-86d8fada047a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Tabs">
+      <UniqueIdentifier>{e38293f9-2848-4767-9183-c703a1240346}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -206,6 +209,15 @@
     </ClCompile>
     <ClCompile Include="ItemLibrary.cpp">
       <Filter>Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Tab.cpp">
+      <Filter>GUI\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterTab.cpp">
+      <Filter>GUI\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerGuiTabs.cpp">
+      <Filter>GUI\Tabs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +370,15 @@
     </ClInclude>
     <ClInclude Include="ItemPresets.h">
       <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Tab.h">
+      <Filter>GUI\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterTab.h">
+      <Filter>GUI\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGuiTabs.h">
+      <Filter>GUI\Tabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

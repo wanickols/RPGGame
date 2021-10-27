@@ -68,10 +68,10 @@ int Combat::expHandler(int deathExp, int deathLevel)
 	xp = xp * owner->getComponent<Attribute>()->expMult;
 	
 	float levelBasedMult = 1.f + (deathLevel - owner->getComponent<Attribute>()->level)/10.f;
-	if (levelBasedMult <= 0.f)
-		levelBasedMult = .3f;
+	if (levelBasedMult <= .4f)
+		levelBasedMult = .4f;
 
-	xp = xp * levelBasedMult;
+	xp = (int)(xp * levelBasedMult);
 	owner->getComponent<Attribute>()->addExp(xp);
 	return xp;
 }

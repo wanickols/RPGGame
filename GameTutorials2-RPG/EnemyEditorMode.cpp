@@ -92,13 +92,21 @@ void EnemyEditorMode::updateInput(const float& dt)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
-			if (amount > 0)
-				amount--;
+			if (amount > 0) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+					amount -= 10;
+				else
+					--amount;
+			}
 			else
-				amount = 999;
+				amount = 99;
 		}
-		else if (amount < 1000)
-			amount++;
+		else if (amount < 100) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				amount += 10;
+			else
+				++amount;
+		}
 		else
 			amount = 0;
 	}
@@ -106,13 +114,21 @@ void EnemyEditorMode::updateInput(const float& dt)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
-			if (timeToSpawn > 0)
-				timeToSpawn--;
+			if (timeToSpawn > 0){
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+					timeToSpawn -= 10;
+				else
+				--timeToSpawn; 
+			}
 			else
-				timeToSpawn = 999;
+				timeToSpawn = 600;
 		}
-		else if (timeToSpawn < 1000)
-			timeToSpawn++;
+		else if (timeToSpawn < 601) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				timeToSpawn += 10;
+			else
+			++timeToSpawn;
+		}
 		else
 			timeToSpawn = 0;
 	}
@@ -120,13 +136,22 @@ void EnemyEditorMode::updateInput(const float& dt)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
-			if (maxDistance > 0)
-				maxDistance--;
+			if (maxDistance > 0) {
+				
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+					maxDistance -= 10;
+				else
+					--maxDistance;
+			}
 			else
 				maxDistance = 999;
 		}
-		else if (maxDistance < 1000)
-			maxDistance++;
+		else if (maxDistance < 1000) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				maxDistance += 10;
+			else
+				++maxDistance;
+		}
 		else
 			maxDistance = 0;
 	}
@@ -134,11 +159,21 @@ void EnemyEditorMode::updateInput(const float& dt)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
-			if (enemyLevel > 0)
-				enemyLevel--;
+			if (enemyLevel > 0) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+					enemyLevel -= 10;
+				else
+					--enemyLevel;
+			}
+			else
+				enemyLevel = 0;
 		}
-		else
-			enemyLevel++;
+		else {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				enemyLevel += 10;
+			else
+				++enemyLevel;
+		}
 	}
 }
 
