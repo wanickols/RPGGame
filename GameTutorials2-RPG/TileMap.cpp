@@ -123,7 +123,7 @@ void TileMap::clear()
 				for (unsigned short z = 0; z < layers; z++)
 				{
 					for (size_t k = 0; k < map[x][y][z].size(); k++) {
-						if (!map[x][y][z].empty()) //sees if tile there to remove
+						while (!map[x][y][z].empty()) //sees if tile there to remove
 						{
 							map[x][y][z].pop_back();
 						}
