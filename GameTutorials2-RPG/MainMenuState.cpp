@@ -85,12 +85,12 @@ void MainMenuState::resetGui()
 void MainMenuState::updateInput(const float& dt)
 {}
 
-void MainMenuState::updateButtons()
+void MainMenuState::updateButtons(const float& dt)
 {
 	/*Updates all the buttons and their states and handles their functionality*/
 	for (auto& it : buttons)
 	{
-		it.second->update(mousePosView);
+		it.second->update(dt, mousePosView);
 	}
 
 
@@ -125,7 +125,7 @@ void MainMenuState::update(const float& dt)
 	updateMousePositions();
 	updateInput(dt);
 
-	updateButtons();
+	updateButtons(dt);
 	//player.update(dt);
 
 

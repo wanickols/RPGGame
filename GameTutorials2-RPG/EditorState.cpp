@@ -168,12 +168,12 @@ void EditorState::updateInput(const float& dt)
 
 }
 
-void EditorState::updateButtons()
+void EditorState::updateButtons(const float& dt)
 {
 	/*Updates all the buttons and their states and handles their functionality*/
 	for (auto& it : buttons)
 	{
-		it.second->update(mousePosView);
+		it.second->update(dt, mousePosView);
 	}
 }
 
@@ -190,13 +190,14 @@ void EditorState::update(const float& dt)
 	updateKeyTime(dt);
 	updateInput(dt);
 
+
 	
 	if (!paused) {
 		modes.at(activeMode)->update(dt);
-			
+		updateButtons(dt);
 	}
 	else {
-		pmenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
+		pmenu->update(dt, sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
 		updatePauseMenuButtons();
 	}
 
@@ -221,7 +222,6 @@ void EditorState::renderGui(std::shared_ptr<sf::RenderTarget> target)
 	target->setView(editorStateData->view);
 	//PauseMenu
 	if (!paused) {
-		updateButtons();
 		target->setView(stateData->window->getDefaultView());
 		
 		modes.at(activeMode)->render(target);

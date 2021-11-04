@@ -307,7 +307,7 @@ void GameState::update(const float& dt)
 		//testEnemy->update(dt, mousePosView);
 	}
 	else if (paused) {
-		pmenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
+		pmenu->update(dt, sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y));
 		updatePauseMenuButtons();
 	}else	{
 		//playerGuiMenu->update(sf::Vector2f((float)mousePosWindow.x, (float)mousePosWindow.y);

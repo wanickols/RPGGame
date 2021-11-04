@@ -135,7 +135,7 @@ void DefaultEditorMode::updateGui(const float& dt)
 
 	for (auto& it : buttons)
 	{
-		it.second->update(editorStateData->mousePosView);
+		it.second->update(dt, editorStateData->mousePosView);
 	}
 }
 

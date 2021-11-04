@@ -57,7 +57,7 @@ gui::Button::Button(float x, float y, float width, float height,
 	sf::Color outline_idle_color, sf::Color outline_hover_color, sf::Color outline_active_color,
 	short unsigned id) : font(font), id(id), width(width)
 {
-
+	keyTimeManager;
 	shapes.reserve(1);
 
 	buttonState = 0;
@@ -196,10 +196,10 @@ const bool gui::Button::isPressed() const
 	return false;
 }
 
-void gui::Button::update(const sf::Vector2f& mousePos)
+void gui::Button::update(const float& dt, const sf::Vector2f& mousePos)
 {
 	/*Update the booleans for hover, and pressed*/
-
+	keyTimeManager.updateKeyTime(dt);
 	//Idle
 	buttonState = BTN_IDLE;
 	//hover
@@ -207,7 +207,7 @@ void gui::Button::update(const sf::Vector2f& mousePos)
 	{
 		buttonState = BTN_HOVER;
 		//
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && keyTimeManager.getKeyTime()) {
 			buttonState = BTN_ACTIVE;
 		}
 	}
@@ -310,7 +310,7 @@ void gui::DropDownList::update(const sf::Vector2f& mousePos, const float& dt)
 {
 
 	updateKeyTime(dt);
-	activeElement->update(mousePos);
+	activeElement->update(dt, mousePos);
 	if (activeElement->isPressed() && getKeyTime()) {
 		if (showList)
 			showList = true;
@@ -320,7 +320,7 @@ void gui::DropDownList::update(const sf::Vector2f& mousePos, const float& dt)
 	if (showList) {
 		for (auto& i : list)
 		{
-			i->update(mousePos);
+			i->update(dt, mousePos);
 			if (i->isPressed() && getKeyTime()) {
 				activeElement->setText(i->getText());
 				showList = false;
@@ -329,7 +329,7 @@ void gui::DropDownList::update(const sf::Vector2f& mousePos, const float& dt)
 
 		}
 	}
-	activeElement->update(mousePos);
+	activeElement->update(dt, mousePos);
 }
 
 void gui::DropDownList::render(sf::RenderTarget& target)
@@ -423,7 +423,7 @@ void gui::TextureSelector::updateKeyTime(const float& dt)
 void gui::TextureSelector::update(const sf::Vector2f& mousePosWindow, const float& dt)
 {
 	updateKeyTime(dt);
-	hideButton->update(mousePosWindow);
+	hideButton->update(dt,  mousePosWindow);
 
 	if (hideButton->isPressed() && getKeyTime())
 	{

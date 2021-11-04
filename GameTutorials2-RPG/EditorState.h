@@ -36,7 +36,7 @@ public:
 	void updateInput(const float& dt);
 	void updatePauseMenuButtons();
 	void updateEditorInput(const float& dt);
-	void updateButtons();
+	void updateButtons(const float& dt);
 	void updateGui(const float& dt);
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);

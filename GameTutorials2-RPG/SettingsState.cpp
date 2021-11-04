@@ -91,7 +91,7 @@ void SettingsState::updateGui(const float& dt)
 	//Buttons
 	for (auto& it : buttons)
 	{
-		it.second->update(mousePosView);
+		it.second->update(dt, mousePosView);
 	}
 
 	if (buttons["EXIT"]->isPressed())

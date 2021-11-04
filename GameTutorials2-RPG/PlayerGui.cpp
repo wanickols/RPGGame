@@ -91,7 +91,7 @@ void PlayerGui::updateButtons(const float& dt, const sf::Vector2f& mousePos)
 {
 	for (auto& i : buttons)
 	{
-		i.second->update(mousePos);
+		i.second->update(dt, mousePos);
 		if (i.first == "LEVEL") {
 			if (player->getComponent<Attribute>()->levelUpdate) {
 				i.second->setText(std::to_string(player->getComponent<Attribute>()->level));

@@ -62,11 +62,11 @@ void PLayerStatMenu::addButton(const std::string key, float y, const std::string
 
 }
 
-void PLayerStatMenu::update(const sf::Vector2f& mousePos)
+void PLayerStatMenu::update(const float& dt, const sf::Vector2f& mousePos)
 {
 	for (auto& i : buttons)
 	{
-		i.second->update(mousePos);
+		i.second->update(dt, mousePos);
 	}
 }
 

@@ -19,7 +19,7 @@ public:
 
 	//functions
 	void updateInput(const float& dt);
-	void updateButtons();
+	void updateButtons(const float& dt);
 	void update(const float& dt);
 	void render(std::shared_ptr<sf::RenderTarget> target);
 	void renderButtons(sf::RenderTarget& target);

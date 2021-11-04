@@ -23,8 +23,8 @@ namespace gui {
 	
 	//KeyTime
 	struct KeyTimeManger {
-		float keyTime;
-		float keyTimeMax;
+		float keyTime = 0.f;
+		float keyTimeMax = 15.f;
 		void updateKeyTime(const float& dt);
 		const bool getKeyTime();
 	};
@@ -57,7 +57,7 @@ namespace gui {
 		void setOutlineColor(sf::Color idle_color, sf::Color hover_color, sf::Color active_color);
 
 		//Functions
-		void update(const sf::Vector2f& mousePos);
+		void update(const float& dt, const sf::Vector2f& mousePos);
 		void render(sf::RenderTarget& target);
 
 
