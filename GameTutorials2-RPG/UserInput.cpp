@@ -166,16 +166,16 @@ void UserInput::update(const float& dt, const sf::Vector2f mousePosView)
 			owner->getComponent<AnimationC>()->play("RIGHTIDLE", dt, false);
 			break;
 		case(MOVING_LEFT):
-			owner->getComponent<AnimationC>()->play("WALK_LEFT", dt, owner->getComponent<Movement>()->getVelocity().x, owner->getComponent<Movement>()->getMaxVelocity(), false);
+			owner->getComponent<AnimationC>()->play("WALKLEFT", dt, owner->getComponent<Movement>()->getVelocity().x, owner->getComponent<Movement>()->getMaxVelocity(), false);
 			break;
 		case(MOVING_RIGHT):
-			owner->getComponent<AnimationC>()->play("WALK_RIGHT", dt, owner->getComponent<Movement>()->getVelocity().x, owner->getComponent<Movement>()->getMaxVelocity(), false);
+			owner->getComponent<AnimationC>()->play("WALKRIGHT", dt, owner->getComponent<Movement>()->getVelocity().x, owner->getComponent<Movement>()->getMaxVelocity(), false);
 			break;
 		case(MOVING_UP):
-			owner->getComponent<AnimationC>()->play("WALK_UP", dt, owner->getComponent<Movement>()->getVelocity().y, owner->getComponent<Movement>()->getMaxVelocity(), false);
+			owner->getComponent<AnimationC>()->play("WALKUP", dt, owner->getComponent<Movement>()->getVelocity().y, owner->getComponent<Movement>()->getMaxVelocity(), false);
 			break;
 		case(MOVING_DOWN):
-			owner->getComponent<AnimationC>()->play("WALK_DOWN", dt, owner->getComponent<Movement>()->getVelocity().y, owner->getComponent<Movement>()->getMaxVelocity(), false);
+			owner->getComponent<AnimationC>()->play("WALKDOWN", dt, owner->getComponent<Movement>()->getVelocity().y, owner->getComponent<Movement>()->getMaxVelocity(), false);
 			break;
 		}
 	}

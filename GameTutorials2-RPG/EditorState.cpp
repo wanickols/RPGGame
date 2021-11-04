@@ -13,7 +13,7 @@ void EditorState::initVariables()
 {
 	cameraSpeed = 500.f;
 	activeMode = 0;
-	enemyLib = std::make_shared<EnemyLibrary>(std::shared_ptr<TextTagSystem>());
+	enemyLib = std::make_shared<EnemyLibrary>(std::shared_ptr<TextTagSystem>(), nullptr);
 }
 
 void EditorState::initEditorStateData()

@@ -60,10 +60,10 @@ void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 	getComponent<AnimationC>()->addAnimation("UPIDLE", 15.f, 27, 0, 31, 0, 64, 64);
 	getComponent<AnimationC>()->addAnimation("RIGHTIDLE", 15.f, 9, 0, 13, 0, 64, 64);
 	getComponent<AnimationC>()->addAnimation("LEFTIDLE", 15.f, 18, 0, 22, 0, 64, 64);
-	getComponent<AnimationC>()->addAnimation("WALK_DOWN", 8.f, 0, 1, 3, 1, 64, 64);
-	getComponent<AnimationC>()->addAnimation("WALK_LEFT", 8.f, 4, 1, 7, 1, 64, 64);
-	getComponent<AnimationC>()->addAnimation("WALK_RIGHT", 8.f, 8, 1, 11, 1, 64, 64);
-	getComponent<AnimationC>()->addAnimation("WALK_UP", 8.f, 12, 1, 15, 1, 64, 64);
+	getComponent<AnimationC>()->addAnimation("WALKDOWN", 8.f, 0, 1, 3, 1, 64, 64);
+	getComponent<AnimationC>()->addAnimation("WALKLEFT", 8.f, 4, 1, 7, 1, 64, 64);
+	getComponent<AnimationC>()->addAnimation("WALKRIGHT", 8.f, 8, 1, 11, 1, 64, 64);
+	getComponent<AnimationC>()->addAnimation("WALKUP", 8.f, 12, 1, 15, 1, 64, 64);
 	//Idle Attack Animations
 	getComponent<AnimationC>()->addAnimation("IDLEATTACKDOWN", 6.f, 0, 2, 4, 2, 64, 64);
 	getComponent<AnimationC>()->addAnimation("IDLEATTACKINGDOWN", 6.f, 3, 2, 4, 2, 64, 64);

@@ -8,8 +8,8 @@
 #include "GraphicsSettings.h"
 
 //Take in a File
-EnemyLibrary::EnemyLibrary(std::shared_ptr<TextTagSystem> textts)
-	: tts(textts), decreaseSpawn(false)
+EnemyLibrary::EnemyLibrary(std::shared_ptr<TextTagSystem> textts, std::shared_ptr<Entity> player)
+	: tts(textts), decreaseSpawn(false), player(player)
 {
 	//Init Textures
 	if (textureDoc.LoadFile("test.xml") != tinyxml2::XML_SUCCESS)
@@ -55,9 +55,9 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 		while (i != enemies.end())
 		{
 			if (playerAttack)
-				if (i->get()->getDistance(*attacker) < attacker->getComponent<Attribute>()->range)
+				if (i->get()->getDistance(*player) < player->getComponent<Attribute>()->range)
 				{
-					int dmg = attacker->getComponent<Combat>()->attack();
+					int dmg = player->getComponent<Combat>()->attack();
 					i->get()->getComponent<Combat>()->defend(dmg);
 					tts->addTextTag(NEGATIVE_TAG, i->get()->getPosition().x, i->get()->getPosition().y, dmg, "", "");
 				}
@@ -70,13 +70,16 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 			map->updateTileCollision(std::make_shared<Entity>(*i->get()), dt);
 
 			//AI
-			if (i->get()->getDistance(*attacker) < i->get()->getComponent<Attribute>()->range)
+			if (i->get()->getDistance(*player) < i->get()->getComponent<Attribute>()->range)
 			{
-				i->get()->getComponent<enemyAi>()->reactions(attacker);
+				i->get()->getComponent<enemyAi>()->setFollowing(true);
+				i->get()->getComponent<enemyAi>()->reactions();
+				i->get()->getComponent<enemyAi>()->setRoaming(false);
 				
 			}else
 			{
-				i->get()->getComponent<enemyAi>()->setIdle();
+				i->get()->getComponent<enemyAi>()->setRoaming(true);
+				i->get()->getComponent<enemyAi>()->setFollowing(false);
 			}
 
 			//IsDead
@@ -123,13 +126,7 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, std::shared_
 		enemy.addComponent(hitBox);
 		anyCreated = true;
 	}
-	//1
-	if (componentPresets.find(name)->second->movement.created)
-	{
-		std::shared_ptr<Movement> movement = std::make_shared<Movement>(enemy.getSprite(), componentPresets.find(name)->second->movement.maxVelocity, componentPresets.find(name)->second->movement.acceleration, componentPresets.find(name)->second->movement.deceleration, &enemy);
-		enemy.addComponent(movement);
-		anyCreated = true;
-	}
+	
 	//2
 	if (componentPresets.find(name)->second->animation.created)
 	{
@@ -142,6 +139,13 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, std::shared_
 		enemy.addComponent(animationComp);
 		anyCreated = true;
 		
+	}
+	//1
+	if (componentPresets.find(name)->second->movement.created)
+	{
+		std::shared_ptr<Movement> movement = std::make_shared<Movement>(enemy.getSprite(), componentPresets.find(name)->second->movement.maxVelocity, componentPresets.find(name)->second->movement.acceleration, componentPresets.find(name)->second->movement.deceleration, &enemy);
+		enemy.addComponent(movement);
+		anyCreated = true;
 	}
 	//3
 	if (componentPresets.find(name)->second->attribute.created)
@@ -160,19 +164,19 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, std::shared_
 		enemy.addComponent(attribute);
 		anyCreated = true;
 	}
-	//5
-	if (componentPresets.find(name)->second->ai.created)
-	{
-		std::shared_ptr<enemyAi> ai = std::make_shared<enemyAi>(&enemy);
-		enemy.addComponent(ai);
-		anyCreated = true;
-	}
 	//7
 	if (componentPresets.find(name)->second->enemyData.created)
 	{
 		std::shared_ptr<enemyDataPreset> eP = std::make_shared<enemyDataPreset>(componentPresets.find(name)->second->enemyData);
 		std::shared_ptr<EnemyData> data = std::make_shared<EnemyData>(eP->enemyName, EnemyPowerLevel::NORMAL, eP->expMult, eP->vitalityMult, eP->strengthMult, eP->dexterityMult, eP->agilityMult, eP->intellegenceMult, nullptr, spawner, &enemy);
 		enemy.addComponent(data);
+		anyCreated = true;
+	}
+	//5
+	if (componentPresets.find(name)->second->ai.created)
+	{
+		std::shared_ptr<enemyAi> ai = std::make_shared<enemyAi>(player, componentPresets.find(name)->second->ai.follow,true,&enemy);
+		enemy.addComponent(ai);
 		anyCreated = true;
 	}
 	sf::VideoMode& vm = stateData->GraphicsSettings->resolution;
@@ -325,4 +329,5 @@ void ComponentLibrary::addEnemyData(tinyxml2::XMLElement* component, std::shared
 void ComponentLibrary::addAI(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)
 {
 	presets->ai.created = true;
+	component->QueryBoolAttribute("follow", &presets->ai.follow);
 }

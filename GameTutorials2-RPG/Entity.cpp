@@ -60,6 +60,11 @@ const float Entity::getDistance(Entity& entity)
 	return sqrtf((float)pow((this->getCenterPosition().x - entity.getCenterPosition().x), 2) + (float)pow((this->getCenterPosition().y - entity.getCenterPosition().y), 2));
 }
 
+const float Entity::getDistance(const sf::Vector2f& position)
+{
+	return sqrtf((float)pow((this->getCenterPosition().x -position.x), 2) + (float)pow((this->getCenterPosition().y - position.y), 2));
+}
+
 const sf::Vector2f Entity::getCenterPosition()
 {
 	if (getComponent<Hitbox>())

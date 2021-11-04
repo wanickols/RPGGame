@@ -147,6 +147,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AIFollow.cpp" />
+    <ClCompile Include="AIRoaming.cpp" />
+    <ClCompile Include="AISetting.cpp" />
     <ClCompile Include="AnimationC.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -201,6 +204,9 @@
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIFollow.h" />
+    <ClInclude Include="AIRoaming.h" />
+    <ClInclude Include="AISetting.h" />
     <ClInclude Include="AnimationC.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Bullet.h" />

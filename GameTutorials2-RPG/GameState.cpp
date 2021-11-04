@@ -99,7 +99,7 @@ void GameState::initShaders()
 
 void GameState::initEnemies()
 {
-	enemyLib = std::make_shared<EnemyLibrary>(tts);
+	enemyLib = std::make_shared<EnemyLibrary>(tts, player);
 	enemyLib->initStateData(*stateData);
 }
 void GameState::initTileMap()
@@ -137,9 +137,9 @@ GameState::GameState(std::shared_ptr<StateData> state_data)
 	initTextTags();
 	initPauseMenu();
 	initShaders();
+	initPlayers();
 	initEnemies();
 	initTileMap();
-	initPlayers();
 	initPlayerGui();
 }
 

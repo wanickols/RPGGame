@@ -65,6 +65,7 @@ struct AnimationCPreset
 struct AIPreset 
 {
 	bool created = false;
+	bool follow = false;
 };
 
 struct combatPreset 

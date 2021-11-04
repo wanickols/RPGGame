@@ -28,7 +28,7 @@ class EnemyLibrary
 {
 public:
 	void initComponents();
-	EnemyLibrary(std::shared_ptr<TextTagSystem> textts);
+	EnemyLibrary(std::shared_ptr<TextTagSystem> textts, std::shared_ptr<Entity> player);
 	std::shared_ptr<sf::Texture> find(std::string name);
 
 	void initStateData(StateData& state_data);
@@ -49,6 +49,7 @@ private:
 	tinyxml2::XMLDocument componentDoc;
 	std::shared_ptr<StateData> stateData;
 	ComponentLibrary componentLibrary;
+	std::shared_ptr<Entity> player;
 	std::shared_ptr<TextTagSystem> tts;
 };
 

@@ -3,62 +3,71 @@
 #include "Movement.h"
 #include "AnimationC.h"
 #include "Entity.h"
+#include "AIFollow.h"
+#include "AIRoaming.h"
 
-enemyAi::enemyAi(Entity* owner)
-	: Component("AI", owner)
+enemyAi::enemyAi(std::shared_ptr<Entity> player, bool follow, bool roaming, Entity* owner)
+	: Component("AI", owner), entity(player), walkSpeed(1.f)
 {
+	//Adding settings
+	if (follow) {
+		Options["Follow"] = (std::make_shared<AIFollow>(player, owner));
+		OptionsList["Follow"] = true;
+	}
+	if (roaming) {
+		Options["Roaming"] = (std::make_shared<AIRoaming>(player, owner));
+		OptionsList["Roaming"] = true;
+	}
+
 }
 
 void enemyAi::update(const float& dt, const sf::Vector2f mousePosView)
 {
+	walkSpeed /= 2;
+	for (auto& i : Options)
+	{
+		i.second->update(dt);
+	}
 	
-	if (owner->getComponent<Movement>()->getDirection() == facing::RIGHT)
-	{	
-		owner->getComponent<AnimationC>()->play("WALKRIGHT", dt, false);
-		owner->move(1.f, 0.f, dt);
-	}
-	else if (owner->getComponent<Movement>()->getDirection() == facing::LEFT)
-	{
-		owner->getComponent<AnimationC>()->play("WALKLEFT", dt, false);
-		owner->move(-1.f, 0.f, dt);
-	}
-	else if (owner->getComponent<Movement>()->getDirection() == facing::UP)
-	{
-		owner->getComponent<AnimationC>()->play("WALKUP", dt, false);
-		owner->move(0.f, -1.f, dt);
-	}
-	else if (owner->getComponent<Movement>()->getDirection() == facing::DOWN)
-	{
-		owner->getComponent<AnimationC>()->play("WALKDOWN", dt, false);
-		owner->move(0.f, 1.f, dt);
-	}
-	else 
-		owner->getComponent<AnimationC>()->play("DOWNIDLE", dt, false);
 }
 
-void enemyAi::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
+void enemyAi::reactions()
 {
-}
-
-void enemyAi::reactions(std::shared_ptr<Entity> player)
-{
-	if (abs(player->getPosition().x - owner->getPosition().x) > abs(player->getPosition().y - owner->getPosition().y)) {
-		if (player->getPosition().x > owner->getPosition().x)
-			owner->getComponent<Movement>()->setDirection(facing::RIGHT);
-		else if (player->getPosition().x < owner->getPosition().x)
-			owner->getComponent<Movement>()->setDirection(facing::LEFT);
-	}
-	else
+	for (auto& i : Options)
 	{
-		if (player->getPosition().y > owner->getPosition().y)
-			owner->getComponent<Movement>()->setDirection(facing::DOWN);
-		else if (player->getPosition().y < owner->getPosition().y)
-			owner->getComponent<Movement>()->setDirection(facing::UP);
+		i.second->reaction();
 	}
-
 }
 
 void enemyAi::setIdle()
 {
 	owner->getComponent<Movement>()->setDirection(facing::IDLE);
+}
+
+void enemyAi::setRoaming(bool update_roaming)
+{
+	if (OptionsList["Roaming"]) 
+	{
+		AIRoaming * roam = dynamic_cast<AIRoaming*>(Options.at("Roaming").get());
+		roam->setRoaming(update_roaming);
+	}
+}
+
+void enemyAi::setFollowing(bool update_roaming)
+{
+	if (OptionsList["Follow"])
+	{
+		AIFollow* follow = dynamic_cast<AIFollow*>(Options.at("Follow").get());
+		follow->setFollowing(update_roaming);
+	}
+}
+
+void enemyAi::setWalkSpeed(float speed)
+{
+	walkSpeed = speed;
+}
+
+const float& enemyAi::getWalkSpeed()
+{
+	return walkSpeed;
 }

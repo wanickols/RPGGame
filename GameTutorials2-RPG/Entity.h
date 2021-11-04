@@ -37,6 +37,7 @@ public:
 	
 	const virtual sf::Vector2f& getPosition();
 	const virtual float getDistance(Entity& entity);
+	const virtual float getDistance(const sf::Vector2f& position);
 	const virtual sf::Vector2f getCenterPosition();
 	const virtual sf::Vector2i getGridPosition(const int& gridSizeI);
 	const sf::FloatRect& getNextPositionBounds(const float& dt);

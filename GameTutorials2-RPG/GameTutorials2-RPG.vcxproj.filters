@@ -70,6 +70,9 @@
     <Filter Include="GUI\Tabs">
       <UniqueIdentifier>{e38293f9-2848-4767-9183-c703a1240346}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Components\Entities\Enemy\EnemyAi">
+      <UniqueIdentifier>{550b69e2-93c3-47a8-b0c3-af7cd531b1ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -183,9 +186,6 @@
     <ClCompile Include="Combat.cpp">
       <Filter>Entities\Components\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="enemyAi.cpp">
-      <Filter>Entities\Components\Entities\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyData.cpp">
       <Filter>Entities\Components\Entities\Enemy</Filter>
     </ClCompile>
@@ -218,6 +218,18 @@
     </ClCompile>
     <ClCompile Include="PlayerGuiTabs.cpp">
       <Filter>GUI\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyAi.cpp">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
+    </ClCompile>
+    <ClCompile Include="AISetting.cpp">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
+    </ClCompile>
+    <ClCompile Include="AIFollow.cpp">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
+    </ClCompile>
+    <ClCompile Include="AIRoaming.cpp">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,9 +350,6 @@
     <ClInclude Include="Component.h">
       <Filter>Entities\Components\General</Filter>
     </ClInclude>
-    <ClInclude Include="enemyAi.h">
-      <Filter>Entities\Components\Entities\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyData.h">
       <Filter>Entities\Components\Entities\Enemy</Filter>
     </ClInclude>
@@ -379,6 +388,18 @@
     </ClInclude>
     <ClInclude Include="PlayerGuiTabs.h">
       <Filter>GUI\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAi.h">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
+    </ClInclude>
+    <ClInclude Include="AISetting.h">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
+    </ClInclude>
+    <ClInclude Include="AIFollow.h">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
+    </ClInclude>
+    <ClInclude Include="AIRoaming.h">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

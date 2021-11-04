@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "Movement.h"
 #include "Entity.h"
+#include "AnimationC.h"
 
 Movement::Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner)
 	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), lastState(0), direction(facing::IDLE),
 	Component("movement", owner)
 {
+	
 }
 
 Movement::~Movement()
@@ -181,6 +183,12 @@ void Movement::stopVelocity()
 	velocity.y = 0.f;
 }
 
+void Movement::halfVelocity()
+{
+	velocity.x /= 2;
+	velocity.y /= 2;
+}
+
 void Movement::stopVelocityX()
 {
 	/* Resets the velocity x to 0.*/
@@ -199,12 +207,8 @@ void Movement::stopVelocityY()
 //Functions
 void Movement::move(const float dir_x, const float dir_y, const float& dt, bool player)
 {
-	
-		velocity.x += acceleration * dir_x * dt;
-		velocity.y += acceleration * dir_y * dt;
-	
-	
-
+	velocity.x += acceleration * dir_x * dt;
+	velocity.y += acceleration * dir_y * dt;
 }
 
 void Movement::update(const float& dt, const sf::Vector2f mousePosView)
