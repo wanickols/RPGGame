@@ -76,19 +76,19 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 	sprite.setTextureRect(sf::IntRect(0,0,32,32));
 	
 	//Hitbox
-	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 4.f, 2.f, 20.f, 20.f, this); //hitbox for player set here
+	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 4.f, 2.f, 20.f, 20.f, *this); //hitbox for player set here
 	addComponent(hitbox);
 
 	//Animation
-	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture, getComponent<Hitbox>()->getPosition().x, getComponent<Hitbox>()->getPosition().y, this);
+	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture, getComponent<Hitbox>()->getPosition().x, getComponent<Hitbox>()->getPosition().y, *this);
 	addComponent(animation);
 	getComponent<AnimationC>()->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
 
 	//Movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 600.f, 1300.f, 400.f, this); //speed for bullet set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 600.f, 1300.f, 400.f, *this); //speed for bullet set here
 	addComponent(movement);
 	
-	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, this); //speed for bullet set here
+	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, *this); //speed for bullet set here
 	addComponent(attribute);
 	attribute->range = 40;
 	

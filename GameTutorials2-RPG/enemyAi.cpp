@@ -6,7 +6,7 @@
 #include "AIFollow.h"
 #include "AIRoaming.h"
 
-enemyAi::enemyAi(std::shared_ptr<Entity> player, bool follow, bool roaming, Entity* owner)
+enemyAi::enemyAi(std::shared_ptr<Entity> player, bool follow, bool roaming, Entity& owner)
 	: Component("AI", owner), entity(player), walkSpeed(1.f)
 {
 	//Adding settings
@@ -41,7 +41,7 @@ void enemyAi::reactions()
 
 void enemyAi::setIdle()
 {
-	owner->getComponent<Movement>()->setDirection(facing::IDLE);
+	owner.getComponent<Movement>()->setDirection(facing::IDLE);
 }
 
 void enemyAi::setRoaming(bool update_roaming)

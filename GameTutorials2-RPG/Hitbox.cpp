@@ -2,7 +2,7 @@
 #include "Hitbox.h"
 #include "Entity.h"
 
-Hitbox::Hitbox(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height, Entity* owner)
+Hitbox::Hitbox(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height, Entity& owner)
 	: sprite(sprite), offSetX(offset_x), offSetY(offset_y), Component("hitbox", owner)
 {
 	nextPosition.left = 0.f;

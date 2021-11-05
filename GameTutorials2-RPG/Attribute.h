@@ -6,7 +6,7 @@ class Attribute : public Component
 public:
 
 	//Con 
-	Attribute(int level, Entity* owner);
+	Attribute(int level, Entity& owner);
 
 	//Utility Functions
 	int calculateExpNext(int level) const;

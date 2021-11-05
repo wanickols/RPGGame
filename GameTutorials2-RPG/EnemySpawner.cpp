@@ -21,7 +21,7 @@ std::shared_ptr<Enemy> EnemySpawner::spawn()
 
 	std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>();
 	//enemyLib->translateType(enemyType);
-	enemyLib->createComponents(*enemy, "Rat", std::make_shared<EnemySpawner>(*this));
+	enemyLib->createComponents(enemy, "Rat", std::make_shared<EnemySpawner>(*this));
 
 	
 	

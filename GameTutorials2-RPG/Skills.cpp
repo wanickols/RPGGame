@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Skills.h"
 
-Skills::Skills(Entity* owner)
+Skills::Skills(Entity& owner)
 	: Component("skill", owner)
 
 {

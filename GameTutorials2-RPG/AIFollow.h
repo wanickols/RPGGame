@@ -4,7 +4,7 @@ class AIFollow :
     public AISetting
 {
 public:
-    AIFollow(std::shared_ptr<Entity> entity, Entity* owner);
+    AIFollow(std::shared_ptr<Entity> entity, Entity& owner);
     void update(const float& dt);
     void reaction() override;
     void setFollowing(bool following);

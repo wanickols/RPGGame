@@ -486,7 +486,7 @@ const bool& gui::TextureSelector::getActive() const
 }
 
 //Progress Bar
-gui::progressBar::progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Entity>& player, sf::Font& font, sf::VideoMode& vm, int offset, int fontSize, bool outline)
+gui::progressBar::progressBar(float frontWidth, float backWidth, float height, float xPos, float yPos, sf::Color backgroundColor, sf::Color fillColor, Entity& player, sf::Font& font, sf::VideoMode& vm, int offset, int fontSize, bool outline)
 	: fullWidth(frontWidth), percentWidth(100), height(height), player(player)
 {
 	text.setFont(font);

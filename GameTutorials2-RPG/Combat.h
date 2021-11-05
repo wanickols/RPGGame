@@ -4,7 +4,7 @@ class Combat :
     public Component
 {
 public:
-    Combat(Entity* owner);
+    Combat(Entity& owner);
 
     int attack();
     void defend(int damage);

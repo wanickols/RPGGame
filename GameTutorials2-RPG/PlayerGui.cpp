@@ -14,9 +14,9 @@ void PlayerGui::initBars()
 {			
 	
 	//Front width, bckwdth, height, xpos, ypos, backcolor, fillcolor, player, font, vm (optional)fontsize
-	addBar("HPBar", gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(1.1f, vm), sf::Color(50, 50, 50, 200), sf::Color(250, 20, 20, 210), player, font, vm, static_cast<int>(gui::p2pX(1.f, vm)));
-	addBar("ExpBar", gui::p2pX(13.85f, vm), gui::p2pX(14.85f, vm), gui::p2pY(1.f, vm), gui::p2pX(.7f, vm), gui::p2pY(8.4f, vm), sf::Color(50, 50, 50, 200), sf::Color(140, 140, 140, 250), player, font, vm, 0, static_cast<int>(gui::p2pS(.4f, vm)));
-	addBar("EnergyBar", gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(4.8f, vm), sf::Color(50, 50, 50, 200), sf::Color(20, 20, 250, 210), player, font, vm, static_cast<int>(gui::p2pX(1.f, vm)));
+	addBar("HPBar", gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(1.1f, vm), sf::Color(50, 50, 50, 200), sf::Color(250, 20, 20, 210), *player, font, vm, static_cast<int>(gui::p2pX(1.f, vm)));
+	addBar("ExpBar", gui::p2pX(13.85f, vm), gui::p2pX(14.85f, vm), gui::p2pY(1.f, vm), gui::p2pX(.7f, vm), gui::p2pY(8.4f, vm), sf::Color(50, 50, 50, 200), sf::Color(140, 140, 140, 250), *player, font, vm, 0, static_cast<int>(gui::p2pS(.4f, vm)));
+	addBar("EnergyBar", gui::p2pX(13.f, vm), gui::p2pX(13.f, vm), gui::p2pY(3.35f, vm), gui::p2pX(2.6f, vm), gui::p2pY(4.8f, vm), sf::Color(50, 50, 50, 200), sf::Color(20, 20, 250, 210), *player, font, vm, static_cast<int>(gui::p2pX(1.f, vm)));
 }
 
 void PlayerGui::initPlayerTabs(std::shared_ptr<Entity> player, sf::Font& font, sf::VideoMode& vm)
@@ -55,7 +55,7 @@ void PlayerGui::addBar
 (
 	std::string key,
 	float frontWidth, float backWidth, float height, float xPos, float yPos,
-	sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Entity>& player,
+	sf::Color backgroundColor, sf::Color fillColor, Entity& player,
 	sf::Font& font, sf::VideoMode& vm, int offset, int fontSize
 )
 {

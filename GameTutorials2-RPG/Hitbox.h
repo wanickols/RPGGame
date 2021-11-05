@@ -8,7 +8,7 @@ class Entity;
 class Hitbox : public Component
 {
 public:
-	Hitbox(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height, Entity* owner);
+	Hitbox(sf::Sprite& sprite, float offset_x, float offset_y, float width, float height, Entity& owner);
 	virtual ~Hitbox();
 
 	//Accessors

@@ -74,7 +74,7 @@ public:
 class Skills : public Component
 {
 public:
-	Skills(Entity* owner);
+	Skills(Entity& owner);
 
 	//Functions
 	Skill& getSkill(std::string key);

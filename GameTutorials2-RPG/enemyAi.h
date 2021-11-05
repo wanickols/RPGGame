@@ -6,7 +6,7 @@ class enemyAi :
     public Component
 {
 public:
-    enemyAi(std::shared_ptr<Entity> player, bool follow, bool roaming, Entity* owner);
+    enemyAi(std::shared_ptr<Entity> player, bool follow, bool roaming, Entity& owner);
     void update(const float& dt, const sf::Vector2f mousePosView);
     void reactions();
     void setIdle();

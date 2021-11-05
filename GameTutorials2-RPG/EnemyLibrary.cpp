@@ -116,41 +116,41 @@ std::string EnemyLibrary::translateType(int type)
 	return types.find(type)->second;
 }
 
-bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, std::shared_ptr<EnemySpawner> spawner)
+bool EnemyLibrary::createComponents(std::shared_ptr<Entity> enemy, std::string name, std::shared_ptr<EnemySpawner> spawner)
 {
 	bool anyCreated = false;
 	//0
 	if (componentPresets.find(name)->second->hitBox.created)
 	{
-		std::shared_ptr<Hitbox> hitBox = std::make_shared<Hitbox>(enemy.getSprite(), componentPresets.find(name)->second->hitBox.offSetX, componentPresets.find(name)->second->hitBox.offSetY, componentPresets.find(name)->second->hitBox.width, componentPresets.find(name)->second->hitBox.height, &enemy);
-		enemy.addComponent(hitBox);
+		std::shared_ptr<Hitbox> hitBox = std::make_shared<Hitbox>(enemy->getSprite(), componentPresets.find(name)->second->hitBox.offSetX, componentPresets.find(name)->second->hitBox.offSetY, componentPresets.find(name)->second->hitBox.width, componentPresets.find(name)->second->hitBox.height, *enemy);
+		enemy->addComponent(hitBox);
 		anyCreated = true;
 	}
 	
 	//2
 	if (componentPresets.find(name)->second->animation.created)
 	{
-		std::shared_ptr<AnimationC> animationComp = std::make_shared<AnimationC>(enemy.getSprite(), *textures.find(name)->second, spawner->getPosition().x, spawner->getPosition().y, &enemy);
+		std::shared_ptr<AnimationC> animationComp = std::make_shared<AnimationC>(enemy->getSprite(), *textures.find(name)->second, spawner->getPosition().x, spawner->getPosition().y, *enemy);
 		for (int i = 0; i < componentPresets.find(name)->second->animation.numAnimations; i++)
 		{
 			std::shared_ptr<AnimationPreset> aP = componentPresets.find(name)->second->animation.animations.at(i);
 			animationComp->addAnimation(aP->key, aP->animation_timer, aP->start_frame_x, aP->start_frame_y, aP->frames_x, aP->frames_y, aP->width, aP->height);
 		}
-		enemy.addComponent(animationComp);
+		enemy->addComponent(animationComp);
 		anyCreated = true;
 		
 	}
 	//1
 	if (componentPresets.find(name)->second->movement.created)
 	{
-		std::shared_ptr<Movement> movement = std::make_shared<Movement>(enemy.getSprite(), componentPresets.find(name)->second->movement.maxVelocity, componentPresets.find(name)->second->movement.acceleration, componentPresets.find(name)->second->movement.deceleration, &enemy);
-		enemy.addComponent(movement);
+		std::shared_ptr<Movement> movement = std::make_shared<Movement>(enemy->getSprite(), componentPresets.find(name)->second->movement.maxVelocity, componentPresets.find(name)->second->movement.acceleration, componentPresets.find(name)->second->movement.deceleration, *enemy);
+		enemy->addComponent(movement);
 		anyCreated = true;
 	}
 	//3
 	if (componentPresets.find(name)->second->attribute.created)
 	{
-		std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(componentPresets.find(name)->second->attribute.level, &enemy);
+		std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(componentPresets.find(name)->second->attribute.level, *enemy);
 
 		attribute->range = componentPresets.find(name)->second->attribute.range;
 
@@ -161,31 +161,31 @@ bool EnemyLibrary::createComponents(Enemy& enemy, std::string name, std::shared_
 
 		attribute->randomAssignment();
 		attribute->updateStats(true);
-		enemy.addComponent(attribute);
+		enemy->addComponent(attribute);
 		anyCreated = true;
 	}
 	//7
 	if (componentPresets.find(name)->second->enemyData.created)
 	{
 		std::shared_ptr<enemyDataPreset> eP = std::make_shared<enemyDataPreset>(componentPresets.find(name)->second->enemyData);
-		std::shared_ptr<EnemyData> data = std::make_shared<EnemyData>(eP->enemyName, EnemyPowerLevel::NORMAL, eP->expMult, eP->vitalityMult, eP->strengthMult, eP->dexterityMult, eP->agilityMult, eP->intellegenceMult, nullptr, spawner, &enemy);
-		enemy.addComponent(data);
+		std::shared_ptr<EnemyData> data = std::make_shared<EnemyData>(eP->enemyName, EnemyPowerLevel::NORMAL, eP->expMult, eP->vitalityMult, eP->strengthMult, eP->dexterityMult, eP->agilityMult, eP->intellegenceMult, nullptr, spawner, *enemy);
+		enemy->addComponent(data);
 		anyCreated = true;
 	}
 	//5
 	if (componentPresets.find(name)->second->ai.created)
 	{
-		std::shared_ptr<enemyAi> ai = std::make_shared<enemyAi>(player, componentPresets.find(name)->second->ai.follow,true,&enemy);
-		enemy.addComponent(ai);
+		std::shared_ptr<enemyAi> ai = std::make_shared<enemyAi>(player, componentPresets.find(name)->second->ai.follow,true, *enemy);
+		enemy->addComponent(ai);
 		anyCreated = true;
 	}
 	sf::VideoMode& vm = stateData->GraphicsSettings->resolution;
-	std::shared_ptr<enemyGui> enmyGui = std::make_shared<enemyGui>(&enemy, *stateData->font, vm);
-	enemy.addComponent(enmyGui);
+	std::shared_ptr<enemyGui> enmyGui = std::make_shared<enemyGui>(*enemy, *stateData->font, vm);
+	enemy->addComponent(enmyGui);
 	if (componentPresets.find(name)->second->combat.created)
 	{
-		std::shared_ptr<Combat> combat = std::make_shared<Combat>(&enemy);
-		enemy.addComponent(combat);
+		std::shared_ptr<Combat> combat = std::make_shared<Combat>(*enemy);
+		enemy->addComponent(combat);
 	}
 	
 

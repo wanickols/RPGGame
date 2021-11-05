@@ -6,7 +6,7 @@ std::random_device Attribute::seed;
 std::default_random_engine Attribute::engine(seed());
 
 //Con //Des
-Attribute::Attribute(int level, Entity* owner) :
+Attribute::Attribute(int level, Entity& owner) :
 	level(level), exp(0), attributePoints(3), levelBoostRate(1.f), levelUpdate(true), healthUpdate(true), expUpdate(true), energyUpdate(true),
 	Component("attribute", owner)
 {

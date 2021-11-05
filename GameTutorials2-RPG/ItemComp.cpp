@@ -12,7 +12,7 @@ void ItemComp::initInventory()
 	inventory = std::make_shared<Inventory>(32);
 }
 
-ItemComp::ItemComp(Entity* owner)
+ItemComp::ItemComp(Entity& owner)
 	: Component("item", owner)
 {
 	initInventory();
@@ -44,7 +44,7 @@ bool ItemComp::addItem(std::string itemName, bool setActive)
 
 		if (setActive) {
 			activeRune = weapons.back();//sets active Rune to new rune
-			owner->getComponent<Attribute>()->range = activeRune->getItemComponent<Weapon>()->getRange(); //adjust range by new range
+			owner.getComponent<Attribute>()->range = activeRune->getItemComponent<Weapon>()->getRange(); //adjust range by new range
 		}
 		return true;
 	}

@@ -7,7 +7,7 @@ class enemyGui :
     public Component
 {
 public:
-    enemyGui(Entity* Owner, sf::Font& font, sf::VideoMode& vm);
+    enemyGui(Entity& Owner, sf::Font& font, sf::VideoMode& vm);
 
     void update(const float& dt, const sf::Vector2f mousePosView);
     void render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox = false);

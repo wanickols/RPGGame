@@ -155,7 +155,7 @@ namespace gui {
 		progressBar
 		(
 			float frontWidth, float backWidth, float height, float xPos, float yPos,
-			sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Entity>& player,
+			sf::Color backgroundColor, sf::Color fillColor, Entity& player,
 			sf::Font& font, sf::VideoMode& vm, int offset = 0, int fontSize = 12, bool outline = true
 		);
 
@@ -172,7 +172,7 @@ namespace gui {
 	private:
 		std::string textString;
 		sf::Text text;
-		std::shared_ptr<Entity> player;
+		Entity& player;
 		float height;
 		float fullWidth;
 		float percentWidth;

@@ -3,11 +3,11 @@
 #include "Entity.h"
 #include "Movement.h"
 
-AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, float x, float y, Entity* owner)
+AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, float x, float y, Entity& owner)
 	: sprite(sprite), textureSheet(texture_sheet), lastAnimation(NULL), priorityAnimation(NULL), Component("animation", owner)
 {
 	//sets initial sprite pos
-	owner->setPosition(x, y);
+	owner.setPosition(x, y);
 	//rest of sprite set in animations.
 
 }
@@ -159,6 +159,11 @@ void AnimationC::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector
 void AnimationC::setIsDone(const std::string key, bool doneStatus)
 {
 	animations[key]->setDone(doneStatus);
+}
+
+sf::Sprite& AnimationC::getSprite()
+{
+	return this->sprite;
 }
 
 const bool& AnimationC::Animation::isDone() const

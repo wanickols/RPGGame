@@ -23,7 +23,7 @@ public:
 	(
 		std::string key,
 		float frontWidth, float backWidth, float height, float xPos, float yPos,
-		sf::Color backgroundColor, sf::Color fillColor, std::shared_ptr<Entity>& player,
+		sf::Color backgroundColor, sf::Color fillColor, Entity& player,
 		sf::Font& font, sf::VideoMode& vm, int offset = 0, int fontSize = 12
 	);
 	void updateBars(const float& dt);

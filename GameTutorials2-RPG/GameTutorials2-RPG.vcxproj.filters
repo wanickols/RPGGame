@@ -231,6 +231,12 @@
     <ClCompile Include="AIRoaming.cpp">
       <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="physicsComponent.cpp">
+      <Filter>Entities\Components\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -400,6 +406,15 @@
     </ClInclude>
     <ClInclude Include="AIRoaming.h">
       <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physicsComponent.h">
+      <Filter>Entities\Components\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

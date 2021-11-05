@@ -11,7 +11,7 @@ private:
 	//Initializer functions
 
 public:
-	Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity* owner);
+	Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity& owner);
 	virtual ~Movement();
 
 	//Accessors

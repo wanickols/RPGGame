@@ -11,7 +11,7 @@ class ItemComp :
 public:
     void initInventory();
 
-    ItemComp(Entity* owner);
+    ItemComp(Entity& owner);
     void initLibrary(std::shared_ptr<ItemLibrary> item_lib);
 
     void update(const float& dt, const sf::Vector2f mousePosView) {};

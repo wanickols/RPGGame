@@ -27,32 +27,32 @@ void Player::initVariables()
 void Player::initComponents()
 {
 	//movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 250.f, 1300.f, 400.f, this); //speed for player set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 250.f, 1300.f, 400.f, *this); //speed for player set here
 	addComponent(movement);
 	//hitbox
-	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 12.f, 0.f, 41.f, 42.f, this); //hitbox for player set here
+	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 12.f, 0.f, 41.f, 42.f, *this); //hitbox for player set here
 	addComponent(hitbox);
 	//Input
-	std::shared_ptr<UserInput> input = std::make_shared<UserInput>(this); //hitbox for player set here
+	std::shared_ptr<UserInput> input = std::make_shared<UserInput>(*this); //hitbox for player set here
 	addComponent(input);
 	//Skill
-	addComponent(std::make_shared<Skills>(this)); //Skills
+	addComponent(std::make_shared<Skills>(*this)); //Skills
 	//attribute
-	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, this); //attribute for player set here
+	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, *this); //attribute for player set here
 	addComponent(attribute);
 
 	std::cout << attribute->debugPrint();
 
-	std::shared_ptr<Combat> combat = std::make_shared<Combat>(this); //combat for player set here
+	std::shared_ptr<Combat> combat = std::make_shared<Combat>(*this); //combat for player set here
 	addComponent(combat);
 
-	std::shared_ptr<ItemComp> itemC = std::make_shared<ItemComp>(this); //itemComp for player set here
+	std::shared_ptr<ItemComp> itemC = std::make_shared<ItemComp>(*this); //itemComp for player set here
 	addComponent(itemC);
 }
 
 void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 {
-	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture_sheet, x,y, this);
+	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture_sheet, x,y, *this);
 	addComponent(animation);
 	
 
