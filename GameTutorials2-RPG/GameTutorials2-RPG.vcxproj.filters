@@ -73,6 +73,9 @@
     <Filter Include="Entities\Components\Entities\Enemy\EnemyAi">
       <UniqueIdentifier>{550b69e2-93c3-47a8-b0c3-af7cd531b1ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{74e40b8b-06a3-4ea1-a15b-4470639e60fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -231,11 +234,20 @@
     <ClCompile Include="AIRoaming.cpp">
       <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsDevice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="physicsComponent.cpp">
       <Filter>Entities\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsDevice.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactListener.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="bulletC.cpp">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="b2GLDraw.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -407,14 +419,26 @@
     <ClInclude Include="AIRoaming.h">
       <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsDevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="physicsComponent.h">
       <Filter>Entities\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactListener.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsDevice.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="bulletC.h">
+      <Filter>Entities\Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\RPGGame\GameTutorials2-RPG\glext.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="b2GLDraw.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

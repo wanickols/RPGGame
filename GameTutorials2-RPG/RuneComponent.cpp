@@ -2,6 +2,9 @@
 #include "RuneComponent.h"
 #include "Bullet.h"
 #include "TileMap.h"
+#include "PhysicsDevice.h"
+#include "bulletC.h"
+#include "physicsComponent.h"
 
 RuneComponent::RuneComponent(std::string bullet_path, Item& owner)
 	: ItemComponent("rune", owner)
@@ -28,9 +31,10 @@ void RuneComponent::updateBulletCollision(const float& dt, std::shared_ptr<TileM
 		bullets.clear();
 }
 
-void RuneComponent::shoot(float playerX, float playerY, float playerVelX, float playerVelY, const unsigned short lastState)
+void RuneComponent::shoot(float playerX, float playerY, float playerVelX, float playerVelY, const unsigned short lastState, std::shared_ptr<PhysicsDevice> p_device)
 {
 	bullets.push_back(std::make_shared<Bullet>(playerX, playerY, playerVelX, playerVelY, bulletTexture, lastState));
+	bullets.back()->getComponent<bulletC>()->initialize(p_device);
 }
 
 void RuneComponent::update(const float& dt, const sf::Vector2f& mousePosView, const sf::Vector2f& position)
@@ -38,12 +42,14 @@ void RuneComponent::update(const float& dt, const sf::Vector2f& mousePosView, co
 	auto iter = bullets.begin();
 	while (iter != bullets.end())
 	{
-		if (iter->get()->getRunning()) {
+		if (iter->get()->getComponent<bulletC>()->getRunning()) {
 			iter->get()->update(dt, mousePosView);
 			iter++;
 		}
-		else
+		else {
+			//iter->get()->getComponent<physicsComponent>()->destroy();
 			iter = bullets.erase(iter);
+		}
 	}
 }
 
@@ -53,7 +59,7 @@ void RuneComponent::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vec
 		for (auto& iter : bullets)
 		{
 
-			if (iter->getRunning())
+			if (iter->getComponent<bulletC>()->getRunning())
 				iter->render(target, shader, light_position, show_hitbox);
 		}
 	}
@@ -61,7 +67,7 @@ void RuneComponent::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vec
 		for (auto& iter : bullets)
 		{
 
-			if (iter->getRunning())
+			if (iter->getComponent<bulletC>()->getRunning())
 				iter->render(target);
 		}
 	}

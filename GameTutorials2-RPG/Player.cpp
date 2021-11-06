@@ -7,6 +7,7 @@
 #include "ComponentInclude.h"
 #include "itemComponentInlcudes.h"
 #include "ItemLibrary.h"
+#include "Constants.h"
 
 
 
@@ -27,11 +28,11 @@ void Player::initVariables()
 void Player::initComponents()
 {
 	//movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 250.f, 1300.f, 400.f, *this); //speed for player set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 200.f, 550.f, 300.f, *this); //speed for player set here
 	addComponent(movement);
 	//hitbox
-	std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 12.f, 0.f, 41.f, 42.f, *this); //hitbox for player set here
-	addComponent(hitbox);
+	//std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 12.f, 0.f, 41.f, 42.f, *this); //hitbox for player set here
+	//addComponent(hitbox);
 	//Input
 	std::shared_ptr<UserInput> input = std::make_shared<UserInput>(*this); //hitbox for player set here
 	addComponent(input);
@@ -48,10 +49,17 @@ void Player::initComponents()
 
 	std::shared_ptr<ItemComp> itemC = std::make_shared<ItemComp>(*this); //itemComp for player set here
 	addComponent(itemC);
+
+	
 }
 
 void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 {
+	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE, 5.f, 0.0f, .9f, .1f, .8f, 1.f, 0.f, 10.f);
+
+	std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(physics, *this); //itemComp for player set here
+	addComponent(physicsC);
+
 	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture_sheet, x,y, *this);
 	addComponent(animation);
 	
@@ -113,7 +121,7 @@ const std::shared_ptr<Item> Player::getActiveRune()
 
 void Player::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
 {
-	getComponent<ItemComp>()->activeRune->getItemComponent<RuneComponent>()->updateBulletCollision(dt, map);
+	//getComponent<ItemComp>()->activeRune->getItemComponent<RuneComponent>()->updateBulletCollision(dt, map);
 }
 
 //Functions

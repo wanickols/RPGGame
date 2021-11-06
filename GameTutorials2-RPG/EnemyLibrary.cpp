@@ -66,8 +66,8 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 			i->get()->update(dt);
 			
 			//Collison
-			map->updateWorldBounds(std::make_shared<Entity>(*i->get()));
-			map->updateTileCollision(std::make_shared<Entity>(*i->get()), dt);
+			//map->updateWorldBounds(std::make_shared<Entity>(*i->get()));
+			//->updateTileCollision(std::make_shared<Entity>(*i->get()), dt);
 
 			//AI
 			if (i->get()->getDistance(*player) < i->get()->getComponent<Attribute>()->range)
@@ -118,12 +118,14 @@ std::string EnemyLibrary::translateType(int type)
 
 bool EnemyLibrary::createComponents(std::shared_ptr<Entity> enemy, std::string name, std::shared_ptr<EnemySpawner> spawner)
 {
+
+
 	bool anyCreated = false;
 	//0
-	if (componentPresets.find(name)->second->hitBox.created)
+	if (componentPresets.find(name)->second->physics.created)
 	{
-		std::shared_ptr<Hitbox> hitBox = std::make_shared<Hitbox>(enemy->getSprite(), componentPresets.find(name)->second->hitBox.offSetX, componentPresets.find(name)->second->hitBox.offSetY, componentPresets.find(name)->second->hitBox.width, componentPresets.find(name)->second->hitBox.height, *enemy);
-		enemy->addComponent(hitBox);
+		std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(componentPresets.find(name)->second->physics.gamePhysics, *enemy);
+		enemy->addComponent(physicsC);
 		anyCreated = true;
 	}
 	
@@ -140,6 +142,13 @@ bool EnemyLibrary::createComponents(std::shared_ptr<Entity> enemy, std::string n
 		anyCreated = true;
 		
 	}
+
+	//PHYSICS INIT
+	if(componentPresets.find(name)->second->physics.created)
+	{
+		enemy->getComponent< physicsComponent>()->initialize(player->getComponent< physicsComponent>()->pDevice);
+	}
+
 	//1
 	if (componentPresets.find(name)->second->movement.created)
 	{
@@ -235,6 +244,7 @@ ComponentLibrary::ComponentLibrary()
 	componentTypes["enemyData"] = 7;
 	componentTypes["combat"] = 8;
 	componentTypes["item"] = 9;
+	componentTypes["physics"] = 10;
 
 }
 
@@ -256,6 +266,8 @@ std::shared_ptr<allEnemyPresets> ComponentLibrary::add(tinyxml2::XMLElement* com
 			addEnemyData(component, presets);
 		else if (component->IntAttribute("type") == componentTypes.find("combat")->second) //8
 			addCombat(component, presets);
+		else if (component->IntAttribute("type") == componentTypes.find("physics")->second) //10
+			addPhysics(component, presets);
 		component = component->NextSiblingElement();
 	}
 
@@ -324,6 +336,25 @@ void ComponentLibrary::addEnemyData(tinyxml2::XMLElement* component, std::shared
 	component->QueryFloatAttribute("dexterityMultiplier", &presets->enemyData.dexterityMult);
 	component->QueryFloatAttribute("agilityMultiplier", &presets->enemyData.agilityMult);
 	component->QueryFloatAttribute("intellgenceMultiplier", &presets->enemyData.intellegenceMult);
+}
+
+void ComponentLibrary::addPhysics(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)
+{
+	presets->physics.created = true;
+
+	component->QueryIntAttribute("bodyType", (int*)&presets->physics.gamePhysics.bodyType);
+	component->QueryIntAttribute("objectShape", (int*)&presets->physics.gamePhysics.objectShape);
+	component->QueryFloatAttribute("density", &presets->physics.gamePhysics.density);
+	component->QueryFloatAttribute("friction", &presets->physics.gamePhysics.friction);
+	component->QueryFloatAttribute("restitution", &presets->physics.gamePhysics.restitution);
+	component->QueryFloatAttribute("angularDamping", &presets->physics.gamePhysics.angularDamping);
+	component->QueryFloatAttribute("linearDamping", &presets->physics.gamePhysics.linearDamping);
+	component->QueryFloatAttribute("force", &presets->physics.gamePhysics.force);
+	component->QueryFloatAttribute("angle", &presets->physics.gamePhysics.angle);
+	component->QueryFloatAttribute("spinSpeed", &presets->physics.gamePhysics.spinSpeed);
+	component->QueryBoolAttribute("bullet", &presets->physics.gamePhysics.bullet);
+	component->QueryBoolAttribute("physicsOn", &presets->physics.gamePhysics.physicsOn);
+
 }
 
 void ComponentLibrary::addAI(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)

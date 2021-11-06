@@ -2,12 +2,14 @@
 #include "AnimationC.h"
 #include "Entity.h"
 #include "Movement.h"
+#include "physicsComponent.h"
+#include "PhysicsDevice.h"
 
 AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, float x, float y, Entity& owner)
 	: sprite(sprite), textureSheet(texture_sheet), lastAnimation(NULL), priorityAnimation(NULL), Component("animation", owner)
 {
 	//sets initial sprite pos
-	owner.setPosition(x, y);
+	sprite.setPosition(x, y);
 	//rest of sprite set in animations.
 
 }

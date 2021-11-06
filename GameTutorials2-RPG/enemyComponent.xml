@@ -14,6 +14,7 @@
 		<Component type="3"  name="attribute" level ="1" range ="400"/>
 		<Component type="7" name="enemydata"  enemyName="Rat" enemyPowerLevel="1" exp_mult="1.f" vitalityMultiplier="1.f" strengthMultiplier="1.f" dexterityMultiplier="1.f" agilityMultiplier="1.f" intellgenceMultiplier="1.f"/>
 		<Component type="8"  name="combat"/>
+		<Component type="10"  name="physics" bodyType="2" objectShape="0" density="1.f" friction="1.f" restitution=".7f" angularDamping=".1f" linearDamping=".7f" force="1.f" angle="0.f" spinSpeed="1.f" bullet = "false" physicsOn = "true"/>
 	</Enemy>
 
 

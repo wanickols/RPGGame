@@ -6,6 +6,8 @@
 #include "RuneComponent.h"
 #include "Rune.h"
 #include "AnimationC.h"
+#include "physicsComponent.h"
+#include "PhysicsDevice.h"
 
 UserInput::UserInput(Entity& owner)
 	: Component("input", owner)
@@ -18,8 +20,9 @@ UserInput::UserInput(Entity& owner)
 void UserInput::shoot(const sf::Vector2f& mousePosView)
 {
 	attacking = false;
-	player->getActiveRune()->getItemComponent<RuneComponent>()->shoot(owner.getPosition().x, owner.getPosition().y, owner.getComponent<Movement>()->getVelocity().x + (mousePosView.x - owner.getPosition().x) / 100, owner.getComponent<Movement>()->getVelocity().y + (mousePosView.y - owner.getPosition().y) / 100, owner.getComponent<Movement>()->getLastState());
-	
+
+	sf::Vector2f position = owner.getComponent<physicsComponent>()->pDevice->getPosition(owner);
+	player->getActiveRune()->getItemComponent<RuneComponent>()->shoot(position.x, position.y, owner.getComponent<Movement>()->getVelocity().x + (mousePosView.x - position.x) / 100, owner.getComponent<Movement>()->getVelocity().y + (mousePosView.y - position.y) / 100, owner.getComponent<Movement>()->getLastState(), owner.getComponent<physicsComponent>()->pDevice);
 }
 
 void UserInput::update(const float& dt, const sf::Vector2f mousePosView)

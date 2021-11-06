@@ -25,6 +25,8 @@ void Entity::initVariables()
 	componentList["Combat"] = false;
 	componentList["item"] = false;
 	componentList["enemyGui"] = false;
+	componentList["physics"] = false;
+	componentList["bullet"] = false;
 
 }
 

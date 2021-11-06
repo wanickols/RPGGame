@@ -9,6 +9,7 @@ class PauseMenu;
 class TileMap;
 class EnemyLibrary;
 class ItemLibrary;
+class PhysicsDevice;
 class TextTagSystem;
 
 class GameState : public State
@@ -18,6 +19,7 @@ private:
 	void initDefferredRender();
 	void initView();
 	void initKeybinds();
+	void initPhysics();
 	void initTextures();
 	void initTextTags();
 	void initPauseMenu();
@@ -61,6 +63,8 @@ private:
 	std::shared_ptr<PlayerGui> playerGui;
 	std::unique_ptr<PauseMenu> pmenu;
 	std::shared_ptr<TextTagSystem> tts;
+	std::shared_ptr<PhysicsDevice> pDevice;
+
 	bool playerGuiMenuOpen;
 	//functions
 };

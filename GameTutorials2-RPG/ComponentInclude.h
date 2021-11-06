@@ -10,3 +10,5 @@
 #include "enemyAi.h"
 #include "ItemComp.h"
 #include "enemyGui.h"
+#include "physicsComponent.h"
+#include "bulletC.h"

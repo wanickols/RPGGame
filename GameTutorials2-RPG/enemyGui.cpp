@@ -2,12 +2,13 @@
 #include "enemyGui.h"
 #include "Entity.h"
 #include "Attribute.h"
-#include "Hitbox.h"
+#include "physicsComponent.h"
+#include "PhysicsDevice.h"
 enemyGui::enemyGui(Entity& owner, sf::Font& font, sf::VideoMode& vm)
 	: Component("enemyGui", owner), font(font), vm(vm), hidden(true)
 {
-	width = owner.getComponent<Hitbox>()->getGlobalBounds().width * 2;
-	height = owner.getComponent<Hitbox>()->getGlobalBounds().height/3 ;
+	width = owner.getSprite().getGlobalBounds().width * 2;
+	height = owner.getSprite().getGlobalBounds().height/3 ;
 	healthBar = std::make_unique<gui::progressBar>(width, width, height, owner.getPosition().x, owner.getPosition().y, sf::Color(50, 50, 50, 200), sf::Color(250, 20, 20, 210), owner, font, vm, 0, 12, false);
 }
 

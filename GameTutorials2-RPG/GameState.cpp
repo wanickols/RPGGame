@@ -14,7 +14,9 @@
 #include "Weapon.h"
 #include "Item.h"
 #include "TextTagSystem.h"
+#include "PhysicsDevice.h"
 #include "PlayerGuiTabs.h"
+#include "physicsComponent.h"
 
 void GameState::initDefferredRender()
 {
@@ -57,6 +59,29 @@ void GameState::initKeybinds()
 	}
 
 	ifs.close();
+
+
+}
+
+void GameState::initPhysics()
+{
+	pDevice = std::make_shared<PhysicsDevice>(0.f,0.f);
+	if (!pDevice->initialize())
+		std::cout << "ERROR::GAMESTATE::PHSYICS COULD NOT INITIALIZE \n";
+
+	float borderSize = (float)stateData->mapSize * stateData->gridSize;
+
+	
+
+	//Creating Borders of World
+	sf::Vector2f vTopLeft({ 0.f, 0.f });
+	sf::Vector2f vTopRight({ borderSize, 0.f });
+	sf::Vector2f vBottomLeft(0.f, borderSize);
+	sf::Vector2f vBottomRight(borderSize, borderSize);
+	pDevice->createEdge(vTopLeft, vTopRight);
+	pDevice->createEdge(vTopRight, vBottomRight);
+	pDevice->createEdge(vBottomRight, vBottomLeft);
+	pDevice->createEdge(vBottomLeft, vTopLeft);
 
 
 }
@@ -114,6 +139,7 @@ void GameState::initPlayers()
 	itemLib = std::make_shared<ItemLibrary>();
 	player = std::make_shared<Player>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 	player->initItems(itemLib);
+	player->getComponent<physicsComponent>()->initialize(pDevice);
 	//testEnemy = std::make_shared<Enemy>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 }
 
@@ -133,6 +159,7 @@ GameState::GameState(std::shared_ptr<StateData> state_data)
 	initDefferredRender();
 	initView();
 	initKeybinds();
+	initPhysics();
 	initTextures();
 	initTextTags();
 	initPauseMenu();
@@ -271,8 +298,8 @@ void GameState::updateEnemies(const float& dt)
 void GameState::updatePlayer(const float& dt)
 {
 
-	map->updateWorldBounds(player);
-	map->updateTileCollision(player, dt);
+	//map->updateWorldBounds(player);
+	//map->updateTileCollision(player, dt);
 	updatePlayerInput(dt);
 	updatePlayerGui(dt);
 	player->update(dt, mousePosView);
@@ -297,6 +324,7 @@ void GameState::update(const float& dt)
 	updateInput(dt);
 	if (!paused && !playerGuiMenuOpen) {
 
+		pDevice->update(dt);
 		updateView();
 		updateTileMap(dt);
 		updatePlayer(dt);

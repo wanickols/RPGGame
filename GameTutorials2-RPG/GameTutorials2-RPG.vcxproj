@@ -95,7 +95,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Externals\Box2d\lib;$(SolutionDir)\Externals\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies);Box2d.lib</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies);Box2d.lib;opengl32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,7 +115,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Externals\Box2d\lib;$(SolutionDir)\Externals\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-audio.lib;sfml-network.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies);Box2d.lib</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-audio.lib;sfml-network.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies);Box2d.lib;opengl32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -152,10 +152,13 @@
     <ClCompile Include="AISetting.cpp" />
     <ClCompile Include="AnimationC.cpp" />
     <ClCompile Include="Attribute.cpp" />
+    <ClCompile Include="b2GLDraw.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="bulletC.cpp" />
     <ClCompile Include="CharacterTab.cpp" />
     <ClCompile Include="Combat.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="DefaultEditorMode.cpp" />
     <ClCompile Include="EditorMode.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -206,17 +209,21 @@
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\RPGGame\GameTutorials2-RPG\glext.h" />
     <ClInclude Include="AIFollow.h" />
     <ClInclude Include="AIRoaming.h" />
     <ClInclude Include="AISetting.h" />
     <ClInclude Include="AnimationC.h" />
     <ClInclude Include="Attribute.h" />
+    <ClInclude Include="b2GLDraw.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="bulletC.h" />
     <ClInclude Include="CharacterTab.h" />
     <ClInclude Include="Combat.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentInclude.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="ContactListener.h" />
     <ClInclude Include="DefaultEditorMode.h" />
     <ClInclude Include="EditorMode.h" />
     <ClInclude Include="EditorModes.h" />

@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-
+#include "Constants.h"
 
 struct hitBoxPreset {
 	bool created = false;
@@ -73,6 +73,12 @@ struct combatPreset
 	bool created = false;
 };
 
+struct physicsPreset
+{
+	bool created = false;
+	GAME_PHYSICS gamePhysics;
+};
+
 struct allEnemyPresets 
 {
 	hitBoxPreset hitBox;
@@ -81,5 +87,6 @@ struct allEnemyPresets
 	attributePreset attribute;
 	AnimationCPreset animation;
 	combatPreset combat;
+	physicsPreset physics;
 	AIPreset ai;
 };

@@ -2,12 +2,15 @@
 #include "Movement.h"
 #include "Entity.h"
 #include "AnimationC.h"
+#include "PhysicsDevice.h"
+#include "Entity.h"
+#include "physicsComponent.h"
 
 Movement::Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity& owner)
 	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), lastState(0), direction(facing::IDLE),
 	Component("movement", owner)
 {
-	
+
 }
 
 Movement::~Movement()
@@ -207,61 +210,70 @@ void Movement::stopVelocityY()
 //Functions
 void Movement::move(const float dir_x, const float dir_y, const float& dt, bool player)
 {
-	velocity.x += acceleration * dir_x * dt;
-	velocity.y += acceleration * dir_y * dt;
+		velocity.x += acceleration * dir_x * dt;
+		velocity.y += acceleration * dir_y * dt;
+
 }
 
 void Movement::update(const float& dt, const sf::Vector2f mousePosView)
 {
-	/*X MOVEMENT*/
-	if (velocity.x > 0.f) { //positive x movement
-		//maxVelocity check x
-		if (velocity.x > maxVelocity)
-			velocity.x = maxVelocity;
 
-		//DECELERATION X
-		velocity.x -= deceleration * dt;
-		if (velocity.x < 0.f)
-			velocity.x = 0;
+	if (velocity.x != 0.f || velocity.y != 0.f) {
+		owner.getComponent<physicsComponent>()->pDevice->setVelocity(owner, velocity);
+		/*X MOVEMENT*/
+		if (velocity.x > 0.f) { //positive x movement
+			//maxVelocity check x
+			if (velocity.x > maxVelocity)
+				velocity.x = maxVelocity;
+
+			//DECELERATION X
+			velocity.x -= deceleration * dt;
+			if (velocity.x < 0.f)
+				velocity.x = 0;
+		}
+		else if (velocity.x < 0.f) { //negative x movement
+
+			//Max velocity check x
+			if (velocity.x < -maxVelocity)
+				velocity.x = -maxVelocity;
+
+			//DECELERATION X
+			velocity.x += deceleration * dt;
+			if (velocity.x > 0.f)
+				velocity.x = 0;
+		}
+		/*Y MOVEMENT*/
+		if (velocity.y > 0.f) { //positive y movement
+			//maxVelocity check y
+			if (velocity.y > maxVelocity)
+				velocity.y = maxVelocity;
+
+			//DECELERATION Y
+			velocity.y -= deceleration * dt;
+			if (velocity.y < 0.f)
+				velocity.y = 0;
+		}
+		else if (velocity.y < 0.f) { //negative y movement
+
+		   //Max velocity check y
+			if (velocity.y < -maxVelocity)
+				velocity.y = -maxVelocity;
+
+			//DECELERATION Y
+			velocity.y += deceleration * dt;
+			if (velocity.y > 0.f)
+				velocity.y = 0;
+		}
+
 	}
-	else if (velocity.x < 0.f) { //negative x movement
-
-		//Max velocity check x
-		if (velocity.x < -maxVelocity)
-			velocity.x = -maxVelocity;
-
-		//DECELERATION X
-		velocity.x += deceleration * dt;
-		if (velocity.x > 0.f)
-			velocity.x = 0;
-	}
-	/*Y MOVEMENT*/
-	if (velocity.y > 0.f) { //positive y movement
-		//maxVelocity check y
-		if (velocity.y > maxVelocity)
-			velocity.y = maxVelocity;
-
-		//DECELERATION Y
-		velocity.y -= deceleration * dt;
-		if (velocity.y < 0.f)
-			velocity.y = 0;
-	}
-	else if (velocity.y < 0.f) { //negative y movement
-
-	   //Max velocity check y
-		if (velocity.y < -maxVelocity)
-			velocity.y = -maxVelocity;
-
-		//DECELERATION Y
-		velocity.y += deceleration * dt;
-		if (velocity.y > 0.f)
-			velocity.y = 0;
-	}
-
 	//Final move
-	sprite.move(velocity * dt); //uses velocity	
+
+
 }
 
 void Movement::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
+
+	sprite.setPosition(owner.getComponent<physicsComponent>()->pDevice->getPosition(owner));
+	
 }

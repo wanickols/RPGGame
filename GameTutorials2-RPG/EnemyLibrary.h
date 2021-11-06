@@ -21,6 +21,7 @@ public:
 	void addAnimation(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
 	void addCombat(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
 	void addEnemyData(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
+	void addPhysics(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
 	void addAI(tinyxml2::XMLElement*, std::shared_ptr<allEnemyPresets> presets);
 };
 
