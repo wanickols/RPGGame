@@ -13,7 +13,7 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 {
 
 
-	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_CIRCLE, .5f, 1.0f, .9f, .1f, .7f, 4.f, 0.f, 10.f);
+	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_CIRCLE,31,31, .5f, 1.0f, .9f, .1f, .7f, 4.f, 0.f, 10.f);
 
 	std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(physics, *this); //itemComp for player set here
 

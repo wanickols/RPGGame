@@ -4,6 +4,9 @@
 #include "AnimationC.h"
 #include "ContactListener.h"
 
+//Debugging
+#include "b2GLDraw.h"
+
 PhysicsDevice::PhysicsDevice(sf::Vector2f gravity)
 {
 	this->gravity.x = gravity.x;
@@ -28,6 +31,18 @@ bool PhysicsDevice::initialize()
 	std::unique_ptr<ContactListener> contactListener = std::make_unique<ContactListener>();
 	world->SetContactListener(contactListener.release());
 
+	//Debugging
+	b2GLDraw debugDraw;
+	world->SetDebugDraw(&debugDraw);
+
+	uint32 flags = 0;
+	flags += b2Draw::e_aabbBit;
+	flags += b2Draw::e_centerOfMassBit;
+	flags += b2Draw::e_jointBit;
+	flags += b2Draw::e_pairBit;
+	flags += b2Draw::e_shapeBit;
+	debugDraw.SetFlags(flags);
+
 	return true;
 }
 //**************************************
@@ -38,7 +53,6 @@ bool PhysicsDevice::update(const float& dt)
 {
 	// 8 3 accepted good values, can play later maybe
 	world->Step(dt, 8, 3);
-	world->DebugDraw();
 	return true;
 
 }
@@ -55,9 +69,21 @@ bool PhysicsDevice::createEdge(sf::Vector2f start, sf::Vector2f finish)
 	
 	b2EdgeShape shape;
 	shape.SetTwoSided(GV2PV(start), GV2PV(finish));
+
+	
+
+	
 	
 	edge->CreateFixture(&shape, 0.0f);
-
+	std::cout << "start:  " << start.x << " " << start.y << "\n";
+	std::cout << "finish:  " << finish.x << " " << finish.y << "\n";
+	std::cout << "vertex_0:  " << shape.m_vertex0.x << " " << shape.m_vertex0.y << "\n";
+	std::cout << "vertex_1:  " << shape.m_vertex1.x << " " << shape.m_vertex1.y << "\n";
+	std::cout << "vertex_2:  " << shape.m_vertex2.x << " " << shape.m_vertex2.y << "\n";
+	std::cout << "vertex_3:  " << shape.m_vertex3.x << " " << shape.m_vertex3.y << "\n";
+	std::cout << "local Center:  " << edge->GetLocalCenter().x << " " << edge->GetLocalCenter().y << "\n";
+	std::cout << "edge Position:  " << edge->GetPosition().x << " " << edge->GetPosition().y << "\n";
+	
 	return true;
 }
 
@@ -129,8 +155,8 @@ bool PhysicsDevice::createFixture(Entity& entity, GAME_PHYSICS& physics)
 	b2PolygonShape pShape;
 	b2CircleShape cShape;
 
-	float width = (entity.getComponent<AnimationC>()->getSprite().getGlobalBounds().width - 24) / 2.0f;
-	float height = (entity.getComponent<AnimationC>()->getSprite().getGlobalBounds().height - 24)/ 2.0f;
+	float width = physics.width / 2.0f;
+	float height = physics.height/ 2.0f;
 	//Set fixture's shape
 	switch (physics.objectShape)
 	{
@@ -245,6 +271,11 @@ void PhysicsDevice::setVelocity(Entity& entity, sf::Vector2f velocity)
 {
 	b2Body* body = findBody(entity);
 	body->SetLinearVelocity({ velocity.x /10,velocity.y/10 });
+}
+
+void PhysicsDevice::render(bool debug)
+{
+	//world->DebugDraw();
 }
 
 sf::Vector2f PhysicsDevice::alignCenters(Entity& entity)

@@ -18,6 +18,8 @@
 #include "PlayerGuiTabs.h"
 #include "physicsComponent.h"
 
+
+
 void GameState::initDefferredRender()
 {
 	renderTexture.create(GraphicsSettings->resolution.width,
@@ -70,7 +72,7 @@ void GameState::initPhysics()
 		std::cout << "ERROR::GAMESTATE::PHSYICS COULD NOT INITIALIZE \n";
 
 	float borderSize = (float)stateData->mapSize * stateData->gridSize;
-
+	borderSize = 300;
 	
 
 	//Creating Borders of World
@@ -78,12 +80,13 @@ void GameState::initPhysics()
 	sf::Vector2f vTopRight({ borderSize, 0.f });
 	sf::Vector2f vBottomLeft(0.f, borderSize);
 	sf::Vector2f vBottomRight(borderSize, borderSize);
+
 	pDevice->createEdge(vTopLeft, vTopRight);
 	pDevice->createEdge(vTopRight, vBottomRight);
 	pDevice->createEdge(vBottomRight, vBottomLeft);
 	pDevice->createEdge(vBottomLeft, vTopLeft);
 
-
+	
 }
 
 void GameState::initTextures()
@@ -372,6 +375,9 @@ void GameState::render(std::shared_ptr<sf::RenderTarget> target)
 	renderTexture.display();
 	renderSprite.setTexture(renderTexture.getTexture());
 	target->draw(renderSprite);
+
+	
+	pDevice->render(true);
 }
 
 

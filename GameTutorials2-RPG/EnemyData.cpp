@@ -21,6 +21,7 @@ EnemyData::EnemyData
 		this->dropItem = std::make_unique<Item>(*dropItem);
 
 	this->enemyName = name;
+	owner.getComponent<Attribute>()->EntityName = name;
 	expWorth = 100 * exp_mult * (owner.getComponent<Attribute>()->level/2.5);
 
 	enemyPowerLevel = enemy_power_level;

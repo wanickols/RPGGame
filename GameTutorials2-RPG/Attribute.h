@@ -29,7 +29,6 @@ public:
 	void addEnergy(const int energy);
 	void loseExp(const int exp);
 	void addExp(int xp);
-
 	//Accessors for Tabs
 	const std::string toStringCharacterTab();
 	
@@ -81,6 +80,8 @@ public:
 
 	int range;
 
+	std::string EntityName;
+		
 	static std::random_device seed;
 	static std::default_random_engine engine;
 };

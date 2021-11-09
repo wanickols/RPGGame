@@ -44,6 +44,7 @@ public:
 
 	void setVelocity(Entity& entity, sf::Vector2f velocity);
 
+	void render(bool debug);
 	//public just for creating borders!
 	std::shared_ptr<b2World> world;
 private:

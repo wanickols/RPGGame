@@ -16,6 +16,8 @@ public:
     std::shared_ptr<PhysicsDevice> pDevice;
 private:
     GAME_PHYSICS physics;
+    float width;
+    float height;
 
 };
 

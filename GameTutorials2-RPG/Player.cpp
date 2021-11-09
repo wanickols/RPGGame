@@ -23,6 +23,7 @@ void Player::initVariables()
 
 	attack = false;
 	
+	
 }
 
 void Player::initComponents()
@@ -40,6 +41,7 @@ void Player::initComponents()
 	addComponent(std::make_shared<Skills>(*this)); //Skills
 	//attribute
 	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, *this); //attribute for player set here
+	attribute->EntityName = "player";
 	addComponent(attribute);
 
 	std::cout << attribute->debugPrint();
@@ -55,7 +57,7 @@ void Player::initComponents()
 
 void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 {
-	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE, 5.f, 0.0f, .9f, .1f, .8f, 1.f, 0.f, 10.f);
+	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE,32,60, 5.f, 0.0f, .9f, .1f, .8f, 1.f, 0.f, 10.f);
 
 	std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(physics, *this); //itemComp for player set here
 	addComponent(physicsC);

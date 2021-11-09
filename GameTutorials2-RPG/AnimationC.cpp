@@ -4,6 +4,7 @@
 #include "Movement.h"
 #include "physicsComponent.h"
 #include "PhysicsDevice.h"
+#include "Attribute.h"
 
 AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, float x, float y, Entity& owner)
 	: sprite(sprite), textureSheet(texture_sheet), lastAnimation(NULL), priorityAnimation(NULL), Component("animation", owner)
@@ -149,8 +150,16 @@ void AnimationC::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector
 	if (shader) {
 		shader->setUniform("hasTexture", true);
 		shader->setUniform("lightPos", light_position);
-
-		target.draw(sprite, shader);
+		sprite.setPosition(owner.getComponent<physicsComponent>()->pDevice->getPosition(owner));
+		if (owner.getComponent<Attribute>() != nullptr)
+			std::cout << owner.getComponent<Attribute>()->EntityName << "\n";
+		std::cout << "Global Height: " << sprite.getGlobalBounds().height << " Global width: " << sprite.getGlobalBounds().width << "\n";
+		std::cout << "sprite x Pos: " << sprite.getPosition().x << " sprite y Pos: " << sprite.getPosition().y << "\n";
+		std::cout << "Global bottom: " << sprite.getGlobalBounds().left + sprite.getGlobalBounds().height << " Local width: " << sprite.getGlobalBounds().top + sprite.getGlobalBounds().width << "\n";
+		std::cout << "Physics x Pos: " << owner.getComponent<physicsComponent>()->pDevice->getPosition(owner).x << " Physics y Pos: " << owner.getComponent<physicsComponent>()->pDevice->getPosition(owner).y << "\n";
+		std::cout << "Physics Permeiter: " << owner.getComponent<physicsComponent>()->pDevice->findBody(owner)->GetFixtureList()->GetAABB(0).GetPerimeter() << "\n";
+		
+			target.draw(sprite, shader);
 	}
 	else
 	{

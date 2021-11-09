@@ -344,6 +344,8 @@ void ComponentLibrary::addPhysics(tinyxml2::XMLElement* component, std::shared_p
 
 	component->QueryIntAttribute("bodyType", (int*)&presets->physics.gamePhysics.bodyType);
 	component->QueryIntAttribute("objectShape", (int*)&presets->physics.gamePhysics.objectShape);
+	component->QueryFloatAttribute("width", &presets->physics.gamePhysics.width);
+	component->QueryFloatAttribute("height", &presets->physics.gamePhysics.height);
 	component->QueryFloatAttribute("density", &presets->physics.gamePhysics.density);
 	component->QueryFloatAttribute("friction", &presets->physics.gamePhysics.friction);
 	component->QueryFloatAttribute("restitution", &presets->physics.gamePhysics.restitution);

@@ -12,12 +12,14 @@ typedef struct GAME_PHYSICS
 
 	GAME_PHYSICS(
 	GAME_BODY_TYPE bodyType, GAME_OBJECT_SHAPE objectShape,
+		float width, float height,
 	float density, float friction, float restitution,
 	float angularDamping, float linearDamping,
 	float force, float angle, float spinSpeed,
 	bool bullet = false, bool physicsOn = true
 	) 
 		: bodyType(bodyType), objectShape(objectShape),
+		width(width), height(height),
 		density(density), friction(friction), restitution(restitution),
 		angularDamping(angularDamping), linearDamping(linearDamping),
 		force(force), angle(angle), spinSpeed(spinSpeed),
@@ -26,6 +28,10 @@ typedef struct GAME_PHYSICS
 
 	GAME_BODY_TYPE bodyType = GAME_BODY_TYPE::GAME_STATIC;
 	GAME_OBJECT_SHAPE objectShape = GAME_OBJECT_SHAPE::GAME_RECTANGLE;
+	float width = 0.f;
+	float height = 0.f;
+	float offSetX = 0.f;
+	float offSetY = 0.f;
 	float density = 0.f;
 	float friction = 0.f;
 	float restitution = 0.f;
