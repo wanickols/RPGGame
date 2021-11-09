@@ -4,7 +4,7 @@
 #include "EnemyLibrary.h"
 #include "enemyGui.h"
 
-EnemySpawner::EnemySpawner(float x, float y, const sf::Texture& texture, const sf::IntRect& texture_rect, const sf::Texture& enemy_texture, int enemy_type, int max_spawned, sf::Int32 time_to_spawn, float max_distance, int enemy_level, std::shared_ptr<EnemyLibrary> lib)
+EnemySpawner::EnemySpawner(float x, float y, sf::Texture& texture, const sf::IntRect& texture_rect, const sf::Texture& enemy_texture, int enemy_type, int max_spawned, sf::Int32 time_to_spawn, float max_distance, int enemy_level, std::shared_ptr<EnemyLibrary> lib)
 	: Tile(x, y, texture, texture_rect, false, ENEMYSPAWNER), enemyTexture(enemy_texture), enemyType(enemy_type), maxSpawned(max_spawned), timeToSpawn(time_to_spawn), maxDistance(max_distance)
 {
 	enemyLib = lib;

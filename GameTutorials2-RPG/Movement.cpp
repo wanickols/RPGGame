@@ -220,6 +220,7 @@ void Movement::update(const float& dt, const sf::Vector2f mousePosView)
 
 	if (velocity.x != 0.f || velocity.y != 0.f) {
 		owner.getComponent<physicsComponent>()->pDevice->setVelocity(owner, velocity);
+		owner.getComponent<physicsComponent>()->pDevice->findBody(owner)->ApplyForceToCenter({ -velocity.x / 100 , -velocity.y / 100 }, true);
 		/*X MOVEMENT*/
 		if (velocity.x > 0.f) { //positive x movement
 			//maxVelocity check x

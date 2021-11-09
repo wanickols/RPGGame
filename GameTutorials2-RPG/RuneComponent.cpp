@@ -17,18 +17,7 @@ RuneComponent::RuneComponent(std::string bullet_path, Item& owner)
 
 void RuneComponent::updateBulletCollision(const float& dt, std::shared_ptr<TileMap> map)
 {
-	if (!bullets.empty()) {
-		auto it = bullets.begin();
-		bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [&](auto iter) {
-			return map->updateTileCollision(iter, dt) || map->updateWorldBounds(iter);
-			}
 
-		), bullets.end()
-
-				);
-	}
-	else
-		bullets.clear();
 }
 
 void RuneComponent::shoot(float playerX, float playerY, float playerVelX, float playerVelY, const unsigned short lastState, std::shared_ptr<PhysicsDevice> p_device)

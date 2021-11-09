@@ -11,6 +11,7 @@ AnimationC::AnimationC(sf::Sprite& sprite, sf::Texture& texture_sheet, float x, 
 {
 	//sets initial sprite pos
 	sprite.setPosition(x, y);
+
 	//rest of sprite set in animations.
 
 }
@@ -150,7 +151,7 @@ void AnimationC::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector
 	if (shader) {
 		shader->setUniform("hasTexture", true);
 		shader->setUniform("lightPos", light_position);
-		sprite.setPosition(owner.getComponent<physicsComponent>()->pDevice->getPosition(owner));
+		sprite.setPosition(owner.getComponent<physicsComponent>()->pDevice->getPosition(owner).x + owner.getComponent<physicsComponent>()->getOffset().x, owner.getComponent<physicsComponent>()->pDevice->getPosition(owner).y + owner.getComponent<physicsComponent>()->getOffset().y);
 		if (owner.getComponent<Attribute>() != nullptr)
 			std::cout << owner.getComponent<Attribute>()->EntityName << "\n";
 		std::cout << "Global Height: " << sprite.getGlobalBounds().height << " Global width: " << sprite.getGlobalBounds().width << "\n";

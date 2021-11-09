@@ -13,7 +13,9 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 {
 
 
-	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_CIRCLE,31,31, .5f, 1.0f, .9f, .1f, .7f, 4.f, 0.f, 10.f);
+	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_CIRCLE,12,12, 1.f, 1.0f, 1.f, .1f, .7f, 4.f, 0.f, 10.f, true);
+	physics.offSetX = 8;
+	physics.offSetY = 48;
 
 	std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(physics, *this); //itemComp for player set here
 
@@ -25,19 +27,19 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 	addComponent(hitbox);
 
 	//Animation
-	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture, getComponent<Hitbox>()->getPosition().x, getComponent<Hitbox>()->getPosition().y, *this);
+	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture, x, y, *this);
 	addComponent(animation);
 	getComponent<AnimationC>()->addAnimation("ATTACK", 20.f, 0, 0, 7, 0, 32, 32);
 
 	//Movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 200.f, 550.f, 20.f, *this); //speed for bullet set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 150.f, 450.f, 100.f, *this); //speed for bullet set here
 	addComponent(movement);
 
 	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, *this); //speed for bullet set here
 	addComponent(attribute);
 	attribute->range = 40;
 
-	std::shared_ptr<bulletC> bullet = std::make_shared<bulletC>(x, y, velX, velY, texture, state, *this); //speed for bullet set here
+	std::shared_ptr<bulletC> bullet = std::make_shared<bulletC>(x - physics.offSetX, y - physics.offSetY -28, velX, velY, texture, state, *this); //speed for bullet set here
 	addComponent(bullet);
 
 }

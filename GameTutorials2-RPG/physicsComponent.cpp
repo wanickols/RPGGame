@@ -7,6 +7,8 @@
 physicsComponent::physicsComponent(GAME_PHYSICS physics, Entity& owner)
 	: Component("physics", owner), physics(physics)
 {
+	offset.x = physics.offSetX;
+	offset.y = physics.offSetY;
 }
 
 physicsComponent::~physicsComponent()
@@ -22,6 +24,11 @@ void physicsComponent::initialize(std::shared_ptr<PhysicsDevice> p_device)
 {
 	pDevice = p_device;
 	pDevice->createFixture(owner, physics);
+}
+
+const sf::Vector2f physicsComponent::getOffset()
+{
+	return offset;
 }
 
 void physicsComponent::collisions(Entity* collider)

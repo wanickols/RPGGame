@@ -29,7 +29,7 @@ void Player::initVariables()
 void Player::initComponents()
 {
 	//movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 200.f, 550.f, 300.f, *this); //speed for player set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 150.f, 750.f, 200.f, *this); //speed for player set here
 	addComponent(movement);
 	//hitbox
 	//std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 12.f, 0.f, 41.f, 42.f, *this); //hitbox for player set here
@@ -57,7 +57,8 @@ void Player::initComponents()
 
 void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 {
-	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE,32,60, 5.f, 0.0f, .9f, .1f, .8f, 1.f, 0.f, 10.f);
+	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE,32,32, 4.f, 0.0f, .7f, .1f, .8f, 1.f, 0.f, 10.f);
+	physics.offSetY = 16;
 
 	std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(physics, *this); //itemComp for player set here
 	addComponent(physicsC);

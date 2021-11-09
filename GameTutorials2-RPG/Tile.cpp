@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "Tile.h"
+#include "physicsComponent.h"
+#include "AnimationC.h"
+#include "Constants.h"
 
-Tile::Tile(float x, float y, const sf::Texture& texture, const sf::IntRect& texture_rect, bool collision, short type)
+Tile::Tile(float x, float y, sf::Texture& texture, const sf::IntRect& texture_rect, bool collision, short type)
 	: collision(collision), type(type)
 {
 	
@@ -11,6 +14,20 @@ Tile::Tile(float x, float y, const sf::Texture& texture, const sf::IntRect& text
 	//shape.setOutlineColor(sf::Color::White);
 	shape.setTexture(texture);
 	shape.setTextureRect(texture_rect);
+	
+	if (collision) {
+		GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_STATIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE, texture_rect.width, texture_rect.height, 1000.f, .1f, 0.f, 1000.f, 1000.f, 1000.f, 0.f, 0.f);
+		physics.offSetX = 22.f;
+		std::shared_ptr<physicsComponent> physC = std::make_shared<physicsComponent>(physics, *this);
+		addComponent(physC);
+
+		std::shared_ptr<AnimationC> anim = std::make_shared<AnimationC>(sprite, texture, x, y, *this);
+		addComponent(anim);
+	}
+
+	
+
+	
 }
 
 //Accessors
@@ -49,6 +66,7 @@ const bool Tile::intersects(const sf::FloatRect bounds) const
 //Functions
 void Tile::update(const float& dt)
 {
+	Entity::update(dt, sf::Vector2f());
 }
 
 void Tile::render(sf::RenderTarget& target, const sf::Vector2f playerPosition, sf::Shader* shader)
@@ -57,6 +75,7 @@ void Tile::render(sf::RenderTarget& target, const sf::Vector2f playerPosition, s
 		shader->setUniform("hasTexture", true);
 		shader->setUniform("lightPos", playerPosition);
 
+		
 		target.draw(shape, shader);
 	}
 	else

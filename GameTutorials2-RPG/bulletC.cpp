@@ -48,26 +48,26 @@ bulletC::bulletC(float x, float y, float velX, float velY, sf::Texture& texture,
 		{
 		case(MOVING_RIGHT):
 		case(RIGHTIDLE):
-			if (xVel < 150.f)
-				xVel = 150.f;
+			if (xVel < 15.f)
+				xVel = 15.f;
 			sprite.setPosition(x + 32, y);
 			break;
 		case(MOVING_LEFT):
 		case(LEFTIDLE):
-			if (xVel > -150.f)
-				xVel = -150.f;
+			if (xVel > -15.f)
+				xVel = -15.f;
 			sprite.setPosition(x - 30, y);
 			break;
 		case(MOVING_UP):
 		case(UPIDLE):
-			if (yVel > -150.f)
-				yVel = -150.f;
+			if (yVel > -15.f)
+				yVel = -15.f;
 			sprite.setPosition(x - 10, y - 32);
 			break;
 		case(MOVING_DOWN):
 		case(DOWNIDLE):
-			if (yVel < 150.f)
-				yVel = 150.f;
+			if (yVel < 15.f)
+				yVel = 15.f;
 			sprite.setPosition(x + 10, y + 32);
 			break;
 		default:

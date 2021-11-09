@@ -20,9 +20,13 @@ private:
 	void initTileMap();
 public:
 	
+
 	TileMap(float grid_size, int width, int height, std::string texture_file);
 	TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enemyLib = NULL);
 	virtual ~TileMap();
+	
+	//Init
+	bool initTileCollision(std::shared_ptr<Entity> entity);
 	
 	//Accessors
 	const bool tileEmpty(const int x, const int y, const int layer) const;
@@ -39,7 +43,7 @@ public:
 
 
 	bool updateWorldBounds(std::shared_ptr<Entity> entity);
-	bool updateTileCollision(std::shared_ptr<Entity> entity, const float& dt);
+
 	void updateTiles(std::shared_ptr<Entity> entity, const float& dt, std::vector<std::shared_ptr<Enemy>>& enemies);
 	
 	void update(std::shared_ptr<Entity> entity, const float& dt);

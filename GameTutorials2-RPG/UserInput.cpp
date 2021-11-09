@@ -22,7 +22,8 @@ void UserInput::shoot(const sf::Vector2f& mousePosView)
 	attacking = false;
 
 	sf::Vector2f position = owner.getComponent<physicsComponent>()->pDevice->getPosition(owner);
-	player->getActiveRune()->getItemComponent<RuneComponent>()->shoot(position.x, position.y, owner.getComponent<Movement>()->getVelocity().x + (mousePosView.x - position.x) / 100, owner.getComponent<Movement>()->getVelocity().y + (mousePosView.y - position.y) / 100, owner.getComponent<Movement>()->getLastState(), owner.getComponent<physicsComponent>()->pDevice);
+	sf::Vector2f offset = owner.getComponent<physicsComponent>()->getOffset();
+	player->getActiveRune()->getItemComponent<RuneComponent>()->shoot(position.x + offset.x, position.y + offset.y, owner.getComponent<Movement>()->getVelocity().x + (mousePosView.x - position.x) / 100, owner.getComponent<Movement>()->getVelocity().y + (mousePosView.y - position.y) / 100, owner.getComponent<Movement>()->getLastState(), owner.getComponent<physicsComponent>()->pDevice);
 }
 
 void UserInput::update(const float& dt, const sf::Vector2f mousePosView)

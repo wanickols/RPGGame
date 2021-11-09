@@ -14,10 +14,18 @@ void AIFollow::update(const float& dt)
 {
 	facing curr_direction = owner.getComponent<Movement>()->getDirection();
 	if (following) {
-		if(curr_direction != facing::IDLE)
-		owner.getComponent<enemyAi>()->setWalkSpeed(1.f);
+		if (curr_direction != facing::IDLE)
+			owner.getComponent<enemyAi>()->setWalkSpeed(.45f);
+		following = false;
 	}
+
+	
 	const float walkspeed = owner.getComponent<enemyAi>()->getWalkSpeed();
+
+	if (walkspeed < 1.f / 128.f)
+	{
+		owner.getComponent<enemyAi>()->setWalkSpeed(1.f/32.f);
+	}
 
 	if (curr_direction == facing::RIGHT)
 	{

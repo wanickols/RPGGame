@@ -8,13 +8,13 @@
 			<animation key="WALKRIGHT" animation_timer="10.f" start_frame_x="0" start_frame_y="3" frames_x="3" frames_y="3" width="60" height="64"/>
 			<animation key="WALKUP" animation_timer="10.f" start_frame_x="0" start_frame_y="4" frames_x="3" frames_y="4" width="60" height="64"/>
 		</Component>
-		<Component type="1" name="movement" maxVelocity="250.0" acceleration="800.0" deceleration="100"/>
+		<Component type="1" name="movement" maxVelocity="50.0" acceleration="450.0" deceleration="150"/>
 		<Component type="0" name="hitbox" offsetX="24.f" offsetY ="32.f" width="16.f" height="16.f"/>
 		<Component type="5" name="AI" follow ="1"/>
 		<Component type="3"  name="attribute" level ="1" range ="400"/>
 		<Component type="7" name="enemydata"  enemyName="Rat" enemyPowerLevel="1" exp_mult="1.f" vitalityMultiplier="1.f" strengthMultiplier="1.f" dexterityMultiplier="1.f" agilityMultiplier="1.f" intellgenceMultiplier="1.f"/>
 		<Component type="8"  name="combat"/>
-		<Component type="10"  name="physics" bodyType="2" objectShape="0" width="16" height="16" density="1.f" friction="1.f" restitution=".7f" angularDamping=".1f" linearDamping=".7f" force="1.f" angle="0.f" spinSpeed="1.f" bullet = "false" physicsOn = "true"/>
+		<Component type="10"  name="physics" bodyType="2" objectShape="0" width="16" height="16" density="2.f" friction="1.f" restitution=".7f" angularDamping=".1f" linearDamping=".7f" force="1.f" angle="0.f" spinSpeed="1.f" bullet = "false" physicsOn = "true"/>
 	</Enemy>
 
 

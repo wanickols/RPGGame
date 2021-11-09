@@ -102,7 +102,8 @@ bool PhysicsDevice::createBorders(sf::Vector2f dimensions, sf::Vector2f centerPo
 
 	shapefd.density = 0.0f;
 	shapefd.friction = .5f;
-	shapefd.restitution = .3f;
+	shapefd.restitution = 1.f;
+	shapefd.restitutionThreshold = 10.f;
 
 	edge->CreateFixture(&shapefd);
 
@@ -133,7 +134,7 @@ bool PhysicsDevice::createFixture(Entity& entity, GAME_PHYSICS& physics)
 	bd->userData.pointer = reinterpret_cast<uintptr_t>(&entity);
 
 	//divides by 2 to center it
-	sf::Vector2f position{ entity.getComponent<AnimationC>()->getSprite().getPosition().x + entity.getComponent<AnimationC>()->getSprite().getGlobalBounds().width, entity.getComponent<AnimationC>()->getSprite().getPosition().y + entity.getComponent<AnimationC>()->getSprite().getGlobalBounds().height};
+	sf::Vector2f position{ entity.getComponent<AnimationC>()->getSprite().getPosition().x + entity.getComponent<AnimationC>()->getSprite().getGlobalBounds().width + physics.offSetX, entity.getComponent<AnimationC>()->getSprite().getPosition().y + entity.getComponent<AnimationC>()->getSprite().getGlobalBounds().height + physics.offSetY };
 
 	//positions
 	bd->position.Set(RW2PW(position.x), RW2PW(position.y));
@@ -179,6 +180,7 @@ bool PhysicsDevice::createFixture(Entity& entity, GAME_PHYSICS& physics)
 	shapefd.density = physics.density;
 	shapefd.friction = physics.friction;
 	shapefd.restitution = physics.restitution;
+	shapefd.restitutionThreshold = 2.f;
 
 	//create the fixture on the body.
 	body->CreateFixture(&shapefd);
@@ -270,12 +272,13 @@ b2Vec2 PhysicsDevice::GV2PV(sf::Vector2f physicsVec)
 void PhysicsDevice::setVelocity(Entity& entity, sf::Vector2f velocity)
 {
 	b2Body* body = findBody(entity);
-	body->SetLinearVelocity({ velocity.x /10,velocity.y/10 });
+	body->ApplyLinearImpulseToCenter({ velocity.x /10,velocity.y/10 }, true);
+	
 }
 
 void PhysicsDevice::render(bool debug)
 {
-	//world->DebugDraw();
+//	world->DebugDraw();
 }
 
 sf::Vector2f PhysicsDevice::alignCenters(Entity& entity)

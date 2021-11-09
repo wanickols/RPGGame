@@ -72,7 +72,6 @@ void GameState::initPhysics()
 		std::cout << "ERROR::GAMESTATE::PHSYICS COULD NOT INITIALIZE \n";
 
 	float borderSize = (float)stateData->mapSize * stateData->gridSize;
-	borderSize = 300;
 	
 
 	//Creating Borders of World
@@ -133,6 +132,7 @@ void GameState::initEnemies()
 void GameState::initTileMap()
 {
 	map = std::make_shared<TileMap>("Save/mapfile", enemyLib);
+	map->initTileCollision(player);
 	//map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
 	//map->loadFromFile("Save/mapfile");
 }
