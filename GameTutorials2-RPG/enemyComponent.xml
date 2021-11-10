@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Map name="Main">
 	<Enemy name="Rat" typeNum="0">
-		<Component type="2" name="animation" numAnim ="5">
+		<Component type="2" name="animation" numAnim ="6">
+			<animation key="DEATH" animation_timer="20.f" start_frame_x="0" start_frame_y="5" frames_x="3" frames_y="5" width="60" height="64"/>
 			<animation key="DOWNIDLE" animation_timer="10.f" start_frame_x="0" start_frame_y="0" frames_x="3" frames_y="0" width="60" height="64"/>
 			<animation key="WALKDOWN" animation_timer="10.f" start_frame_x="0" start_frame_y="1" frames_x="3" frames_y="1" width="60" height="64"/>
 			<animation key="WALKLEFT" animation_timer="10.f" start_frame_x="0" start_frame_y="2" frames_x="3" frames_y="2" width="60" height="64"/>
 			<animation key="WALKRIGHT" animation_timer="10.f" start_frame_x="0" start_frame_y="3" frames_x="3" frames_y="3" width="60" height="64"/>
 			<animation key="WALKUP" animation_timer="10.f" start_frame_x="0" start_frame_y="4" frames_x="3" frames_y="4" width="60" height="64"/>
 		</Component>
-		<Component type="1" name="movement" maxVelocity="50.0" acceleration="450.0" deceleration="150"/>
+		<Component type="1" name="movement" maxVelocity="50.0" acceleration="8.0" deceleration="10"/>
 		<Component type="0" name="hitbox" offsetX="24.f" offsetY ="32.f" width="16.f" height="16.f"/>
 		<Component type="5" name="AI" follow ="1"/>
 		<Component type="3"  name="attribute" level ="1" range ="400"/>
 		<Component type="7" name="enemydata"  enemyName="Rat" enemyPowerLevel="1" exp_mult="1.f" vitalityMultiplier="1.f" strengthMultiplier="1.f" dexterityMultiplier="1.f" agilityMultiplier="1.f" intellgenceMultiplier="1.f"/>
 		<Component type="8"  name="combat"/>
-		<Component type="10"  name="physics" bodyType="2" objectShape="0" width="16" height="16" density="2.f" friction="1.f" restitution=".7f" angularDamping=".1f" linearDamping=".7f" force="1.f" angle="0.f" spinSpeed="1.f" bullet = "false" physicsOn = "true"/>
+		<Component type="10"  name="physics" bodyType="2" objectShape="0" width="16" height="16" density="2.f" friction="1.f" restitution=".7f" angularDamping=".1f" linearDamping="4.f" force="1.f" angle="0.f" spinSpeed="1.f" bullet = "false" physicsOn = "true"/>
 	</Enemy>
 
 

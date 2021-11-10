@@ -16,17 +16,14 @@ class TileMap
 
 private:
 
-	//Init Function
-	void initTileMap();
+	
 public:
 	
-
-	TileMap(float grid_size, int width, int height, std::string texture_file);
-	TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enemyLib = NULL);
+	//Init Function
+	void initTileMap(std::shared_ptr<PhysicsDevice> p_device);
+	TileMap(float grid_size, int width, int height, std::string texture_file, std::shared_ptr<PhysicsDevice> p_device = nullptr);
+	TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enemyLib = NULL, std::shared_ptr<PhysicsDevice> p_device = nullptr);
 	virtual ~TileMap();
-	
-	//Init
-	bool initTileCollision(std::shared_ptr<Entity> entity);
 	
 	//Accessors
 	const bool tileEmpty(const int x, const int y, const int layer) const;
@@ -79,6 +76,7 @@ private:
 	sf::Texture enemySpawner;
 	sf::RectangleShape collisionBox;
 	std::shared_ptr<EnemyLibrary> enemyLib;
+	std::shared_ptr<PhysicsDevice> pDevice;
 	//   x            y				z(depth)
 	std::vector < std::vector < std::vector < std::vector <std::shared_ptr<Tile>> > > > map;
 	std::stack<std::shared_ptr<Tile>> deferredRenderStack;

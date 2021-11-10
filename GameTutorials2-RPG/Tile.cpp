@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "Tile.h"
 #include "physicsComponent.h"
+#include "PhysicsDevice.h"
 #include "AnimationC.h"
 #include "Constants.h"
 
-Tile::Tile(float x, float y, sf::Texture& texture, const sf::IntRect& texture_rect, bool collision, short type)
+Tile::Tile(float x, float y, sf::Texture& texture, const sf::IntRect& texture_rect, std::shared_ptr<PhysicsDevice> p_device, bool collision, short type)
 	: collision(collision), type(type)
 {
 	
@@ -16,13 +17,15 @@ Tile::Tile(float x, float y, sf::Texture& texture, const sf::IntRect& texture_re
 	shape.setTextureRect(texture_rect);
 	
 	if (collision) {
-		GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_STATIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE, texture_rect.width, texture_rect.height, 1000.f, .1f, 0.f, 1000.f, 1000.f, 1000.f, 0.f, 0.f);
-		physics.offSetX = 22.f;
-		std::shared_ptr<physicsComponent> physC = std::make_shared<physicsComponent>(physics, *this);
-		addComponent(physC);
-
 		std::shared_ptr<AnimationC> anim = std::make_shared<AnimationC>(sprite, texture, x, y, *this);
 		addComponent(anim);
+		
+		GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_STATIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE, texture_rect.width, texture_rect.height, 1000.f, .1f, 0.f, 1000.f, 1000.f, 1000.f, 0.f, 0.f, CATEGORY_WALL, MASK_WALL);
+		physics.offSetX = 20.f;
+		std::shared_ptr<physicsComponent> physC = std::make_shared<physicsComponent>(physics, p_device, *this);
+		addComponent(physC);
+
+		
 	}
 
 	

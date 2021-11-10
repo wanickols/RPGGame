@@ -53,7 +53,7 @@ void AIRoaming::update(const float& dt)
 					owner.getComponent<Movement>()->setDirection(facing::DOWN);
 					break;
 				default:
-					owner.getComponent<Movement>()->setDirection(facing::IDLE);
+					owner.getComponent<Movement>()->setDirection(facing::DOWN);
 					break;
 				}
 			}

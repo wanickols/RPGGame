@@ -7,16 +7,16 @@
 #include "TileMap.h"
 #include "physicsComponent.h"
 
-void TileMap::initTileMap()
+void TileMap::initTileMap(std::shared_ptr<PhysicsDevice> p_device)
 {
-	
-	
+
+	pDevice = p_device;
 }
 
-TileMap::TileMap(float grid_size, int width, int height, std::string texture_file)
+TileMap::TileMap(float grid_size, int width, int height, std::string texture_file, std::shared_ptr<PhysicsDevice> p_device)
 	: textureFile(texture_file), fromX(0), toX(0), fromY(0), toY(0), layer(0)
 {
-	
+	pDevice = nullptr;
 
 	//enemySpawner.loadFromFile("Resources/Images/Tiles/EnemyTile");
 
@@ -43,10 +43,11 @@ TileMap::TileMap(float grid_size, int width, int height, std::string texture_fil
 
 }
 
-TileMap::TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enemy_lib)
+TileMap::TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enemy_lib, std::shared_ptr<PhysicsDevice> p_device)
 : fromX(0), toX(0), fromY(0), toY(0), layer(0)
 {
 	enemyLib = enemy_lib;
+	initTileMap(p_device);
 
 	initLoadFromFile(file_name);
 
@@ -69,30 +70,6 @@ TileMap::~TileMap()
 {
 }
 
-bool TileMap::initTileCollision(std::shared_ptr<Entity> entity)
-{
-	if (!map.empty()) {
-		for (unsigned short x = 0; x < maxSize.x; x++)
-		{
-			for (unsigned short y = 0; y < maxSize.y; y++)
-			{
-				for (unsigned short z = 0; z < layers; z++)
-				{
-					if (!map[x][y][z].empty()) //sees if tile there to remove
-					{
-						for (size_t k = 0; k < map[x][y][z].size(); k++) {
-							if (map[x][y][z][k]->collision) {
-								map[x][y][z][k]->getComponent<physicsComponent>()->initialize(entity->getComponent<physicsComponent>()->pDevice);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	return false;
-}
 
 const bool TileMap::tileEmpty(const int x, const int y, const int layer) const
 {
@@ -167,7 +144,7 @@ void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& 
 		y >= 0 && y < maxSize.y && //y
 		z >= 0 && z < layers)//z 
 	{
-			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
+			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, pDevice, collision, type));
 	}
 }
 
@@ -179,7 +156,7 @@ void TileMap::addEnemyTile(const int x, const int y, const int z, const sf::IntR
 		y >= 0 && y < maxSize.y && //y
 		z >= 0 && z < layers)//z 
 	{
-			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, level, enemyLib));
+			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, level, enemyLib,pDevice));
 	}
 }
 
@@ -310,12 +287,12 @@ void TileMap::loadFromFile(const std::string file_name)
 				float max_distance;
 				is >> enemy_type >> max_spawned >> time_to_spawn >> max_distance >> level
 					>> x >> y >> z;
-				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, level , enemyLib));
+				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, level , enemyLib,pDevice));
 				break;
 			default:
 				//std::cout << x << y << z << trX << trY << collision << type
 				is >> x >> y >> z;
-				map[x][y][z].emplace_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, collision, type));
+				map[x][y][z].emplace_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, pDevice, collision, type));
 				break;
 			}
 		}

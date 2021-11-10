@@ -17,6 +17,7 @@
 #include "PhysicsDevice.h"
 #include "PlayerGuiTabs.h"
 #include "physicsComponent.h"
+#include "UserInput.h"
 
 
 
@@ -131,8 +132,7 @@ void GameState::initEnemies()
 }
 void GameState::initTileMap()
 {
-	map = std::make_shared<TileMap>("Save/mapfile", enemyLib);
-	map->initTileCollision(player);
+	map = std::make_shared<TileMap>("Save/mapfile", enemyLib, pDevice);
 	//map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
 	//map->loadFromFile("Save/mapfile");
 }
@@ -140,9 +140,8 @@ void GameState::initTileMap()
 void GameState::initPlayers()
 {
 	itemLib = std::make_shared<ItemLibrary>();
-	player = std::make_shared<Player>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
+	player = std::make_shared<Player>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"],pDevice);
 	player->initItems(itemLib);
-	player->getComponent<physicsComponent>()->initialize(pDevice);
 	//testEnemy = std::make_shared<Enemy>(gui::p2pX(11.4f, GraphicsSettings->resolution), gui::p2pY(20.3f, GraphicsSettings->resolution), textures["PLAYER_SHEET"]);
 }
 
@@ -220,24 +219,9 @@ void GameState::updateView()
 
 void GameState::updatePlayerInput(const float& dt)
 {
-	//Player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Up")))) {
-		player->getComponent<Movement>()->setDirection(facing::UP);
-		player->getComponent<Movement>()->move(0.f, -1.f, dt, true);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Left")))) {
-		player->getComponent<Movement>()->setDirection(facing::LEFT);
-		player->getComponent<Movement>()->move(-1.f, 0.f, dt, true);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Down")))) {
-		player->getComponent<Movement>()->setDirection(facing::DOWN);
-		player->getComponent<Movement>()->move(0.f, 1.f, dt, true);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Right")))) {
-		player->getComponent<Movement>()->setDirection(facing::RIGHT);
-		player->getComponent<Movement>()->move(1.f, 0.f, dt, true);
+	
+	player->getComponent<UserInput>()->handleInput(keybinds, dt);
 
-	}
 	//Debugging
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L) && getKeyTime()) {
 		player->getComponent<Attribute>()->loseHealth(10);

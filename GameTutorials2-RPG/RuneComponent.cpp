@@ -6,6 +6,7 @@
 #include "bulletC.h"
 #include "physicsComponent.h"
 
+
 RuneComponent::RuneComponent(std::string bullet_path, Item& owner)
 	: ItemComponent("rune", owner)
 {
@@ -20,10 +21,9 @@ void RuneComponent::updateBulletCollision(const float& dt, std::shared_ptr<TileM
 
 }
 
-void RuneComponent::shoot(float playerX, float playerY, float playerVelX, float playerVelY, const unsigned short lastState, std::shared_ptr<PhysicsDevice> p_device)
+void RuneComponent::shoot(float playerX, float playerY, float playerVelX, float playerVelY, const facing direction, std::shared_ptr<PhysicsDevice> p_device)
 {
-	bullets.push_back(std::make_shared<Bullet>(playerX, playerY, playerVelX, playerVelY, bulletTexture, lastState));
-	bullets.back()->getComponent<bulletC>()->initialize(p_device);
+	bullets.push_back(std::make_shared<Bullet>(playerX, playerY, playerVelX, playerVelY, bulletTexture, direction, p_device));
 }
 
 void RuneComponent::update(const float& dt, const sf::Vector2f& mousePosView, const sf::Vector2f& position)

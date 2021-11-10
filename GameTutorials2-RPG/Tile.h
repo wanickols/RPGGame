@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+class PhysicsDevice;
 
 enum TileType { DEFAULT = 0, DAMAGING, DEFERRED, ENEMYSPAWNER };
 
@@ -7,7 +8,7 @@ class ofstream;
 class Tile : public Entity
 {
 public:
-	Tile(float x, float y, sf::Texture& texture, const sf::IntRect& texture_rect, bool collison = false, short type = TileType::DEFAULT);
+	Tile(float x, float y, sf::Texture& texture, const sf::IntRect& texture_rect, std::shared_ptr<PhysicsDevice> p_device, bool collison = false, short type = TileType::DEFAULT);
 	bool collision;
 	short type = 0;
 

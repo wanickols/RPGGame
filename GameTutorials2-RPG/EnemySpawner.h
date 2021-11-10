@@ -7,7 +7,7 @@ class EnemyLibrary;
 class EnemySpawner : public Tile
 {
 public:
-	EnemySpawner(float x, float y, sf::Texture& texture, const sf::IntRect& texture_rect, const sf::Texture& enemy_texture, int enemy_type, int max_spawned, sf::Int32 time_to_spawn, float max_distance, int enemy_level, std::shared_ptr<EnemyLibrary> lib);
+	EnemySpawner(float x, float y, sf::Texture& texture, const sf::IntRect& texture_rect, const sf::Texture& enemy_texture, int enemy_type, int max_spawned, sf::Int32 time_to_spawn, float max_distance, int enemy_level, std::shared_ptr<EnemyLibrary> lib, std::shared_ptr<PhysicsDevice> p_device);
 	std::shared_ptr<Enemy> spawn();
 	void update(const float& dt);
 	void render(sf::RenderTarget& target, const sf::Vector2f player_position = sf::Vector2f(), sf::Shader* shader = NULL) override;

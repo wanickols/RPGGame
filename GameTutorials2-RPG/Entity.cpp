@@ -7,6 +7,8 @@
 #include "UserInput.h"
 #include "Skills.h"
 #include "Component.h"
+#include "physicsComponent.h"
+#include "PhysicsDevice.h"
 
 
 
@@ -67,22 +69,27 @@ const float Entity::getDistance(const sf::Vector2f& position)
 	return sqrtf((float)pow((this->getCenterPosition().x -position.x), 2) + (float)pow((this->getCenterPosition().y - position.y), 2));
 }
 
+const sf::Vector2f Entity::getVectorDistance(const sf::Vector2f& position)
+{
+	sf::Vector2f distance;
+	distance.x = position.x - this->getCenterPosition().x;
+	distance.y = position.y - this->getCenterPosition().y;
+	return distance;
+}
+
+const b2Vec2 Entity::getbVectorDistance(const sf::Vector2f& position)
+{
+	b2Vec2 distance;
+	distance.x = position.x - this->getCenterPosition().x;
+	distance.y = position.y - this->getCenterPosition().y;
+	return distance;
+}
+
 const sf::Vector2f Entity::getCenterPosition()
 {
-	if (getComponent<Hitbox>())
-		return getComponent<Hitbox>()->getPosition() +
-		sf::Vector2f
-		(
-			getComponent<Hitbox>()->getGlobalBounds().width/2.f,
-			getComponent<Hitbox>()->getGlobalBounds().height/2.f
-		);
-
-	return sprite.getPosition() + 
-		sf::Vector2f
-	(
-		sprite.getGlobalBounds().width / 2.f,
-		sprite.getGlobalBounds().height / 2.f
-	);;
+	
+	return getComponent<physicsComponent>()->pDevice->getPosition(*this);
+	b2Vec2;
 }
 
 const sf::Vector2i Entity::getGridPosition(const int& gridSizeI)
@@ -102,13 +109,6 @@ const sf::Vector2i Entity::getGridPosition(const int& gridSizeI)
 		(int)sprite.getPosition().x / gridSizeI,
 		(int)sprite.getPosition().y / gridSizeI
 	);
-}
-
-const sf::FloatRect& Entity::getNextPositionBounds(const float& dt)
-{
-	
-	return getComponent<Hitbox>()->getNextPosition(getComponent<Movement>()->getVelocity() * dt);
-	
 }
 
 void Entity::addComponent(std::shared_ptr<Component> component)

@@ -7,15 +7,15 @@
 enemyGui::enemyGui(Entity& owner, sf::Font& font, sf::VideoMode& vm)
 	: Component("enemyGui", owner), font(font), vm(vm), hidden(true)
 {
-	width = owner.getSprite().getGlobalBounds().width * 2;
-	height = owner.getSprite().getGlobalBounds().height/3 ;
-	healthBar = std::make_unique<gui::progressBar>(width, width, height, owner.getPosition().x, owner.getPosition().y, sf::Color(50, 50, 50, 200), sf::Color(250, 20, 20, 210), owner, font, vm, 0, 12, false);
+	width = owner.getSprite().getGlobalBounds().width /2;
+	height = owner.getSprite().getGlobalBounds().height/8 ;
+	healthBar = std::make_unique<gui::progressBar>(width, width, height, owner.getSprite().getPosition().x + 48, owner.getSprite().getPosition().y + 48, sf::Color(50, 50, 50, 200), sf::Color(250, 20, 20, 210), owner, font, vm, 0, 12, false);
 }
 
 void enemyGui::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	tempPercent = (float)owner.getComponent<Attribute>()->hp / (float)(owner.getComponent<Attribute>()->hpMax);
-	healthBar->setPosition(owner.getPosition().x - width/4, owner.getPosition().y);
+	healthBar->setPosition(owner.getSprite().getPosition().x + 48 - width, owner.getSprite().getPosition().y + 40);
 	healthBar->update(dt, tempPercent);
 }
 

@@ -8,7 +8,11 @@ public:
     void update(const float& dt);
     void reaction() override;
     void setFollowing(bool following);
+    void setDeath(bool death);
+    void setAggro(const bool aggro);
 private:
     bool following;
+    bool aggro;
+    bool death;
 };
 

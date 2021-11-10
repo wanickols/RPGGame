@@ -41,7 +41,7 @@ void enemyAi::reactions()
 
 void enemyAi::setIdle()
 {
-	owner.getComponent<Movement>()->setDirection(facing::IDLE);
+	owner.getComponent<Movement>()->setMOVING(false);
 }
 
 void enemyAi::setRoaming(bool update_roaming)
@@ -62,12 +62,30 @@ void enemyAi::setFollowing(bool update_roaming)
 	}
 }
 
+void enemyAi::setDeath(bool death)
+{
+	AIFollow* follow = dynamic_cast<AIFollow*>(Options.at("Follow").get());
+	follow->setDeath(death);
+}
+
 void enemyAi::setWalkSpeed(float speed)
 {
 	walkSpeed = speed;
 }
 
+void enemyAi::setAggro(const bool Aggro)
+{
+	AIFollow* follow = dynamic_cast<AIFollow*>(Options.at("Follow").get());
+	follow->setAggro(Aggro);
+}
+
 const float& enemyAi::getWalkSpeed()
 {
 	return walkSpeed;
+}
+
+const bool& enemyAi::getDeletable()
+{
+	AIFollow* follow = dynamic_cast<AIFollow*>(Options.at("Follow").get());
+	return follow->isDeletable();
 }

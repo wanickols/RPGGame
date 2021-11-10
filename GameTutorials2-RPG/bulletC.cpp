@@ -8,74 +8,55 @@
 #include "physicsComponent.h"
 #include "PhysicsDevice.h"
 
-bulletC::bulletC(float x, float y, float velX, float velY, sf::Texture& texture, const unsigned short state, Entity& owner)
-	: running(true), xVel(velX), yVel(velY), Component("bullet", owner)
+bulletC::bulletC(float x, float y, float velX, float velY, sf::Texture& texture, facing direction, Entity& owner)
+	: running(true), xVel(velX), yVel(velY), Component("bullet", owner), death(false)
 {
-
+	float setVel = 2.f;
+	sf::Vector2f multiplier(0.f,0.f);
 	sf::Sprite& sprite = owner.getSprite(); 
-	if (xVel == 0 && yVel == 0)
+	if (xVel != 0 || yVel != 0)
 	{
+		multiplier.x = velX/8;
+		multiplier.y = velY/8;
+	}
+	
 
-		switch (state)
+		switch (direction)
 		{
-		case(DOWNIDLE):
-			yVel = 150.f; xVel = 30.f;
-			sprite.setPosition(x + 10, y + 32);
+		case(facing::DOWN):
+			multiplier.y += setVel;
+			multiplier.x += xVel / 4;
+			startPosition.x = x + 10;
+			startPosition.y = y + 32;
 			break;
-		case(UPIDLE):
-			yVel = -150.f;; xVel = -30.f;
-			sprite.setPosition(x - 10, y - 32);
+		case(facing::UP):
+			multiplier.y += -setVel;
+			multiplier.x += xVel / 4;
+			startPosition.x = x - 10;
+			startPosition.y = y - 32;
 			break;
-		case(RIGHTIDLE):
-			xVel = 150.f;
-			sprite.setPosition(x + 32, y);
+		case(facing::RIGHT):
+			multiplier.x += setVel;
+			multiplier.y += yVel / 4;;
+			startPosition.x = x + 32;
+			startPosition.y = y;
 			break;
-		case(LEFTIDLE):
-			xVel = -150.f;
-			sprite.setPosition(x - 32, y - 5);
+		case(facing::LEFT):
+			multiplier.x += -setVel;
+			multiplier.y += yVel / 4;;
+			startPosition.x = x - 32;
+			startPosition.y = y - 5;
 			break;
 		default:
-			xVel = 150.f;
-			yVel = 150.f;
+			multiplier.y = setVel;
+			multiplier.x = setVel;
 			break;
 		}
-		sprite.setPosition(x + (xVel * 32), y + (yVel * 32));
-	}
-	else {
+	
+	xVel = multiplier.x;
+	yVel = multiplier.y;
 
-		//Add bullet Direction Bounds when add switchstatments
-		switch (state)
-		{
-		case(MOVING_RIGHT):
-		case(RIGHTIDLE):
-			if (xVel < 15.f)
-				xVel = 15.f;
-			sprite.setPosition(x + 32, y);
-			break;
-		case(MOVING_LEFT):
-		case(LEFTIDLE):
-			if (xVel > -15.f)
-				xVel = -15.f;
-			sprite.setPosition(x - 30, y);
-			break;
-		case(MOVING_UP):
-		case(UPIDLE):
-			if (yVel > -15.f)
-				yVel = -15.f;
-			sprite.setPosition(x - 10, y - 32);
-			break;
-		case(MOVING_DOWN):
-		case(DOWNIDLE):
-			if (yVel < 15.f)
-				yVel = 15.f;
-			sprite.setPosition(x + 10, y + 32);
-			break;
-		default:
-			break;
-		}
-
-	}
-
+	sprite.setPosition(startPosition.x, startPosition.y);
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
 }
@@ -83,22 +64,40 @@ bulletC::bulletC(float x, float y, float velX, float velY, sf::Texture& texture,
 void bulletC::updateAnimation(const float& dt)
 {
 	if (owner.getComponent<AnimationC>()->play("ATTACK", dt, false)) {
-		running = false;
+			death = true;
 	};
-}
-
-void bulletC::initialize(std::shared_ptr<PhysicsDevice> p_device)
-{
-	owner.getComponent<physicsComponent>()->initialize(p_device);
 }
 
 void bulletC::update(const float& dt, const sf::Vector2f mousePosView)
 {
-	owner.getComponent<Movement>()->move(xVel, yVel, dt);
-	updateAnimation(dt);
+	if (!death) {
+		owner.getComponent<Movement>()->move(xVel, yVel, dt);
+		updateAnimation(dt);
+	}else
+	{
+		owner.getComponent<physicsComponent>()->pDevice->findBody(owner)->SetAwake(false);
+		if (owner.getComponent<AnimationC>()->play("DEATH", dt, false))
+			running = false;
+		
+	}
 }
 
 const bool bulletC::getRunning() const
 {
 	return running;
+}
+
+void bulletC::setRunning(const bool running)
+{
+	this->running = running;
+}
+
+void bulletC::setDeath(const bool death)
+{
+	this->death = death;
+}
+
+const sf::Vector2f bulletC::getStartPosition()
+{
+	return startPosition;
 }

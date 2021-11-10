@@ -54,6 +54,30 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 		auto i = enemies.begin();
 		while (i != enemies.end())
 		{
+			i->get()->update(dt);
+			//IsDead
+			if (i->get()->getComponent<Attribute>()->isDead()) {
+				i->get()->getComponent<enemyAi>()->setDeath(true);
+			
+				if (i->get()->getComponent<enemyAi>()->getDeletable()) {
+					decreaseSpawn = true;
+					int exp = attacker->getComponent<Combat>()->expHandler(i->get()->getComponent<EnemyData>()->expWorth, i->get()->getComponent<Attribute>()->level);
+					this->tts->addTextTag(EXPERIENCE_TAG, attacker->getPosition().x - 40.f, attacker->getPosition().y - 30.f, exp, "+", " exp");
+					i = enemies.erase(i);
+				}else
+				{
+					++i;
+				}
+			}
+			else if (i->get()->getComponent<EnemyData>()->getName() == "despawned")//make check for despawn
+			{
+				i->get()->getComponent<Attribute>()->hp = 0;
+			}
+			else
+			{
+				
+
+
 			if (playerAttack)
 				if (i->get()->getDistance(*player) < player->getComponent<Attribute>()->range)
 				{
@@ -61,9 +85,6 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 					i->get()->getComponent<Combat>()->defend(dmg);
 					tts->addTextTag(NEGATIVE_TAG, i->get()->getPosition().x, i->get()->getPosition().y, dmg, "", "");
 				}
-
-			//update
-			i->get()->update(dt);
 			
 			//Collison
 			//map->updateWorldBounds(std::make_shared<Entity>(*i->get()));
@@ -72,9 +93,8 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 			//AI
 			if (i->get()->getDistance(*player) < i->get()->getComponent<Attribute>()->range)
 			{
-				i->get()->getComponent<enemyAi>()->setFollowing(true);
-				i->get()->getComponent<enemyAi>()->reactions();
-				i->get()->getComponent<enemyAi>()->setRoaming(false);
+				i->get()->getComponent<enemyAi>()->setAggro(true);
+				
 				
 			}else
 			{
@@ -82,21 +102,9 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 				i->get()->getComponent<enemyAi>()->setFollowing(false);
 			}
 
-			//IsDead
-			if (i->get()->getComponent<Attribute>()->isDead()) {
-				int exp = attacker->getComponent<Combat>()->expHandler(i->get()->getComponent<EnemyData>()->expWorth, i->get()->getComponent<Attribute>()->level);
-				this->tts->addTextTag(EXPERIENCE_TAG, attacker->getPosition().x - 40.f, attacker->getPosition().y - 30.f, exp, "+", " exp");
-				decreaseSpawn = true;
-				i = enemies.erase(i);	
-			}
-			else if (i->get()->getComponent<EnemyData>()->getName() == "despawned")//make check for despawn
-			{
-			}
-			else
-			{
+			
 				++i;
 			}
-
 		}
 	}
 }
@@ -121,13 +129,6 @@ bool EnemyLibrary::createComponents(std::shared_ptr<Entity> enemy, std::string n
 
 
 	bool anyCreated = false;
-	//0
-	if (componentPresets.find(name)->second->physics.created)
-	{
-		std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(componentPresets.find(name)->second->physics.gamePhysics, *enemy);
-		enemy->addComponent(physicsC);
-		anyCreated = true;
-	}
 	
 	//2
 	if (componentPresets.find(name)->second->animation.created)
@@ -143,11 +144,14 @@ bool EnemyLibrary::createComponents(std::shared_ptr<Entity> enemy, std::string n
 		
 	}
 
-	//PHYSICS INIT
-	if(componentPresets.find(name)->second->physics.created)
+	//0
+	if (componentPresets.find(name)->second->physics.created)
 	{
-		enemy->getComponent< physicsComponent>()->initialize(player->getComponent< physicsComponent>()->pDevice);
+		std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(componentPresets.find(name)->second->physics.gamePhysics, player->getComponent<physicsComponent>()->pDevice, *enemy);
+		enemy->addComponent(physicsC);
+		anyCreated = true;
 	}
+
 
 	//1
 	if (componentPresets.find(name)->second->movement.created)
@@ -341,7 +345,8 @@ void ComponentLibrary::addEnemyData(tinyxml2::XMLElement* component, std::shared
 void ComponentLibrary::addPhysics(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)
 {
 	presets->physics.created = true;
-
+	presets->physics.gamePhysics.category = CATEGORY_ENEMY;
+	presets->physics.gamePhysics.mask = MASK_ENEMY;
 	component->QueryIntAttribute("bodyType", (int*)&presets->physics.gamePhysics.bodyType);
 	component->QueryIntAttribute("objectShape", (int*)&presets->physics.gamePhysics.objectShape);
 	component->QueryFloatAttribute("width", &presets->physics.gamePhysics.width);

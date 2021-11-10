@@ -8,6 +8,8 @@ class TileMap;
 class Inventory;
 class Item;
 class ItemLibrary;
+class ItemComp;
+class PhysicsDevice;
 
 class Player :
 	public Entity
@@ -16,6 +18,7 @@ private:
 	//Init Functions
 	void initVariables();
 	void initComponents();
+	void initPhysics(std::shared_ptr<PhysicsDevice> p_Device);
 	void initAnimations(sf::Texture& texture_sheet, float x, float y);
 public:
 	void initRunes();
@@ -23,7 +26,7 @@ public:
 public:
 	//Constructors
 	Player() = delete;
-	Player(float x, float y, sf::Texture& texture);
+	Player(float x, float y, sf::Texture& texture, std::shared_ptr<PhysicsDevice> p_Device);
 	virtual ~Player();
 
 	//Accessors
@@ -44,5 +47,6 @@ private:
 	//variables
 	bool attacking; //used internally
 	bool attack; //used externally
+	ItemComp* itemComp;
 };
 

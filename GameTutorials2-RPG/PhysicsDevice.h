@@ -2,6 +2,7 @@
 #include "box2d.h"
 #include "Constants.h"
 
+
 class Entity;
 struct Vector2D;
 struct GAME_PHYSICS;
@@ -47,8 +48,8 @@ public:
 	void render(bool debug);
 	//public just for creating borders!
 	std::shared_ptr<b2World> world;
-private:
 
+private:
 	b2Vec2 gravity;
 	sf::Vector2f alignCenters(Entity& Entity);
 };

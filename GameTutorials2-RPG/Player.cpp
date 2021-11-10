@@ -29,7 +29,7 @@ void Player::initVariables()
 void Player::initComponents()
 {
 	//movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 150.f, 750.f, 200.f, *this); //speed for player set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 50.f, 50.f, 10.f, *this); //speed for player set here
 	addComponent(movement);
 	//hitbox
 	//std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 12.f, 0.f, 41.f, 42.f, *this); //hitbox for player set here
@@ -55,13 +55,20 @@ void Player::initComponents()
 	
 }
 
+void Player::initPhysics(std::shared_ptr<PhysicsDevice> p_Device)
+{
+	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE, 20, 32, 4.f, 0.0f, .7f, .1f, 8.f, 1.f, 0.f, 10.f, CATEGORY_PLAYER, MASK_PLAYER);
+	physics.offSetY = 12;
+	physics.offSetX = -4;
+
+	std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(physics, p_Device, *this); //itemComp for player set here
+
+	addComponent(physicsC);
+}
+
 void Player::initAnimations(sf::Texture& texture_sheet, float x, float y)
 {
-	GAME_PHYSICS physics(GAME_BODY_TYPE::GAME_DYNAMIC, GAME_OBJECT_SHAPE::GAME_RECTANGLE,32,32, 4.f, 0.0f, .7f, .1f, .8f, 1.f, 0.f, 10.f);
-	physics.offSetY = 16;
-
-	std::shared_ptr<physicsComponent> physicsC = std::make_shared<physicsComponent>(physics, *this); //itemComp for player set here
-	addComponent(physicsC);
+	
 
 	std::shared_ptr<AnimationC> animation = std::make_shared<AnimationC>(sprite, texture_sheet, x,y, *this);
 	addComponent(animation);
@@ -99,15 +106,17 @@ void Player::initRunes()
 
 void Player::initItems(std::shared_ptr<ItemLibrary> item_lib)
 {
- getComponent<ItemComp>()->initLibrary(item_lib);
- getComponent<ItemComp>()->addItem("FireRune", true);
+	itemComp = getComponent<ItemComp>();
+	itemComp->initLibrary(item_lib);
+	itemComp->addItem("FireRune", true);
 }
 
 //Constructors
-Player::Player(float x, float y, sf::Texture& texture_sheet)
+Player::Player(float x, float y, sf::Texture& texture_sheet, std::shared_ptr<PhysicsDevice> p_Device)
 {
 	initVariables();
 	initAnimations(texture_sheet, x, y);
+	initPhysics(p_Device);
 	initComponents();
 	
 }

@@ -4,6 +4,9 @@
 #include "Attribute.h"
 #include "EnemyData.h"
 #include "enemyGui.h"
+#include "physicsComponent.h"
+#include "PhysicsDevice.h"
+#include "Movement.h"
 
 std::random_device Combat::seed;
 std::default_random_engine Combat::engine(seed());
@@ -59,7 +62,31 @@ void Combat::defend(int damage)
 	//std::cout << owner.getComponent<EnemyData>()->getEnemyName() << " defended!" << "\n";
 	//else 
 		//std::cout << "Player defended!" << "\n";
+
 	owner.getComponent<Attribute>()->loseHealth(damage);
+	//Physics
+	b2Body* body = owner.getComponent<physicsComponent>()->pDevice->findBody(owner);
+	b2Vec2 velocity = body->GetLinearVelocity();
+	float force = 24.f * damage;
+	if (force > 1000)
+		force = 1000;
+		switch (owner.getComponent<Movement>()->getDirection()) 
+		{
+		case(facing::LEFT):
+			velocity.x = -force;
+			break;
+		case(facing::RIGHT):
+			velocity.x = force;
+			break;
+		case(facing::UP):
+			velocity.y = -force;
+			break;
+		case(facing::DOWN):
+			velocity.y = force;
+			break;
+		};
+	
+	body->ApplyLinearImpulseToCenter(b2Vec2({-velocity.x, -velocity.y}), true);
 }
 
 int Combat::expHandler(int deathExp, int deathLevel)

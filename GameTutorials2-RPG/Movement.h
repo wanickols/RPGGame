@@ -1,9 +1,10 @@
 #pragma once
 #include "Component.h"
 
+class PhysicsDevice;
+
 class Entity;
-	enum movement_states { DOWNIDLE = 0, UPIDLE, LEFTIDLE, RIGHTIDLE, ATTACK, MOVING_LEFT, MOVING_RIGHT, MOVING_UP, MOVING_DOWN };
-	enum class facing {IDLE, DOWN, UP, LEFT, RIGHT};
+	enum class facing {DOWN = 0, UP, LEFT, RIGHT};
 	
 	class Movement : public Component
 {
@@ -15,14 +16,12 @@ public:
 	virtual ~Movement();
 
 	//Accessors
-	const sf::Vector2f& getVelocity();
+	//const sf::Vector2f& getVelocity(Entity& owner);
 	const float& getMaxVelocity() const;
-	const bool getState(const short unsigned state);
-	const unsigned short int getState();
-	const unsigned short int getLastState() const;
 	const facing getDirection() const;
+	const bool getMOVING();
+	void setMOVING(const bool);
 	void setDirection(facing player_direction);
-	void setLastState(const short unsigned state);
 	void setAcceleration(float newAccel);
 
 	//functions
@@ -40,8 +39,10 @@ private:
 	float acceleration;
 	float deceleration;
 
-	unsigned short lastState;
+	std::shared_ptr<PhysicsDevice> pDevice;
+
 	facing direction;
+	bool MOVING;
 	sf::Vector2f velocity;
 	
 

@@ -31,7 +31,7 @@ bool PhysicsDevice::initialize()
 	std::unique_ptr<ContactListener> contactListener = std::make_unique<ContactListener>();
 	world->SetContactListener(contactListener.release());
 
-	//Debugging
+	//Debugging doesnt work
 	b2GLDraw debugDraw;
 	world->SetDebugDraw(&debugDraw);
 
@@ -71,19 +71,13 @@ bool PhysicsDevice::createEdge(sf::Vector2f start, sf::Vector2f finish)
 	shape.SetTwoSided(GV2PV(start), GV2PV(finish));
 
 	
-
+	b2Filter f;
+	f.categoryBits = CATEGORY_WALL;
+	f.maskBits = MASK_WALL;
 	
 	
 	edge->CreateFixture(&shape, 0.0f);
-	std::cout << "start:  " << start.x << " " << start.y << "\n";
-	std::cout << "finish:  " << finish.x << " " << finish.y << "\n";
-	std::cout << "vertex_0:  " << shape.m_vertex0.x << " " << shape.m_vertex0.y << "\n";
-	std::cout << "vertex_1:  " << shape.m_vertex1.x << " " << shape.m_vertex1.y << "\n";
-	std::cout << "vertex_2:  " << shape.m_vertex2.x << " " << shape.m_vertex2.y << "\n";
-	std::cout << "vertex_3:  " << shape.m_vertex3.x << " " << shape.m_vertex3.y << "\n";
-	std::cout << "local Center:  " << edge->GetLocalCenter().x << " " << edge->GetLocalCenter().y << "\n";
-	std::cout << "edge Position:  " << edge->GetPosition().x << " " << edge->GetPosition().y << "\n";
-	
+	edge->GetFixtureList()->SetFilterData(f);
 	return true;
 }
 
@@ -140,6 +134,7 @@ bool PhysicsDevice::createFixture(Entity& entity, GAME_PHYSICS& physics)
 	bd->position.Set(RW2PW(position.x), RW2PW(position.y));
 	bd->angle = RW2PWAngle(physics.angle);
 	bd->bullet = physics.bullet;
+	
 
 	//make body
 	b2Body* body = world->CreateBody(bd.release());
@@ -181,7 +176,13 @@ bool PhysicsDevice::createFixture(Entity& entity, GAME_PHYSICS& physics)
 	shapefd.friction = physics.friction;
 	shapefd.restitution = physics.restitution;
 	shapefd.restitutionThreshold = 2.f;
-
+	
+	//Filter
+	b2Filter f;
+	f.categoryBits = physics.category;
+	f.maskBits = physics.mask;
+	shapefd.filter = f;
+	shapefd.isSensor;
 	//create the fixture on the body.
 	body->CreateFixture(&shapefd);
 	body->SetEnabled(physics.physicsOn);
@@ -272,7 +273,7 @@ b2Vec2 PhysicsDevice::GV2PV(sf::Vector2f physicsVec)
 void PhysicsDevice::setVelocity(Entity& entity, sf::Vector2f velocity)
 {
 	b2Body* body = findBody(entity);
-	body->ApplyLinearImpulseToCenter({ velocity.x /10,velocity.y/10 }, true);
+	body->ApplyLinearImpulseToCenter({ velocity.x,velocity.y}, true);
 	
 }
 
