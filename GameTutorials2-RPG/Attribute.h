@@ -67,6 +67,10 @@ public:
 	float critMult;
 	int defense;
 
+	float stunChance; //chance to stun others
+	float stunTime;
+	float stunResistance; //stunResistance 
+
 	int speed;
 
 	int energy;

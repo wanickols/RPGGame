@@ -14,9 +14,9 @@ struct hitBoxPreset {
 struct movementPreset 
 {
 	bool created = false;
-	float maxVelocity;
-	float acceleration;
-	float deceleration;
+	sf::Vector2f maxVelocity;
+	sf::Vector2f acceleration;
+	sf::Vector2f deceleration;
 };
 
 

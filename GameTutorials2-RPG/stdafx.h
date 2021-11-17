@@ -5,12 +5,15 @@
 #include <deque>
 #include <iostream>
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <random>
 #include <set>
 #include <thread>
 #include <utility>
 #include <vector>
+#include <tuple>
+#include <assert.h>
 #include <list>
 #include <stack>
 #include <string>

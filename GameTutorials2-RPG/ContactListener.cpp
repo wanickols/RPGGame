@@ -19,21 +19,14 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 			entityA->getComponent<physicsComponent>()->dynamicCollisions(entityB);
 			entityB->getComponent<physicsComponent>()->dynamicCollisions(entityA);
 
-			bodyA->ApplyLinearImpulseToCenter(b2Vec2(RW2PW(-30), RW2PW(-10)), true);
-			bodyB->ApplyLinearImpulseToCenter(b2Vec2(RW2PW(30), RW2PW(30)), true);
 		}
 		else if (bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody) {
 
 			entityB->getComponent<physicsComponent>()->staticCollisions(entityB);
-
-			bodyA->SetLinearVelocity(b2Vec2(RW2PW(-30), RW2PW(-10)));
-			bodyB->SetLinearVelocity(b2Vec2(RW2PW(30), RW2PW(30)));
 		}
 		else if(bodyA->GetType() == b2_dynamicBody && bodyB->GetType() == b2_staticBody)
 		{
 			entityB->getComponent<physicsComponent>()->staticCollisions(entityB);
-			bodyA->SetLinearVelocity(b2Vec2(RW2PW(-30), RW2PW(-10)));
-			bodyB->SetLinearVelocity(b2Vec2(RW2PW(30), RW2PW(30)));
 		}
 	 
 	}

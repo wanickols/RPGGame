@@ -18,6 +18,9 @@ Attribute::Attribute(int level, Entity& owner) :
 	intelligence = 1;
 	critChance = .01f;
 	critMult = 1.5f;
+	stunTime = 100.f;
+	stunChance = .5f;
+	stunResistance = 0.f;
 	range = 30;
 	expMult = 1.f;
 	updateStats(true);
@@ -86,6 +89,7 @@ void Attribute::updateStats(const bool reset)
 	defense   = strength * 2 + agility / 3; // base 2
 	energyMax  = 90 + intelligence * 10; //base 100 
 	critChance = ((dexterity * 2 + agility * 2 - vitality * 2 + intelligence - strength)/2.f)/100.f; // base 1%
+	stunResistance = ((strength * 3 + vitality * 2 + intelligence * 2 - agility * 2)/2.f)/100.f; // base 2.5%
 	
 
 		if (reset)
@@ -221,6 +225,8 @@ const std::string Attribute::toStringCharacterTab()
 		
 		<< "Attack: " << damageMax << "\n"
 		<< "Crit chance: " << critChance * 100 << "% \n"
+		<< "Stun Res: " << stunResistance * 100 << "% \n"
+		<< "Stun Chance: " << stunChance * 100 << "% \n"
 		<< "Defense: " << defense << "\n"
 		
 		<< "Attriubutes Points: " << attributePoints << "\n"

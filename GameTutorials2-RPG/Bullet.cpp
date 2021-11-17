@@ -37,7 +37,7 @@ Bullet::Bullet(float x, float y, float velX, float velY, sf::Texture& texture, c
 	
 
 	//Movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, 60.f, 1.f, 1.f, *this); //speed for bullet set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, sf::Vector2f(60.f, 60.f), sf::Vector2f(1.f, 1.f), sf::Vector2f(1.f, 1.f), *this); //speed for bullet set here
 	addComponent(movement);
 
 	std::shared_ptr<Attribute> attribute = std::make_shared<Attribute>(1, *this); //speed for bullet set here

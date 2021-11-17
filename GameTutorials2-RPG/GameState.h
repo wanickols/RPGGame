@@ -11,6 +11,7 @@ class EnemyLibrary;
 class ItemLibrary;
 class PhysicsDevice;
 class TextTagSystem;
+class Graph;
 
 class GameState : public State
 {
@@ -64,6 +65,7 @@ private:
 	std::unique_ptr<PauseMenu> pmenu;
 	std::shared_ptr<TextTagSystem> tts;
 	std::shared_ptr<PhysicsDevice> pDevice;
+	std::shared_ptr<Graph> graph;
 
 	bool playerGuiMenuOpen;
 	//functions

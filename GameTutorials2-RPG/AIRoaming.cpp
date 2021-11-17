@@ -9,15 +9,16 @@ std::random_device AISetting::seed;
 std::default_random_engine AISetting::engine(seed());
 
 AIRoaming::AIRoaming(std::shared_ptr<Entity> entity, Entity& owner)
-	: AISetting("Roaming", entity, owner), updateRoaming(true)
+	: AISetting("Roaming", entity, owner), repeatRoam(false), repeatCounter(0)
 {
 	spawner = owner.getComponent<EnemyData>()->getOrigin();
 }
 
 void AIRoaming::update(const float& dt)
 {
+
 	//if enemy is not following player
-	if(updateRoaming)
+	if(updateMe)
 	{
 		//If enemy goes out too far away from spawner
 		if (owner.getDistance(spawner->getPosition()) > spawner->maxDistance)
@@ -28,41 +29,60 @@ void AIRoaming::update(const float& dt)
 				moveVec.y = spawner->getPosition().y - owner.getPosition().y;
 				float vecLength = sqrt(pow(moveVec.x, 2) + pow(moveVec.x, 2));
 				moveVec /= vecLength;
-				owner.getComponent<Movement>()->move(moveVec.x, moveVec.y, dt);
+				movement->move(moveVec.x, moveVec.y, dt);
 				//owner.getComponent<Movement>()->setDirection(facing::IDLE);
 		}
 		//if enemy is in range of spawner
 		else
 		{
-			std::bernoulli_distribution changeMoveChance(.01f);
-			if (changeMoveChance(engine)) {
-				std::uniform_int_distribution<int> movementChance(0, 5);
-				owner.getComponent<enemyAi>()->setWalkSpeed(10.f);
-				switch (movementChance(engine))
+			if (repeatRoam) {
+				
+				movement->setDirection(lastDirection);
+
+				if(--repeatCounter == 0)
 				{
-				case(0):
-					owner.getComponent<Movement>()->setDirection(facing::LEFT);
-					break;
-				case(1):
-					owner.getComponent<Movement>()->setDirection(facing::RIGHT);
-					break;
-				case(2):
-					owner.getComponent<Movement>()->setDirection(facing::UP);
-					break;
-				case(3):
-					owner.getComponent<Movement>()->setDirection(facing::DOWN);
-					break;
-				default:
-					owner.getComponent<Movement>()->setDirection(facing::DOWN);
-					break;
+					repeatRoam = false;
 				}
+
+
+			}
+			else {
+				
+				std::bernoulli_distribution changeMoveChance(.01f);
+				if (changeMoveChance(engine)) {
+
+
+					repeatRoam = true;
+					repeatCounter = 3;
+					std::uniform_int_distribution<int> movementChance(0, 2);
+					owner.getComponent<enemyAi>()->setWalkSpeed(1.f);
+					switch (movementChance(engine))
+					{
+					case(0):
+						lastDirection = facing::LEFT;
+						break;
+					case(1):
+						lastDirection = facing::RIGHT;
+						break;
+					case(2):
+						lastDirection = facing::UP;
+						break;
+					case(3):
+						lastDirection = facing::DOWN;
+						break;
+					default:
+						lastDirection = facing::DOWN;
+						owner.getComponent<enemyAi>()->setWalkSpeed(0.f);
+						break;
+					}
+					movement->setDirection(lastDirection);
+				}
+				else
+				{
+					owner.getComponent<enemyAi>()->setWalkSpeed(0.f);
+				}
+
 			}
 		}
-		
 	}
-}
-
-void AIRoaming::setRoaming(bool update_roaming)
-{
-	updateRoaming = update_roaming;
 }

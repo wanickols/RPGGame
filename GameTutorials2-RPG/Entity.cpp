@@ -52,8 +52,7 @@ void Entity::setTexture(sf::Texture& texture)
 //Accessors
 const sf::Vector2f& Entity::getPosition()
 {
-	if (getComponent<Hitbox>())
-		return getComponent<Hitbox>()->getPosition();
+	
 
 	return sprite.getPosition();
 }

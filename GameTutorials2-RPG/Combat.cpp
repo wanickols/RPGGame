@@ -7,6 +7,7 @@
 #include "physicsComponent.h"
 #include "PhysicsDevice.h"
 #include "Movement.h"
+#include "enemyAi.h"
 
 std::random_device Combat::seed;
 std::default_random_engine Combat::engine(seed());
@@ -14,18 +15,18 @@ std::default_random_engine Combat::engine(seed());
 Combat::Combat(Entity& owner)
 	: Component("Combat", owner)
 {
-
+	attribute = owner.getComponent<Attribute>();
 }
 
 int Combat::attack()
 {
 
 	int damage = 0;
-	float mean = (owner.getComponent<Attribute>()->damageMin + (owner.getComponent<Attribute>()->damageMax - owner.getComponent<Attribute>()->damageMin) / 2);
+	float mean = (attribute->damageMin + (attribute->damageMax - attribute->damageMin) / 2);
 
 	std::normal_distribution<float> damageRange(mean, 3.f);
 
-	float crit = owner.getComponent<Attribute>()->critChance;
+	float crit = attribute->critChance;
 	if (crit > 1.f)
 		crit = 1.f;
 	else if (crit < 0.f)
@@ -36,7 +37,7 @@ int Combat::attack()
 	damage = damageRange(engine);
 
 	if (critChance(engine)) //critchance
-		damage = damage * owner.getComponent<Attribute>()->critMult; //crit multiple
+		damage = damage * attribute->critMult; //crit multiple
 
 	/*if (owner.getComponent<EnemyData>() != nullptr)
 		std::cout << owner.getComponent<EnemyData>()->getEnemyName() << " attacked!" << "\n";
@@ -46,24 +47,43 @@ int Combat::attack()
 	return damage;
 }
 
-void Combat::defend(int damage)
+int Combat::defend(Entity& attacker)
 {
+	int damage = attacker.getComponent<Combat>()->attack();
 	
-	damage -= owner.getComponent<Attribute>()->defense; //minus attack by defense
+	//Damage Calculation
+	damage -= attribute->defense; //minus attack by defense
 	if(damage <= 0)
 	{
 		damage = 2;
 	}
 	
+	//Gui Showing
 	if (owner.getComponent<enemyGui>() != nullptr)
 	{
 		owner.getComponent<enemyGui>()->setHidden(false);
 	}
-	//std::cout << owner.getComponent<EnemyData>()->getEnemyName() << " defended!" << "\n";
-	//else 
-		//std::cout << "Player defended!" << "\n";
 
-	owner.getComponent<Attribute>()->loseHealth(damage);
+	if (owner.getComponent<enemyAi>() != nullptr) {
+		
+		float stun_chance = attacker.getComponent<Attribute>()->stunChance;
+		stun_chance -= owner.getComponent<Attribute>()->stunResistance;
+
+		if (stun_chance < 0.f)
+			stun_chance = 0;
+		else if (stun_chance > 1.f)
+			stun_chance = 1.f;
+
+		std::bernoulli_distribution stunChance(stun_chance);
+		if (stunChance(engine))
+		{
+			owner.getComponent<enemyAi>()->setStunned(true);
+		}
+	}
+
+	//lose health
+	attribute->loseHealth(damage);
+
 	//Physics
 	b2Body* body = owner.getComponent<physicsComponent>()->pDevice->findBody(owner);
 	b2Vec2 velocity = body->GetLinearVelocity();
@@ -87,6 +107,8 @@ void Combat::defend(int damage)
 		};
 	
 	body->ApplyLinearImpulseToCenter(b2Vec2({-velocity.x, -velocity.y}), true);
+
+	return damage;
 }
 
 int Combat::expHandler(int deathExp, int deathLevel)

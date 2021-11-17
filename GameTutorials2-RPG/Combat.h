@@ -1,5 +1,8 @@
 #pragma once
 #include "Component.h"
+
+class Attribute;
+
 class Combat :
     public Component
 {
@@ -7,7 +10,7 @@ public:
     Combat(Entity& owner);
 
     int attack();
-    void defend(int damage);
+    int defend(Entity& attacker);
 
     int expHandler(int deathExp, int deathLevel);
 
@@ -18,6 +21,6 @@ public:
     static std::random_device seed;
     static std::default_random_engine engine;
 private:
-
+    Attribute* attribute;
 };
 

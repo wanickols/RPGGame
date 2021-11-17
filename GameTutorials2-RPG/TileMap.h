@@ -10,6 +10,7 @@ namespace sf {
 
 class EnemyLibrary;
 class Enemy;
+class Graph;
 
 class TileMap
 {
@@ -28,6 +29,7 @@ public:
 	//Accessors
 	const bool tileEmpty(const int x, const int y, const int layer) const;
 	const int getLayerSize(const int x, const int y, const int layer) const;
+	std::shared_ptr<Graph> getGraph();
 
 	//Functions
 	void clear();
@@ -63,7 +65,6 @@ private:
 
 	//Init Function
 
-
 	sf::Vector2i maxSize;
 	sf::Vector2i maxSizeWorldI;
 	sf::Vector2f maxSizeWorldF;
@@ -77,6 +78,8 @@ private:
 	sf::RectangleShape collisionBox;
 	std::shared_ptr<EnemyLibrary> enemyLib;
 	std::shared_ptr<PhysicsDevice> pDevice;
+	std::shared_ptr<Graph> graph;
+	std::shared_ptr<std::vector<sf::Vector2i>> obstacles;
 	//   x            y				z(depth)
 	std::vector < std::vector < std::vector < std::vector <std::shared_ptr<Tile>> > > > map;
 	std::stack<std::shared_ptr<Tile>> deferredRenderStack;

@@ -6,6 +6,7 @@ class allEnemyPresets;
 class TileMap;
 class TextTagSystem;
 class StateData;
+class Graph;
 
 class ComponentLibrary 
 {
@@ -33,6 +34,7 @@ public:
 	std::shared_ptr<sf::Texture> find(std::string name);
 
 	void initStateData(StateData& state_data);
+	void initGraph(std::shared_ptr<Graph> graph, std::shared_ptr<std::vector<sf::Vector2i>> obstacles);
 
 	void update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker, std::shared_ptr<TileMap> map);
 	void render(sf::RenderTarget& target, sf::Shader* shader = NULL, sf::Vector2f light_position = sf::Vector2f(), const bool show_hitbox = false);
@@ -52,5 +54,7 @@ private:
 	ComponentLibrary componentLibrary;
 	std::shared_ptr<Entity> player;
 	std::shared_ptr<TextTagSystem> tts;
+	std::shared_ptr<Graph> graph;
+	std::shared_ptr<std::vector<sf::Vector2i>> obstacles;
 };
 

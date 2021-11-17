@@ -135,16 +135,16 @@ void UserInput::update(const float& dt, const sf::Vector2f mousePosView)
 			switch (movement->getDirection())
 			{
 			case(facing::LEFT):
-				animation->play("WALKLEFT", dt, body->GetLinearVelocity().x, movement->getMaxVelocity(), false);
+				animation->play("WALKLEFT", dt, body->GetLinearVelocity().x, movement->getMaxVelocity().x, false);
 				break;
 			case(facing::RIGHT):
-				animation->play("WALKRIGHT", dt, body->GetLinearVelocity().x, movement->getMaxVelocity(), false);
+				animation->play("WALKRIGHT", dt, body->GetLinearVelocity().x, movement->getMaxVelocity().x, false);
 				break;
 			case(facing::UP):
-				animation->play("WALKUP", dt, body->GetLinearVelocity().y, movement->getMaxVelocity(), false);
+				animation->play("WALKUP", dt, body->GetLinearVelocity().y, movement->getMaxVelocity().y, false);
 				break;
 			case(facing::DOWN):
-				animation->play("WALKDOWN", dt, body->GetLinearVelocity().y, movement->getMaxVelocity(), false);
+				animation->play("WALKDOWN", dt, body->GetLinearVelocity().y, movement->getMaxVelocity().y, false);
 				break;
 			}
 		}else
@@ -170,22 +170,23 @@ void UserInput::update(const float& dt, const sf::Vector2f mousePosView)
 
 void UserInput::handleInput(std::map<std::string, int>& keybinds, const float& dt)
 {
-	//Player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Up")))) {
-		movement->setDirection(facing::UP);
-		movement->move(0.f, -1.f, dt, true);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Left")))) {
-		movement->setDirection(facing::LEFT);
-		movement->move(-1.f, 0.f, dt, true);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Down")))) {
-		movement->setDirection(facing::DOWN);
-		movement->move(0.f, 1.f, dt, true);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Right")))) {
-		movement->setDirection(facing::RIGHT);
-		movement->move(1.f, 0.f, dt, true);
 
-	}
+		//Player input
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Up")))) {
+			movement->setDirection(facing::UP);
+			movement->move(0.f, -1.f, dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Left")))) {
+			movement->setDirection(facing::LEFT);
+			movement->move(-1.f, 0.f, dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Down")))) {
+			movement->setDirection(facing::DOWN);
+			movement->move(0.f, 1.f, dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("Move_Right")))) {
+			movement->setDirection(facing::RIGHT);
+			movement->move(1.f, 0.f, dt);
+
+		}
 }

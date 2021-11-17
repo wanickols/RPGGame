@@ -7,7 +7,7 @@
 #include "physicsComponent.h"
 #include "Attribute.h"
 
-Movement::Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration, Entity& owner)
+Movement::Movement(sf::Sprite& sprite, sf::Vector2f maxVelocity, sf::Vector2f acceleration, sf::Vector2f deceleration, Entity& owner)
 	: sprite(sprite), maxVelocity(maxVelocity), acceleration(acceleration), deceleration(deceleration), velocity(0.f, 0.f), direction(facing::DOWN), MOVING(false),
 	Component("movement", owner)
 {
@@ -19,7 +19,7 @@ Movement::~Movement()
 }
 
 //Accessors
-const float& Movement::getMaxVelocity() const
+const sf::Vector2f& Movement::getMaxVelocity() const
 {
 	return maxVelocity;
 }
@@ -44,9 +44,26 @@ void Movement::setDirection(facing player_direction)
 	direction = player_direction;
 }
 
-void Movement::setAcceleration(float newAccel)
+void Movement::setAcceleration(sf::Vector2f deceleration)
+{
+	acceleration.x /= 2.f;
+	acceleration.y /= 2.f;
+}
+
+void Movement::decelerate(sf::Vector2f newAccel)
+{
+
+}
+
+void Movement::setAcceleration(sf::Vector2f& newAccel)
 {
 	acceleration = newAccel;
+}
+
+void Movement::setAcceleration(float accelX, float accelY)
+{
+	acceleration.x = accelX;
+	acceleration.y = accelY;
 }
 
 void Movement::stopVelocity()
@@ -69,10 +86,26 @@ void Movement::stopVelocityY()
 
 
 //Functions
-void Movement::move(const float dir_x, const float dir_y, const float& dt, bool player)
+void Movement::move(const float dir_x, const float dir_y, const float& dt, bool bullet)
 {
 	MOVING = true;
-	sf::Vector2f velocity(dir_x * acceleration, dir_y * acceleration);
+	if(bullet)
+	{
+		velocity.x += dir_x * acceleration.x;
+		velocity.y += dir_y * acceleration.y;
+	}
+	else {
+		if (dir_x != 0)
+		{
+			velocity.x += dir_x * acceleration.x;
+			velocity.y /= deceleration.x;
+		}
+		else if (dir_y != 0) {
+			velocity.x /= deceleration.y;
+			velocity.y += dir_y * acceleration.y;
+		}
+		
+	}
 	owner.getComponent<physicsComponent>()->pDevice->setVelocity(owner, velocity);
 }
 
@@ -80,12 +113,16 @@ void Movement::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	if (MOVING)
 	{
+		
 		if (pDevice->findBody(owner)->GetLinearVelocity().Length() < 1.4f) {
 			MOVING = false;
 		//pDevice->findBody(owner)->SetLinearVelocity(b2Vec2(0.f, 0.f));
 		} 
 	}
-	std::cout << "LENGTH OF " << owner.getComponent<Attribute>()->EntityName << ": " << pDevice->findBody(owner)->GetLinearVelocity().Length() << "\n";
+
+	velocity.x /= deceleration.x;
+	velocity.y /= deceleration.y;
+	//std::cout << "LENGTH OF " << owner.getComponent<Attribute>()->EntityName << ": " << pDevice->findBody(owner)->GetLinearVelocity().Length() << "\n";
 }
 
 void Movement::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)

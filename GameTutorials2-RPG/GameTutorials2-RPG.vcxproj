@@ -150,7 +150,9 @@
     <ClCompile Include="AIFollow.cpp" />
     <ClCompile Include="AIRoaming.cpp" />
     <ClCompile Include="AISetting.cpp" />
+    <ClCompile Include="AIStun.cpp" />
     <ClCompile Include="AnimationC.cpp" />
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="b2GLDraw.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -168,6 +170,7 @@
     <ClCompile Include="enemyGui.cpp" />
     <ClCompile Include="EnemyLibrary.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphicsSettings.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="EditorState.cpp" />
@@ -211,9 +214,12 @@
   <ItemGroup>
     <ClInclude Include="..\..\RPGGame\GameTutorials2-RPG\glext.h" />
     <ClInclude Include="AIFollow.h" />
+    <ClInclude Include="AIList.h" />
     <ClInclude Include="AIRoaming.h" />
     <ClInclude Include="AISetting.h" />
+    <ClInclude Include="AIStun.h" />
     <ClInclude Include="AnimationC.h" />
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="b2GLDraw.h" />
     <ClInclude Include="Bullet.h" />
@@ -234,6 +240,7 @@
     <ClInclude Include="enemyGui.h" />
     <ClInclude Include="EnemyLibrary.h" />
     <ClInclude Include="EnemySpawner.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="GraphicsSettings.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="EditorState.h" />

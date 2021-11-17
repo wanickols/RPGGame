@@ -76,6 +76,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{74e40b8b-06a3-4ea1-a15b-4470639e60fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics\Pathfinding">
+      <UniqueIdentifier>{4b156870-60d1-4666-a8d4-f9653fa83ec9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -248,6 +251,15 @@
     </ClCompile>
     <ClCompile Include="b2GLDraw.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>Physics\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Physics\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="AIStun.cpp">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -439,6 +451,18 @@
     </ClInclude>
     <ClInclude Include="b2GLDraw.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
+      <Filter>Physics\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Physics\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="AIList.h">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
+    </ClInclude>
+    <ClInclude Include="AIStun.h">
+      <Filter>Entities\Components\Entities\Enemy\EnemyAi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameState.h"
 #include "TileMap.h"
+#include "Graph.h"
 #include "GraphicsSettings.h"
 #include "PauseMenu.h"
 #include "Player.h"
@@ -132,7 +133,10 @@ void GameState::initEnemies()
 }
 void GameState::initTileMap()
 {
+	
+	
 	map = std::make_shared<TileMap>("Save/mapfile", enemyLib, pDevice);
+	graph = map->getGraph(); // init graph in map using the savefile info, then send it back to gamestate so it can use it for enemies
 	//map = std::make_unique<TileMap>(stateData->gridSize, mapSize, mapSize, "Resources/Images/Tiles/tilesheet3.png");
 	//map->loadFromFile("Save/mapfile");
 }

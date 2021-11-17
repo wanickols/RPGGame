@@ -1,5 +1,8 @@
 #pragma once
 #include "AISetting.h"
+
+#include "Movement.h"
+
 class AIRoaming :
     public AISetting
 {
@@ -8,6 +11,9 @@ public:
     void update(const float& dt);
     void setRoaming(bool update_roaming);
 private:
-    bool updateRoaming;
+
+    bool repeatRoam;
+    int repeatCounter;
+    facing lastDirection;
 };
 

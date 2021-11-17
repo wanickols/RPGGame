@@ -71,7 +71,7 @@ void bulletC::updateAnimation(const float& dt)
 void bulletC::update(const float& dt, const sf::Vector2f mousePosView)
 {
 	if (!death) {
-		owner.getComponent<Movement>()->move(xVel, yVel, dt);
+		owner.getComponent<Movement>()->move(xVel, yVel, dt, true);
 		updateAnimation(dt);
 	}else
 	{

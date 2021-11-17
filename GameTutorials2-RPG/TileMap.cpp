@@ -6,6 +6,7 @@
 #include "EnemyLibrary.h"
 #include "TileMap.h"
 #include "physicsComponent.h"
+#include "Graph.h"
 
 void TileMap::initTileMap(std::shared_ptr<PhysicsDevice> p_device)
 {
@@ -49,6 +50,7 @@ TileMap::TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enem
 	enemyLib = enemy_lib;
 	initTileMap(p_device);
 
+
 	initLoadFromFile(file_name);
 
 	gridSizeF = (float)gridSizeI;
@@ -64,6 +66,35 @@ TileMap::TileMap(const std::string file_name, std::shared_ptr<EnemyLibrary> enem
 	collisionBox.setFillColor(sf::Color::Transparent);
 	collisionBox.setOutlineColor(sf::Color::Red);
 	collisionBox.setOutlineThickness(1.f);
+	
+	
+	obstacles = std::make_shared<std::vector<sf::Vector2i>>();
+	//graph for enemies
+	if (enemyLib != nullptr) {
+		sf::Vector2i intPos;
+		if (!map.empty()) {
+			for (unsigned short x = 0; x < maxSize.x; x++)
+			{
+				for (unsigned short y = 0; y < maxSize.y; y++)
+				{
+					for (unsigned short z = 0; z < layers; z++)
+					{
+						for (size_t k = 0; k < map[x][y][z].size(); k++) {
+							if (map[x][y][z][k] != nullptr) {
+								if (map[x][y][z][k]->collision) {
+									intPos.x = (int)map[x][y][z][k]->getPosition().x / 64;
+									intPos.y = (int)map[x][y][z][k]->getPosition().y / 64;
+									obstacles->push_back(intPos);
+
+								}
+							}
+						}
+					}
+				}
+			}
+			enemyLib->initGraph(graph, obstacles);
+		}
+	}
 }
 
 TileMap::~TileMap()
@@ -102,6 +133,14 @@ const int TileMap::getLayerSize(const int x, const int y, const int layer) const
 	}
 
 	return -1;
+}
+
+std::shared_ptr<Graph> TileMap::getGraph()
+{
+	if (graph != nullptr)
+		return graph;
+	else
+		throw("TILEMAP:: GRAPH EMPTY!");
 }
 
 const sf::Texture* TileMap::getTileSheet() const
@@ -144,7 +183,7 @@ void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& 
 		y >= 0 && y < maxSize.y && //y
 		z >= 0 && z < layers)//z 
 	{
-			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, pDevice, collision, type));
+			map[x][y][z].push_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, graph, pDevice, collision, type));
 	}
 }
 
@@ -156,7 +195,7 @@ void TileMap::addEnemyTile(const int x, const int y, const int z, const sf::IntR
 		y >= 0 && y < maxSize.y && //y
 		z >= 0 && z < layers)//z 
 	{
-			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, level, enemyLib,pDevice));
+			map[x][y][z].push_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, graph, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, level, enemyLib,pDevice));
 	}
 }
 
@@ -219,7 +258,7 @@ void TileMap::saveToFile(const std::string file_name)
 			<< gridSizeI << "\n"
 			<< layers << "\n"
 			<< textureFile << "\n";
-		
+		graph = std::make_shared<Graph>(gridSizeI);
 		for (unsigned short x = 0; x < maxSize.x; x++)
 		{
 			for (unsigned short y = 0; y < maxSize.y; y++)
@@ -287,12 +326,12 @@ void TileMap::loadFromFile(const std::string file_name)
 				float max_distance;
 				is >> enemy_type >> max_spawned >> time_to_spawn >> max_distance >> level
 					>> x >> y >> z;
-				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, level , enemyLib,pDevice));
+				map[x][y][z].emplace_back(std::make_shared<EnemySpawner>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, graph, *enemyLib->find(enemyLib->translateType(enemy_type)), enemy_type, max_spawned, time_to_spawn, max_distance, level , enemyLib,pDevice));
 				break;
 			default:
 				//std::cout << x << y << z << trX << trY << collision << type
 				is >> x >> y >> z;
-				map[x][y][z].emplace_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet, texture_rect, pDevice, collision, type));
+				map[x][y][z].emplace_back(std::make_shared<Tile>(x * gridSizeF, y * gridSizeF, tileSheet,  texture_rect, graph, pDevice, collision, type));
 				break;
 			}
 		}
@@ -316,6 +355,7 @@ void TileMap::initLoadFromFile(const std::string& file_name)
 			>> layers
 			>> textureFile;
 		gridSizeF = (float)gridSizeI;
+		graph = std::make_shared<Graph>(gridSizeI);
 		map.reserve(maxSize.x);
 		for (unsigned short x = 0; x < maxSize.x; x++)
 		{
@@ -391,8 +431,9 @@ void TileMap::updateTiles(std::shared_ptr<Entity> entity, const float& dt, std::
 						EnemySpawner* es = dynamic_cast<EnemySpawner*>(map[x][y][layer][k].get());
 						if(es)
 						{
-							if (es->canSpawn())
+							if (es->canSpawn()) {
 								enemies.push_back(es->spawn());
+							}
 						}
 					}	
 						map[x][y][layer][k]->update(dt);

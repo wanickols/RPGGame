@@ -42,8 +42,7 @@ void physicsComponent::dynamicCollisions(Entity* collider)
 	if (owner.getComponent<EnemyData>() != nullptr) 
 	{
 		if (collider->getComponent<Combat>() != nullptr && collider->getComponent<EnemyData>() == nullptr) {
-			int damage = owner.getComponent<Combat>()->attack();
-			collider->getComponent<Combat>()->defend(damage);
+			collider->getComponent<Combat>()->defend(owner);
 		}
 	}
 	if(owner.getComponent<UserInput>()!= nullptr)

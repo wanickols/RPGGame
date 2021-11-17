@@ -9,7 +9,7 @@
 			<animation key="WALKRIGHT" animation_timer="10.f" start_frame_x="0" start_frame_y="3" frames_x="3" frames_y="3" width="60" height="64"/>
 			<animation key="WALKUP" animation_timer="10.f" start_frame_x="0" start_frame_y="4" frames_x="3" frames_y="4" width="60" height="64"/>
 		</Component>
-		<Component type="1" name="movement" maxVelocity="50.0" acceleration="8.0" deceleration="10"/>
+		<Component type="1" name="movement" maxVelocity="1.1" acceleration="1.1" deceleration="1.1"/>
 		<Component type="0" name="hitbox" offsetX="24.f" offsetY ="32.f" width="16.f" height="16.f"/>
 		<Component type="5" name="AI" follow ="1"/>
 		<Component type="3"  name="attribute" level ="1" range ="400"/>

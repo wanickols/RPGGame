@@ -41,9 +41,16 @@ std::shared_ptr<sf::Texture> EnemyLibrary::find(std::string name)
 	return textures.find(name)->second;
 }
 
+
 void EnemyLibrary::initStateData(StateData& state_data)
 {
 	stateData = std::make_shared<StateData>(state_data);
+}
+
+void EnemyLibrary::initGraph(std::shared_ptr<Graph> graph, std::shared_ptr<std::vector<sf::Vector2i>> obstacles)
+{
+	this->graph = graph;
+	this->obstacles = obstacles;
 }
 
 void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<Entity> attacker, std::shared_ptr<TileMap> map)
@@ -81,8 +88,8 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 			if (playerAttack)
 				if (i->get()->getDistance(*player) < player->getComponent<Attribute>()->range)
 				{
-					int dmg = player->getComponent<Combat>()->attack();
-					i->get()->getComponent<Combat>()->defend(dmg);
+					
+					int dmg = i->get()->getComponent<Combat>()->defend(*player);
 					tts->addTextTag(NEGATIVE_TAG, i->get()->getPosition().x, i->get()->getPosition().y, dmg, "", "");
 				}
 			
@@ -98,8 +105,8 @@ void EnemyLibrary::update(const float& dt, bool playerAttack, std::shared_ptr<En
 				
 			}else
 			{
+				i->get()->getComponent<enemyAi>()->setAggro(false);
 				i->get()->getComponent<enemyAi>()->setRoaming(true);
-				i->get()->getComponent<enemyAi>()->setFollowing(false);
 			}
 
 			
@@ -188,7 +195,7 @@ bool EnemyLibrary::createComponents(std::shared_ptr<Entity> enemy, std::string n
 	//5
 	if (componentPresets.find(name)->second->ai.created)
 	{
-		std::shared_ptr<enemyAi> ai = std::make_shared<enemyAi>(player, componentPresets.find(name)->second->ai.follow,true, *enemy);
+		std::shared_ptr<enemyAi> ai = std::make_shared<enemyAi>(player, componentPresets.find(name)->second->ai.follow, true, *enemy);
 		enemy->addComponent(ai);
 		anyCreated = true;
 	}
@@ -291,9 +298,12 @@ void ComponentLibrary::addHitbox(tinyxml2::XMLElement* component, std::shared_pt
 void ComponentLibrary::addMovement(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)
 {
 	presets->movement.created = true;
-	component->QueryFloatAttribute("maxVelocity", &presets->movement.maxVelocity);
-	component->QueryFloatAttribute("acceleration", &presets->movement.acceleration);
-	component->QueryFloatAttribute("deceleration", &presets->movement.deceleration);
+	component->QueryFloatAttribute("maxVelocity", &presets->movement.maxVelocity.x);
+	component->QueryFloatAttribute("maxVelocity", &presets->movement.maxVelocity.y);
+	component->QueryFloatAttribute("acceleration", &presets->movement.acceleration.x);
+	component->QueryFloatAttribute("acceleration", &presets->movement.acceleration.y);
+	component->QueryFloatAttribute("deceleration", &presets->movement.deceleration.x);
+	component->QueryFloatAttribute("deceleration", &presets->movement.deceleration.y);
 }
 
 void ComponentLibrary::addAttribute(tinyxml2::XMLElement* component, std::shared_ptr<allEnemyPresets> presets)
