@@ -85,6 +85,9 @@
     <Filter Include="Entities\Components\Entities\NPC">
       <UniqueIdentifier>{bae07857-05b2-46aa-9dda-809bbfa400d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Components\AI\Leaf">
+      <UniqueIdentifier>{a0acb07f-3b15-49d7-9dd3-9e1e65e02a71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -276,9 +279,6 @@
     <ClCompile Include="BranchTask.cpp">
       <Filter>Entities\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="LeafTask.cpp">
-      <Filter>Entities\Components\AI</Filter>
-    </ClCompile>
     <ClCompile Include="Selector.cpp">
       <Filter>Entities\Components\AI</Filter>
     </ClCompile>
@@ -290,6 +290,18 @@
     </ClCompile>
     <ClCompile Include="NPC.cpp">
       <Filter>Entities\Components\Entities\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="LeafTask.cpp">
+      <Filter>Entities\Components\AI\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetVisible.cpp">
+      <Filter>Entities\Components\AI\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="followTarget.cpp">
+      <Filter>Entities\Components\AI\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="Lunge.cpp">
+      <Filter>Entities\Components\AI\Leaf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -503,9 +515,6 @@
     <ClInclude Include="BranchTask.h">
       <Filter>Entities\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="LeafTask.h">
-      <Filter>Entities\Components\AI</Filter>
-    </ClInclude>
     <ClInclude Include="Sequence.h">
       <Filter>Entities\Components\AI</Filter>
     </ClInclude>
@@ -517,6 +526,21 @@
     </ClInclude>
     <ClInclude Include="NPC.h">
       <Filter>Entities\Components\Entities\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="LeafTask.h">
+      <Filter>Entities\Components\AI\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetVisible.h">
+      <Filter>Entities\Components\AI\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="LeafList.h">
+      <Filter>Entities\Components\AI\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="followTarget.h">
+      <Filter>Entities\Components\AI\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="Lunge.h">
+      <Filter>Entities\Components\AI\Leaf</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

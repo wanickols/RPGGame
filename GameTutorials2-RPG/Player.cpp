@@ -29,7 +29,7 @@ void Player::initVariables()
 void Player::initComponents()
 {
 	//movement
-	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, sf::Vector2f(4.f,15.f), sf::Vector2f(4.0f,4.0f), sf::Vector2f(1.1f,1.1f), *this); //speed for player set here
+	std::shared_ptr<Movement> movement = std::make_shared<Movement>(sprite, sf::Vector2f(32.f,32.f), sf::Vector2f(4.0f,4.0f), sf::Vector2f(1.1f,1.1f), *this); //speed for player set here
 	addComponent(movement);
 	//hitbox
 	//std::shared_ptr<Hitbox> hitbox = std::make_shared<Hitbox>(sprite, 12.f, 0.f, 41.f, 42.f, *this); //hitbox for player set here

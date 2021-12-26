@@ -173,6 +173,7 @@
     <ClCompile Include="enemyGui.cpp" />
     <ClCompile Include="EnemyLibrary.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
+    <ClCompile Include="followTarget.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphicsSettings.cpp" />
     <ClCompile Include="Gui.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="ItemLibrary.cpp" />
     <ClCompile Include="itemSprite.cpp" />
     <ClCompile Include="LeafTask.cpp" />
+    <ClCompile Include="Lunge.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="physicsComponent.cpp" />
     <ClCompile Include="PhysicsDevice.cpp" />
@@ -195,6 +197,7 @@
     <ClCompile Include="Selector.cpp" />
     <ClCompile Include="Sequence.cpp" />
     <ClCompile Include="Tab.cpp" />
+    <ClCompile Include="TargetVisible.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="TextTagSystem.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
@@ -251,6 +254,7 @@
     <ClInclude Include="enemyGui.h" />
     <ClInclude Include="EnemyLibrary.h" />
     <ClInclude Include="EnemySpawner.h" />
+    <ClInclude Include="followTarget.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="GraphicsSettings.h" />
     <ClInclude Include="Gui.h" />
@@ -266,7 +270,9 @@
     <ClInclude Include="ItemLibrary.h" />
     <ClInclude Include="ItemPresets.h" />
     <ClInclude Include="itemSprite.h" />
+    <ClInclude Include="LeafList.h" />
     <ClInclude Include="LeafTask.h" />
+    <ClInclude Include="Lunge.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="physicsComponent.h" />
     <ClInclude Include="PhysicsDevice.h" />
@@ -276,6 +282,7 @@
     <ClInclude Include="Selector.h" />
     <ClInclude Include="Sequence.h" />
     <ClInclude Include="Tab.h" />
+    <ClInclude Include="TargetVisible.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TextTagSystem.h" />
     <ClInclude Include="tinyxml2.h" />

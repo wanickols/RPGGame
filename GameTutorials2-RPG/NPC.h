@@ -16,7 +16,11 @@ public:
 	void Start() {};
 	void update(const float& dt, const sf::Vector2f mousePosView);
 	void Finish();
+
+	gui::KeyTimeManger keytimer;
 private:
 	std::shared_ptr<BehaviorTree> behaviorTree;
+	bool* follow;
+	std::shared_ptr<Entity> npcOwner;
 };
 

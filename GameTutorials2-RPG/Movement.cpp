@@ -91,8 +91,8 @@ void Movement::move(const float dir_x, const float dir_y, const float& dt, bool 
 	MOVING = true;
 	if(bullet)
 	{
-		velocity.x += dir_x * acceleration.x;
-		velocity.y += dir_y * acceleration.y;
+		velocity.x = dir_x * acceleration.x;
+		velocity.y = dir_y * acceleration.y;
 	}
 	else {
 		if (dir_x != 0)
@@ -127,8 +127,5 @@ void Movement::update(const float& dt, const sf::Vector2f mousePosView)
 
 void Movement::render(sf::RenderTarget& target, sf::Shader* shader, sf::Vector2f light_position, const bool show_hitbox)
 {
-
-	
-	
 	
 }

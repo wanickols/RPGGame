@@ -11,7 +11,7 @@
 bulletC::bulletC(float x, float y, float velX, float velY, sf::Texture& texture, facing direction, Entity& owner)
 	: running(true), xVel(velX), yVel(velY), Component("bullet", owner), death(false)
 {
-	float setVel = 2.f;
+	float setVel = 1.f;
 	sf::Vector2f multiplier(0.f,0.f);
 	sf::Sprite& sprite = owner.getSprite(); 
 	if (xVel != 0 || yVel != 0)
